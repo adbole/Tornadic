@@ -1,0 +1,5 @@
+/*Global CSS will be put here. All components should handle their own css*/
+body {
+  display: grid;
+  grid-template-columns: 60px 1fr;
+}
