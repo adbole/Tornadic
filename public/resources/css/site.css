@@ -1,5 +1,53 @@
-/*Global CSS will be put here. All components should handle their own css*/
+nav {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background-color: #222222;
+  padding: 0px;
+}
+
+nav > a {
+  width: 100%;
+  color: white;
+  background-color: transparent;
+  border: none;
+  padding: 10px;
+  margin: 0px;
+}
+
+nav > a:hover {
+  background-color: #353535;
+}
+
+nav > a:active {
+  background-color: #555555;
+}
+
+nav > a > svg {
+  width: 100%;
+  height: 100%;
+  margin: auto;
+}
+
+* {
+  box-sizing: border-box;
+}
+
 body {
   display: grid;
   grid-template-columns: 60px 1fr;
+  width: 100vw;
+  height: 100vh;
+}
+
+main {
+  background-color: #1b1b1b;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+main > .overview {
+  display: flex;
 }

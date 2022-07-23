@@ -1,6 +1,22 @@
-/*Global CSS will be put here. All components should handle their own css*/
+@import 'modules/navbar';
+
+* {
+    box-sizing: border-box;
+}
 
 body {
     display: grid;
     grid-template-columns: 60px 1fr;
+    width: 100vw;
+    height: 100vh;
+}
+
+main {
+    background-color: #1b1b1b;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    >.overview {
+        display: flex;
+    }
 }
