@@ -1,22 +1,65 @@
 @import 'modules/navbar';
+@import 'modules/now';
+@import 'modules/alert';
+@import 'modules/hourly';
+@import url('./inter-font/inter.css');
 
-* {
-    box-sizing: border-box;
+:root {
+    font-size: 20px;
+}
+
+* { 
+    margin: 0px;
+    font-family: 'Inter';
+    font-weight: 400;
+    box-sizing: border-box; 
 }
 
 body {
-    display: grid;
-    grid-template-columns: 60px 1fr;
+    color:white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+
     width: 100vw;
     height: 100vh;
-}
-
-main {
-    background-color: #1b1b1b;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-
-    >.overview {
-        display: flex;
+    padding: 20px;
+    
+    padding-top: 60px;
+    background: {
+        image: radial-gradient(14.52% 30.09% at 100% 0%, rgba(255, 255, 255, 0.5) 0%, #00A3FF 100%);
+        // image: url("../images/sunny.webp");
+        repeat: no-repeat;
+        size: cover;
+        position: center;
     }
 }
+
+#panel {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    grid-auto-rows: 204px;
+    gap: 20px;
+
+    height: 100vh;
+    width: 100%;
+}
+
+.widget {
+    padding: 10px;
+    background-color: rgba(181, 181, 181, 0.3);
+    mix-blend-mode: luminosity;
+
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+    border-radius: 15px;
+}
+
+// main {
+//     display: grid;
+//     grid-template-columns: 1fr 1fr;
+
+//     >.overview {
+//         display: flex;
+//     }
+// }

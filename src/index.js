@@ -1,15 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
-import Navbar from './Components/Navbar'
+import Panel from './Components/Panel';
+import Alert from './Components/Alert'
+import Now from './Components/Now'
 import reportWebVitals from './reportWebVitals';
+import Hourly from './Components/Hourly';
 
 const root = ReactDOM.createRoot(document.querySelector('body'));
 root.render(
   <React.StrictMode>
-    <Navbar />
-    <App />
+    <Now />
+    <Alert type="warning" name="Tornado Warning" message="Seek shelter in a center room or basement. Stay away from windows and keep head down."/>
+    <Panel>
+      <Hourly/>
+    </Panel>
   </React.StrictMode>
 )
 

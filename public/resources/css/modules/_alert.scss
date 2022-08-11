@@ -1,0 +1,16 @@
+$alertTypes: ("warning": #C31700, "watch": #FFF501, "advisory": #FF9431, "special": #8F00FF);
+
+.alert {
+    max-width: 900px;
+    width: 100%;
+    padding: 10px;
+    mix-blend-mode: normal !important;
+
+    text-align: center;
+
+    @each $type, $color in $alertTypes {
+        &.#{$type} {
+            background-color: $color;
+        }
+    }
+}
