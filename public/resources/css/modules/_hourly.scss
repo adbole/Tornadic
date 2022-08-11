@@ -1,17 +1,15 @@
 #hourly {
     display: flex;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
+    gap: 20px;
+
     grid-column: span 6;
+    text-align: center;
 
     >ol {
-        display: flex;
-        flex-direction: row;
         gap: 20px;
-        list-style-type: none;
-
-        padding: 0px;
-        text-align: center;
-        overflow: hidden;
 
         >.seperator {
             display: flex;
@@ -31,6 +29,6 @@
         }
 
         p { white-space: nowrap; }
-        svg { width: 3rem; }
+        svg { width: 3rem !important; }
     }
 }

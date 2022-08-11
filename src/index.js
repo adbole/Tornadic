@@ -6,6 +6,7 @@ import Alert from './Components/Alert'
 import Now from './Components/Now'
 import reportWebVitals from './reportWebVitals';
 import Hourly from './Components/Hourly';
+import Daily from './Components/Daily';
 
 const root = ReactDOM.createRoot(document.querySelector('body'));
 root.render(
@@ -13,7 +14,8 @@ root.render(
     <Now />
     <Alert type="warning" name="Tornado Warning" message="Seek shelter in a center room or basement. Stay away from windows and keep head down."/>
     <Panel>
-      <Hourly/>
+      <Hourly message="Slight chance for rain and thunderstorms after 4 AM."/>
+      <Daily globalLow={80} globalHigh={100}/>
     </Panel>
   </React.StrictMode>
 )

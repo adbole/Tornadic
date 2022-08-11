@@ -33,7 +33,7 @@ function GenerateHours() {
 const Hourly = ({ message = null }) => (
     <div className="widget" id="hourly">
         {message != null && <p>{message}</p>}
-        <ol>
+        <ol className="flex-list flex-list-row">
             {GenerateHours()}
         </ol>
     </div>

@@ -2,10 +2,15 @@
 @import 'modules/now';
 @import 'modules/alert';
 @import 'modules/hourly';
+@import 'modules/daily';
 @import url('./inter-font/inter.css');
 
 :root {
     font-size: 20px;
+}
+
+svg {
+    width: 1rem;
 }
 
 * { 
@@ -13,6 +18,12 @@
     font-family: 'Inter';
     font-weight: 400;
     box-sizing: border-box; 
+}
+
+p { 
+    margin: 0px; 
+    line-height: 1;
+    height: fit-content;
 }
 
 body {
@@ -38,28 +49,37 @@ body {
 
 #panel {
     display: grid;
-    grid-template-columns: repeat(8, 1fr);
+    grid-template-columns: repeat(8, 204px);
     grid-auto-rows: 204px;
     gap: 20px;
 
     height: 100vh;
-    width: 100%;
 }
 
 .widget {
+    width: 100%;
     padding: 10px;
-    background-color: rgba(181, 181, 181, 0.3);
-    mix-blend-mode: luminosity;
+    background-color: rgba(255, 255, 255, 0.2);
+    //background-color: rgba(181, 181, 181, 0.3);
+    //mix-blend-mode: luminosity;
 
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
     border-radius: 15px;
+
+    &-large {
+        grid-column: span 2;
+        grid-row: span 2;
+    }
 }
 
-// main {
-//     display: grid;
-//     grid-template-columns: 1fr 1fr;
+.flex-list {
+    display: flex;
+    list-style-type: none;
 
-//     >.overview {
-//         display: flex;
-//     }
-// }
+    padding: 0px;
+    width: 100%;
+    overflow: hidden;
+
+    &-row { flex-direction: row; }
+    &-column { flex-direction: column; }
+}
