@@ -1,10 +1,11 @@
+//React
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
-import Panel from './Components/Panel';
+import reportWebVitals from './reportWebVitals';
+
+//Components
 import Alert from './Components/Alert'
 import Now from './Components/Now'
-import reportWebVitals from './reportWebVitals';
 import Hourly from './Components/Hourly';
 import Daily from './Components/Daily';
 
@@ -13,10 +14,10 @@ root.render(
   <React.StrictMode>
     <Now />
     <Alert type="warning" name="Tornado Warning" message="Seek shelter in a center room or basement. Stay away from windows and keep head down."/>
-    <Panel>
+    <div id="panel">
       <Hourly message="Slight chance for rain and thunderstorms after 4 AM."/>
       <Daily globalLow={80} globalHigh={100}/>
-    </Panel>
+    </div>
   </React.StrictMode>
 )
 

@@ -2,16 +2,12 @@ import React from "react"
 
 const Now = () => (
     <div id="now">
-        <p id="location">Oklahoma City</p>
+        <p>Oklahoma City</p>
 
-        <div>
-            <p id="low">80</p>
-            <p id="current">90</p>
-            <p id="high">100</p>
-        </div>
+        <p id="current">90</p>
 
-        <p id="weather">Sunny</p>
-        <p id="feels">Feels like <span>95</span>°</p>
+        <p>Sunny</p>
+        <p>Feels like <span>95</span>°</p>
     </div>
 )
 

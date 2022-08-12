@@ -1,4 +1,5 @@
 import React from "react";
+import { Widget } from "./BaseComponents";
 
 const Alert = ({
     type,
@@ -6,10 +7,10 @@ const Alert = ({
     message,
     moreExist = false
 }) => (
-    <div className={"widget alert " + type}>
+    <Widget class={"alert " + type}>
         <h2>{name}</h2>
         <p>{message}</p>
-    </div>
+    </Widget>
 )
 
 export default Alert;

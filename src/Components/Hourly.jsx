@@ -1,5 +1,6 @@
 import React from "react";
 import {ReactComponent as Tornadic} from '../svgs/Tornadic.svg'
+import { OrderedFlexList, Widget } from "./BaseComponents";
 
 const Hour = ({ time, status, temp }) => (
     <li>
@@ -31,12 +32,12 @@ function GenerateHours() {
 }
 
 const Hourly = ({ message = null }) => (
-    <div className="widget" id="hourly">
+    <Widget id="hourly">
         {message != null && <p>{message}</p>}
-        <ol className="flex-list flex-list-row">
+        <OrderedFlexList type="row">
             {GenerateHours()}
-        </ol>
-    </div>
+        </OrderedFlexList>
+    </Widget>
 )
 
 export default Hourly;
