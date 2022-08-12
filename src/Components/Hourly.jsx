@@ -1,20 +1,27 @@
-import React from "react";
+import PropTypes from 'prop-types'
 import {ReactComponent as Tornadic} from '../svgs/Tornadic.svg'
 import { OrderedFlexList, Widget } from "./BaseComponents";
 
-const Hour = ({ time, status, temp }) => (
+const Hour = (props) => (
     <li>
-        <p>{time}</p>
-        <Tornadic />
-        <p>{temp}°</p>
+        <p>{props.time}</p>
+        {props.statusIcon}
+        <p>{props.temp}°</p>
     </li>
 )
 
-const DaySeperator = ({ day }) => (
+Hour.propTypes = {
+    time: PropTypes.string.isRequired,
+    statusIcon: PropTypes.element.isRequired,
+    temp: PropTypes.number.isRequired
+}
+
+const DaySeperator = (props) => (
     <li className="seperator">
-        <p>{day}</p>
+        <p>{props.day}</p>
     </li>
 )
+DaySeperator.propTypes = { day: PropTypes.oneOf(['Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat', 'Sun']).isRequired }
 
 function GenerateHours() {
     let hours = []
@@ -24,7 +31,7 @@ function GenerateHours() {
             hours.push(<DaySeperator key={i} day="Tue"/>)
         }
         else {
-            hours.push(<Hour key={i} time={i + " AM"} status='' temp="95"/>)
+            hours.push(<Hour key={i} statusIcon={<Tornadic />} time={i + " AM"} status='' temp={95}/>)
         }
     }
 

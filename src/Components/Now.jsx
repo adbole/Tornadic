@@ -1,14 +1,21 @@
-import React from "react"
+import PropTypes from 'prop-types'
 
-const Now = () => (
+const Now = (props) => (
     <div id="now">
-        <p>Oklahoma City</p>
+        <p>{props.location}</p>
 
-        <p id="current">90</p>
+        <p id="current">{props.currentTemp}</p>
 
-        <p>Sunny</p>
-        <p>Feels like <span>95</span>°</p>
+        <p>{props.status}</p>
+        <p>Feels like <span>{props.feelsTemp}</span>°</p>
     </div>
 )
+
+Now.propTypes = {
+    location: PropTypes.string.isRequired,
+    currentTemp: PropTypes.number.isRequired,
+    status: PropTypes.string.isRequired,
+    feelsTemp: PropTypes.number.isRequired
+}
 
 export default Now;

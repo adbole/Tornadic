@@ -1,21 +1,20 @@
 import PropTypes from 'prop-types';
 
 export const Widget = (props) => {
-    let className = "widget "
-    if(props.large) className += "widget-large "
+    const {className, children, large, ...excess} = props;
+
+    let defaultClass = "widget "
+    if(large) defaultClass += "widget-large "
 
     return (
-        <div className={className + props.class} id={props.id}>
-            {props.children}
+        <div className={defaultClass + className} {...excess} >
+            {children}
         </div>
     )
 }
 
-Widget.proptTypes = {
-    large: PropTypes.bool,
-    class: PropTypes.string,
-    id: PropTypes.string
-}
+Widget.defaultProps = { className: '' }
+Widget.propTypes = { large: PropTypes.bool }
 
 export const OrderedFlexList = (props) => (
     <ol className={"flex-list flex-list-" + props.type}>
@@ -28,7 +27,15 @@ OrderedFlexList.propTypes = {
 }
 
 export const BasicInfoView = (props) => (
-    <Widget>
-        
+    <Widget className="basic-info">
+        {props.icon}
+        <p>{props.title}</p>
+        <p>{props.value}</p>
     </Widget>
 )
+
+BasicInfoView.propTypes = {
+    icon: PropTypes.element.isRequired,
+    title: PropTypes.string.isRequired,
+    value: PropTypes.string.isRequired
+}

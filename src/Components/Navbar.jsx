@@ -1,4 +1,3 @@
-import React from "react"
 import {ReactComponent as DashboardFill} from '../svgs/dashboard-fill.svg'
 import {ReactComponent as MapFill} from '../svgs/map-fill.svg'
 import {ReactComponent as ExclamationCircleFill} from '../svgs/exclamation-circle-fill.svg'

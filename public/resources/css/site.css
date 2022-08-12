@@ -1,5 +1,100 @@
 @charset "UTF-8";
 @import url("./inter-font/inter.css");
+:root {
+  font-size: 20px;
+}
+
+svg {
+  width: 1rem;
+}
+
+* {
+  margin: 0px;
+  font-family: 'Inter';
+  font-weight: 400;
+  box-sizing: border-box;
+}
+
+p {
+  margin: 0px;
+  line-height: 1;
+  height: fit-content;
+}
+
+body {
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+  min-height: 100vh;
+  padding: 20px;
+  padding-top: 60px;
+  background-image: radial-gradient(14.52% 30.09% at 100% 0%, rgba(255, 255, 255, 0.5) 0%, #00A3FF 100%);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+#panel {
+  display: grid;
+  grid-template-columns: repeat(8, 204px);
+  grid-auto-rows: 204px;
+  gap: 20px;
+  height: 100vh;
+}
+
+.widget {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+  background-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+  border-radius: 15px;
+}
+
+.widget-large {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+
+.widget::before {
+  position: absolute;
+}
+
+.basic-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.basic-info > svg {
+  width: 2.5rem;
+}
+
+.basic-info > p:last-child {
+  font-size: 3rem;
+}
+
+.flex-list {
+  display: flex;
+  list-style-type: none;
+  padding: 0px;
+  width: 100%;
+  overflow: hidden;
+}
+
+.flex-list-row {
+  flex-direction: row;
+}
+
+.flex-list-column {
+  flex-direction: column;
+}
+
 nav {
   display: flex;
   flex-direction: column;
@@ -141,6 +236,16 @@ nav > a > svg {
   width: 10%;
 }
 
+#daily .status {
+  position: relative;
+}
+
+#daily .status > p {
+  position: absolute;
+  left: 100%;
+  top: 0.25rem;
+}
+
 #daily .temp-range {
   display: flex;
   flex-direction: row;
@@ -171,81 +276,11 @@ nav > a > svg {
   border-radius: 5px;
 }
 
-:root {
-  font-size: 20px;
-}
-
-svg {
-  width: 1rem;
-}
-
-* {
-  margin: 0px;
-  font-family: 'Inter';
-  font-weight: 400;
-  box-sizing: border-box;
-}
-
-p {
-  margin: 0px;
-  line-height: 1;
-  height: fit-content;
-}
-
-body {
-  color: white;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-  width: 100vw;
-  height: 100vh;
-  padding: 20px;
-  padding-top: 60px;
-  background-image: radial-gradient(14.52% 30.09% at 100% 0%, rgba(255, 255, 255, 0.5) 0%, #00A3FF 100%);
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
-}
-
-#panel {
-  display: grid;
-  grid-template-columns: repeat(8, 204px);
-  grid-auto-rows: 204px;
-  gap: 20px;
-  height: 100vh;
-}
-
-.widget {
-  position: relative;
-  width: 100%;
-  padding: 10px;
-  background-color: rgba(255, 255, 255, 0.2);
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
-  border-radius: 15px;
-}
-
-.widget-large {
-  grid-column: span 2;
-  grid-row: span 2;
-}
-
-.widget::before {
-  position: absolute;
-}
-
-.flex-list {
-  display: flex;
-  list-style-type: none;
+#radar {
   padding: 0px;
-  width: 100%;
   overflow: hidden;
 }
 
-.flex-list-row {
-  flex-direction: row;
-}
-
-.flex-list-column {
-  flex-direction: column;
+#radar > div {
+  height: 100%;
 }
