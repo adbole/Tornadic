@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import {ReactComponent as Tornadic} from '../svgs/Tornadic.svg'
-import { OrderedFlexList, Widget } from "./BaseComponents";
+import { OrderedFlexList, Widget } from "./SimpleComponents";
 
 const Hour = (props) => (
     <li>

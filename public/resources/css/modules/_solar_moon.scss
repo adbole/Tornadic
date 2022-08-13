@@ -1,0 +1,20 @@
+#solar-moon {
+    @include center-flex;
+    justify-content: space-evenly;
+    flex-direction: row;
+
+    grid-column: span 2;
+
+    >div:last-child {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        height: 100%;
+
+        >svg {
+            width: 5rem;
+        }
+    }
+}

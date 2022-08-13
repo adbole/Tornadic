@@ -1,0 +1,60 @@
+$levelGradients: ("AQ": conic-gradient(from 0.5turn at 50% 50%, #00FF66 36deg, #FFF501 90deg, #FF9431 144deg, #FF2204 198deg, #8400FF 252deg, #6D0000 306deg),
+                  "UV": conic-gradient(from 0.5turn at 50% 50%, #00FF66 36deg, #FFF501 100.8deg, #FF9431 165.6deg, #FF2204 230.4deg, #FF00D6 292.2deg));
+
+
+.level-info, #wind {
+    @include center-flex;
+    flex-direction: column;
+}
+
+.level-info, #wind {
+    //Div that wraps the svg and inner div to provide better alignment control
+    >div {
+        position: relative;
+        height: 100%;
+        width: 100%;
+
+        //SVG use to help display the data
+        svg {
+            z-index: -1;
+            position: absolute;
+            transform: translateX(-50%);
+            left: 50%;
+            height: 100%;
+            width: 100%;
+
+            .origin-center {
+                transform-origin: center;
+            }
+        }
+
+        //Inner div that includes data plus sub message below
+        //EX: For AQ data is the 0-500 value while the sub message would be the worded version of that value like "hazardous" or "good"
+        >div {
+            @include center-flex;
+            flex-direction: column;
+
+            width: 100%;
+            height: 100%;
+
+            p:first-of-type {
+                width: -moz-fit-content;
+                width: fit-content;
+                font-size: 2rem;
+            }
+        }
+    }
+}
+
+.level-info {
+    svg .gradient{
+        width: 100px;
+        height: 100px;
+    }
+
+    @each $id, $gradient in $levelGradients {
+        &##{$id} > div > svg .gradient { 
+            background-image: $gradient;
+        }
+    }
+}

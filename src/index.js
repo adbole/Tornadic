@@ -4,12 +4,13 @@ import ReactDOM from 'react-dom/client';
 import reportWebVitals from './reportWebVitals';
 
 //Components
-import Alert from './Components/Alert'
 import Now from './Components/Now'
 import Hourly from './Components/Hourly';
 import Daily from './Components/Daily';
 import Radar from './Components/Radar';
-import { BasicInfoView } from './Components/BaseComponents';
+import { Alert, BasicInfoView, LevelInfoView } from './Components/SimpleComponents';
+import Wind from './Components/Wind';
+import SolarMoon from './Components/SolarMoon';
 
 //Icons
 import {ReactComponent as Tornadic} from './svgs/Tornadic.svg'
@@ -17,7 +18,7 @@ import {ReactComponent as Tornadic} from './svgs/Tornadic.svg'
 const root = ReactDOM.createRoot(document.querySelector('body'));
 root.render(
   <React.StrictMode>
-    <Now location="Oklahoma City" currentTemp={90} status="sunny" feelsTemp={95}/>
+    <Now location="Oklahoma City" currentTemp={90} status="Sunny" feelsTemp={95}/>
     <Alert type="warning" name="Tornado Warning" message="Seek shelter in a center room or basement. Stay away from windows and keep head down."/>
     <div id="panel">
       <Hourly message="Slight chance for rain and thunderstorms after 4 AM."/>
@@ -28,6 +29,10 @@ root.render(
       <BasicInfoView icon={<Tornadic />} title="Humidity" value="50%" />
       <BasicInfoView icon={<Tornadic />} title="Visibility" value="10 mi" />
       <BasicInfoView icon={<Tornadic />} title="Haines Index" value="1" />
+      <LevelInfoView id="AQ" min={0} max={500} title="Air Quality" value={500} message="Hazardous" />
+      <LevelInfoView id="UV" min={0} max={11} title="UV Index" value={3} message="Extreme" />
+      <Wind speed={12} deg={45}/>
+      <SolarMoon sunset="7:00PM" sunrise="7:00AM"/>
     </div>
   </React.StrictMode>
 )
