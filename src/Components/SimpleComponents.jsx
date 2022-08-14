@@ -1,19 +1,20 @@
+import React, { forwardRef } from 'react';
 import PropTypes from 'prop-types';
 import Normalize from '../js/Normalize';
 
 // #region Widget
-export const Widget = (props) => {
+export const Widget = forwardRef((props, ref) => {
     const {className, children, large, ...excess} = props;
 
     let defaultClass = "widget "
     if(large) defaultClass += "widget-large "
 
     return (
-        <div className={defaultClass + className} {...excess} >
+        <div className={defaultClass + className} ref={ref} {...excess} >
             {children}
         </div>
     )
-}
+});
 
 Widget.defaultProps = { className: '' }
 Widget.propTypes = { large: PropTypes.bool }

@@ -1,3 +1,5 @@
+@import './mixin';
+
 #radar {
     padding: 0px;
     overflow: hidden;
@@ -5,4 +7,57 @@
     >div {
         height: 100%;
     }
+
+    &:not(.zoom-radar) .leaflet-control { 
+        display: none;
+    }
+
+    &.zoom-radar {
+        z-index: 999;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        border-radius: 0px;
+    }
+}
+
+.leaflet-overlay-pane {
+    svg {
+        width: unset !important;
+    }
+}
+
+.leaflet-control {
+    @include dark-back-blur;
+    border-radius: $border-radius;
+}
+
+.leaflet-custom-control {
+    color: white !important;
+    
+    &.home {
+        @include center-flex;
+        width: 2rem;
+        height: 2rem;
+
+        >svg { width: 1.25rem; }
+    }
+
+    &.playback {
+        display: grid;
+        align-items: center;
+        grid-template-columns: auto 1fr;
+
+        width: 100%;
+        height: fit-content;
+        padding: 10px;
+    }
+}
+
+.leaflet-center {
+    left: 25%;
+    right: 25%;
+    bottom: 20px;
 }
