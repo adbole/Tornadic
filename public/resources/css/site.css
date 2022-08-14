@@ -42,10 +42,10 @@ body.hide-overflow {
 
 #panel {
   display: grid;
-  grid-template-columns: repeat(8, 204px);
-  grid-auto-rows: 204px;
+  grid-template-columns: repeat(8, 10rem);
+  grid-auto-rows: 10rem;
   gap: 20px;
-  height: 100vh;
+  min-height: 100vh;
 }
 
 .widget {
@@ -159,8 +159,8 @@ nav > a > svg {
 }
 
 .alert {
-  max-width: 900px;
-  width: 100%;
+  min-width: 20rem;
+  max-width: 75%;
   padding: 10px;
   mix-blend-mode: normal !important;
   text-align: center;
@@ -274,6 +274,7 @@ nav > a > svg {
 #radar {
   padding: 0px;
   overflow: hidden;
+  -webkit-mask-image: radial-gradient(white, black);
 }
 
 #radar > div {
@@ -316,6 +317,7 @@ nav > a > svg {
   align-items: center;
   width: 2rem;
   height: 2rem;
+  cursor: pointer;
 }
 
 .leaflet-custom-control.home > svg {
@@ -410,4 +412,40 @@ nav > a > svg {
 
 #solar-moon > div:last-child > svg {
   width: 5rem;
+}
+
+@media screen and (max-width: 1800px) {
+  #panel {
+    grid-template-columns: repeat(6, 10rem);
+  }
+  #panel #hourly {
+    grid-column: span 4;
+  }
+}
+
+@media screen and (max-width: 1400px) {
+  :root {
+    font-size: 15px;
+  }
+}
+
+@media screen and (max-width: 1100px) {
+  #panel {
+    grid-template-columns: repeat(4, 10rem);
+  }
+}
+
+@media screen and (max-width: 700px) {
+  #panel {
+    width: 100%;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: minmax(150px, auto);
+  }
+  #panel #hourly {
+    grid-column: span 2;
+  }
+  .alert {
+    width: 100%;
+    max-width: unset;
+  }
 }

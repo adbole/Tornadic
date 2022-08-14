@@ -8,9 +8,10 @@ import Now from './Components/Now'
 import Hourly from './Components/Hourly';
 import Daily from './Components/Daily';
 import Radar from './Components/Radar';
-import { Alert, BasicInfoView, LevelInfoView } from './Components/SimpleComponents';
+import { Alert, SimpleInfoWidget } from './Components/SimpleComponents';
 import Wind from './Components/Wind';
 import SolarMoon from './Components/SolarMoon';
+import LevelWidget from './Components/LevelWidget';
 
 //Icons
 import {ReactComponent as Tornadic} from './svgs/Tornadic.svg'
@@ -24,13 +25,13 @@ root.render(
       <Hourly message="Slight chance for rain and thunderstorms after 4 AM."/>
       <Daily globalLow={80} globalHigh={100}/>
       <Radar />
-      <BasicInfoView icon={<Tornadic />} title="Chance of Rain" value="50%" />
-      <BasicInfoView icon={<Tornadic />} title="Dew Point" value="50°" />
-      <BasicInfoView icon={<Tornadic />} title="Humidity" value="50%" />
-      <BasicInfoView icon={<Tornadic />} title="Visibility" value="10 mi" />
-      <BasicInfoView icon={<Tornadic />} title="Haines Index" value="1" />
-      <LevelInfoView id="AQ" min={0} max={500} title="Air Quality" value={500} message="Hazardous" />
-      <LevelInfoView id="UV" min={0} max={11} title="UV Index" value={3} message="Extreme" />
+      <SimpleInfoWidget icon={<Tornadic />} title="Chance of Rain" value="50%" />
+      <SimpleInfoWidget icon={<Tornadic />} title="Dew Point" value="50°" />
+      <SimpleInfoWidget icon={<Tornadic />} title="Humidity" value="50%" />
+      <SimpleInfoWidget icon={<Tornadic />} title="Visibility" value="10 mi" />
+      <SimpleInfoWidget icon={<Tornadic />} title="Haines Index" value="1" />
+      <LevelWidget id="AQ" min={0} max={500} title="Air Quality" value={500} message="Hazardous" />
+      <LevelWidget id="UV" min={0} max={11} title="UV Index" value={3} message="Extreme" />
       <Wind speed={12} deg={45}/>
       <SolarMoon sunset="7:00PM" sunrise="7:00AM"/>
     </div>

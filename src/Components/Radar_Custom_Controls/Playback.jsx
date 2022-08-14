@@ -7,7 +7,7 @@ const PlaybackComponent = (props) => (
     <>
         <Play />
         <div>
-            <input type="range" min="0" max="1" step="0.01"/>
+            <input type="range" min="0" max="1" step="0.01" />
         </div>
     </>
 )
@@ -20,12 +20,12 @@ const Playback = (props) => {
         onAdd: () => {
             const div = L.DomUtil.create("div", "leaflet-custom-control playback");
             L.DomEvent.disableClickPropagation(div)
-            ReactDOM.createRoot(div).render(<PlaybackComponent {...props}/>)
+            ReactDOM.createRoot(div).render(<PlaybackComponent {...props} />)
             return div;
         }
     });
 
     return new Home();
-  };
+};
 
 export default createControlComponent(Playback)

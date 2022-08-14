@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types'
-import { OrderedFlexList, Widget } from './SimpleComponents';
+import { Widget } from './SimpleComponents';
 import {ReactComponent as Tornadic} from '../svgs/Tornadic.svg'
 import Normalize from '../js/Normalize';
 
