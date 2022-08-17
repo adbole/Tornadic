@@ -1,5 +1,3 @@
-@import url('./inter-font/inter.css');
-
 @mixin center-flex {
     display: flex;
     justify-content: center;
@@ -12,7 +10,7 @@ svg {  width: 1rem; }
 
 * { 
     margin: 0px;
-    font-family: 'Inter';
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-weight: 400;
     box-sizing: border-box !important; 
 }
@@ -31,6 +29,7 @@ body {
     gap: 20px;
 
     width: 100%;
+    min-height: 100vh;
     padding: 20px;
     
     padding-top: 60px;
@@ -52,8 +51,6 @@ body {
     grid-template-columns: repeat(8, 10rem);
     grid-auto-rows: 10rem;
     gap: 20px;
-
-    min-height: 100vh;
 }
 
 .widget {

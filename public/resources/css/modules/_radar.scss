@@ -7,7 +7,11 @@
 
     >div { height: 100% }
 
-    &:not(.zoom-radar) .leaflet-control {  display: none; }
+    &:not(.zoom-radar) {
+        cursor: pointer;
+
+        .leaflet-control {  display: none; }
+    }
 
     &.zoom-radar {
         z-index: 999;

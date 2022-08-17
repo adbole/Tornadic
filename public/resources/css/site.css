@@ -1,5 +1,4 @@
 @charset "UTF-8";
-@import url("./inter-font/inter.css");
 :root {
   font-size: 20px;
 }
@@ -10,7 +9,7 @@ svg {
 
 * {
   margin: 0px;
-  font-family: 'Inter';
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-weight: 400;
   box-sizing: border-box !important;
 }
@@ -28,6 +27,7 @@ body {
   align-items: center;
   gap: 20px;
   width: 100%;
+  min-height: 100vh;
   padding: 20px;
   padding-top: 60px;
   background-image: radial-gradient(14.52% 30.09% at 100% 0%, rgba(255, 255, 255, 0.5) 0%, #00A3FF 100%);
@@ -45,7 +45,6 @@ body.hide-overflow {
   grid-template-columns: repeat(8, 10rem);
   grid-auto-rows: 10rem;
   gap: 20px;
-  min-height: 100vh;
 }
 
 .widget {
@@ -279,6 +278,10 @@ nav > a > svg {
 
 #radar > div {
   height: 100%;
+}
+
+#radar:not(.zoom-radar) {
+  cursor: pointer;
 }
 
 #radar:not(.zoom-radar) .leaflet-control {

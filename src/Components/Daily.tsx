@@ -1,10 +1,16 @@
-import React from 'react';
-import PropTypes from 'prop-types'
+import { ReactNode } from 'react';
 import { Widget } from './SimpleComponents';
-import {ReactComponent as Tornadic} from '../svgs/Tornadic.svg'
+import { Tornadic } from '../svgs/svgs'
 import Normalize from '../js/Normalize';
 
-const Day = (props) =>(
+const Day = (props: {
+    day: string,
+    statusIcon: ReactNode,
+    chanceOfPrecip: number,
+    low: number,
+    high: number,
+    style: React.CSSProperties
+}) =>(
     <tr>
         <td><p>{props.day}</p></td>
         <td>        
@@ -23,21 +29,15 @@ const Day = (props) =>(
     </tr>
 )
 
-Day.propTypes = {
-    day: PropTypes.string.isRequired,
-    statusIcon: PropTypes.element.isRequired,
-    chanceOfPrecip: PropTypes.number.isRequired,
-    low: PropTypes.number.isRequired,
-    high: PropTypes.number.isRequired,
-    style: PropTypes.object.isRequired
-}
-
 const days = ['Now', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat', 'Sun', 'Mon']
 let count = 0;
 
-const Daily = (props) => {
-    function  CalculateDualRangeCoverStyle(min, max) {
-        const ToHSL = (x) => `hsl(${240 * ((100-x)/100)}deg, 100%, 50%)`
+const Daily = (props : {
+    globalLow: number,
+    globalHigh: number
+}) => {
+    function  CalculateDualRangeCoverStyle(min: number, max: number) {
+        const ToHSL = (x: number) => `hsl(${240 * ((100-x)/100)}deg, 100%, 50%)`
         
         return {
             left: Normalize.Percent(min, props.globalLow, props.globalHigh) + "%",
@@ -52,7 +52,7 @@ const Daily = (props) => {
                 <tbody>
                     {
                         days.map(day => {
-                            function generateRandomIntegerInRange(min, max) {
+                            function generateRandomIntegerInRange(min: number, max: number) {
                                 return Math.floor(Math.random() * (max - min + 1)) + min;
                             }
         
@@ -72,11 +72,6 @@ const Daily = (props) => {
             </table>
         </Widget>
     )
-}
-
-Daily.propTypes = {
-    globalLow: PropTypes.number.isRequired,
-    globalHigh: PropTypes.number.isRequired
 }
 
 export default Daily

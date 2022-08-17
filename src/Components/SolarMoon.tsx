@@ -1,8 +1,10 @@
-import PropTypes from 'prop-types'
 import { Widget } from './SimpleComponents'
-import {ReactComponent as Tornadic} from '../svgs/Tornadic.svg'
+import {Tornadic} from '../svgs/svgs'
 
-const SolarMoon = (props) => (
+const SolarMoon = (props: {
+    sunset: string,
+    sunrise: string
+}) => (
     <Widget id="solar-moon">
         <div>
             <p>Sunset</p>
@@ -16,10 +18,5 @@ const SolarMoon = (props) => (
         </div>
     </Widget>
 )
-
-SolarMoon.propTypes = {
-    sunset: PropTypes.string.isRequired,
-    sunrise: PropTypes.string.isRequired
-}
 
 export default SolarMoon;

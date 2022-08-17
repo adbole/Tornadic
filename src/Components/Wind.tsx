@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types'
 import { Widget } from './SimpleComponents';
 
 function GenerateAngledStamps() {
@@ -11,7 +10,10 @@ function GenerateAngledStamps() {
     return rects
 }
 
-const Wind = (props) => (
+const Wind = (props: {
+    deg: number,
+    speed: number
+}) => (
     <Widget id="wind">
         <div>
             <svg viewBox="0 0 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg">
@@ -42,10 +44,5 @@ const Wind = (props) => (
         <p>Wind</p>
     </Widget>
 )
-
-Wind.propTypes = {
-    deg: PropTypes.number.isRequired,
-    speed: PropTypes.number.isRequired,
-}
 
 export default Wind;

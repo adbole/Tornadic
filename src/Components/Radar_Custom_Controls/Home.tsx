@@ -3,12 +3,13 @@ import ReactDOM from 'react-dom/client';
 import L from 'leaflet';
 import { createControlComponent } from '@react-leaflet/core';
 import { useMap } from 'react-leaflet'
-import PropTypes from 'prop-types'
 
-import { ReactComponent as Grid } from '../../svgs/grid.svg'
+import { Grid } from '../../svgs/svgs'
 
 
-const Home = (props) => {
+const Home = (props: {
+    radar: React.MutableRefObject<HTMLDivElement | null>
+} & L.ControlOptions) => {
     const [isZoomed, setIsZoomed] = React.useState(false);
     const radar = props.radar.current
     const map = useMap();
@@ -17,7 +18,7 @@ const Home = (props) => {
         if (isZoomed) return;
 
         setIsZoomed(true);
-        radar.classList.add("zoom-radar")
+        radar?.classList.add("zoom-radar")
         document.body.classList.add("hide-overflow")
         window.scrollTo(0, 0);
 
@@ -27,11 +28,11 @@ const Home = (props) => {
         console.log(isZoomed)
     }
 
-    function unZoom(e) {
+    function unZoom(e: Event) {
         e.stopPropagation();
         setIsZoomed(false);
 
-        radar.classList.remove("zoom-radar");
+        radar?.classList.remove("zoom-radar");
         document.body.classList.remove("hide-overflow")
 
         map.invalidateSize();
@@ -39,7 +40,7 @@ const Home = (props) => {
         map.scrollWheelZoom.disable();
     }
 
-    radar.addEventListener("click", zoom);
+    radar?.addEventListener("click", zoom);
 
     const Home = L.Control.extend({
         onAdd: () => {
@@ -53,9 +54,5 @@ const Home = (props) => {
 
     return new Home();
 };
-
-Home.propTypes = {
-    radar: PropTypes.element.isRequired
-}
 
 export default createControlComponent(Home);

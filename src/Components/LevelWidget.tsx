@@ -1,8 +1,14 @@
-import PropTypes from 'prop-types';
 import { Widget } from './SimpleComponents';
 import Normalize from '../js/Normalize';
 
-export const LevelWidget = (props) => {
+export const LevelWidget = (props: {
+    id: string,
+    value: number,
+    min: number,
+    max: number,
+    message: string,
+    title: string
+}) => {
     const clipID = "clip-" + props.id;
     const maskID = "mask-" + props.id;
 
@@ -25,7 +31,7 @@ export const LevelWidget = (props) => {
                     </mask>
     
                     <foreignObject x="0" y="0" width="100%" height="100%" clipPath={`url(#${clipID})`} mask={`url(#${maskID})`}>
-                        <div className="gradient" xmlns="http://www.w3.org/1999/xhtml" />
+                        <div className="gradient" />
                     </foreignObject>
                 </svg>
                 <div>
@@ -36,15 +42,6 @@ export const LevelWidget = (props) => {
             <p>{props.title}</p>
         </Widget>
     )
-}
-
-LevelWidget.propTypes = {
-    id: PropTypes.string.isRequired,
-    value: PropTypes.number.isRequired,
-    min: PropTypes.number.isRequired,
-    max: PropTypes.number.isRequired,
-    message: PropTypes.string,
-    title: PropTypes.string.isRequired
 }
 
 export default LevelWidget

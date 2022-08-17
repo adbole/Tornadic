@@ -6,16 +6,20 @@ import { Widget } from './SimpleComponents';
 import Home from './Radar_Custom_Controls/Home'
 import Playback from './Radar_Custom_Controls/Playback';
 
+interface IDictionary {
+    [indiex: string]: HTMLDivElement
+}
+
 L.Map.include({
     _initControlPos: function () {
-        const corners = this._controlCorners = {}
+        const corners = this._controlCorners = {} as IDictionary
         const l = 'leaflet-'
         const container = this._controlContainer = L.DomUtil.create('div', l + 'control-container', this._container);
     
-        function createCorner(vSide, hSide) {
-        const className = l + vSide + ' ' + l + hSide;
+        function createCorner(vSide: string, hSide: string) {
+            const className = l + vSide + ' ' + l + hSide;
     
-        corners[vSide + hSide] = L.DomUtil.create('div', className, container);
+            corners[vSide + hSide] = L.DomUtil.create('div', className, container);
         }
     
         createCorner('top', 'left');
@@ -32,37 +36,24 @@ const Locate = () => {
         setView: true,
         maxZoom: 14
     })
+
+    return <></>
 }
 
 const Radar = () => {
-    const radar = React.useRef();
-    const defaultCent = [35.5, -97.5]
+    const radar = React.useRef<HTMLDivElement>(null);
+    const defaultCent: L.LatLngExpression = {
+        lat: 35.5,
+        lng: -97.5
+    }
 
     const warningPolygon = [
-        [
-            35.259999999999998,
-            -97.920000000000002
-        ],
-        [
-            35.259999999999998,
-            -97.920000000000002
-        ],
-        [
-            35.339999999999996,
-            -98.019999999999996
-        ],
-        [
-            35.479999899999996,
-            -97.909999999999997
-        ],
-        [
-            35.359999999999992,
-            -97.739999999999995
-        ],
-        [
-            35.259999999999998,
-            -97.920000000000002
-        ]
+        {lat: 35.259999999999998, lng: -97.920000000000002},
+        {lat: 35.259999999999998, lng: -97.920000000000002},
+        {lat: 35.339999999999996, lng: -98.019999999999996},
+        {lat: 35.479999899999996, lng: -97.909999999999997},
+        {lat: 35.359999999999992, lng: -97.739999999999995},
+        {lat: 35.259999999999998, lng: -97.920000000000002}
     ]
 
     return (

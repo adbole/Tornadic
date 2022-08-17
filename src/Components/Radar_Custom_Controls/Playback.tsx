@@ -1,9 +1,9 @@
 import ReactDOM from 'react-dom/client';
 import L from 'leaflet';
 import { createControlComponent } from '@react-leaflet/core';
-import { ReactComponent as Play } from '../../svgs/play-fill.svg'
+import { Play } from '../../svgs/svgs'
 
-const PlaybackComponent = (props) => (
+const PlaybackComponent = () => (
     <>
         <Play />
         <div>
@@ -12,7 +12,7 @@ const PlaybackComponent = (props) => (
     </>
 )
 
-const Playback = (props) => {
+const Playback = () => {
     const Home = L.Control.extend({
         options: {
             position: "bottomcenter"
@@ -20,7 +20,7 @@ const Playback = (props) => {
         onAdd: () => {
             const div = L.DomUtil.create("div", "leaflet-custom-control playback");
             L.DomEvent.disableClickPropagation(div)
-            ReactDOM.createRoot(div).render(<PlaybackComponent {...props} />)
+            ReactDOM.createRoot(div).render(<PlaybackComponent />)
             return div;
         }
     });
