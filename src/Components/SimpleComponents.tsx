@@ -24,19 +24,7 @@ Widget.defaultProps = {
     large: false
 }
 
-// // #endregion Widget
-
-// // #region OrderedFlexList
-export enum FlexDirections { ROW = "row", COLUMN = "column" }
-export const OrderedFlexList = (props: {
-    type: FlexDirections,
-    children: React.ReactNode
-}) => (
-    <ol className={"flex-list flex-list-" + props.type}>
-        {props.children}
-    </ol>
-)
-// // #endregion OrderedFlexList
+// #endregion Widget
 
 // #region Alert
 export const Alert = (props: {

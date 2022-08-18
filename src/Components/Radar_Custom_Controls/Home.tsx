@@ -25,7 +25,6 @@ const Home = (props: {
         map.invalidateSize();
         map.dragging.enable();
         map.scrollWheelZoom.enable();
-        console.log(isZoomed)
     }
 
     function unZoom(e: Event) {

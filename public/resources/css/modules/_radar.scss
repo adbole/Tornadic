@@ -47,7 +47,7 @@
         >svg { width: 1.25rem; }
     }
 
-    &.playback {
+    &#playback {
         display: grid;
         align-items: center;
         grid-template-columns: auto 1fr;
@@ -55,6 +55,21 @@
         width: 100%;
         height: fit-content;
         padding: 10px;
+
+        >svg {
+            width: 1.5rem;
+            height: 1.5rem;
+        }
+
+        > div {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            > input {
+                width: 100%;
+            }
+        }
     }
 }
 

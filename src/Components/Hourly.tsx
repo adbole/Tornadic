@@ -1,5 +1,7 @@
+import React, { useRef } from 'react'
+
 import { Tornadic } from '../svgs/svgs'
-import { OrderedFlexList, FlexDirections, Widget } from "./SimpleComponents";
+import { Widget } from "./SimpleComponents";
 
 const Hour = (props : {
     time: string,
@@ -44,15 +46,51 @@ function GenerateHours() {
     return hours
 }
 
+
+
 const Hourly = (props : {
     message?: string
-}) => (
-    <Widget id="hourly">
-        {props.message != null && <p>{props.message}</p>}
-        <OrderedFlexList type={FlexDirections.ROW}>
-            {GenerateHours()}
-        </OrderedFlexList>
-    </Widget>
-)
+}) => {
+    let isDown = false;
+    let startX: number;
+    let scrollLeft: number;
+
+    function SetIsDown(value: boolean, list: HTMLOListElement) {
+        isDown = value;
+        
+        if(isDown)
+            list.classList.add('active')
+        else
+            list.classList.remove('active');
+    }
+
+    function MouseDown(e: React.MouseEvent<HTMLOListElement>) {
+        SetIsDown(true, e.currentTarget)
+        startX = e.pageX;
+
+        scrollLeft = e.currentTarget.scrollLeft;
+    }
+
+    function MouseLeave(e: React.MouseEvent<HTMLOListElement>) { SetIsDown(false, e.currentTarget) }
+    function MouseUp(e: React.MouseEvent<HTMLOListElement>) { SetIsDown(false, e.currentTarget) }
+
+    function MouseMove(e: React.MouseEvent<HTMLOListElement>) {
+        if(!isDown) return;
+        e.preventDefault();
+
+        const x = e.pageX;
+        const change = (x - startX);
+        e.currentTarget.scrollLeft = scrollLeft - change;
+    }
+
+    return (
+        <Widget id="hourly">
+            {props.message != null && <p>{props.message}</p>}
+            <ol className="flex-list flex-list-row drag-scroll" onMouseDown={MouseDown} onMouseLeave={MouseLeave} onMouseUp={MouseUp} onMouseMove={MouseMove}>
+                {GenerateHours()}
+            </ol>
+        </Widget>
+    )
+}
 
 export default Hourly;

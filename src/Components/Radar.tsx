@@ -34,13 +34,13 @@ const Locate = () => {
     const map = useMap();
     map.locate({ 
         setView: true,
-        maxZoom: 14
+        maxZoom: 10
     })
 
     return <></>
 }
 
-const Radar = () => {
+function Radar() {
     const radar = React.useRef<HTMLDivElement>(null);
     const defaultCent: L.LatLngExpression = {
         lat: 35.5,
@@ -60,9 +60,12 @@ const Radar = () => {
         <Widget large id="radar" ref={radar}>
             <MapContainer center={defaultCent} zoom={10} zoomControl={false} attributionControl={false} scrollWheelZoom={false} dragging={false}> 
                 <Locate />
+                <TileLayer attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors | <a href="https://www.rainviewer.com/api.html">RainViewer</a>' url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"/>
+                
                 <LayersControl>
                     <LayersControl.BaseLayer checked name="Radar">
-                        <TileLayer attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors | <a href="https://www.rainviewer.com/api.html">RainViewer</a>' url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"/>
+                    </LayersControl.BaseLayer>
+                    <LayersControl.BaseLayer name="Radar+Satellite">
                     </LayersControl.BaseLayer>
                 </LayersControl>
 

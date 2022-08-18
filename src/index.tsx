@@ -18,7 +18,7 @@ import {Tornadic} from './svgs/svgs'
 
 const root = ReactDOM.createRoot(document.querySelector('body')!);
 root.render(
-    <React.StrictMode>
+    <>
         <Now location="Oklahoma City" currentTemp={90} status="Sunny" feelsTemp={95}/>
         <Alert type={AlertTypes.WARNING} name="Tornado Warning" message="Seek shelter in a center room or basement. Stay away from windows and keep head down."/>
         <div id="panel">
@@ -35,7 +35,7 @@ root.render(
             <Wind speed={12} deg={45}/>
             <SolarMoon sunset="7:00PM" sunrise="7:00AM"/>
         </div>
-    </React.StrictMode>
+    </>
 )
 
 // const root = ReactDOM.createRoot(document.getElementById('root'));
