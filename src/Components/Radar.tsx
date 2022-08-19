@@ -1,5 +1,5 @@
 import React from 'react';
-import { MapContainer, TileLayer, Polygon, ZoomControl, AttributionControl, LayersControl, useMap } from 'react-leaflet'
+import { MapContainer, TileLayer, Polygon, ZoomControl, AttributionControl, useMap } from 'react-leaflet'
 import L from 'leaflet';
 
 import { Widget } from './SimpleComponents';
@@ -61,13 +61,6 @@ function Radar() {
             <MapContainer center={defaultCent} zoom={10} zoomControl={false} attributionControl={false} scrollWheelZoom={false} dragging={false}> 
                 <Locate />
                 <TileLayer attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors | <a href="https://www.rainviewer.com/api.html">RainViewer</a>' url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"/>
-                
-                <LayersControl>
-                    <LayersControl.BaseLayer checked name="Radar">
-                    </LayersControl.BaseLayer>
-                    <LayersControl.BaseLayer name="Radar+Satellite">
-                    </LayersControl.BaseLayer>
-                </LayersControl>
 
                 <Polygon pathOptions={{color: 'red'}} positions={warningPolygon} />
 

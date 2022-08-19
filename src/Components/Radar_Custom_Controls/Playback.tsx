@@ -1,9 +1,15 @@
+import { useRef } from 'react'
 import ReactDOM from 'react-dom/client';
 import L from 'leaflet';
-import { createControlComponent } from '@react-leaflet/core';
-import { Play } from '../../svgs/svgs'
-import { hasOnlyExpressionInitializer } from 'typescript';
 import { useMap } from 'react-leaflet';
+import { createControlComponent } from '@react-leaflet/core';
+
+import { Play } from '../../svgs/svgs'
+
+//Uses floor function to keep remainder the same sign as divisor. 
+const mod = (x: number, div: number) => {
+    return x - div * Math.floor(x / div)
+}
 
 type Tile = {
     time: number,
@@ -17,21 +23,60 @@ type ApiResponse = {
         nowcast: Tile[]
         past: Tile[]
     }
+    satellite: {
+        infrared: Tile[]
+    }
 }
 
-interface IDictionary {
-    [index: number]: L.TileLayer
+type AnimationData = {
+    maxTime: number,
+    minTime: number,
+    currentPos: number
 }
 
+interface IStringDict<T> {
+    [index: string]: T
+}
+
+//Last available layer is default
+enum LayerTypes {
+    Satellite = "Satellite",
+    Radar = "Radar"
+}
+
+// type AvailableLayer = {
+//     frames: Tile[],
+//     loadedLayers: { [index: number]: L.TileLayer },
+//     layerGroup: L.LayerGroup,
+//     currentAnimPos: number
+// }
 
 const Playback = () => {
-    const map = useMap();
-    let timeStamps: ApiResponse;
-    let animationPos = 0;
-    let frames: Tile[];
-    let layers = {} as IDictionary
+    const MAP = useMap();
+    const SLIDER = useRef<HTMLInputElement>(null);
+    let host: string;
+    let layerFrames = {} as IStringDict<Tile[]>;
+    let loadedLayers = {} as IStringDict<{ [index: number]: L.TileLayer }>;
+    let layerGroups = {} as IStringDict<L.LayerGroup>
+    let activeLayer: LayerTypes;
+
+    let animationPos = {} as IStringDict<AnimationData>;
     let animationTimer: NodeJS.Timeout | null;
 
+    MAP.on('baselayerchange', function(e) {
+        activeLayer = e.name as LayerTypes
+        console.log(activeLayer)
+        const animData = animationPos[activeLayer];
+        
+        if(SLIDER.current !== null) {
+            SLIDER.current!.min = animData.minTime.toString();
+            SLIDER.current!.max = animData.maxTime.toString();
+            SLIDER.current!.value = layerFrames[activeLayer][animData.currentPos].time.toString()
+        }
+        ShowFrame(animationPos[activeLayer].currentPos)
+    })
+
+    //Get radar data
     const xhtml = new XMLHttpRequest()
     xhtml.open("GET", "https://api.rainviewer.com/public/weather-maps.json", false);
     xhtml.onload = () => {
@@ -40,62 +85,96 @@ const Playback = () => {
             return;
         }
 
-        timeStamps = JSON.parse(xhtml.response)
-        frames = timeStamps.radar.past.concat(timeStamps.radar.nowcast);
+        const response: ApiResponse = JSON.parse(xhtml.response)
+        
+        host = response.host
 
-        const lastFramePos = timeStamps.radar.past.length - 1; 
+        //Prepare frames
+        layerFrames[LayerTypes.Radar] = response.radar.past.concat(response.radar.nowcast);
+        layerFrames[LayerTypes.Satellite] = response.satellite.infrared;
+
+        const layersControl = L.control.layers().addTo(MAP);
+        
+        //Prepare all other information and intialize needed objects
+        Object.keys(LayerTypes).map((availableLayer) => {
+            layerGroups[availableLayer] = L.layerGroup().addTo(MAP);
+            loadedLayers[availableLayer] = [];
+            const currentFrames = layerFrames[availableLayer];
+            animationPos[availableLayer] = {
+                maxTime: currentFrames[currentFrames.length - 1].time,
+                minTime: currentFrames[0].time,
+                currentPos: 0
+            } as AnimationData;
+
+            layersControl.addBaseLayer(layerGroups[availableLayer], availableLayer);
+        })
+
+        //Since the default is radar the lastFramePos will be determined by the last past frame
+        activeLayer = LayerTypes.Radar;
+        const lastFramePos = response.radar.past.length - 1; 
+
         ShowFrame(lastFramePos)
     }
-    xhtml.send()
+    xhtml.send();
 
     function ShowFrame(loadPos: number) {
-        const preLoadDirection = loadPos - animationPos > 0 ? 1 : -1
+        //Determine how to load the frame after this one
+        const preLoadDirection = loadPos - animationPos[activeLayer].currentPos > 0 ? 1 : -1
 
-        ChangeRadarPos(loadPos, false);
-        ChangeRadarPos(loadPos + preLoadDirection, true);
+        ChangeRadarPos(loadPos, false); //Load this frame
+        ChangeRadarPos(loadPos + preLoadDirection, true); //Preload the next frame
     }
 
     function ChangeRadarPos(position: number, preloadOnly: boolean) {
-        while (position >= frames.length) {
-            position -= frames.length;
-        }
-        while (position < 0) {
-            position += frames.length;
+        const activeFrames = layerFrames[activeLayer];
+        const activeLayers = loadedLayers[activeLayer];
+
+        if(position < 0 || position > activeFrames.length - 1) {
+            position = mod(position, activeFrames.length)
         }
 
-        const currentFrame = frames[animationPos];
-        const nextFrame = frames[position];
+        const currentFrame = activeFrames[animationPos[activeLayer].currentPos];
+        const nextFrame = activeFrames[position];
 
         AddLayer(nextFrame);
 
         if(preloadOnly) return;
 
-        animationPos = position;
+        animationPos[activeLayer].currentPos = position;
 
-        if(layers[currentFrame.time]) {
-            layers[currentFrame.time].setOpacity(0)
+        if(activeLayers[currentFrame.time]) {
+            activeLayers[currentFrame.time].setOpacity(0)
         }
 
-        layers[nextFrame.time].setOpacity(1);
+        if(SLIDER.current !== null) {
+            SLIDER.current!.value = nextFrame.time.toString();
+        }
+        activeLayers[nextFrame.time].setOpacity(1);
     }
 
     function AddLayer(frame: Tile) {
-        if(!layers[frame.time]) {
-            layers[frame.time] = new L.TileLayer(timeStamps.host + frame.path + "/512/{z}/{x}/{y}/6/1_0.png", {
+        const activeLayers = loadedLayers[activeLayer];
+
+        //If this frame hasn't been added as a layer yet do so now
+        if(!activeLayers[frame.time]) {
+            const color = activeLayer === LayerTypes.Radar ? 6 : 0
+            activeLayers[frame.time] = new L.TileLayer(host + frame.path + "/512/{z}/{x}/{y}/" + color + "/1_0.png", {
                 opacity: 0.0,
                 zIndex: frame.time
             });
         }
 
-        if(!map.hasLayer(layers[frame.time])) {
-            map.addLayer(layers[frame.time])
+        //If the layer of the frame hasn't been added yet do so now
+        if(!MAP.hasLayer(activeLayers[frame.time])) {
+            layerGroups[activeLayer].addLayer(activeLayers[frame.time])
         }
     }
 
+    //PlayAnim will show the next frame every 0.5s. PlayAnim cannot be called Play due to imported svg having same name
     function PlayAnim() {
-        ShowFrame(animationPos + 1);
+        ShowFrame(animationPos[activeLayer].currentPos + 1);
 
-        animationTimer = setTimeout(PlayAnim, 1000);
+        animationTimer = setTimeout(PlayAnim, 500);
     }
 
     function Stop() {
@@ -114,13 +193,30 @@ const Playback = () => {
         }
     }
 
+    //Due to how layers are added, the baselayerchange event will not fire until the layers have been changed at least twice. 
+    //To work aroundt this, a click is simulated on the controls at load to force the baselayerchange event to fire as expected.
+    [...document.querySelectorAll('.leaflet-control-layers-selector')].forEach((el) => {
+        el.dispatchEvent(new Event('click'))
+    })
+
     const PlaybackComponent = () => (
         <>
             <div onClick={PlayStop}>
                 <Play />
             </div>
             <div>
-                <input type="range" min="0" max="1" step="0.01" />
+                <input type="range" ref={SLIDER} list={activeLayer} min={animationPos[activeLayer].minTime} max={animationPos[activeLayer].maxTime} defaultValue={layerFrames[activeLayer][animationPos[activeLayer].currentPos].time}/>
+                {
+                    Object.keys(LayerTypes).map((layer) => (
+                        <datalist id={layer} key={layer}>
+                            {
+                                layerFrames[layer].map((tileLayer) => (
+                                    <option value={tileLayer.time} key={tileLayer.time}></option>
+                                ))
+                            }
+                        </datalist>
+                    ))
+                }
             </div>
         </>
     )
