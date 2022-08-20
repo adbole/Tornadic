@@ -116,7 +116,9 @@ body {
     &::-webkit-scrollbar-thumb { border-radius: 5px; }
 }
 
-
+.hide {
+    display: none
+}
 
 @import 'modules/navbar';
 @import 'modules/now';

@@ -127,6 +127,10 @@ body.hide-overflow {
   border-radius: 5px;
 }
 
+.hide {
+  display: none;
+}
+
 nav {
   display: flex;
   flex-direction: column;
@@ -360,19 +364,31 @@ nav > a > svg {
   padding: 10px;
 }
 
-.leaflet-custom-control#playback > svg {
-  width: 1.5rem;
-  height: 1.5rem;
+.leaflet-custom-control#playback > div > svg {
+  width: 2rem;
+  height: 2rem;
 }
 
-.leaflet-custom-control#playback > div {
+.leaflet-custom-control#playback > div:not(.play-pause) {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.leaflet-custom-control#playback > div > input {
+.leaflet-custom-control#playback > div:not(.play-pause) > input {
   width: 100%;
+}
+
+.leaflet-custom-control#playback > div:not(.play-pause) > input::-webkit-slider-thumb {
+  height: 36px;
+  width: 16px;
+  border-radius: 3px;
+  background: #ffffff;
+  cursor: pointer;
+  margin-top: -14px;
+  /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+  /* Add cool effects to your sliders! */
 }
 
 .leaflet-center {

@@ -56,18 +56,28 @@
         height: fit-content;
         padding: 10px;
 
-        >svg {
-            width: 1.5rem;
-            height: 1.5rem;
+        > div > svg {
+            width: 2rem;
+            height: 2rem;
         }
 
-        > div {
+        > div:not(.play-pause) {
             display: flex;
             justify-content: center;
             align-items: center;
 
             > input {
                 width: 100%;
+
+                &::-webkit-slider-thumb {
+                    height: 36px;
+                    width: 16px;
+                    border-radius: 3px;
+                    background: #ffffff;
+                    cursor: pointer;
+                    margin-top: -14px; /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
+                    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d; /* Add cool effects to your sliders! */
+                }
             }
         }
     }
