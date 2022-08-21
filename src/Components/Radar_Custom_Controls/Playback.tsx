@@ -11,6 +11,10 @@ const mod = (x: number, div: number) => {
     return x - div * Math.floor(x / div)
 }
 
+const getTimeDisplay = (time: number) => {
+    return `${Date.now() > time * 1000 ? "Past" : "Forecast"}: ${new Date(time * 1000).toLocaleTimeString("en-us", {hour: "numeric", minute: "numeric", hour12: true})}`
+}
+
 type Tile = {
     time: number,
     path: string,
@@ -62,7 +66,7 @@ class PlayPauseButton extends React.PureComponent<{Play: VoidFunction, Stop: Fun
 
     render() {
         return (
-            <div onClick={this.OnCLick.bind(this)}>
+            <div className='play-pause' onClick={this.OnCLick.bind(this)}>
                 { this.state.isPlaying ? <Pause /> : <Play /> }
             </div>
         )
@@ -74,6 +78,7 @@ class Playback extends React.Component<PlaybackProps, { active: LayerTypes}> {
     availableLayers = {Satellite: {}, Radar: {}} as LayerDict;
     animationTimer!: NodeJS.Timeout | null;
     timeLine!: React.RefObject<HTMLInputElement>
+    timeP!: React.RefObject<HTMLParagraphElement>
 
     constructor(props: PlaybackProps) {
         super(props);
@@ -82,6 +87,7 @@ class Playback extends React.Component<PlaybackProps, { active: LayerTypes}> {
             active: LayerTypes.Radar
         }
         this.timeLine = React.createRef<HTMLInputElement>();
+        this.timeP = React.createRef<HTMLParagraphElement>();
 
         this.Setup();
 
@@ -170,7 +176,11 @@ class Playback extends React.Component<PlaybackProps, { active: LayerTypes}> {
         }
 
         if(this.timeLine.current !== null) {
-            this.timeLine.current.value = nextFrame.time.toString()
+            this.timeLine.current.value = this.availableLayers[this.state.active].currentAnimPos.toString()
+        }
+
+        if(this.timeP.current !== null) {
+            this.timeP.current.innerText = getTimeDisplay(nextFrame.time);
         }
         activeLayers[nextFrame.time].setOpacity(1);
     }
@@ -210,20 +220,23 @@ class Playback extends React.Component<PlaybackProps, { active: LayerTypes}> {
         return false;
     }
 
+    OnSliderChange(e: React.ChangeEvent<HTMLInputElement>) {
+        this.ShowFrame(e.currentTarget.valueAsNumber)
+    }
+
     render() {
+        const active = this.availableLayers[this.state.active]
+
         return (
         <>
+            <p className='time' ref={this.timeP}>{getTimeDisplay(active.frames[active.currentAnimPos].time)}</p>
             <PlayPauseButton Play={this.PlayAnim.bind(this)} Stop={this.Stop.bind(this)}/>
-            <div>
-                <input type="range" list="radar-list" ref={this.timeLine} min={this.availableLayers[this.state.active].frames[0].time} 
-                    max={this.availableLayers[this.state.active].frames[this.availableLayers[this.state.active].frames.length - 1].time} 
-                    step={600}
-                    defaultValue={this.availableLayers[this.state.active].frames[this.availableLayers[this.state.active].currentAnimPos].time} 
-                />
+            <div className="timeline">
+                <input type="range" list="radar-list" ref={this.timeLine} min={0} max={active.frames.length - 1} defaultValue={active.currentAnimPos} onChange={this.OnSliderChange.bind(this)}/>
                 <datalist id="radar-list">
                     {
-                        this.availableLayers[this.state.active].frames.map(frame => (
-                            <option key={frame.time} value={frame.time}></option>
+                        active.frames.map((frame, index) => (
+                            <option key={frame.time} value={index}></option>
                         ))
                     }
                 </datalist>

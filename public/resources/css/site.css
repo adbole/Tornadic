@@ -357,44 +357,68 @@ nav > a > svg {
 
 .leaflet-custom-control#playback {
   display: grid;
-  align-items: center;
+  align-items: start;
   grid-template-columns: auto 1fr;
+  max-width: 900px;
   width: 100%;
   height: fit-content;
   padding: 10px;
 }
 
-.leaflet-custom-control#playback > div > svg {
-  width: 2rem;
-  height: 2rem;
+.leaflet-custom-control#playback svg, .leaflet-custom-control#playback > div.play-pause {
+  width: 1.5rem;
+  height: 1.5rem;
 }
 
-.leaflet-custom-control#playback > div:not(.play-pause) {
+.leaflet-custom-control#playback > p.time {
+  grid-column: span 2;
+  text-align: center;
+}
+
+.leaflet-custom-control#playback > div.timeline {
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column;
 }
 
-.leaflet-custom-control#playback > div:not(.play-pause) > input {
+.leaflet-custom-control#playback > div.timeline > input {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
   width: 100%;
 }
 
-.leaflet-custom-control#playback > div:not(.play-pause) > input::-webkit-slider-thumb {
-  height: 36px;
-  width: 16px;
-  border-radius: 3px;
-  background: #ffffff;
-  cursor: pointer;
-  margin-top: -14px;
-  /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
-  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
-  /* Add cool effects to your sliders! */
+.leaflet-custom-control#playback > div.timeline > input::-webkit-slider-runnable-track {
+  background-color: rgba(136, 136, 136, 0.5);
+  border-radius: 5px;
+}
+
+.leaflet-custom-control#playback > div.timeline > input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 10px;
+  width: 10px;
+  border-radius: 5px;
+  background-color: #6498fa;
+}
+
+.leaflet-custom-control#playback > div.timeline > datalist {
+  display: flex;
+  justify-content: space-between;
+}
+
+.leaflet-custom-control#playback > div.timeline > datalist > option {
+  padding: 0px 1px;
+  background: rgba(136, 136, 136, 0.5);
+  border-radius: 5px;
 }
 
 .leaflet-center {
-  left: 25%;
-  right: 25%;
+  left: 20px;
+  right: 20px;
   bottom: 20px;
+  display: flex;
+  justify-content: center;
 }
 
 .level-info, #wind {
