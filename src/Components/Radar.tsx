@@ -1,10 +1,11 @@
 import React from 'react';
-import { MapContainer, TileLayer, Polygon, ZoomControl, AttributionControl, useMap } from 'react-leaflet'
+import { MapContainer, TileLayer, Polygon, ZoomControl, AttributionControl } from 'react-leaflet'
 import L from 'leaflet';
 
 import { Widget } from './SimpleComponents';
 import Home from './Radar_Custom_Controls/Home'
 import Playback from './Radar_Custom_Controls/Playback';
+import Locate from './Radar_Custom_Controls/Locate';
 
 interface IDictionary {
     [indiex: string]: HTMLDivElement
@@ -30,16 +31,6 @@ L.Map.include({
     }
 })
 
-const Locate = () => {
-    const map = useMap();
-    map.locate({ 
-        setView: true,
-        maxZoom: 10
-    })
-
-    return <></>
-}
-
 function Radar() {
     const radar = React.useRef<HTMLDivElement>(null);
     const defaultCent: L.LatLngExpression = {
@@ -59,15 +50,17 @@ function Radar() {
     return (
         <Widget large id="radar" ref={radar}>
             <MapContainer center={defaultCent} zoom={10} zoomControl={false} attributionControl={false} scrollWheelZoom={false} dragging={false}> 
-                <Locate />
                 <TileLayer attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors | <a href="https://www.rainviewer.com/api.html">RainViewer</a>' url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"/>
 
                 <Polygon pathOptions={{color: 'red'}} positions={warningPolygon} />
 
                 <ZoomControl position="topright"/>
                 <AttributionControl position="topleft"/>
+
+                {/* Cutom Controls */}
                 <Home radar={radar}/>
-                <Playback />
+                <Locate />
+                <Playback/>
             </MapContainer>
         </Widget>
     )

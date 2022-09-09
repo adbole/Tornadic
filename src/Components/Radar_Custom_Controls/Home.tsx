@@ -43,7 +43,7 @@ const Home = (props: {
 
     const Home = L.Control.extend({
         onAdd: () => {
-            const button = L.DomUtil.create("a", "leaflet-custom-control home");
+            const button = L.DomUtil.create("a", "leaflet-custom-control button");
             button.addEventListener("click", unZoom);
             ReactDOM.createRoot(button).render(<Grid />)
 
