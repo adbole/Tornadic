@@ -1,7 +1,9 @@
-import React, { useRef } from 'react'
+import React from 'react'
+import { useNWS } from './NWSContext';
 
 import { Tornadic } from '../svgs/svgs'
 import { Widget } from "./SimpleComponents";
+import NWSValueSearcher from '../ts/NWSValueSearcher';
 
 const Hour = (props : {
     time: string,
@@ -15,42 +17,42 @@ const Hour = (props : {
     </li>
 )
 
-const DaySeperator = (props: { day: Days }) => (
+const DaySeperator = (props: { day: string }) => (
     <li className="seperator">
         <p>{props.day}</p>
     </li>
 )
 
 enum Days {
-    MON = "Mon",
-    TUE = "Tue",
-    WED = "Wed",
-    THUR = "Thur",
-    FRI = "Fri",
-    SAT = "Sat", 
-    SUN = "Sun"
+    Sun = 0,
+    Mon = 1,
+    Tue = 2,
+    Wed = 3,
+    Thur = 4,
+    Fri = 5,
+    Sat = 6
 }
 
-function GenerateHours() {
-    let hours = []
+// function GenerateHours() {
+//     let hours = []
 
-    for(let i = 1; i < 25; ++i) {
-        if(i === 10) {
-            hours.push(<DaySeperator key={i} day={Days.TUE}/>)
-        }
-        else {
-            hours.push(<Hour key={i} statusIcon={<Tornadic />} time={i + " AM"} temp={95}/>)
-        }
-    }
+//     for(let i = 1; i < 25; ++i) {
+//         if(i === 10) {
+//             hours.push(<DaySeperator key={i} day={Days.Tue}/>)
+//         }
+//         else {
+//             hours.push(<Hour key={i} statusIcon={<Tornadic />} time={i + " AM"} temp={95}/>)
+//         }
+//     }
 
-    return hours
-}
+//     return hours
+// }
 
 
 
-const Hourly = (props : {
-    message?: string
-}) => {
+const Hourly = (props: {message: string}) => {
+    const nws = useNWS();
+
     let isDown = false;
     let startX: number;
     let scrollLeft: number;
@@ -87,7 +89,26 @@ const Hourly = (props : {
         <Widget id="hourly">
             {props.message != null && <p>{props.message}</p>}
             <ol className="flex-list flex-list-row drag-scroll" onMouseDown={MouseDown} onMouseLeave={MouseLeave} onMouseUp={MouseUp} onMouseMove={MouseMove}>
-                {GenerateHours()}
+                {
+                    Array.from(NWSValueSearcher.GetFutureValues(nws!.properties.temperature)).map(temp => {
+                        const hour = temp.validTime.getHours() % 12;
+                        const AMPM = temp.validTime.getHours() >= 12 ? "PM" : "AM";
+
+                        if(temp.validTime.getHours() === 0) {
+                            return (
+                                <>
+                                    <DaySeperator key={temp.validTime.getTime()} day={Days[temp.validTime.getDay()]}/>
+                                    <Hour key={temp.validTime.getTime()} statusIcon={<Tornadic />} time={"12 " + AMPM} temp={temp.value}/>
+                                </>
+                            )
+                        }
+                        else {
+                            return (
+                                <Hour key={temp.validTime.getTime()} statusIcon={<Tornadic />} time={(hour === 0 ? 12 : hour) + " " + AMPM} temp={temp.value}/>
+                            )
+                        }
+                    })
+                }
             </ol>
         </Widget>
     )

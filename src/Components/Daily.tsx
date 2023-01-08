@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 import { Widget } from './SimpleComponents';
 import { Tornadic } from '../svgs/svgs'
-import Normalize from '../js/Normalize';
+import Normalize from '../ts/Normalize';
 
 const Day = (props: {
     day: string,

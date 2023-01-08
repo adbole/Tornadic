@@ -1,5 +1,5 @@
 import { Widget } from './SimpleComponents';
-import Normalize from '../js/Normalize';
+import Normalize from '../ts/Normalize';
 
 export const LevelWidget = (props: {
     id: string,

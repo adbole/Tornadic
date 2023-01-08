@@ -120,6 +120,24 @@ body {
     display: none
 }
 
+#loader {
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 100vw;
+    height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: #313131;
+
+    >svg {
+        width: 500px
+    }
+}
+
 @import 'modules/navbar';
 @import 'modules/now';
 @import 'modules/alert';
