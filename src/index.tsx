@@ -11,34 +11,45 @@ import Radar from './Components/Radar';
 import { Alert, AlertTypes, SimpleInfoWidget } from './Components/SimpleComponents';
 import LevelWidget from './Components/LevelWidget';
 import Wind from './Components/Wind';
-import SolarMoon from './Components/SolarMoon';
+import SunTime from './Components/SunTime';
 
-import PointContext from './Components/NWSContext'
+import WeatherContext, { useWeather } from './Components/WeatherContext'
+import { WeatherHelper } from './ts/WeatherHelper';
 
 //Icons
-import {Tornadic} from './svgs/svgs'
+import * as WidgetIcons from './svgs/widget/widget.svgs'
+
+const DayValues = () => {
+    const forecastData = useWeather()!.forecast;
+    const airqualityData = useWeather()!.airquality;
+
+    return (
+        <>
+            <SimpleInfoWidget icon={<WidgetIcons.Droplet />} title="Precipitation" value={`${forecastData.hourly.precipitation[forecastData.currentIndex]}\"`} />
+            <SimpleInfoWidget icon={<WidgetIcons.Thermometer />} title="Dew Point" value={`${forecastData.hourly.dewpoint_2m[forecastData.currentIndex]}°`} />
+            <SimpleInfoWidget icon={<WidgetIcons.Moisture />} title="Humidity" value={`${forecastData.hourly.relativehumidity_2m[forecastData.currentIndex]}%`} />
+            <SimpleInfoWidget icon={<WidgetIcons.Eye />} title="Visibility" value={`${WeatherHelper.ToKM(forecastData.hourly.visibility[forecastData.currentIndex])} km`} />
+            <LevelWidget id="AQ" min={0} max={500} title="Air Quality" value={airqualityData.hourly.us_aqi[forecastData.currentIndex]} message={WeatherHelper.GetAQMessage(airqualityData.hourly.us_aqi[forecastData.currentIndex])} />
+            <LevelWidget id="UV" min={0} max={11} title="UV Index" value={airqualityData.hourly.uv_index[forecastData.currentIndex]} message={WeatherHelper.GetUVMessage(airqualityData.hourly.uv_index[forecastData.currentIndex])} />
+            <Wind speed={forecastData.hourly.windspeed_10m[forecastData.currentIndex]} deg={forecastData.hourly.winddirection_10m[forecastData.currentIndex]}/>
+            <SunTime/>
+        </>
+    )
+}
 
 const root = ReactDOM.createRoot(document.querySelector('body')!);
 root.render(
     <>
-        <PointContext>
-            <Now location="Oklahoma City" currentTemp={90} status="Sunny" feelsTemp={95}/>
+        <WeatherContext>
+            <Now location="Oklahoma City"/>
             <Alert type={AlertTypes.WARNING} name="Tornado Warning" message="Seek shelter in a center room or basement. Stay away from windows and keep head down."/>
             <div id="panel">
-                <Hourly message="Slight chance for rain and thunderstorms after 4 AM."/>
-                <Daily globalLow={80} globalHigh={100}/>
+                <Hourly/>
+                <Daily/>
                 <Radar />
-                <SimpleInfoWidget icon={<Tornadic />} title="Chance of Rain" value="50%" />
-                <SimpleInfoWidget icon={<Tornadic />} title="Dew Point" value="50°" />
-                <SimpleInfoWidget icon={<Tornadic />} title="Humidity" value="50%" />
-                <SimpleInfoWidget icon={<Tornadic />} title="Visibility" value="10 mi" />
-                <SimpleInfoWidget icon={<Tornadic />} title="Haines Index" value="1" />
-                <LevelWidget id="AQ" min={0} max={500} title="Air Quality" value={225} message="Hazardous" />
-                <LevelWidget id="UV" min={0} max={11} title="UV Index" value={3} message="Extreme" />
-                <Wind speed={12} deg={45}/>
-                <SolarMoon sunset="7:00PM" sunrise="7:00AM"/>
+                <DayValues />
             </div>
-        </PointContext>
+        </WeatherContext>
     </>
 )
 

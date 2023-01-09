@@ -495,7 +495,7 @@ nav > a > svg {
   background-image: conic-gradient(from 0.5turn at 50% 50%, #00FF66 36deg, #FFF501 100.8deg, #FF9431 165.6deg, #FF2204 230.4deg, #FF00D6 292.2deg);
 }
 
-#solar-moon {
+#suntime {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -504,7 +504,7 @@ nav > a > svg {
   grid-column: span 2;
 }
 
-#solar-moon > div:last-child {
+#suntime > div:last-child {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -512,7 +512,7 @@ nav > a > svg {
   height: 100%;
 }
 
-#solar-moon > div:last-child > svg {
+#suntime > div:last-child > svg {
   width: 5rem;
 }
 

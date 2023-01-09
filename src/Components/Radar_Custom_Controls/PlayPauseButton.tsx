@@ -1,5 +1,5 @@
 import React from "react"
-import { Play, Pause } from '../../svgs/svgs'
+import { Play, Pause } from '../../svgs/radar/radar.svgs'
 
 
 const PlayPauseButton = (props: {Play: VoidFunction, Pause: Function}) => {

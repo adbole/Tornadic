@@ -2,6 +2,8 @@ import { ReactNode } from 'react';
 import { Widget } from './SimpleComponents';
 import { Tornadic } from '../svgs/svgs'
 import Normalize from '../ts/Normalize';
+import { WeatherHelper } from '../ts/WeatherHelper';
+import { useWeather } from './WeatherContext';
 
 const Day = (props: {
     day: string,
@@ -29,19 +31,29 @@ const Day = (props: {
     </tr>
 )
 
-const days = ['Now', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat', 'Sun', 'Mon']
-let count = 0;
+const Daily = () => {
+    const forecastData = useWeather()!.forecast;
 
-const Daily = (props : {
-    globalLow: number,
-    globalHigh: number
-}) => {
+    //Determine the weeks low and high
+    let low_week = forecastData!.daily.temperature_2m_min[0];
+    let high_week = forecastData!.daily.temperature_2m_max[0];
+
+    for(let i = 1; i < forecastData!.daily_units.time.length; ++i) {
+        if(forecastData!.daily.temperature_2m_min[i] < low_week) {
+            low_week = forecastData!.daily.temperature_2m_min[i];
+        }
+
+        if(forecastData!.daily.temperature_2m_max[i] > high_week) {
+            high_week = forecastData!.daily.temperature_2m_max[i];
+        }
+    }
+
     function  CalculateDualRangeCoverStyle(min: number, max: number) {
         const ToHSL = (x: number) => `hsl(${240 * ((100-x)/100)}deg, 100%, 50%)`
         
         return {
-            left: Normalize.Percent(min, props.globalLow, props.globalHigh) + "%",
-            right: 100 - Normalize.Percent(max, props.globalLow, props.globalHigh) + "%",
+            left: Normalize.Percent(min, low_week, high_week) + "%",
+            right: 100 - Normalize.Percent(max, low_week, high_week) + "%",
             backgroundImage: `linear-gradient(90deg, ${ToHSL(min)} 0%, ${ToHSL(max)} 100%)`
         }
     }
@@ -51,21 +63,8 @@ const Daily = (props : {
             <table>
                 <tbody>
                     {
-                        days.map(day => {
-                            function generateRandomIntegerInRange(min: number, max: number) {
-                                return Math.floor(Math.random() * (max - min + 1)) + min;
-                            }
-        
-                            let low = generateRandomIntegerInRange(80, 90);
-                            let high = generateRandomIntegerInRange(90, 100);
-        
-                            if(Math.random() >= 0.5) {
-                                return <Day key={count++} day={day} statusIcon={<Tornadic />} chanceOfPrecip={0} low={low} high={high} style={CalculateDualRangeCoverStyle(low, high)}/>
-                            }
-                            else {
-                                return <Day key={count++} day={day} statusIcon={<Tornadic />} chanceOfPrecip={20} low={low} high={high} style={CalculateDualRangeCoverStyle(low, high)}/>
-                            }
-                            
+                        Array.from(WeatherHelper.GetDailyValues(forecastData)).map((day, index) => {
+                            return <Day key={index} day={day.day} statusIcon = {day.condition.icon} chanceOfPrecip={0} low={day.temperature_low} high={day.temperature_high} style={CalculateDualRangeCoverStyle(day.temperature_low, day.temperature_high)}/>
                         })
                     }
                 </tbody>

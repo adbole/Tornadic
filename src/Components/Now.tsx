@@ -1,23 +1,19 @@
-import { Forecast, useNWS } from './NWSContext'
-import NWSValueSearcher from '../ts/NWSValueSearcher';
+import { Forecast, useWeather } from './WeatherContext'
+import { WeatherHelper } from '../ts/WeatherHelper';
 
 const Now = (props: {
     location: string,
-    currentTemp: number,
-    status: string,
-    feelsTemp: number
 }
 ) => {
-    const nwsData = useNWS();
-    const current = nwsData!.properties.temperature.values[0].value
+    const forecastData = useWeather()!.forecast;
     return (
         <div id="now">
             <p>{props.location}</p>
     
-            <p id="current">{NWSValueSearcher.GetCurrentValue(nwsData!.properties.temperature)}</p>
+            <p id="current">{forecastData.current_weather.temperature.toFixed(0)}</p>
     
-            <p>{props.status}</p>
-            <p>Feels like <span>{NWSValueSearcher.GetCurrentValue(nwsData!.properties.apparentTemperature)}</span>°</p>
+            <p>{WeatherHelper.GetWeatherCondition(forecastData.current_weather.weathercode).condition}</p>
+            <p>Feels like <span>{forecastData.hourly.apparent_temperature[forecastData.currentIndex].toFixed(0)}</span>°</p>
         </div>
     )
 }

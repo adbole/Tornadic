@@ -1,9 +1,8 @@
 import React from 'react'
-import { useNWS } from './NWSContext';
+import { useWeather } from './WeatherContext';
 
-import { Tornadic } from '../svgs/svgs'
 import { Widget } from "./SimpleComponents";
-import NWSValueSearcher from '../ts/NWSValueSearcher';
+import { WeatherHelper } from '../ts/WeatherHelper';
 
 const Hour = (props : {
     time: string,
@@ -50,8 +49,8 @@ enum Days {
 
 
 
-const Hourly = (props: {message: string}) => {
-    const nws = useNWS();
+const Hourly = () => {
+    const forecastData = useWeather()!.forecast;
 
     let isDown = false;
     let startX: number;
@@ -87,24 +86,26 @@ const Hourly = (props: {message: string}) => {
 
     return (
         <Widget id="hourly">
-            {props.message != null && <p>{props.message}</p>}
+            {/* {props.message != null && <p>{props.message}</p>} */}
             <ol className="flex-list flex-list-row drag-scroll" onMouseDown={MouseDown} onMouseLeave={MouseLeave} onMouseUp={MouseUp} onMouseMove={MouseMove}>
                 {
-                    Array.from(NWSValueSearcher.GetFutureValues(nws!.properties.temperature)).map(temp => {
-                        const hour = temp.validTime.getHours() % 12;
-                        const AMPM = temp.validTime.getHours() >= 12 ? "PM" : "AM";
+                    Array.from(WeatherHelper.GetFutureValues(forecastData)).map((forecast, index) => {
+                        const time = new Date(forecast.time);
 
-                        if(temp.validTime.getHours() === 0) {
+                        const hour = time.getHours() % 12;
+                        const AMPM = time.getHours() >= 12 ? "PM" : "AM";
+
+                        if(time.getHours() === 0) {
                             return (
-                                <>
-                                    <DaySeperator key={temp.validTime.getTime()} day={Days[temp.validTime.getDay()]}/>
-                                    <Hour key={temp.validTime.getTime()} statusIcon={<Tornadic />} time={"12 " + AMPM} temp={temp.value}/>
-                                </>
+                                <React.Fragment key={index}>
+                                    <DaySeperator day={Days[time.getDay()]}/>
+                                    <Hour statusIcon={forecast.condition.icon} time={"12 " + AMPM} temp={forecast.temperature}/>
+                                </React.Fragment>
                             )
                         }
                         else {
                             return (
-                                <Hour key={temp.validTime.getTime()} statusIcon={<Tornadic />} time={(hour === 0 ? 12 : hour) + " " + AMPM} temp={temp.value}/>
+                                <Hour key={index} statusIcon={forecast.condition.icon} time={(hour === 0 ? 12 : hour) + " " + AMPM} temp={forecast.temperature}/>
                             )
                         }
                     })
