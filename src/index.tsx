@@ -41,7 +41,7 @@ const root = ReactDOM.createRoot(document.querySelector('body')!);
 root.render(
     <>
         <WeatherContext>
-            <Now location="Oklahoma City"/>
+            <Now/>
             <Alert type={AlertTypes.WARNING} name="Tornado Warning" message="Seek shelter in a center room or basement. Stay away from windows and keep head down."/>
             <div id="panel">
                 <Hourly/>

@@ -1,14 +1,13 @@
-import { Forecast, useWeather } from './WeatherContext'
+import { useWeather } from './WeatherContext'
 import { WeatherHelper } from '../ts/WeatherHelper';
 
-const Now = (props: {
-    location: string,
-}
-) => {
+const Now = () => {
     const forecastData = useWeather()!.forecast;
+    const pointData = useWeather()!.point;
+
     return (
         <div id="now">
-            <p>{props.location}</p>
+            <p>{pointData.properties.relativeLocation.properties.city}</p>
     
             <p id="current">{forecastData.current_weather.temperature.toFixed(0)}</p>
     
