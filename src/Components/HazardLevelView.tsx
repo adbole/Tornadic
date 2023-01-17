@@ -1,21 +1,24 @@
-import { Widget } from './SimpleComponents';
+/**
+ * Some hazards like AQ and UV have indexes that can be easily represented using the HazardLevelView
+ * Simply input the index into WeatherHelper to get the needed information to populate the view
+ */
+
+import { Widget, WidgetSize } from './SimpleComponents';
+import { HazardInfo } from '../ts/WeatherHelper';
 import Normalize from '../ts/Normalize';
 
-export const LevelWidget = (props: {
-    id: string,
-    value: number,
-    min: number,
-    max: number,
-    message: string,
-    title: string
+export const HazardLevelView = (props: {
+    info: HazardInfo
 }) => {
-    const clipID = "clip-" + props.id;
-    const maskID = "mask-" + props.id;
+    //Extracts everything but value, min, and max which are spread on the input
+    const {id, title, titleIcon, message, value, min, max} = props.info;
 
-    const rotation = 20 + (320 * Normalize.Decimal(props.value, props.min, props.max));
+    const clipID = "clip-" + id;
+    const maskID = "mask-" + id;
+    const rotation = 20 + (320 * Normalize.Decimal(value, min, max));
 
     return (
-        <Widget className="level-info" id={props.id}>
+        <Widget className={`level-info`} id={id} widgetTitle={title} widgetIcon={titleIcon}>
             <div>
                 <svg viewBox="0 0 100 100">
                     <clipPath id={clipID}>
@@ -35,13 +38,16 @@ export const LevelWidget = (props: {
                     </foreignObject>
                 </svg>
                 <div>
-                    <p>{props.value}</p>
-                    {props.message && <p>{props.message}</p>}
+                    <p>{value}</p>
+                    <p>{message}</p>
                 </div>
             </div>
-            <p>{props.title}</p>
+            {/* <label>
+                <span>{props.info.value} - {message}</span>
+                <input type="range"  {...excess} disabled/>
+            </label> */}
         </Widget>
     )
 }
 
-export default LevelWidget
+export default HazardLevelView

@@ -1,0 +1,15 @@
+{
+    "terminal.integrated.profiles.windows" : {
+        "npm Runner": {
+            "path": [
+                "powershell"
+            ],
+            "env" : {
+                "PATH":"${env:PATH};C:\\Program Files\\nodejs"
+            },
+            "icon": "terminal-powershell",
+            "default" : true
+        }
+    },
+    "terminal.integrated.defaultProfile.windows": "npm Runner",
+}

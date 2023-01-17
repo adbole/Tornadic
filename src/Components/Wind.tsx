@@ -37,7 +37,7 @@ const Wind = (props: {
             </svg>
 
             <div>
-                <p>{props.speed}</p>
+                <p>{props.speed.toFixed(0)}</p>
                 <p>mph</p>
             </div>
         </div>

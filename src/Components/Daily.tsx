@@ -1,9 +1,10 @@
 import { ReactNode } from 'react';
-import { Widget } from './SimpleComponents';
+import { Widget, WidgetSize } from './SimpleComponents';
 import { Tornadic } from '../svgs/svgs'
 import Normalize from '../ts/Normalize';
 import { WeatherHelper } from '../ts/WeatherHelper';
 import { useWeather } from './WeatherContext';
+import { Calendar } from '../svgs/widget/widget.svgs';
 
 const Day = (props: {
     day: string,
@@ -35,16 +36,16 @@ const Daily = () => {
     const forecastData = useWeather()!.forecast;
 
     //Determine the weeks low and high
-    let low_week = forecastData!.daily.temperature_2m_min[0];
-    let high_week = forecastData!.daily.temperature_2m_max[0];
+    let low_week = forecastData.daily.temperature_2m_min[0];
+    let high_week = forecastData.daily.temperature_2m_max[0];
 
-    for(let i = 1; i < forecastData!.daily_units.time.length; ++i) {
-        if(forecastData!.daily.temperature_2m_min[i] < low_week) {
-            low_week = forecastData!.daily.temperature_2m_min[i];
+    for(let i = 1; i < forecastData.daily_units.time.length; ++i) {
+        if(forecastData.daily.temperature_2m_min[i] < low_week) {
+            low_week = forecastData.daily.temperature_2m_min[i];
         }
 
-        if(forecastData!.daily.temperature_2m_max[i] > high_week) {
-            high_week = forecastData!.daily.temperature_2m_max[i];
+        if(forecastData.daily.temperature_2m_max[i] > high_week) {
+            high_week = forecastData.daily.temperature_2m_max[i];
         }
     }
 
@@ -53,13 +54,13 @@ const Daily = () => {
         
         return {
             left: Normalize.Percent(min, low_week, high_week) + "%",
-            right: 100 - Normalize.Percent(max, low_week, high_week) + "%",
+            right: Math.max(0, 100 - Normalize.Percent(max, low_week, high_week)) + "%",
             backgroundImage: `linear-gradient(90deg, ${ToHSL(min)} 0%, ${ToHSL(max)} 100%)`
         }
     }
 
     return (
-        <Widget id="daily" large>
+        <Widget id="daily" size={WidgetSize.LARGE} widgetTitle="7-Day Forecast" widgetIcon={<Calendar/>}>
             <table>
                 <tbody>
                     {

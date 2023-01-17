@@ -2,10 +2,12 @@ import React from 'react';
 import { MapContainer, TileLayer, Polygon, ZoomControl, AttributionControl } from 'react-leaflet'
 import L from 'leaflet';
 
-import { Widget } from './SimpleComponents';
+import { WidgetSize, Widget } from './SimpleComponents';
 import Home from './Radar_Custom_Controls/Home'
 import Playback from './Radar_Custom_Controls/Playback';
 import Locate from './Radar_Custom_Controls/Locate';
+import { Tornadic } from '../svgs/svgs';
+import { Map } from '../svgs/widget/widget.svgs';
 
 interface IDictionary {
     [indiex: string]: HTMLDivElement
@@ -48,7 +50,7 @@ function Radar() {
     ]
 
     return (
-        <Widget large id="radar" ref={radar}>
+        <Widget id="radar" size={WidgetSize.LARGE} widgetTitle="Radar" widgetIcon={<Map/>} ref={radar}>
             <MapContainer center={defaultCent} zoom={10} zoomControl={false} attributionControl={false} scrollWheelZoom={false} dragging={false}> 
                 <TileLayer attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors | <a href="https://www.rainviewer.com/api.html">RainViewer</a>' url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"/>
 

@@ -1,54 +1,70 @@
 import React from 'react';
 
-// #region Widget
-export const Widget = React.forwardRef<HTMLDivElement, WidgetProps & React.HTMLAttributes<HTMLDivElement>>((props, ref) => {
-    const {className, children, large, ...excess} = props;
 
-    let classList = "widget "
-    if(large) classList += "widget-large"
+// #region Widget
+export enum WidgetSize {
+    NORMAL = "",
+    LARGE = " widget-large",
+    WIDE_2 = " widget-wide-2",
+    WIDE_3 = " widget-wide-3",
+    WIDE_FULL = " widget-wide-full"
+}
+
+export const Widget = React.forwardRef<HTMLDivElement, WidgetProps & React.HTMLAttributes<HTMLDivElement>>((props, ref) => {
+    const {className, children, size, widgetTitle, widgetIcon, ...excess} = props;
+    
+
+    let classList = "widget" + size
     if(className) classList += " " + className
 
     return (
         <div className={classList} ref={ref} {...excess} >
+            {widgetTitle && widgetIcon && 
+                <div className="widget-title">
+                    <p>{widgetIcon} {widgetTitle} </p>
+                </div>
+            }
+            
             {children}
-        </div>
+    </div>
     )
 });
 
 type WidgetProps = {
-    large?: boolean,
+    size?: WidgetSize,
     children: React.ReactNode,
+    widgetTitle?: string,
+    widgetIcon?: React.ReactNode
 }
 
 Widget.defaultProps = {
-    large: false
+    size: WidgetSize.NORMAL
 }
-
 // #endregion Widget
 
 // #region Alert
-export const Alert = (props: {
-    type: AlertTypes,
-    name: string,
-    message: string,
-    moreExist?: boolean
-}) => (
-    <Widget className={"alert " + props.type}>
-        <h2>{props.name}</h2>
-        <p>{props.message}</p>
-    </Widget>
-)
+// export const Alert = (props: {
+//     type: AlertTypes,
+//     name: string,
+//     message: string,
+//     moreExist?: boolean
+// }) => (
+//     <Widget className={"alert " + props.type}>
+//         <h2>{props.name}</h2>
+//         <p>{props.message}</p>
+//     </Widget>
+// )
 
-export enum AlertTypes {
-    WARNING = "warning",
-    WATCH = "watch", 
-    ADVISORY = "advisory",
-    SPECIAL = "special"
-}
+// export enum AlertTypes {
+//     WARNING = "warning",
+//     WATCH = "watch", 
+//     ADVISORY = "advisory",
+//     SPECIAL = "special"
+// }
 
-Alert.defaultProps = {
-    moreExist: false
-}
+// Alert.defaultProps = {
+//     moreExist: false
+// }
 
 // #endregion Alert
 

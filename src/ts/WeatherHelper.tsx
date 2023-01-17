@@ -1,14 +1,57 @@
-import { ReactNode } from "react";
-import { Forecast } from "../Components/WeatherContext";
-import { Tornadic } from "../svgs/svgs";
-import * as Conditions from "../svgs/conditions/conditions.svgs"
+/**
+ * The WeatherHelper contains methods that can read WeatherData to transform it into useful objects that are then consumed by components to be rendered.
+ */
 
+import { ReactNode } from "react";
+import { Forecast, WeatherData } from "../Components/WeatherContext";
+import * as Conditions from "../svgs/conditions/conditions.svgs"
+import { Lungs } from '../svgs/widget/widget.svgs'
+
+export type HazardInfo = {
+    id: string, //Used to distinguish the different gradient requirements in CSS
+    title: string,
+    titleIcon: ReactNode,
+    value: number,
+    min: number,
+    max: number,
+    message: string
+}
+
+enum AQLevels {
+    GOOD = "Good",
+    MODERATE = "Moderate",
+    UNHEALTHY_SENS = "Unhealthy for Sensitive Groups",
+    UNHEALTHY = "Unhealthy",
+    VERY_UNHEALTHY = "Very Unhealthy",
+    HAZARDOUS = "Hazardous"
+}
+
+enum UVLevels {
+    LOW = "Low",
+    MODERATE = "Moderate",
+    HIGH = "High",
+    VERY_HIGH = "Very High",
+    EXTREME = "Extreme"
+}
+
+enum HazardColor {
+    GREEN = "green",
+    YELLOW = "yellow",
+    ORANGE = "orange",
+    RED = "red",
+    MAROON = "maroon",
+    PURPLE = "purple",
+    PINK = "pink"
+}
+
+//Used to represent a WMO code in three parts to be rendered, the message (condition), intesity (if applicable), and the icon.
 type WeatherCondition = {
     condition: string,
     intesity: Intesity
     icon: ReactNode
 }
 
+//Different Intesities a WMO code can have. 
 enum Intesity {
     LIGHT = "Light",
     MODERATE = "Moderate",
@@ -16,7 +59,9 @@ enum Intesity {
     NONE = "N/A"
 }
 
-function GetIntensity(weatherCode: number) {
+function GetIntensity(weatherCode: number): Intesity {
+    //open-meteo's translation of WMO codes has a pattern where the last digit of those with different intesities being nearly always consistant.
+    //Some codes don't havfe intesities and shouldn't be fed to this method otherwise false input will be given.
     const intesity = weatherCode % 10
 
     switch(intesity) {
@@ -34,7 +79,7 @@ function GetIntensity(weatherCode: number) {
 }
 
 export class WeatherHelper {
-    static GetWeatherCondition(weathercode: number) {
+    static GetWeatherCondition(weathercode: number): WeatherCondition {
         let condition: string
         let intesity: Intesity = Intesity.NONE
         let icon: ReactNode
@@ -121,7 +166,7 @@ export class WeatherHelper {
             condition: condition,
             intesity: intesity,
             icon: icon
-        } as WeatherCondition
+        }
     }
 
     static * GetFutureValues(forecast: Forecast) {
@@ -137,7 +182,6 @@ export class WeatherHelper {
     static * GetDailyValues(forecast: Forecast) {
         //First value is today
         yield {
-            key: 0,
             day: "Now",
             condition: this.GetWeatherCondition(forecast.daily.weathercode[0]),
             temperature_low: Math.round(forecast.daily.temperature_2m_min[0]),
@@ -158,42 +202,66 @@ export class WeatherHelper {
         return (meters / 1000).toFixed(0)
     }
 
-    static GetAQMessage(aq: number) {
+    static GetAQInfo(aq: number): HazardInfo {
+        let message: string;
+
         if(aq <= 50) {
-            return "Good"
+            message = AQLevels.GOOD
         }
         else if(aq <= 100) {
-            return "Moderate"
+            message = AQLevels.MODERATE
         }
         else if(aq <= 150) {
-            return "Unhealthy*"
+            message = AQLevels.UNHEALTHY_SENS
         }
         else if(aq <= 200) {
-            return "Unhealthy"
+            message = AQLevels.UNHEALTHY
         }
         else if(aq <= 300) {
-            return "Very Unhealthy"
+            message = AQLevels.VERY_UNHEALTHY
         }
         else {
-            return "Hazardous"
+            message = AQLevels.VERY_UNHEALTHY
+        }
+
+        return {
+            id: "AQ",
+            title: "Air Quality",
+            titleIcon: <Lungs />,
+            value: aq,
+            min: 0,
+            max: 500,
+            message: message
         }
     }
 
-    static GetUVMessage(uv: number) {
+    static GetUVInfo(uv: number): HazardInfo {
+        let message: string;
+
         if(uv <= 2) {
-            return "Low"
+            message = UVLevels.LOW
         }
         else if(uv <= 5) {
-            return "Moderate"
+            message = UVLevels.MODERATE
         }
         else if(uv <= 7) {
-            return "High"
+            message = UVLevels.HIGH
         }
         else if(uv <= 10) {
-            return "Very High"
+            message = UVLevels.VERY_HIGH
         }
         else {
-            return "Extreme"
+            message = UVLevels.EXTREME
+        }
+
+        return {
+            id: "UV",
+            title: "UV Index",
+            titleIcon: <Conditions.Sun />,
+            value: uv,
+            min: 0,
+            max: 11,
+            message: message
         }
     }
 }

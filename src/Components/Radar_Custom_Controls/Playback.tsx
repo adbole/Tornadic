@@ -98,7 +98,7 @@ const Playback = ({MAP} : {MAP: L.Map}) => {
         MAP.on('baselayerchange', (e) => setActive(e.name as LayerTypes));
 
         //Due to how layers are added, the baselayerchange event will not fire until the layers have been changed at least twice. 
-        //To work aroundt  a click is simulated on the controls at load to force the baselayerchange event to fire as expected.
+        //To work around it a click is simulated on the controls at load to force the baselayerchange event to fire as expected.
         [...document.querySelectorAll('.leaflet-control-layers-selector')].forEach((el) => {
             el.dispatchEvent(new Event('click'))
         })

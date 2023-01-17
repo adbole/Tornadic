@@ -3,7 +3,7 @@ import { Sunrise, Sunset } from '../svgs/widget/widget.svgs'
 import { useWeather } from './WeatherContext'
 
 const HelperWidget = (props: {isSunrise: boolean,  time: string, nextTime: string}) => (
-    <Widget id="suntime">
+    <Widget id="suntime" className="widget-wide">
         <div>
             <p>{props.isSunrise ? "Sunrise" : "Sunset"}</p>
             <h1>{new Date(props.time).toLocaleTimeString(undefined, {hour:"numeric", minute:"2-digit", hourCycle: "h12"})}</h1>
@@ -28,21 +28,6 @@ const SunTime = () => {
     else {
         return <HelperWidget isSunrise={true} time={forecastData.daily.sunrise[1]} nextTime={forecastData.daily.sunset[1]} />
     }
-
-    // return (
-    //     <Widget id="solar-moon">
-    //         <div>
-    //             <p>Sunset</p>
-    //             {/* <h1>{props.sunset}</h1> */}
-    //             <p>Sunrise</p>
-    //             {/* <h1>{props.sunrise}</h1> */}
-    //         </div>
-    //         <div>
-    //             <Tornadic />
-    //             <p>New Moon</p>
-    //         </div>
-    //     </Widget>
-    // )
 }
 
 export default SunTime;

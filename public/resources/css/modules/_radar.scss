@@ -1,11 +1,17 @@
 @import './mixin';
 
 #radar {
-    padding: 0px;
     overflow: hidden;
     -webkit-mask-image: radial-gradient(white, black);
 
-    >div { height: 100% }
+    >.widget-title {
+        border-bottom: none;
+    }
+
+    >.leaflet-container { 
+        border-radius: 10px;
+        height: 100% 
+    }
 
     &:not(.zoom-radar) {
         cursor: pointer;

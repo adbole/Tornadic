@@ -20,38 +20,50 @@ p {
   height: fit-content;
 }
 
-body {
+#root {
   color: white;
   display: flex;
   flex-direction: column;
-  align-items: center;
   gap: 20px;
-  width: 100%;
+  padding: 10px;
+  max-width: 100vw;
   min-height: 100vh;
-  padding: 20px;
-  padding-top: 60px;
-  background-image: radial-gradient(14.52% 30.09% at 100% 0%, rgba(255, 255, 255, 0.5) 0%, #00A3FF 100%);
+  background-color: #191B1F;
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
 }
 
-body.hide-overflow {
+#root.hide-overflow {
   overflow: hidden;
 }
 
-#panel {
+#panel-right {
   display: grid;
-  grid-template-columns: repeat(8, 10rem);
-  grid-auto-rows: 10rem;
+  grid-template-columns: repeat(8, 1fr);
+  grid-auto-rows: auto;
+  flex-direction: column;
   gap: 20px;
+  width: 100%;
+}
+
+.split {
+  display: flex;
+  flex-direction: row;
+}
+
+.split > * {
+  width: 50%;
 }
 
 .widget {
+  display: flex;
+  flex-direction: column;
   position: relative;
   padding: 10px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
   border-radius: 15px;
+  background-color: #2c2c2c;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
 }
 
 .widget-large {
@@ -59,17 +71,19 @@ body.hide-overflow {
   grid-row: span 2;
 }
 
-.widget::before {
-  content: '';
-  z-index: -1;
-  position: absolute;
-  left: 0;
-  top: 0;
+.widget-wide-3 {
+  grid-column: span 3;
+}
+
+.widget-wide-full {
+  grid-column: span 6;
+}
+
+.widget .widget-title {
+  display: flex;
+  flex-direction: row;
   width: 100%;
-  height: 100%;
-  border-radius: inherit;
-  background-color: rgba(181, 181, 181, 0.3);
-  mix-blend-mode: luminosity;
+  padding-bottom: 10px;
 }
 
 .basic-info {
@@ -182,12 +196,16 @@ nav > a > svg {
 
 #now {
   display: flex;
-  justify-content: center;
-  align-items: center;
   flex-direction: column;
+  align-items: center;
+  padding: 60px 10px;
   gap: 10px;
+  height: 100%;
   font-size: 1.5rem;
-  filter: drop-shadow(0px 4px 10px rgba(0, 0, 0, 0.25));
+  background-image: url("../images/Night.webp");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
 }
 
 #now #current {
@@ -231,7 +249,6 @@ nav > a > svg {
   justify-content: center;
   align-items: center;
   gap: 20px;
-  grid-column: span 6;
   text-align: center;
 }
 
@@ -281,7 +298,7 @@ nav > a > svg {
   margin: auto;
 }
 
-#daily svg {
+#daily > table svg {
   width: 1.5rem;
 }
 
@@ -302,7 +319,7 @@ nav > a > svg {
 
 #daily .temp-range .dual-range {
   position: relative;
-  width: 60%;
+  width: 100%;
   background-color: rgba(89, 89, 89, 0.5);
   border-radius: 5px;
   height: 10px;
@@ -315,12 +332,16 @@ nav > a > svg {
 }
 
 #radar {
-  padding: 0px;
   overflow: hidden;
   -webkit-mask-image: radial-gradient(white, black);
 }
 
-#radar > div {
+#radar > .widget-title {
+  border-bottom: none;
+}
+
+#radar > .leaflet-container {
+  border-radius: 10px;
   height: 100%;
 }
 
@@ -448,14 +469,13 @@ nav > a > svg {
   flex-direction: column;
 }
 
-.level-info > div, #wind > div {
+.level-info > div:not(.widget-title), #wind > div:not(.widget-title) {
   position: relative;
   height: 100%;
   width: 100%;
 }
 
-.level-info > div svg, #wind > div svg {
-  z-index: -1;
+.level-info > div:not(.widget-title) svg, #wind > div:not(.widget-title) svg {
   position: absolute;
   transform: translateX(-50%);
   left: 50%;
@@ -463,11 +483,11 @@ nav > a > svg {
   width: 100%;
 }
 
-.level-info > div svg .origin-center, #wind > div svg .origin-center {
+.level-info > div:not(.widget-title) svg .origin-center, #wind > div:not(.widget-title) svg .origin-center {
   transform-origin: center;
 }
 
-.level-info > div > div, #wind > div > div {
+.level-info > div:not(.widget-title) > div, #wind > div:not(.widget-title) > div {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -476,7 +496,7 @@ nav > a > svg {
   height: 100%;
 }
 
-.level-info > div > div p:first-of-type, #wind > div > div p:first-of-type {
+.level-info > div:not(.widget-title) > div p:first-of-type, #wind > div:not(.widget-title) > div p:first-of-type {
   width: -moz-fit-content;
   width: fit-content;
   font-size: 2rem;

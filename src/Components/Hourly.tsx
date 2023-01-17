@@ -1,7 +1,7 @@
 import React from 'react'
 import { useWeather } from './WeatherContext';
 
-import { Widget } from "./SimpleComponents";
+import { Widget, WidgetSize } from "./SimpleComponents";
 import { WeatherHelper } from '../ts/WeatherHelper';
 
 const Hour = (props : {
@@ -85,7 +85,7 @@ const Hourly = () => {
     }
 
     return (
-        <Widget id="hourly">
+        <Widget id="hourly" size={WidgetSize.WIDE_FULL} widgetTitle="Hourly Forecast" widgetIcon={WeatherHelper.GetWeatherCondition(forecastData.current_weather.weathercode).icon}>
             {/* {props.message != null && <p>{props.message}</p>} */}
             <ol className="flex-list flex-list-row drag-scroll" onMouseDown={MouseDown} onMouseLeave={MouseLeave} onMouseUp={MouseUp} onMouseMove={MouseMove}>
                 {
