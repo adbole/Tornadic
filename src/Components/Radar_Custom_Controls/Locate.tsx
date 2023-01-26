@@ -11,7 +11,7 @@ const Current_Location_Icon = L.divIcon({
     html: ReactDOMServer.renderToString(<LocationDot/>),
     className:"current-location",
     iconSize: [20, 20],
-    iconAnchor: [10, 10]
+    iconAnchor: [10, 20]
 })
 
 const Locate = () => {

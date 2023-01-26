@@ -9,7 +9,7 @@ const Now = () => {
     const conditionInfo = WeatherHelper.GetWeatherCondition(forecastData.current_weather.weathercode);
 
     return (
-        <Widget id="now">
+        <Widget id="now" className='clear-night'>
             <p>{pointData.properties.relativeLocation.properties.city}</p>
     
             <p id="current">{forecastData.current_weather.temperature.toFixed(0)}</p>

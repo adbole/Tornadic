@@ -87,7 +87,7 @@ const Hourly = () => {
     return (
         <Widget id="hourly" size={WidgetSize.WIDE_FULL} widgetTitle="Hourly Forecast" widgetIcon={WeatherHelper.GetWeatherCondition(forecastData.current_weather.weathercode).icon}>
             {/* {props.message != null && <p>{props.message}</p>} */}
-            <ol className="flex-list flex-list-row drag-scroll" onMouseDown={MouseDown} onMouseLeave={MouseLeave} onMouseUp={MouseUp} onMouseMove={MouseMove}>
+            <ol className="flex-list drag-scroll" onMouseDown={MouseDown} onMouseLeave={MouseLeave} onMouseUp={MouseUp} onMouseMove={MouseMove}>
                 {
                     Array.from(WeatherHelper.GetFutureValues(forecastData)).map((forecast, index) => {
                         const time = new Date(forecast.time);

@@ -1,27 +1,20 @@
 @import './mixin';
 
 #radar {
-    overflow: hidden;
-    -webkit-mask-image: radial-gradient(white, black);
-
-    >.widget-title {
-        border-bottom: none;
-    }
-
     >.leaflet-container { 
         border-radius: 10px;
         height: 100% 
     }
 
-    &:not(.zoom-radar) {
+    &:not(.zoom-radar) > .leaflet-container {
         cursor: pointer;
 
         .leaflet-control {  display: none; }
     }
 
-    &.zoom-radar {
+    &.zoom-radar > .leaflet-container {
         z-index: 999;
-        position: absolute;
+        position: fixed !important;
         top: 0;
         right: 0;
         bottom: 0;

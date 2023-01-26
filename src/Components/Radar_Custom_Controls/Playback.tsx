@@ -126,6 +126,8 @@ const Playback = ({MAP} : {MAP: L.Map}) => {
         const activeFrames = activeData.frames;
         const activeLayers = activeData.loadedLayers;
 
+        //In the event of overflow or underflow of the position(index) relative to the length of activeFrames,
+        //perform a modulo operation to correct the error. 
         if(position < 0 || position > activeFrames.length - 1) {
             position = mod(position, activeFrames.length)
         }

@@ -7,9 +7,9 @@ import { useMap } from 'react-leaflet'
 import { Grid } from '../../svgs/radar/radar.svgs'
 
 
-const Home = (props: {
+const Home = (props: L.ControlOptions & {
     radar: React.MutableRefObject<HTMLDivElement | null>
-} & L.ControlOptions) => {
+}) => {
     const [isZoomed, setIsZoomed] = React.useState(false);
     const radar = props.radar.current
     const map = useMap();

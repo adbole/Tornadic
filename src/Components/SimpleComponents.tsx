@@ -1,18 +1,15 @@
 import React from 'react';
 
-
 // #region Widget
 export enum WidgetSize {
     NORMAL = "",
     LARGE = " widget-large",
-    WIDE_2 = " widget-wide-2",
-    WIDE_3 = " widget-wide-3",
+    WIDE = " widget-wide",
     WIDE_FULL = " widget-wide-full"
 }
 
 export const Widget = React.forwardRef<HTMLDivElement, WidgetProps & React.HTMLAttributes<HTMLDivElement>>((props, ref) => {
     const {className, children, size, widgetTitle, widgetIcon, ...excess} = props;
-    
 
     let classList = "widget" + size
     if(className) classList += " " + className

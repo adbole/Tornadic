@@ -456,7 +456,7 @@ svg.leaflet-image-layer.leaflet-interactive path {
 .leaflet-control-layers {
     @include dark-back-blur;
     box-shadow: 0 1px 5px rgba(0, 0, 0, 0.4);
-    border-radius: 5px;
+    border-radius: $border-radius;
     
     .leaflet-control-layers-list {
         display: none;

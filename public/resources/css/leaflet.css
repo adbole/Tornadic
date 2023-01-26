@@ -370,13 +370,13 @@ svg.leaflet-image-layer.leaflet-interactive path {
 }
 
 .leaflet-bar a:first-child {
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
 }
 
 .leaflet-bar a:last-child {
-  border-bottom-left-radius: 5px;
-  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
   border-bottom: none;
 }
 
@@ -387,7 +387,7 @@ svg.leaflet-image-layer.leaflet-interactive path {
 }
 
 .leaflet-control-layers-toggle {
-  border-radius: 5px;
+  border-radius: 10px;
   background-position: center;
   background-repeat: no-repeat;
   display: block;
@@ -453,7 +453,7 @@ svg.leaflet-image-layer.leaflet-interactive path {
   backdrop-filter: blur(10px);
   color: white;
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.4);
-  border-radius: 5px;
+  border-radius: 10px;
 }
 
 .leaflet-control-layers .leaflet-control-layers-list {

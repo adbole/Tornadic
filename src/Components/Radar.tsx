@@ -57,7 +57,7 @@ function Radar() {
                 <Polygon pathOptions={{color: 'red'}} positions={warningPolygon} />
 
                 <ZoomControl position="topright"/>
-                <AttributionControl position="topleft"/>
+                <AttributionControl position="topleft" prefix={'<a href="https://leafletjs.com/" title="A JavaScript library for interactive maps">Leaflet</a>'}/>
 
                 {/* Cutom Controls */}
                 <Home radar={radar}/>

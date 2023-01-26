@@ -4,10 +4,6 @@
     align-items: center;
 }
 
-:root { font-size: 20px; }
-
-svg {  width: 1rem; }
-
 * {
     margin: 0px;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
@@ -15,60 +11,54 @@ svg {  width: 1rem; }
     box-sizing: border-box !important;
 }
 
-p {
-    margin: 0px;
-    line-height: 1;
-    height: fit-content;
-}
-
-#root {
-    color:white;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    padding: 10px;
-
-    max-width: 100vw;
-    min-height: 100vh;
-
+:root { 
+    --bg: #191B1F;
+    font-size: 20px; 
     background: {
         //image: radial-gradient(14.52% 30.09% at 100% 0%, rgba(255, 255, 255, 0.5) 0%, #00A3FF 100%);
         //image: url("../images/sunny.webp");
-        color: #191B1F;
+        color: var(--bg);
         repeat: no-repeat;
         size: cover;
         position: center;
     }
+}
+
+#root {
+    color:white;
+
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    grid-auto-rows: minmax(150px, auto);
+    grid-auto-flow: dense;
+    flex-direction: column;
+    gap: 20px;
+
+    padding: 10px;
+    margin: 0px auto;
+
+    width: 100%;
+    max-width: 1800px;
+    min-height: 100vh;
 
     &.hide-overflow {
         overflow: hidden;
     }
 }
 
-#panel-right {
-    display: grid;
-    grid-template-columns: repeat(8, 1fr);
-    grid-auto-rows: auto;
-    flex-direction: column;
-    gap: 20px;
-    width: 100%;
 
-    //background-image: linear-gradient(to right, #2C3E50, #000000);
-    // backdrop-filter: blur(50px);
-}
+svg {  width: 1rem; }
 
-.split {
-    display: flex;
-    flex-direction: row;
-
-    >* {
-        width: 50%;
-    }
+p {
+    margin: 0px;
+    line-height: 1;
+    height: fit-content;
 }
 
 .widget {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     position: relative;
     padding: 10px;
 
@@ -81,8 +71,8 @@ p {
         grid-row: span 2;
     }
 
-    &-wide-3 {
-        grid-column: span 3;
+    &-wide {
+        grid-column: span 2;
     }
 
     &-wide-full {
@@ -95,22 +85,7 @@ p {
         width: 100%;
 
         padding-bottom: 10px;
-        // border-bottom: 1px solid white;
     }
-
-    //Provides luminosity background without affecting child elements
-    // &::before {
-    //     content: '';
-    //     z-index: 0;
-    //     position: absolute;
-    //     left: 0;
-    //     top: 0;
-    //     width: 100%;
-    //     height: 100%;
-    //     border-radius: inherit;
-    //     background-color: rgba(181, 181, 181, 0.3);
-    //     mix-blend-mode: luminosity;
-    // }
 }
 
 
@@ -120,33 +95,7 @@ p {
 
     >svg { width: 2.5rem; }
 
-    >p:last-of-type { font-size: 3rem; }
-}
-
-.flex-list {
-    display: flex;
-    list-style-type: none;
-
-    padding: 0px;
-    width: 100%;
-    overflow-y: hidden;
-
-    &-row { flex-direction: row; }
-    &-column { flex-direction: column; }
-}
-
-.drag-scroll {
-    cursor: grab;
-
-    &.active {
-        cursor: grabbing;
-
-        &::-webkit-scrollbar-thumb {  background-color: rgba(255, 255, 255, 0.5); }
-    }
-
-    &::-webkit-scrollbar { height: 5px; }
-    &::-webkit-scrollbar-track { background: transparent; }
-    &::-webkit-scrollbar-thumb { border-radius: 5px; }
+    >p:last-of-type { font-size: 2.5rem; }
 }
 
 .hide {
@@ -154,17 +103,15 @@ p {
 }
 
 #loader {
+    @include center-flex;
+
     position: fixed;
     left: 0px;
+    right: 0px;
     top: 0px;
-    width: 100vw;
     height: 100vh;
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    background-color: #313131;
+    background-image: linear-gradient(to right, transparent 20%, #313131 50%, transparent 80%);
 
     >svg {
         width: 500px
@@ -180,34 +127,26 @@ p {
 @import 'modules/level_and_wind';
 @import 'modules/suntime';
 
-@media screen and (max-width: 1800px) {
-    #panel {
-        grid-template-columns: repeat(6, 10rem);
-
-        #hourly {
-            grid-column: span 4;
-        }
+//ALL MEDIA CHANGES SHOULD BE PLACED HERE FOR HIGHEST PRIORITY
+@media screen and (max-width: 1500px) {
+    #root {
+        grid-template-columns: repeat(6, 1fr);
     }
 }
 
-@media screen and (max-width: 1400px) {
-    :root {
-        font-size: 15px
+@media screen and (max-width: 1200px) {
+    #root {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .widget-wide-full {
+        grid-column: 1 / -1;
     }
 }
 
-@media screen and (max-width: 1100px) {
-    #panel {
-        grid-template-columns: repeat(4, 10rem);
-    }
-}
-
-@media screen and (max-width: 700px) {
-    #panel {
-        width: 100%;
+@media screen and (max-width: 800px) {
+    #root {
         grid-template-columns: repeat(2, 1fr);
-        grid-template-rows: minmax(150px, auto);
-
 
         #hourly {
             grid-column: span 2;
@@ -217,5 +156,11 @@ p {
     .alert {
         width: 100%;
         max-width: unset;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    :root {
+        font-size: 15px;
     }
 }

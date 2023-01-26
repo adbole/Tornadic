@@ -54,17 +54,13 @@ const root = ReactDOM.createRoot(document.getElementById('root')!);
 root.render(
     <>
         <WeatherContext>
-            <div id="panel-left">
-                <Now/>
-            </div>
-            <div id="panel-right">
-                <Hourly />
-                <SunTime/>
-                <Daily />
-                <Radar />
-                <AirUV />
-                <DayValues/>
-            </div>
+            <Now/>
+            <Hourly />
+            <Daily />
+            <Radar />
+            <SunTime/>
+            <AirUV />
+            <DayValues/>
             {/* <Alert type={AlertTypes.WARNING} name="Tornado Warning" message="Seek shelter in a center room or basement. Stay away from windows and keep head down."/> */}
             {/* <div id="panel">
                 <div id="panel-left">
