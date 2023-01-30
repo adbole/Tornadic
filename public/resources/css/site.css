@@ -169,8 +169,32 @@ nav > a > svg {
   content: '°';
 }
 
-.clear-night {
+.clear-day {
+  background-image: linear-gradient(to bottom, #52a4da, #73bae1);
+}
+
+.clear-evening {
   background-image: linear-gradient(to bottom, #112257, #9561a0);
+}
+
+.clear-night {
+  background-image: linear-gradient(to bottom, #050f33, #31378a);
+}
+
+.overcast-day {
+  background-image: linear-gradient(to bottom, #acb7bd, #73bae1);
+}
+
+.overcast-night {
+  background-image: linear-gradient(to bottom, #2d3438, #31378a);
+}
+
+.rain {
+  background-image: linear-gradient(to bottom, #0f1c50, #8da3bd);
+}
+
+.snow {
+  background-image: linear-gradient(to bottom, #797c87, #acb7bd);
 }
 
 .alert {

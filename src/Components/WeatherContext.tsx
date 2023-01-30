@@ -3,31 +3,25 @@
  * open-meteo is used for general weather information while NWS is used to get the location name and alerts. 
  */
 
-import React, { ReactNode } from 'react'
-import Loader from './Loader'
+import React, { ReactNode } from 'react';
+import { WeatherData } from '../ts/WeatherData';
+import Loader from './Loader';
+import { FetchData } from '../ts/Helpers';
 
 const WeatherContext = React.createContext<WeatherData | undefined>(undefined);
-const temp_unit = "fahrenheit"
-const wind_unit = "mph"
-const precip_unit = "inch"
+const temp_unit = "fahrenheit";
+const wind_unit = "mph";
+const precip_unit = "inch";
 
-export const useWeather = () => {
+export function useWeather() {
     const context = React.useContext(WeatherContext);
 
     if(!context) {
-        console.error("Please use useWeather inside a WeatherContext provider");
-        return null;
+        throw new Error("Please use useWeather inside a WeatherContext provider");
     } 
     else {
         return context;
     }
-}
-
-export type WeatherData = {
-    forecast: Forecast
-    airquality: AirQuality
-    point: Point
-    alerts: Alert[]
 }
 
 //Forecast and AirQuality are from open-meteo
@@ -85,7 +79,7 @@ export type Forecast = {
         sunrise: string[],
         sunset: string[]
     },
-    currentIndex: number
+    nowIndex: number //Indicates the index where the value for now occurs in all hourly data arrays
 }
 
 //Airquality and forecast data are connected in that the current index for forecast will correlate to the
@@ -99,7 +93,7 @@ export type AirQuality = {
 }
 
 //Point and Alert data from NWS
-type Point = {
+export type GridPoint = {
     properties: {
         relativeLocation: {
             properties: {
@@ -111,7 +105,7 @@ type Point = {
     }
 }
 
-type Alert = {
+export type Alert = {
     geometry: {
         coordinates: number[][][]
     }
@@ -132,21 +126,11 @@ type Alert = {
     }
 }
 
-async function FetchData<T>(url: string | URL, onErrorMessage: string) {
-    return fetch(url)
-           .then((response) => response.ok ? response.json() : Promise.reject(onErrorMessage))
-           .then((data: T) => data)
-           .catch((error) => { 
-                console.error(error) 
-                return null
-            })
-}
-
 const WeatherContextProvider = (props: {children: ReactNode}) => {
     const [error, setError] = React.useState<boolean>();
     const [weatherData, setWeather] = React.useState<WeatherData>();
 
-    React.useEffect(() => {
+    React.useMemo(() => {
         async function GetData() {
             const pos: GeolocationPosition = await new Promise((resolve, reject) => {
                 navigator.geolocation.getCurrentPosition(resolve, (error) => {
@@ -154,10 +138,10 @@ const WeatherContextProvider = (props: {children: ReactNode}) => {
                 });
             });
 
-            const [latitude, longitude] = [pos.coords.latitude, pos.coords.longitude]
+            const [latitude, longitude] = [pos.coords.latitude, pos.coords.longitude];
         
             //Now that we have the pos begin making the needed requests
-            const forecastURL = new URL("https://api.open-meteo.com/v1/forecast?timezone=auto&current_weather=true")
+            const forecastURL = new URL("https://api.open-meteo.com/v1/forecast?timezone=auto&current_weather=true");
             const hourly_params = ["temperature_2m", "apparent_temperature", "precipitation", "weathercode", "relativehumidity_2m", "dewpoint_2m", "visibility", "windspeed_10m", "winddirection_10m"];
             const daily_params = ["temperature_2m_min", "temperature_2m_max", "weathercode", "sunrise", "sunset"];
     
@@ -167,17 +151,17 @@ const WeatherContextProvider = (props: {children: ReactNode}) => {
             forecastURL.searchParams.set("windspeed_unit", wind_unit);
             forecastURL.searchParams.set("precipitation_unit", precip_unit);
     
-            hourly_params.forEach(param => forecastURL.searchParams.append("hourly", param))
-            daily_params.forEach(param => forecastURL.searchParams.append("daily", param))
+            hourly_params.forEach(param => forecastURL.searchParams.append("hourly", param));
+            daily_params.forEach(param => forecastURL.searchParams.append("daily", param));
 
-            console.log(`https://api.weather.gov/points/${latitude},${longitude}`)
+            console.log(`https://api.weather.gov/points/${latitude},${longitude}`);
     
             //Start the requests
             const [forecastRequest, airqualityRequest, pointRequest] = [
                 FetchData<Forecast>(forecastURL, "Could not get forecast data from open-meteo"),
                 FetchData<AirQuality>(`https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${latitude}&longitude=${longitude}&hourly=uv_index,us_aqi&timezone=auto`, "Could not get air quality data from open-meteo"),
-                FetchData<Point>(`https://api.weather.gov/points/${latitude},${longitude}`, "Could not get point data from the NWS")
-            ]
+                FetchData<GridPoint>(`https://api.weather.gov/points/${latitude},${longitude}`, "Could not get point data from the NWS")
+            ];
 
             //The nws alert endpoint cannot be hit until the point data is provided
             const point = await pointRequest;
@@ -193,7 +177,7 @@ const WeatherContextProvider = (props: {children: ReactNode}) => {
             const alertReqest = FetchData<{ features: Alert[] }>(`https://api.weather.gov/alerts/active/zone/${county}`, "Could not get alert data from the NWS");
 
             //Await all the requests to finish
-            const [forecast, airquality, alertResponse] = await Promise.all([ forecastRequest, airqualityRequest, alertReqest ])
+            const [forecast, airquality, alertResponse] = await Promise.all([ forecastRequest, airqualityRequest, alertReqest ]);
 
             //If any of the requests failed then set the error value to true and abort
             if(!forecast || !airquality || !alertResponse) {
@@ -203,37 +187,32 @@ const WeatherContextProvider = (props: {children: ReactNode}) => {
 
             //Get the current hour's index for the forecast data
             for(let i = 0; i < forecast.hourly.time.length; ++i) {
-                if(forecast.hourly.time[i] == forecast.current_weather.time) {
-                    forecast.currentIndex = i;
+                if(forecast.hourly.time[i] === forecast.current_weather.time) {
+                    forecast.nowIndex = i;
                     break;
                 }
             }
 
             //Compile all the data
-            setWeather({
-                forecast: forecast,
-                airquality: airquality,
-                point: point,
-                alerts: alertResponse.features
-            })
+            setWeather(new WeatherData(forecast, airquality, point, alertResponse.features));
         }
 
         GetData();
-    }, [])
+    }, []);
 
     if(error) {
         return (
             <>
                 <h1>An error ocurred in one or more requests to third-party sources. See the console for details</h1>
             </>
-        )
+        );
     }
 
     return (
         <WeatherContext.Provider value={weatherData}>
             {weatherData ? props.children : <Loader />}
         </WeatherContext.Provider>
-    )
-}
+    );
+};
 
-export default WeatherContextProvider
+export default WeatherContextProvider;

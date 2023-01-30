@@ -1,8 +1,8 @@
-import React from 'react'
+import React from 'react';
 import { useWeather } from './WeatherContext';
+import { WeatherData } from '../ts/WeatherData';
 
 import { Widget, WidgetSize } from "./SimpleComponents";
-import { WeatherHelper } from '../ts/WeatherHelper';
 
 const Hour = (props : {
     time: string,
@@ -14,13 +14,13 @@ const Hour = (props : {
         {props.statusIcon}
         <p>{props.temp}°</p>
     </li>
-)
+);
 
 const DaySeperator = (props: { day: string }) => (
     <li className="seperator">
         <p>{props.day}</p>
     </li>
-)
+);
 
 enum Days {
     Sun = 0,
@@ -50,7 +50,7 @@ enum Days {
 
 
 const Hourly = () => {
-    const forecastData = useWeather()!.forecast;
+    const weatherData = useWeather();
 
     let isDown = false;
     let startX: number;
@@ -60,20 +60,20 @@ const Hourly = () => {
         isDown = value;
         
         if(isDown)
-            list.classList.add('active')
+            list.classList.add('active');
         else
             list.classList.remove('active');
     }
 
     function MouseDown(e: React.MouseEvent<HTMLOListElement>) {
-        SetIsDown(true, e.currentTarget)
+        SetIsDown(true, e.currentTarget);
         startX = e.pageX;
 
         scrollLeft = e.currentTarget.scrollLeft;
     }
 
-    function MouseLeave(e: React.MouseEvent<HTMLOListElement>) { SetIsDown(false, e.currentTarget) }
-    function MouseUp(e: React.MouseEvent<HTMLOListElement>) { SetIsDown(false, e.currentTarget) }
+    function MouseLeave(e: React.MouseEvent<HTMLOListElement>) { SetIsDown(false, e.currentTarget); }
+    function MouseUp(e: React.MouseEvent<HTMLOListElement>) { SetIsDown(false, e.currentTarget); }
 
     function MouseMove(e: React.MouseEvent<HTMLOListElement>) {
         if(!isDown) return;
@@ -85,11 +85,11 @@ const Hourly = () => {
     }
 
     return (
-        <Widget id="hourly" size={WidgetSize.WIDE_FULL} widgetTitle="Hourly Forecast" widgetIcon={WeatherHelper.GetWeatherCondition(forecastData.current_weather.weathercode).icon}>
+        <Widget id="hourly" size={WidgetSize.WIDE_FULL} widgetTitle="Hourly Forecast" widgetIcon={WeatherData.GetWeatherCondition(weatherData.forecast.current_weather.weathercode).icon}>
             {/* {props.message != null && <p>{props.message}</p>} */}
             <ol className="flex-list drag-scroll" onMouseDown={MouseDown} onMouseLeave={MouseLeave} onMouseUp={MouseUp} onMouseMove={MouseMove}>
                 {
-                    Array.from(WeatherHelper.GetFutureValues(forecastData)).map((forecast, index) => {
+                    Array.from(weatherData.GetFutureValues()).map((forecast, index) => {
                         const time = new Date(forecast.time);
 
                         const hour = time.getHours() % 12;
@@ -101,18 +101,18 @@ const Hourly = () => {
                                     <DaySeperator day={Days[time.getDay()]}/>
                                     <Hour statusIcon={forecast.condition.icon} time={"12 " + AMPM} temp={forecast.temperature}/>
                                 </React.Fragment>
-                            )
+                            );
                         }
                         else {
                             return (
                                 <Hour key={index} statusIcon={forecast.condition.icon} time={(hour === 0 ? 12 : hour) + " " + AMPM} temp={forecast.temperature}/>
-                            )
+                            );
                         }
                     })
                 }
             </ol>
         </Widget>
-    )
-}
+    );
+};
 
 export default Hourly;

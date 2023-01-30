@@ -11,8 +11,8 @@ export enum WidgetSize {
 export const Widget = React.forwardRef<HTMLDivElement, WidgetProps & React.HTMLAttributes<HTMLDivElement>>((props, ref) => {
     const {className, children, size, widgetTitle, widgetIcon, ...excess} = props;
 
-    let classList = "widget" + size
-    if(className) classList += " " + className
+    let classList = "widget" + size;
+    if(className) classList += " " + className;
 
     return (
         <div className={classList} ref={ref} {...excess} >
@@ -24,7 +24,7 @@ export const Widget = React.forwardRef<HTMLDivElement, WidgetProps & React.HTMLA
             
             {children}
     </div>
-    )
+    );
 });
 
 type WidgetProps = {
@@ -36,7 +36,7 @@ type WidgetProps = {
 
 Widget.defaultProps = {
     size: WidgetSize.NORMAL
-}
+};
 // #endregion Widget
 
 // #region Alert
@@ -76,5 +76,5 @@ export const SimpleInfoWidget = (props: {
         <p>{props.title}</p>
         <p>{props.value}</p>
     </Widget>
-)
+);
 // #endregion BasicInfoView

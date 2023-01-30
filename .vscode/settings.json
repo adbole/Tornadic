@@ -12,4 +12,5 @@
         }
     },
     "terminal.integrated.defaultProfile.windows": "npm Runner",
+    "eslint.validate": ["typescriptreact"]
 }

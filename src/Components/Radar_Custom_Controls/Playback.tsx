@@ -1,18 +1,19 @@
-import React from 'react'
+import React from 'react';
 import ReactDOM from 'react-dom/client';
 import L from 'leaflet';
 import { useMap } from 'react-leaflet';
 import { createControlComponent } from '@react-leaflet/core';
+import { FetchData } from '../../ts/Helpers';
 
-import PlayPauseButtom from './PlayPauseButton'
+import PlayPauseButtom from './PlayPauseButton';
 
 //Uses floor function to keep remainder the same sign as divisor. 
-const mod = (x: number, div: number) => {
-    return x - div * Math.floor(x / div)
+function mod(x: number, div: number) {
+    return x - div * Math.floor(x / div);
 }
 
-const getTimeDisplay = (time: number) => {
-    return `${Date.now() > time * 1000 ? "Past" : "Forecast"}: ${new Date(time * 1000).toLocaleTimeString("en-us", {hour: "numeric", minute: "numeric", hour12: true})}`
+function getTimeDisplay(time: number) {
+    return `${Date.now() > time * 1000 ? "Past" : "Forecast"}: ${new Date(time * 1000).toLocaleTimeString("en-us", {hour: "numeric", minute: "numeric", hour12: true})}`;
 }
 
 type Tile = {
@@ -60,17 +61,25 @@ const Playback = ({MAP} : {MAP: L.Map}) => {
     const activeData = availableLayers[active];
 
     React.useMemo(() => {
-        const xhtml = new XMLHttpRequest()
+        //TODO: Switch to using Fetch with async
+        // async function GetData() {
+        //     const response = await FetchData<ApiResponse>("https://api.rainviewer.com/public/weather-maps.json", "Could not get radar data");
+        //     if(response === null) return;
+
+            
+        // }
+
+        const xhtml = new XMLHttpRequest();
         xhtml.open("GET", "https://api.rainviewer.com/public/weather-maps.json", false);
         xhtml.onload = () => {
             if(xhtml.status !== 200) {
-                console.error("Couldn't receive radar data")
+                console.error("Couldn't receive radar data");
                 return;
             }
 
-            const response: ApiResponse = JSON.parse(xhtml.response)
+            const response: ApiResponse = JSON.parse(xhtml.response);
             
-            host.current = response.host
+            host.current = response.host;
 
             //Prepare frames
             availableLayers.Radar.frames = response.radar.past.concat(response.radar.nowcast);
@@ -91,8 +100,8 @@ const Playback = ({MAP} : {MAP: L.Map}) => {
             //Since the default is radar the lastFramePos will be determined by the last past frame
             const lastFramePos = response.radar.past.length - 1; 
 
-            ShowFrame(lastFramePos)
-        }
+            ShowFrame(lastFramePos);
+        };
         xhtml.send();
 
         MAP.on('baselayerchange', (e) => setActive(e.name as LayerTypes));
@@ -100,21 +109,21 @@ const Playback = ({MAP} : {MAP: L.Map}) => {
         //Due to how layers are added, the baselayerchange event will not fire until the layers have been changed at least twice. 
         //To work around it a click is simulated on the controls at load to force the baselayerchange event to fire as expected.
         [...document.querySelectorAll('.leaflet-control-layers-selector')].forEach((el) => {
-            el.dispatchEvent(new Event('click'))
-        })
-    }, [])
+            el.dispatchEvent(new Event('click'));
+        });
+    }, []);
 
-    React.useEffect(() => ShowFrame(activeData.layerAnimPos), [active])
+    React.useEffect(() => ShowFrame(activeData.layerAnimPos), [active]);
 
     function ShowFrame(loadPos: number) {
         //Determine how to load the frame after one
-        const preLoadDirection = loadPos - activeData.layerAnimPos > 0 ? 1 : -1
+        const preLoadDirection = loadPos - activeData.layerAnimPos > 0 ? 1 : -1;
 
         ChangeRadarPos(loadPos, false); //Load frame
         ChangeRadarPos(loadPos + preLoadDirection, true); //Preload the next frame
 
         if(timeLine.current !== null) {
-            timeLine.current.value = activeData.layerAnimPos.toString()
+            timeLine.current.value = activeData.layerAnimPos.toString();
         }
 
         if(timeP.current !== null) {
@@ -129,7 +138,7 @@ const Playback = ({MAP} : {MAP: L.Map}) => {
         //In the event of overflow or underflow of the position(index) relative to the length of activeFrames,
         //perform a modulo operation to correct the error. 
         if(position < 0 || position > activeFrames.length - 1) {
-            position = mod(position, activeFrames.length)
+            position = mod(position, activeFrames.length);
         }
 
         const currentFrame = activeFrames[activeData.layerAnimPos];
@@ -142,7 +151,7 @@ const Playback = ({MAP} : {MAP: L.Map}) => {
         activeData.layerAnimPos = position;
 
         if(activeLayers[currentFrame.time]) {
-            activeLayers[currentFrame.time].setOpacity(0)
+            activeLayers[currentFrame.time].setOpacity(0);
         }
 
         activeLayers[nextFrame.time].setOpacity(opacity.current);
@@ -153,7 +162,7 @@ const Playback = ({MAP} : {MAP: L.Map}) => {
 
         //If frame hasn't been added as a layer yet do so now
         if(!activeLayer[frame.time]) {
-            const color = active === LayerTypes.Radar ? 6 : 0
+            const color = active === LayerTypes.Radar ? 6 : 0;
             activeLayer[frame.time] = new L.TileLayer(host.current + frame.path + "/512/{z}/{x}/{y}/" + color + "/1_0.png", {
                 opacity: 0.0,
                 zIndex: frame.time
@@ -162,7 +171,7 @@ const Playback = ({MAP} : {MAP: L.Map}) => {
 
         //If the layer of the frame hasn't been added yet do so now
         if(!MAP.hasLayer(activeLayer[frame.time])) {
-            activeData.layerGroup.addLayer(activeLayer[frame.time])
+            activeData.layerGroup.addLayer(activeLayer[frame.time]);
         }
     }
 
@@ -176,7 +185,7 @@ const Playback = ({MAP} : {MAP: L.Map}) => {
     function Pause() {
         if(animationTimer.current) {
             clearTimeout(animationTimer.current);
-            animationTimer.current = undefined
+            animationTimer.current = undefined;
             return true; // We are now paused
         }
 
@@ -184,9 +193,9 @@ const Playback = ({MAP} : {MAP: L.Map}) => {
     }
 
     function SetOpacty(e: React.ChangeEvent<HTMLInputElement>) {
-        opacity.current = e.currentTarget.valueAsNumber
+        opacity.current = e.currentTarget.valueAsNumber;
 
-        activeData.loadedLayers[activeData.frames[activeData.layerAnimPos].time].setOpacity(opacity.current)
+        activeData.loadedLayers[activeData.frames[activeData.layerAnimPos].time].setOpacity(opacity.current);
     }
 
     return (
@@ -204,8 +213,8 @@ const Playback = ({MAP} : {MAP: L.Map}) => {
                 </datalist>
             </div>
         </>
-    )
-}
+    );
+};
 
 const PlaybackLeafletWrapper = () => {
     const MAP = useMap();
@@ -216,14 +225,14 @@ const PlaybackLeafletWrapper = () => {
         },
         onAdd: () => {
             const div = L.DomUtil.create("div", "leaflet-custom-control");
-            div.id = "playback"
-            L.DomEvent.disableClickPropagation(div)
-            ReactDOM.createRoot(div).render(<Playback MAP={MAP}/>)
+            div.id = "playback";
+            L.DomEvent.disableClickPropagation(div);
+            ReactDOM.createRoot(div).render(<Playback MAP={MAP}/>);
             return div;
         }
     });
 
     return new Control();
-}
+};
 
-export default createControlComponent(PlaybackLeafletWrapper)
+export default createControlComponent(PlaybackLeafletWrapper);

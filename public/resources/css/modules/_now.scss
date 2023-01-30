@@ -1,4 +1,11 @@
-$conditionGradients: ("clear-night": linear-gradient(to bottom, #112257, #9561a0));
+$conditionGradients: ("clear-day": (#52a4da, #73bae1),
+                      "clear-evening": (#112257, #9561a0),
+                      "clear-night": (#050f33, #31378a),
+                      "overcast-day": (#acb7bd, #73bae1),
+                      "overcast-night": (#2d3438, #31378a),
+                      "rain": (#0f1c50, #8da3bd),
+                      "snow": (#797c87, #acb7bd)
+                     );
 
 #now {
     display: flex;
@@ -12,8 +19,6 @@ $conditionGradients: ("clear-night": linear-gradient(to bottom, #112257, #9561a0
 
     font-size: 1.5rem;
     background: {
-        //image: radial-gradient(14.52% 30.09% at 100% 0%, rgba(255, 255, 255, 0.5) 0%, #00A3FF 100%);
-        //image: url("../images/Night.webp");
         repeat: no-repeat;
         size: cover;
         position: center;
@@ -33,6 +38,6 @@ $conditionGradients: ("clear-night": linear-gradient(to bottom, #112257, #9561a0
 
 @each $name, $gradient in $conditionGradients {
     .#{$name} {
-        background-image: $gradient;
+        background-image: linear-gradient(to bottom, $gradient);
     }
 }

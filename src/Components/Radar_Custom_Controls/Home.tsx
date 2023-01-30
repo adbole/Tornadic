@@ -2,24 +2,24 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import L from 'leaflet';
 import { createControlComponent } from '@react-leaflet/core';
-import { useMap } from 'react-leaflet'
+import { useMap } from 'react-leaflet';
 
-import { Grid } from '../../svgs/radar/radar.svgs'
+import { Grid } from '../../svgs/radar/radar.svgs';
 
 
 const Home = (props: L.ControlOptions & {
     radar: React.MutableRefObject<HTMLDivElement | null>
 }) => {
     const [isZoomed, setIsZoomed] = React.useState(false);
-    const radar = props.radar.current
+    const radar = props.radar.current;
     const map = useMap();
 
     function zoom() {
         if (isZoomed) return;
 
         setIsZoomed(true);
-        radar?.classList.add("zoom-radar")
-        document.body.classList.add("hide-overflow")
+        radar?.classList.add("zoom-radar");
+        document.body.classList.add("hide-overflow");
         window.scrollTo(0, 0);
 
         map.invalidateSize();
@@ -32,7 +32,7 @@ const Home = (props: L.ControlOptions & {
         setIsZoomed(false);
 
         radar?.classList.remove("zoom-radar");
-        document.body.classList.remove("hide-overflow")
+        document.body.classList.remove("hide-overflow");
 
         map.invalidateSize();
         map.dragging.disable();
@@ -45,7 +45,7 @@ const Home = (props: L.ControlOptions & {
         onAdd: () => {
             const button = L.DomUtil.create("a", "leaflet-custom-control button");
             button.addEventListener("click", unZoom);
-            ReactDOM.createRoot(button).render(<Grid />)
+            ReactDOM.createRoot(button).render(<Grid />);
 
             return button;
         }

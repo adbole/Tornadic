@@ -3,9 +3,9 @@
  * Simply input the index into WeatherHelper to get the needed information to populate the view
  */
 
-import { Widget, WidgetSize } from './SimpleComponents';
-import { HazardInfo } from '../ts/WeatherHelper';
-import Normalize from '../ts/Normalize';
+import { Widget } from './SimpleComponents';
+import { HazardInfo } from '../ts/WeatherData';
+import { Normalize } from '../ts/Helpers';
 
 export const HazardLevelView = (props: {
     info: HazardInfo
@@ -47,7 +47,7 @@ export const HazardLevelView = (props: {
                 <input type="range"  {...excess} disabled/>
             </label> */}
         </Widget>
-    )
-}
+    );
+};
 
-export default HazardLevelView
+export default HazardLevelView;

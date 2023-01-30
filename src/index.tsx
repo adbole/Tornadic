@@ -14,38 +14,35 @@ import Wind from './Components/Wind';
 import SunTime from './Components/SunTime';
 
 import WeatherContext, { useWeather } from './Components/WeatherContext'
-import { WeatherHelper } from './ts/WeatherHelper';
+import { WeatherData } from './ts/WeatherData';
 
 //Icons
 import * as WidgetIcons from './svgs/widget/widget.svgs'
-import { Tornadic } from './svgs/svgs';
-import { Sun } from './svgs/conditions/conditions.svgs';
 
 const DayValues = () => {
-    const forecastData = useWeather()!.forecast;
+    const forecastData = useWeather().forecast;
 
     return (
         <>
-            <SimpleInfoWidget icon={<WidgetIcons.Droplet />} title="Precipitation" value={`${forecastData.hourly.precipitation[forecastData.currentIndex]}\"`} />
-            <SimpleInfoWidget icon={<WidgetIcons.Thermometer />} title="Dew Point" value={`${forecastData.hourly.dewpoint_2m[forecastData.currentIndex]}°`} />
-            <SimpleInfoWidget icon={<WidgetIcons.Moisture />} title="Humidity" value={`${forecastData.hourly.relativehumidity_2m[forecastData.currentIndex]}%`} />
-            <SimpleInfoWidget icon={<WidgetIcons.Eye />} title="Visibility" value={`${WeatherHelper.ToKM(forecastData.hourly.visibility[forecastData.currentIndex])} km`} />
-            <Wind speed={forecastData.hourly.windspeed_10m[forecastData.currentIndex]} deg={forecastData.hourly.winddirection_10m[forecastData.currentIndex]}/>
+            <SimpleInfoWidget icon={<WidgetIcons.Droplet />} title="Precipitation" value={`${forecastData.hourly.precipitation[forecastData.nowIndex]}"`} />
+            <SimpleInfoWidget icon={<WidgetIcons.Thermometer />} title="Dew Point" value={`${forecastData.hourly.dewpoint_2m[forecastData.nowIndex]}°`} />
+            <SimpleInfoWidget icon={<WidgetIcons.Moisture />} title="Humidity" value={`${forecastData.hourly.relativehumidity_2m[forecastData.nowIndex]}%`} />
+            <SimpleInfoWidget icon={<WidgetIcons.Eye />} title="Visibility" value={`${WeatherData.ToKM(forecastData.hourly.visibility[forecastData.nowIndex])} km`} />
         </>
     )
 }
 
 const AirUV = () => {
-    const forecastData = useWeather()!.forecast;
-    const airqualityData = useWeather()!.airquality;
+    const forecastData = useWeather().forecast;
+    const airqualityData = useWeather().airQuality.hourly;
 
-    const AQ = Math.round(airqualityData.hourly.us_aqi[forecastData.currentIndex])
-    const UV = Math.round(airqualityData.hourly.uv_index[forecastData.currentIndex])
+    const AQ = Math.round(airqualityData.us_aqi[forecastData.nowIndex])
+    const UV = Math.round(airqualityData.uv_index[forecastData.nowIndex])
 
     return (
         <>
-            <HazardLevelView info={WeatherHelper.GetAQInfo(AQ)} />
-            <HazardLevelView info={WeatherHelper.GetUVInfo(UV)} />
+            <HazardLevelView info={WeatherData.GetAQInfo(AQ)} />
+            <HazardLevelView info={WeatherData.GetUVInfo(UV)} />
         </>
     )
 }
@@ -61,17 +58,18 @@ root.render(
             <SunTime/>
             <AirUV />
             <DayValues/>
+            <Wind/>
             {/* <Alert type={AlertTypes.WARNING} name="Tornado Warning" message="Seek shelter in a center room or basement. Stay away from windows and keep head down."/> */}
             {/* <div id="panel">
                 <div id="panel-left">
                     <Hourly/>
                     <Daily/>
                     <Radar />
-                    <DayValues />
+                    <DayValues />`
                 </div>
                 <div id="panel-right">
                     
-                </div>
+                </div>`
             </div> */}
         </WeatherContext>
     </>

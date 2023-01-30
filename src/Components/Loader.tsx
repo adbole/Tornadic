@@ -1,4 +1,4 @@
-import { TornadicLoader } from '../svgs/svgs'
+import { TornadicLoader } from '../svgs/svgs';
 
 const Loader = () => (
     <>
@@ -6,6 +6,6 @@ const Loader = () => (
             <TornadicLoader/>
         </div>
     </>
-)
+);
 
 export default Loader;
