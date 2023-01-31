@@ -13,12 +13,16 @@ const Current_Location_Icon = L.divIcon({
     iconAnchor: [10, 20]
 });
 
-
+/**
+ * Automatically gets the user's current location in a leaflet map along with returning a button to return the user's current location
+ * @returns A button that can return to the user's location at any given time
+ */
 const Locate = () => {
     const map = useMap();
     const currMarker = React.useRef<L.Marker>();
     const LocateUser = React.useCallback(() => map.locate({ setView: true, maxZoom: 10 }), [map]);
 
+    //Get the user's location on first load along with adding a marker at said location and on every subsequent find.
     React.useEffect(() => {
         LocateUser();
 

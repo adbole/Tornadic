@@ -11,7 +11,9 @@ export class Normalize {
     }
 }
 
-//Makes a request to the given url (supports strings and URL objects) and an error message. Await to get data
+/**
+ * Makes a request to the given url (supports strings and URL objects) and an error message. Await to get data
+*/
 export async function FetchData<T>(url: string | URL, onErrorMessage: string) {
     return fetch(url)
            .then((response) => response.ok ? response.json() : Promise.reject(onErrorMessage))

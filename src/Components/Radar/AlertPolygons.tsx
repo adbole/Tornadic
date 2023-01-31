@@ -1,11 +1,17 @@
 import { Polygon } from "react-leaflet";
 import { AlertType, WeatherData } from "../../ts/WeatherData";
-import { useAlert } from "../Contexes/AlertContex";
 import { useWeather } from "../Contexes/WeatherContext";
 import { LatLngExpression } from 'leaflet';
 import React from "react";
+import { useModal } from "../Contexes/ModalContext";
+import { AlertModal } from "../Alert";
 
-function GetPolygonColor(alertType: AlertType) {
+/**
+ * Takes an AlertType and converts it to a a simple color for the polygon to use
+ * @param alertType The AlertType to convert
+ * @returns The color to be used
+ */
+function GetPolygonColor(alertType: AlertType): string {
     switch(alertType) {
         case AlertType.WARNING:
             return "red";
@@ -18,6 +24,11 @@ function GetPolygonColor(alertType: AlertType) {
     }
 }
 
+/**
+ * Converts the coords given by the NWSAlert to an array of LatLngExpressions to be used by a polygon.
+ * @param coords The coords to be converted
+ * @returns The new coords to be used by a polygon
+ */
 function ConvertToLatLng(coords: number[][][]): LatLngExpression[] {
     return coords[0].map<LatLngExpression>(latlng => {
         return {
@@ -27,9 +38,13 @@ function ConvertToLatLng(coords: number[][][]): LatLngExpression[] {
     });
 }
 
+/**
+ * Returns a mapping of polygons for every alert there is in the current WeatherData
+ * @returns Polygons representing every alert in the current WeatherData
+ */
 const AlertPolygons = () => {
     const alertData = useWeather().alerts;
-    const alertModals = useAlert();
+    const modals = useModal();
 
     return (
         <>
@@ -39,7 +54,7 @@ const AlertPolygons = () => {
             
                     const polygonColor = GetPolygonColor(WeatherData.GetAlertType(singleAlert));
             
-                    return <Polygon key={index} pathOptions={{color: polygonColor}} positions={ConvertToLatLng(singleAlert.geometry.coordinates)} eventHandlers={{click: () => alertModals.showAlert(index)}}/>;
+                    return <Polygon key={index} pathOptions={{color: polygonColor}} positions={ConvertToLatLng(singleAlert.geometry.coordinates)} eventHandlers={{click: () => modals.showModal(<AlertModal alert={alertData[index]}/>)}}/>;
                 })
             }
         </>

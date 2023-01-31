@@ -2,6 +2,10 @@ import { useWeather } from './Contexes/WeatherContext';
 import { WeatherCondition, WeatherData } from '../ts/WeatherData';
 import { Widget } from './SimpleComponents';
 
+/**
+ * Displays the current location name, temperature, condition, and feels like temperature along with having a gradient to match the condition
+ * @returns The Now widget
+ */
 const Now = () => {
     const weatherData = useWeather();
     const forecastData = weatherData.forecast;

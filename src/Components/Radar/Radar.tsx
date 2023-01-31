@@ -33,6 +33,10 @@ L.Map.include({
     }
 });
 
+/**
+ * Displays a small Radar widget that can then be clicked to zoom to fullscreen.
+ * @returns The Radar widget
+ */
 const Radar = () => {
     const radar = React.useRef<HTMLDivElement>(null);
     const defaultCent: L.LatLngExpression = {

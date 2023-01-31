@@ -1,35 +1,40 @@
-import { ReactNode } from 'react';
 import { Widget, WidgetSize } from './SimpleComponents';
 import { Normalize } from '../ts/Helpers';
 import { useWeather } from './Contexes/WeatherContext';
 import { Calendar } from '../svgs/widget/widget.svgs';
+import { DayInfo } from '../ts/WeatherData';
 
-const Day = (props: {
-    day: string,
-    statusIcon: ReactNode,
-    chanceOfPrecip: number,
-    low: number,
-    high: number,
+/**
+ * A helper component for Daily to display the individual days of the week
+ * @returns A single day as a table row entry
+ */
+const Day = ({dayInfo, style}: {
+    /** Information on the day's values */
+    dayInfo: DayInfo,
+    /** The style to display the low and high for the week and where this day falls in the range */
     style: React.CSSProperties
 }) =>(
     <tr>
-        <td><p>{props.day}</p></td>
+        <td><p>{dayInfo.day}</p></td>
         <td>        
-            {props.statusIcon}
-            {props.chanceOfPrecip > 0 && <span>{props.chanceOfPrecip}%</span>}
+            {dayInfo.condition.icon}
         </td>
         <td>
             <div className='temp-range'>
-                <p>{props.low}°</p>    
+                <p>{dayInfo.temperature_low}°</p>    
                 <div className="dual-range">
-                    <div className="covered" style={props.style}></div>
+                    <div className="covered" style={style}></div>
                 </div>
-                <p>{props.high}°</p>
+                <p>{dayInfo.temperature_high}°</p>
             </div>
         </td>
     </tr>
 );
 
+/**
+ * Displays the week's temperatures and conditions along with the highest and lowest temp across the week.
+ * @returns The Daily widget
+ */
 const Daily = () => {
     const dailyData = useWeather().forecast.daily;
 
@@ -63,7 +68,7 @@ const Daily = () => {
                 <tbody>
                     {
                         Array.from(useWeather().GetDailyValues()).map((day, index) => {
-                            return <Day key={index} day={day.day} statusIcon = {day.condition.icon} chanceOfPrecip={0} low={day.temperature_low} high={day.temperature_high} style={CalculateDualRangeCoverStyle(day.temperature_low, day.temperature_high)}/>;
+                            return <Day key={index} dayInfo={day} style={CalculateDualRangeCoverStyle(day.temperature_low, day.temperature_high)}/>;
                         })
                     }
                 </tbody>

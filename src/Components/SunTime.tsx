@@ -2,6 +2,9 @@ import { Widget, WidgetSize } from './SimpleComponents';
 import { Sunrise, Sunset } from '../svgs/widget/widget.svgs';
 import { useWeather } from './Contexes/WeatherContext';
 
+/**
+ * A helper component for SunTime to display when the sunrise/sunset will ocurr along with what comes next.
+ */
 const HelperWidget = (props: {isSunrise: boolean,  time: string, nextTime: string}) => (
     <Widget id="suntime" size={WidgetSize.WIDE}>
         <div>
@@ -15,6 +18,10 @@ const HelperWidget = (props: {isSunrise: boolean,  time: string, nextTime: strin
     </Widget>
 );
 
+/**
+ * Displays when the sunrise/sunset will occur and what will come after that.
+ * @returns The SunTime widget
+ */
 const SunTime = () => {
     const dailyData = useWeather().forecast.daily;
     const currentDate = new Date();

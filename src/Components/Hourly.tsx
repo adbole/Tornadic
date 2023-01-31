@@ -4,6 +4,9 @@ import { WeatherData } from '../ts/WeatherData';
 
 import { Widget, WidgetSize } from "./SimpleComponents";
 
+/**
+ * A helper component for the Hourly component to display the individual hours
+ */
 const Hour = (props : {
     time: string,
     statusIcon: React.ReactNode,
@@ -16,12 +19,19 @@ const Hour = (props : {
     </li>
 );
 
-const DaySeperator = (props: { day: string }) => (
+/**
+ * A helper component for the Hourly component to display a seperator to indicate when a new day starts.
+ */
+const DaySeperator = ({day}: { day: string }) => (
     <li className="seperator">
-        <p>{props.day}</p>
+        <p>{day}</p>
     </li>
 );
 
+/**
+ * Displays the next 48hrs of weather data in a horizontally-scrollable list
+ * @returns The Hourly widget
+ */
 const Hourly = () => {
     const weatherData = useWeather();
 

@@ -105,7 +105,7 @@ export type GridPoint = {
     }
 }
 
-export type Alert = {
+export type NWSAlert = {
     geometry: {
         coordinates: number[][][]
     }
@@ -175,10 +175,10 @@ const WeatherContextProvider = (props: {children: ReactNode}) => {
 
             //Extract the county from the county url given by the point
             const county = point.properties.county.substring(lastIndex);
-            const alertReqest = FetchData<{ features: Alert[] }>(`https://api.weather.gov/alerts/active/zone/${county}`, "Could not get alert data from the NWS");
+            const alertRequest = FetchData<{ features: NWSAlert[] }>(`https://api.weather.gov/alerts/active/zone/${county}`, "Could not get alert data from the NWS");
 
             //Await all the requests to finish
-            const [forecast, airquality, alertResponse] = await Promise.all([ forecastRequest, airqualityRequest, alertReqest ]);
+            const [forecast, airquality, alertResponse] = await Promise.all([ forecastRequest, airqualityRequest, alertRequest ]);
 
             //If any of the requests failed then set the error value to true and abort
             if(!forecast || !airquality || !alertResponse) {

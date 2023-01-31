@@ -7,6 +7,10 @@ import { Widget } from './SimpleComponents';
 import { HazardInfo } from '../ts/WeatherData';
 import { Normalize } from '../ts/Helpers';
 
+/**
+ * Takes the information on agiven hazard such as AQ or UV Index and displays it using a radial level indicator.
+ * @returns The HazardLevel widget displaying the information on a given hazard
+ */
 export const HazardLevelView = ({info}: {info: HazardInfo}) => {
     //Extracts everything but value, min, and max which are spread on the input
     const {id, title, titleIcon, message, value, min, max} = info;

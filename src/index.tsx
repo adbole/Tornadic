@@ -7,17 +7,19 @@ import Now from './Components/Now';
 import Hourly from './Components/Hourly';
 import Daily from './Components/Daily';
 import Radar from './Components/Radar/Radar';
-import { SimpleInfoWidget, Alert } from './Components/SimpleComponents';
 import HazardLevelView from './Components/HazardLevelView';
 import Wind from './Components/Wind';
 import SunTime from './Components/SunTime';
+import Alert from './Components/Alert';
+import { SimpleInfoWidget } from './Components/SimpleComponents';
 
+//Contexes
+import ModalContext from './Components/Contexes/ModalContext';
 import WeatherContext, { useWeather } from './Components/Contexes/WeatherContext';
 import { WeatherData } from './ts/WeatherData';
 
 //Icons
 import * as WidgetIcons from './svgs/widget/widget.svgs';
-import AlertContext from './Components/Contexes/AlertContex';
 
 const DayValues = () => {
     const forecastData = useWeather().forecast;
@@ -50,7 +52,8 @@ const AirUV = () => {
 const root = ReactDOM.createRoot(document.getElementById('root')!);
 root.render(
     <>
-        <WeatherContext>
+        <ModalContext>
+            <WeatherContext>
                 <Now/>
                 <Hourly />
                 <Daily />
@@ -58,23 +61,23 @@ root.render(
                 <AirUV />
                 <DayValues/>
                 <Wind/>
-            <AlertContext>
                 <Alert/>
                 <Radar />
-            </AlertContext>
-            {/* <Alert type={AlertTypes.WARNING} name="Tornado Warning" message="Seek shelter in a center room or basement. Stay away from windows and keep head down."/> */}
-            {/* <div id="panel">
-                <div id="panel-left">
-                    <Hourly/>
-                    <Daily/>
-                    <Radar />
-                    <DayValues />`
-                </div>
-                <div id="panel-right">
-                    
-                </div>`
-            </div> */}
-        </WeatherContext>
+
+                {/* <Alert type={AlertTypes.WARNING} name="Tornado Warning" message="Seek shelter in a center room or basement. Stay away from windows and keep head down."/> */}
+                {/* <div id="panel">
+                    <div id="panel-left">
+                        <Hourly/>
+                        <Daily/>
+                        <Radar />
+                        <DayValues />`
+                    </div>
+                    <div id="panel-right">
+                        
+                    </div>`
+                </div> */}
+            </WeatherContext>
+        </ModalContext>
     </>
 );
 

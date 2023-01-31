@@ -3,13 +3,13 @@
  */
 
 import { ReactNode } from "react";
-import { AirQuality, Alert, Forecast, GridPoint } from "../Components/Contexes/WeatherContext";
+import { AirQuality, NWSAlert, Forecast, GridPoint } from "../Components/Contexes/WeatherContext";
 import * as Conditions from "../svgs/conditions/conditions.svgs";
 import { Lungs } from '../svgs/widget/widget.svgs';
 
-
+//#region Enum and type definitions
 export enum WeatherCondition {
-    CLEAR = "CLEAR",
+    CLEAR = "Clear",
     MOSTLY_CLEAR = "Mostly Clear",
     PARTLY_CLOUDY = "Partly Cloudy",
     OVERCAST = "Overcast",
@@ -43,6 +43,19 @@ export type HazardInfo = Readonly<{
     message: string
 }>
 
+export type DayInfo = Readonly<{
+    day: string,
+    condition: WeatherConditionInfo,
+    temperature_low: number,
+    temperature_high: number
+}>;
+
+type WeatherConditionInfo = { 
+    condition: WeatherCondition, 
+    intesity: Intesity, 
+    icon: ReactNode 
+}
+
 enum AQLevels {
     GOOD = "Good",
     MODERATE = "Moderate",
@@ -59,6 +72,7 @@ enum UVLevels {
     VERY_HIGH = "Very High",
     EXTREME = "Extreme"
 }
+//#endregion Enum and type definitions
 
 //Different Intesities a WMO code can have. 
 enum Intesity {
@@ -95,9 +109,9 @@ export class WeatherData {
     readonly forecast: Forecast;
     readonly airQuality: AirQuality;
     readonly point: GridPoint;
-    readonly alerts: Alert[];
+    readonly alerts: NWSAlert[];
 
-    constructor(forecast: Forecast, airQuality: AirQuality, point: GridPoint, alerts: Alert[]) {
+    constructor(forecast: Forecast, airQuality: AirQuality, point: GridPoint, alerts: NWSAlert[]) {
         this.forecast = forecast;
         this.airQuality = airQuality;
         this.point = point;
@@ -144,7 +158,7 @@ export class WeatherData {
         }
     }
 
-    * GetDailyValues() {
+    * GetDailyValues(): Generator<DayInfo> {
         //First value is today
         yield {
             day: "Now",
@@ -169,7 +183,7 @@ export class WeatherData {
      * Takes an alert and tries to see what kind of alert it is and returns a color based on that determined kind
      * @param alert The alert to get the color of.
      */
-    static GetAlertType(alert: Alert): AlertType {
+    static GetAlertType(alert: NWSAlert): AlertType {
         const lastSpace = alert.properties.event.lastIndexOf(" ");
         const type = alert.properties.event.slice(lastSpace + 1).toLowerCase();
 
@@ -190,7 +204,7 @@ export class WeatherData {
      * @param weathercode The weathercode to convert
      * @param isDay If applicable icons will return a sun when true or a moon when false. True by default
     */
-    static GetWeatherCondition(weathercode: number, isDay: boolean = true): { condition: WeatherCondition, intesity: Intesity, icon: ReactNode } {
+    static GetWeatherCondition(weathercode: number, isDay: boolean = true): WeatherConditionInfo {
         let condition: WeatherCondition;
         let intesity: Intesity = Intesity.NONE;
         let icon: ReactNode;

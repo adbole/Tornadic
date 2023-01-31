@@ -6,7 +6,10 @@ import { useMap } from 'react-leaflet';
 
 import { Grid } from '../../svgs/radar/radar.svgs';
 
-
+/**
+ * Provides the zooming functionality for the Radar component along with returning a button to be added to leaflet to provide unzooming
+ * @returns A button to allow unzooming once inside the zoomed Radar
+ */
 const Home = (props: L.ControlOptions & {
     radar: React.MutableRefObject<HTMLDivElement | null>
 }) => {
