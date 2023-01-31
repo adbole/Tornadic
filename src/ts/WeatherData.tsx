@@ -3,7 +3,7 @@
  */
 
 import { ReactNode } from "react";
-import { AirQuality, Alert, Forecast, GridPoint } from "../Components/WeatherContext";
+import { AirQuality, Alert, Forecast, GridPoint } from "../Components/Contexes/WeatherContext";
 import * as Conditions from "../svgs/conditions/conditions.svgs";
 import { Lungs } from '../svgs/widget/widget.svgs';
 
@@ -24,6 +24,13 @@ export enum WeatherCondition {
     SNOW_SHOWERS = "Snow Showers",
     THUNDERSTORMS = "Thunderstorms",
     THRUNDERSTORMS_HAIL = "Thunderstorms and Hail"
+}
+
+export enum AlertType {
+    WARNING = "alert-warning",
+    WATCH = "alert-watch",
+    ADVISORY = "alert-advisory",
+    NONE = "alert-unknown"
 }
 
 export type HazardInfo = Readonly<{
@@ -157,6 +164,26 @@ export class WeatherData {
     }
 
     //#region Static Definitions
+
+    /**
+     * Takes an alert and tries to see what kind of alert it is and returns a color based on that determined kind
+     * @param alert The alert to get the color of.
+     */
+    static GetAlertType(alert: Alert): AlertType {
+        const lastSpace = alert.properties.event.lastIndexOf(" ");
+        const type = alert.properties.event.slice(lastSpace + 1).toLowerCase();
+
+        switch(type) {
+            case "warning":
+                return AlertType.WARNING;
+            case "watch":
+                return AlertType.WATCH;
+            case "advisory":
+                return AlertType.ADVISORY;
+            default: 
+                return AlertType.NONE;
+        }
+    }
 
     /**
      * Converts a WMO code into three parts to be rendered, the message (condition), intesity (if applicable), and the icon.

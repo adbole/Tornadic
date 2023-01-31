@@ -1,6 +1,6 @@
 import { Widget, WidgetSize } from './SimpleComponents';
 import { Sunrise, Sunset } from '../svgs/widget/widget.svgs';
-import { useWeather } from './WeatherContext';
+import { useWeather } from './Contexes/WeatherContext';
 
 const HelperWidget = (props: {isSunrise: boolean,  time: string, nextTime: string}) => (
     <Widget id="suntime" size={WidgetSize.WIDE}>

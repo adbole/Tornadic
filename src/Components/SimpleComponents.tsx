@@ -1,4 +1,8 @@
 import React from 'react';
+import { TornadicLoader } from '../svgs/svgs';
+import { WeatherData } from '../ts/WeatherData';
+import { useAlert } from './Contexes/AlertContex';
+import { useWeather } from './Contexes/WeatherContext';
 
 // #region Widget
 export enum WidgetSize {
@@ -39,32 +43,6 @@ Widget.defaultProps = {
 };
 // #endregion Widget
 
-// #region Alert
-// export const Alert = (props: {
-//     type: AlertTypes,
-//     name: string,
-//     message: string,
-//     moreExist?: boolean
-// }) => (
-//     <Widget className={"alert " + props.type}>
-//         <h2>{props.name}</h2>
-//         <p>{props.message}</p>
-//     </Widget>
-// )
-
-// export enum AlertTypes {
-//     WARNING = "warning",
-//     WATCH = "watch", 
-//     ADVISORY = "advisory",
-//     SPECIAL = "special"
-// }
-
-// Alert.defaultProps = {
-//     moreExist: false
-// }
-
-// #endregion Alert
-
 // #region BasicInfoView
 export const SimpleInfoWidget = (props: {
     icon: React.ReactNode,
@@ -78,3 +56,30 @@ export const SimpleInfoWidget = (props: {
     </Widget>
 );
 // #endregion BasicInfoView
+
+export const Loader = () => (
+    <>
+        <div id="loader">
+            <TornadicLoader/>
+        </div>
+    </>
+);
+
+export const Alert = () => {
+    console.log("render");
+    const alertData = useWeather().alerts;
+    const alertModals = useAlert();
+
+    //If no alerts are active then don't display this component.
+    if(!alertData.length) return <></>;
+
+    const currentAlert = alertData[0].properties;
+    const alertColor = WeatherData.GetAlertType(alertData[0]);
+
+    return (
+        <Widget size={WidgetSize.WIDE} id="alert" className={alertColor} onClick={() => alertModals.showAlert(0)}>
+            <h2>{currentAlert.event}</h2>
+            <p>{currentAlert.event} until {new Date(currentAlert.ends).toLocaleTimeString("en-us", {weekday:"short", month:"short", day:"numeric", hour12:true, hour:"numeric", minute:"numeric", timeZoneName:"short"})}</p>
+        </Widget>
+    );
+};

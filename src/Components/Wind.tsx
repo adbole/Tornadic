@@ -1,6 +1,6 @@
 import { Tornadic } from '../svgs/svgs';
 import { Widget } from './SimpleComponents';
-import { useWeather } from './WeatherContext';
+import { useWeather } from './Contexes/WeatherContext';
 
 function GenerateAngledStamps() {
     const angle = 45;

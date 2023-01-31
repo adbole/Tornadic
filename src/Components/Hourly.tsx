@@ -1,5 +1,5 @@
 import React from 'react';
-import { useWeather } from './WeatherContext';
+import { useWeather } from './Contexes/WeatherContext';
 import { WeatherData } from '../ts/WeatherData';
 
 import { Widget, WidgetSize } from "./SimpleComponents";
@@ -21,33 +21,6 @@ const DaySeperator = (props: { day: string }) => (
         <p>{props.day}</p>
     </li>
 );
-
-enum Days {
-    Sun = 0,
-    Mon = 1,
-    Tue = 2,
-    Wed = 3,
-    Thur = 4,
-    Fri = 5,
-    Sat = 6
-}
-
-// function GenerateHours() {
-//     let hours = []
-
-//     for(let i = 1; i < 25; ++i) {
-//         if(i === 10) {
-//             hours.push(<DaySeperator key={i} day={Days.Tue}/>)
-//         }
-//         else {
-//             hours.push(<Hour key={i} statusIcon={<Tornadic />} time={i + " AM"} temp={95}/>)
-//         }
-//     }
-
-//     return hours
-// }
-
-
 
 const Hourly = () => {
     const weatherData = useWeather();
@@ -98,7 +71,7 @@ const Hourly = () => {
                         if(time.getHours() === 0) {
                             return (
                                 <React.Fragment key={index}>
-                                    <DaySeperator day={Days[time.getDay()]}/>
+                                    <DaySeperator day={time.toLocaleDateString("en-US", {weekday: "short", timeZone: "UTC"})}/>
                                     <Hour statusIcon={forecast.condition.icon} time={"12 " + AMPM} temp={forecast.temperature}/>
                                 </React.Fragment>
                             );

@@ -4,9 +4,9 @@
  */
 
 import React, { ReactNode } from 'react';
-import { WeatherData } from '../ts/WeatherData';
-import Loader from './Loader';
-import { FetchData } from '../ts/Helpers';
+import { WeatherData } from '../../ts/WeatherData';
+import { Loader } from '../SimpleComponents';
+import { FetchData } from '../../ts/Helpers';
 
 const WeatherContext = React.createContext<WeatherData | undefined>(undefined);
 const temp_unit = "fahrenheit";
@@ -110,6 +110,7 @@ export type Alert = {
         coordinates: number[][][]
     }
     properties: {
+        areaDesc: string
         sent: string
         effective: string
         expires: string

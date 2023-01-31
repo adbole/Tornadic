@@ -7,11 +7,9 @@ import { Widget } from './SimpleComponents';
 import { HazardInfo } from '../ts/WeatherData';
 import { Normalize } from '../ts/Helpers';
 
-export const HazardLevelView = (props: {
-    info: HazardInfo
-}) => {
+export const HazardLevelView = ({info}: {info: HazardInfo}) => {
     //Extracts everything but value, min, and max which are spread on the input
-    const {id, title, titleIcon, message, value, min, max} = props.info;
+    const {id, title, titleIcon, message, value, min, max} = info;
 
     const clipID = "clip-" + id;
     const maskID = "mask-" + id;

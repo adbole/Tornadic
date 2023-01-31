@@ -1,4 +1,4 @@
-import { useWeather } from './WeatherContext';
+import { useWeather } from './Contexes/WeatherContext';
 import { WeatherCondition, WeatherData } from '../ts/WeatherData';
 import { Widget } from './SimpleComponents';
 

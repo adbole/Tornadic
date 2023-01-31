@@ -38,7 +38,7 @@ const Home = (props: L.ControlOptions & {
         map.dragging.disable();
         map.scrollWheelZoom.disable();
     }
-
+    
     radar?.addEventListener("click", zoom);
 
     const Home = L.Control.extend({

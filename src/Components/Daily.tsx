@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 import { Widget, WidgetSize } from './SimpleComponents';
 import { Normalize } from '../ts/Helpers';
-import { useWeather } from './WeatherContext';
+import { useWeather } from './Contexes/WeatherContext';
 import { Calendar } from '../svgs/widget/widget.svgs';
 
 const Day = (props: {

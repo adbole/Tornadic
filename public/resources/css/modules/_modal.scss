@@ -1,0 +1,34 @@
+dialog {
+    color: inherit;
+    margin: auto;
+    max-width: 500px;
+    background-color: var(--widget-back);
+    border-radius: var(--border-radius);
+    border: none;
+    padding: 0px;
+
+    h1 { 
+        text-align: center; 
+        padding: 20px;
+    }
+
+    >.modal-content {
+        padding: 20px;
+
+        h2, h3, h4, h5, h6 { font-weight: 500; }
+
+        hr { 
+            height: 1px;
+            background-color: #efdddd57;
+            border: none;
+        }
+    
+        p { margin-bottom: 10px; }
+        hr {  margin: 5px; }
+    }
+
+    &::backdrop {
+        backdrop-filter: blur(5px);
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+}
