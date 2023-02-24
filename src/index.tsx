@@ -55,27 +55,14 @@ root.render(
         <ModalContext>
             <WeatherContext>
                 <Now/>
-                <Hourly />
-                <Daily />
-                <SunTime/>
-                <AirUV />
-                <DayValues/>
-                <Wind/>
                 <Alert/>
+                <Hourly />
+                <DayValues/>
+                <SunTime/>
+                <Daily />
+                <AirUV />
                 <Radar />
-
-                {/* <Alert type={AlertTypes.WARNING} name="Tornado Warning" message="Seek shelter in a center room or basement. Stay away from windows and keep head down."/> */}
-                {/* <div id="panel">
-                    <div id="panel-left">
-                        <Hourly/>
-                        <Daily/>
-                        <Radar />
-                        <DayValues />`
-                    </div>
-                    <div id="panel-right">
-                        
-                    </div>`
-                </div> */}
+                <Wind/>
             </WeatherContext>
         </ModalContext>
     </>
