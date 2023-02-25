@@ -24,7 +24,7 @@ export const Widget = React.forwardRef<HTMLDivElement, WidgetProps & React.HTMLA
     if(className) classList += " " + className;
 
     return (
-        <div className={classList} ref={ref} {...excess} >
+        <div className={classList} ref={ref} {...excess}>
             {widgetTitle && widgetIcon && 
                 <div className="widget-title">
                     <p>{widgetIcon} {widgetTitle} </p>

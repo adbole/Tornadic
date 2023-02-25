@@ -49,7 +49,8 @@ export type Forecast = {
         visibility: string,
         windspeed_10m: string,
         winddirection_10m: string,
-        weathercode: string
+        weathercode: string,
+        surface_pressure: string
     },
     hourly: {
         time: string[]
@@ -61,7 +62,8 @@ export type Forecast = {
         visibility: number[],
         windspeed_10m: number[],
         winddirection_10m: number[],
-        weathercode: number[]
+        weathercode: number[],
+        surface_pressure: number[]
     },
     daily_units: {
         time: string,
@@ -143,7 +145,7 @@ const WeatherContextProvider = (props: {children: ReactNode}) => {
         
             //Now that we have the pos begin making the needed requests
             const forecastURL = new URL("https://api.open-meteo.com/v1/forecast?timezone=auto&current_weather=true");
-            const hourly_params = ["temperature_2m", "apparent_temperature", "precipitation", "weathercode", "relativehumidity_2m", "dewpoint_2m", "visibility", "windspeed_10m", "winddirection_10m"];
+            const hourly_params = ["temperature_2m", "apparent_temperature", "precipitation", "weathercode", "relativehumidity_2m", "dewpoint_2m", "visibility", "windspeed_10m", "winddirection_10m", "surface_pressure"];
             const daily_params = ["temperature_2m_min", "temperature_2m_max", "weathercode", "sunrise", "sunset"];
     
             forecastURL.searchParams.set("latitude", latitude.toString());
