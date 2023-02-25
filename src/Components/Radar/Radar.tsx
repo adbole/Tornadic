@@ -49,12 +49,11 @@ const Radar = () => {
             <MapContainer center={defaultCent} zoom={10} zoomControl={false} attributionControl={false} scrollWheelZoom={false} dragging={false}> 
                 <TileLayer attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors | <a href="https://www.rainviewer.com/api.html">RainViewer</a>' url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"/>
 
-                <AlertPolygons />
-
                 <ZoomControl position="topright"/>
                 <AttributionControl position="topleft" prefix={'<a href="https://leafletjs.com/" title="A JavaScript library for interactive maps">Leaflet</a>'}/>
 
                 {/* Cutom Controls */}
+                <AlertPolygons />
                 <Home radar={radar}/>
                 <Locate />
                 <Playback/>
