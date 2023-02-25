@@ -287,6 +287,7 @@ nav > a > svg {
 #hourly {
   flex-direction: column;
   text-align: center;
+  grid-column: span 6;
 }
 
 #hourly > ol {
@@ -322,6 +323,10 @@ nav > a > svg {
 
 #hourly > ol svg {
   width: 3rem !important;
+}
+
+#alert + #hourly {
+  grid-column: span 4;
 }
 
 #daily {
@@ -635,8 +640,11 @@ dialog::backdrop {
   #root {
     grid-template-columns: repeat(4, 1fr);
   }
-  .widget-wide-full {
+  #hourly {
     grid-column: 1 / -1;
+  }
+  #alert + #hourly {
+    grid-column: span 2;
   }
 }
 

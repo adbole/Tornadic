@@ -165,8 +165,12 @@ p {
         grid-template-columns: repeat(4, 1fr);
     }
 
-    .widget-wide-full {
+    #hourly {
         grid-column: 1 / -1;
+    }
+
+    #alert + #hourly {
+        grid-column: span 2;
     }
 }
 
