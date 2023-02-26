@@ -157,7 +157,6 @@ nav > a > svg {
   padding: 60px 10px;
   gap: 10px;
   height: 100%;
-  grid-column: span 2;
   grid-row: span 2;
   font-size: 1.5rem;
   background-repeat: no-repeat;
@@ -615,6 +614,9 @@ dialog::backdrop {
   #root #radar {
     grid-column: span 4;
   }
+  #root #now {
+    grid-column: span 2;
+  }
 }
 
 @media screen and (max-width: 1500px) {
@@ -640,10 +642,10 @@ dialog::backdrop {
   #root {
     grid-template-columns: repeat(4, 1fr);
   }
-  #hourly {
+  #root #hourly {
     grid-column: 1 / -1;
   }
-  #alert + #hourly {
+  #root #alert + #hourly {
     grid-column: span 2;
   }
 }
@@ -659,17 +661,13 @@ dialog::backdrop {
   #root #radar {
     height: 300px;
   }
-  .alert {
-    width: 100%;
-    max-width: unset;
-  }
 }
 
 @media screen and (max-width: 500px) {
   :root {
     font-size: 15px;
   }
-  :root .widget {
+  #root .widget {
     min-height: 150px;
   }
 }

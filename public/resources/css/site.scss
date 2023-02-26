@@ -126,6 +126,7 @@ p {
     }
 }
 
+//INDIVIDUAL MODULES SHOULD BE PLACED HERE TO ENSURE HIGHEST 
 @import 'modules/navbar';
 @import 'modules/now';
 @import 'modules/alert';
@@ -138,8 +139,9 @@ p {
 
 //ALL MEDIA CHANGES SHOULD BE PLACED HERE FOR HIGHEST PRIORITY
 @media screen and (min-width: 1500px) {
-    #root #radar {
-        grid-column: span 4;
+    #root {
+        #radar { grid-column: span 4; }
+        #now { grid-column: span 2; }
     }
 }
 
@@ -163,14 +165,9 @@ p {
 @media screen and (max-width: 1200px) {
     #root {
         grid-template-columns: repeat(4, 1fr);
-    }
 
-    #hourly {
-        grid-column: 1 / -1;
-    }
-
-    #alert + #hourly {
-        grid-column: span 2;
+        #hourly { grid-column: 1 / -1; }
+        #alert + #hourly { grid-column: span 2; }
     }
 }
 
@@ -187,19 +184,14 @@ p {
             height: 300px;
         }
     }
-
-    .alert {
-        width: 100%;
-        max-width: unset;
-    }
 }
 
 @media screen and (max-width: 500px) {
     :root {
         font-size: 15px;
+    }
 
-        .widget {
-            min-height: 150px
-        }
+    #root .widget {
+        min-height: 150px
     }
 }
