@@ -2,6 +2,9 @@
 import ReactDOM from 'react-dom/client';
 // import reportWebVitals from './reportWebVitals';
 
+//Service Worker
+import * as serviceWorkerRegistration from './serviceWorkerRegistration';
+
 //Components
 import Now from './Components/Now';
 import Hourly from './Components/Hourly';
@@ -80,6 +83,8 @@ root.render(
         </ModalContext>
     </>
 );
+
+serviceWorkerRegistration.register();
 
 // const root = ReactDOM.createRoot(document.getElementById('root'));
 // root.render(
