@@ -27,10 +27,10 @@ export enum WeatherCondition {
 }
 
 export enum AlertType {
-    WARNING = "alert-warning",
-    WATCH = "alert-watch",
-    ADVISORY = "alert-advisory",
-    NONE = "alert-unknown"
+    NONE,
+    ADVISORY,
+    WATCH,
+    WARNING
 }
 
 export type HazardInfo = Readonly<{
