@@ -1,65 +1,34 @@
 //React
 import ReactDOM from 'react-dom/client';
+import React from 'react';
 // import reportWebVitals from './reportWebVitals';
 
 //Service Worker
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
 //Components
-import Now from './Components/Now';
-import Hourly from './Components/Hourly';
-import Daily from './Components/Daily';
-import Radar from './Components/Radar/Radar';
-import HazardLevelView from './Components/HazardLevelView';
-import Wind from './Components/Wind';
-import SunTime from './Components/SunTime';
-import Alert from './Components/Alert';
-import { SimpleInfoWidget } from './Components/SimpleComponents';
+import App from './App';
+import OfflineApp from './OfflineApp';
 
-//Contexes
-import ModalContext from './Components/Contexes/ModalContext';
-import WeatherContext, { useWeather } from './Components/Contexes/WeatherContext';
-import { WeatherData } from './ts/WeatherData';
+const OnlineOfflineManager = () => {
+    const [online, setOnline] = React.useState(navigator.onLine);
 
-//Icons
-import * as WidgetIcons from './svgs/widget/widget.svgs';
-import { Tornadic } from './svgs/svgs';
+    React.useEffect(() => {
+        const handleOnline = () => setOnline(true);
+        const handleOffline = () => setOnline(false);
 
-const DayValues = () => {
-    const forecastData = useWeather().forecast;
+        window.addEventListener("online", handleOnline);
+        window.addEventListener("offline", handleOffline);
+
+        return () => {
+            window.removeEventListener("online", handleOnline);
+            window.removeEventListener("offline", handleOffline);
+        };
+    }, []);
 
     return (
         <>
-            <SimpleInfoWidget icon={<WidgetIcons.Droplet />} title="Precipitation" value={`${forecastData.hourly.precipitation[forecastData.nowIndex]}"`} />
-            <SimpleInfoWidget icon={<WidgetIcons.Thermometer />} title="Dew Point" value={`${forecastData.hourly.dewpoint_2m[forecastData.nowIndex]}°`} />
-            <SimpleInfoWidget icon={<WidgetIcons.Moisture />} title="Humidity" value={`${forecastData.hourly.relativehumidity_2m[forecastData.nowIndex]}%`} />
-            <SimpleInfoWidget icon={<WidgetIcons.Eye />} title="Visibility" value={`${WeatherData.ToKM(forecastData.hourly.visibility[forecastData.nowIndex])} km`} />
-        </>
-    );
-};
-
-const Pressure = () => {
-    const forecastData = useWeather().forecast;
-    const inHg = (forecastData.hourly.surface_pressure[forecastData.nowIndex] * 0.03).toFixed(2);
-
-    return (
-        <>
-            <SimpleInfoWidget icon={<Tornadic/>} title="Pressure" value={`${inHg} inHg`}/>
-        </>
-    );
-};
-
-const AirUV = () => {
-    const forecastData = useWeather().forecast;
-    const airqualityData = useWeather().airQuality.hourly;
-
-    const AQ = Math.round(airqualityData.us_aqi[forecastData.nowIndex]);
-    const UV = Math.round(airqualityData.uv_index[forecastData.nowIndex]);
-
-    return (
-        <>
-            <HazardLevelView info={WeatherData.GetAQInfo(AQ)} />
-            <HazardLevelView info={WeatherData.GetUVInfo(UV)} />
+            {online ? <App/> : <OfflineApp/>}
         </>
     );
 };
@@ -67,20 +36,7 @@ const AirUV = () => {
 const root = ReactDOM.createRoot(document.getElementById('root')!);
 root.render(
     <>
-        <ModalContext>
-            <WeatherContext>
-                <Now/>
-                <Alert/>
-                <Hourly />
-                <DayValues/>
-                <SunTime/>
-                <Daily />
-                <AirUV />
-                <Radar />
-                <Wind/>
-                <Pressure/>
-            </WeatherContext>
-        </ModalContext>
+       <OnlineOfflineManager />
     </>
 );
 

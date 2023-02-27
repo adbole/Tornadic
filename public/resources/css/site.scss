@@ -119,10 +119,36 @@ p {
     top: 0px;
     height: 100vh;
 
-    background-image: linear-gradient(to right, transparent 20%, #313131 50%, transparent 80%);
+    >svg { width: 500px }
+}
 
-    >svg {
-        width: 500px
+#offline {
+    @include center-flex;
+    flex-direction: column;
+    
+    position: fixed;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    bottom: 0px;
+
+    text-align: center;
+
+    >svg { width: 500px }
+
+    >div {
+        position: fixed;
+        left: 0px;
+        right: 0px;
+        top: 0px;
+        bottom: 0px;
+
+        backdrop-filter: blur(10px);
+
+        @include center-flex;
+        flex-direction: column;
+
+        >svg { width: 100px; }
     }
 }
 
