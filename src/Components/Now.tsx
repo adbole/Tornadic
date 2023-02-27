@@ -32,6 +32,8 @@ const Now = () => {
             background = `clear-${weatherData.IsDay() ? "day" : "night"}`;
     }
 
+    document.body.classList.add(background);
+
     return (
         <Widget id="now" className={background}>
             <p>{pointData.properties.relativeLocation.properties.city}</p>

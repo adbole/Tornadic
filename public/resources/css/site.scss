@@ -14,13 +14,11 @@
 :root { 
     --bg: #191B1F;
     --widget-back: #2c2c2c;
-    --border-radius: 10px;
+    --border-radius: 15px;
     
     color:rgba(255, 255, 255, 0.9);
     font-size: 20px; 
     background: {
-        //image: radial-gradient(14.52% 30.09% at 100% 0%, rgba(255, 255, 255, 0.5) 0%, #00A3FF 100%);
-        //image: url("../images/sunny.webp");
         color: var(--bg);
         repeat: no-repeat;
         size: cover;
@@ -33,6 +31,9 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    
+    background: radial-gradient(111% 111% at 74.29% -11%, #A93300 0%, #083434 100%), linear-gradient(127.43deg, #00D5C8 0%, #2200AA 100%);
+    background-blend-mode: difference, normal;
 }
 
 #root {
@@ -70,8 +71,9 @@ p {
     position: relative;
     padding: 10px;
 
-    border-radius: 15px;
-    background-color: var(--widget-back);    
+    border-radius: var(--border-radius);
+    // background-color: var(--widget-back);    
+    backdrop-filter: saturate(130%);
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
 
     &-large {
@@ -93,6 +95,19 @@ p {
         width: 100%;
 
         padding-bottom: 10px;
+    }
+}
+
+//Backdrop filter causes postition fixed to not work
+//Following rule works around this for the radar element
+#radar.widget {
+    backdrop-filter: none;
+    &::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        backdrop-filter: saturate(130%);
+        border-radius: var(--border-radius);
     }
 }
 

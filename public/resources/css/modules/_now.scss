@@ -37,6 +37,6 @@ $conditionGradients: ("clear-day": (#52a4da, #73bae1),
 
 @each $name, $gradient in $conditionGradients {
     .#{$name} {
-        background-image: linear-gradient(to bottom, $gradient);
+        background: linear-gradient(to bottom, $gradient);
     }
 }
