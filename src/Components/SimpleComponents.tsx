@@ -9,8 +9,7 @@ import { TornadicLoader } from '../svgs/svgs';
 export enum WidgetSize {
     NORMAL = "",
     LARGE = " widget-large",
-    WIDE = " widget-wide",
-    WIDE_FULL = " widget-wide-full"
+    WIDE = " widget-wide"
 }
 
 /**
