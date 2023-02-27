@@ -150,3 +150,6 @@ dist
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+#Compiled sass files
+public/resources/css/*.css
