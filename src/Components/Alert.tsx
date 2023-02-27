@@ -71,12 +71,16 @@ export default Alert;
 const AlertSelectionModal = ({alertData}: {alertData: NWSAlert[]}) => {
     const modals = useModal();
 
-    return (
+    //Memoize the component to prevent unnecessary operations
+    const memoizedComponent = React.useMemo(() => (
         <Modal modalTitle={alertData.length + " Weather Alerts"} modalTitleClass={"alert-none"} id="alert-list-modal">
             {
                 alertData.map((alert, key) => {
+                    //Inclues override to onClose to reopen the alert selection modal
+                    const onClickHandler = () => modals.showModal(<AlertModal alert={alert} onClose={() => modals.showModal(memoizedComponent)}/>);
+
                     return (
-                        <Widget key={key} size={WidgetSize.WIDE} id="alert" className={ToAlertCSS(WeatherData.GetAlertType(alert))} onClick={() => modals.showModal(<AlertModal alert={alert}/>)}>
+                        <Widget key={key} size={WidgetSize.WIDE} id="alert" className={ToAlertCSS(WeatherData.GetAlertType(alert))} onClick={onClickHandler}>
                             <h2>{alert.properties.event}</h2>
                             <p>{alert.properties.event} until {GetTimeString(alert.properties.ends)}</p>
                         </Widget>
@@ -84,18 +88,23 @@ const AlertSelectionModal = ({alertData}: {alertData: NWSAlert[]}) => {
                 })
             }
         </Modal>
-    );
+    ), [alertData]);
+    
+
+    return memoizedComponent;
 };
 
 /**
  * Display the given NWSAlert as a modal to get more in depth information from.
  */
-export const AlertModal = ({alert}: {alert: NWSAlert}) => {
+export const AlertModal = (props: {alert: NWSAlert} & React.DialogHTMLAttributes<HTMLDialogElement>) => {
+    const {alert, ...excess} = props;
+
     const alertData = alert.properties;
     const alertType = ToAlertCSS(WeatherData.GetAlertType(alert));
     
     return (
-        <Modal modalTitle={alertData.event} modalTitleClass={alertType} id="alert-modal">
+        <Modal modalTitle={alertData.event} modalTitleClass={alertType} id="alert-modal" {...excess}>
             <p><em>Issuing Office:</em> {alertData.senderName}</p>
             <p><em>Issued:</em> {GetTimeString(alertData.sent)}</p>
             <p><em>Effective:</em> {GetTimeString(alertData.effective)}</p>

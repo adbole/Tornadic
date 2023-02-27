@@ -23,7 +23,7 @@ export function useModal() {
 
 const ModalContextProvider = ({children}: {children: React.ReactNode}) => {
     const [modal, setModal] = React.useState<React.ReactNode>(null);
-    const hideModal = React.useCallback(() => setModal(null), [setModal]);
+    const hideModal = React.useCallback(() => setModal(null), []);
 
     return (
         <Context.Provider value={{showModal: setModal, hideModal: hideModal}}>
@@ -64,7 +64,7 @@ export const Modal = (props: ModalProps) => {
     }
 
     return (
-        <dialog className="modal" ref={dialogRef} {...excess} onClick={onClick} onClose={() => modalContext.hideModal()}>
+        <dialog className="modal" ref={dialogRef} onClick={onClick} onClose={() => modalContext.hideModal()} {...excess}>
             <h1 className={modalTitleClass}>{modalTitle}</h1>
             <div className="modal-content">
                 {children}
