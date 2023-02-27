@@ -1,3 +1,6 @@
+@use "sass:math";
+@use "sass:color";
+
 $alertTypes: ("warning": #C31700, "watch": #FFF501, "advisory": #FF9431, "special": #8F00FF);
 
 .alert {
@@ -15,8 +18,25 @@ $alertTypes: ("warning": #C31700, "watch": #FFF501, "advisory": #FF9431, "specia
     }
 }
 
+@function CalcGun($colorGun) {
+    @return if($colorGun <= 0.03928, $colorGun / 12.92, math.pow(($colorGun + 0.055) / 1.055, 2.4));
+}
+
+//W3 compliant luminance calculation for foreground
+@function Luminance($color) {
+    $red: CalcGun(color.red($color) / 255);
+    $green: CalcGun(color.green($color) / 255);
+    $blue: CalcGun(color.blue($color) / 255);
+  
+    $relative-luminance: 0.2126 * $red + 0.7152 * $green + 0.0722 * $blue;
+  
+    @return $relative-luminance;
+}
+
 @each $alert, $color in $alertTypes {
     .alert-#{$alert} {
-        background-color: $color;
+        background: $color;
+        color: if(Luminance($color) < 0.179, white, black)
     }
+
 }
