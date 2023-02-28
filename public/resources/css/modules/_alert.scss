@@ -3,21 +3,6 @@
 
 $alertTypes: ("warning": #C31700, "watch": #FFF501, "advisory": #FF9431, "special": #8F00FF);
 
-.alert {
-    min-width: 20rem;
-    max-width: 75%;
-    padding: 10px;
-    mix-blend-mode: normal !important;
-
-    text-align: center;
-
-    @each $type, $color in $alertTypes {
-        &.#{$type} {
-            background-color: $color;
-        }
-    }
-}
-
 #alert-list-modal >.modal-content{
     display: flex;
     flex-direction: column;
@@ -43,10 +28,11 @@ $alertTypes: ("warning": #C31700, "watch": #FFF501, "advisory": #FF9431, "specia
     @return $relative-luminance;
 }
 
-@each $alert, $color in $alertTypes {
-    .alert-#{$alert} {
-        background: $color;
-        color: if(Luminance($color) < 0.179, white, black)
+#alert {
+    @each $alert, $color in $alertTypes {
+        &.alert-#{$alert} {
+            background: $color;
+            color: if(Luminance($color) < 0.179, white, black)
+        }
     }
-
 }
