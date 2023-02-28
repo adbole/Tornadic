@@ -294,6 +294,10 @@ export class WeatherData {
         };
     }
 
+    static ToMi(ft: number) {
+        return (ft / 5280).toFixed(0);
+    }
+
     static ToKM(meters: number) {
         return (meters / 1000).toFixed(0);
     }

@@ -143,6 +143,7 @@ const WeatherContextProvider = (props: {children: ReactNode}) => {
 
             const [latitude, longitude] = [pos.coords.latitude, pos.coords.longitude];
         
+            //NOTE: Precipitation unit of in affects the unit of visibility to become ft
             //Now that we have the pos begin making the needed requests
             const forecastURL = new URL("https://api.open-meteo.com/v1/forecast?timezone=auto&current_weather=true");
             const hourly_params = ["temperature_2m", "apparent_temperature", "precipitation", "weathercode", "relativehumidity_2m", "dewpoint_2m", "visibility", "windspeed_10m", "winddirection_10m", "surface_pressure"];
