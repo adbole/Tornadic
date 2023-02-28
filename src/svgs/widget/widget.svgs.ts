@@ -7,6 +7,8 @@ import { ReactComponent as Thermometer } from './thermometer.svg';
 import { ReactComponent as Calendar } from './calendar-fill.svg';
 import { ReactComponent as Lungs } from './lungs-fill.svg';
 import { ReactComponent as Map } from './map-fill.svg';
+import { ReactComponent as Wind } from './wind.svg';
+import { ReactComponent as Clock } from './clock-fill.svg';
 
 export {
     Droplet,
@@ -17,5 +19,7 @@ export {
     Thermometer,
     Calendar,
     Lungs,
-    Map
+    Map,
+    Wind,
+    Clock
 };

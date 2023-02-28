@@ -3,6 +3,7 @@ import { useWeather } from './Contexes/WeatherContext';
 import { WeatherData } from '../ts/WeatherData';
 
 import { Widget } from "./SimpleComponents";
+import { Clock } from '../svgs/widget/widget.svgs';
 
 /**
  * A helper component for the Hourly component to display the individual hours
@@ -68,7 +69,7 @@ const Hourly = () => {
     }
 
     return (
-        <Widget id="hourly" widgetTitle="Hourly Forecast" widgetIcon={WeatherData.GetWeatherCondition(weatherData.forecast.current_weather.weathercode).icon}>
+        <Widget id="hourly" widgetTitle="Hourly Forecast" widgetIcon={<Clock/>}>
             {/* {props.message != null && <p>{props.message}</p>} */}
             <ol className="flex-list drag-scroll" onMouseDown={MouseDown} onMouseLeave={MouseLeave} onMouseUp={MouseUp} onMouseMove={MouseMove}>
                 {

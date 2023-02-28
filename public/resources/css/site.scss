@@ -56,12 +56,19 @@ body {
 }
 
 
-svg {  width: 1rem; }
+svg {  
+    display: inline-block;
+    width: 1rem; 
+}
 
 p {
     margin: 0px;
     line-height: 1;
     height: fit-content;
+
+    >svg {
+        vertical-align: middle;
+    }
 }
 
 .widget {

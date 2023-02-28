@@ -55,7 +55,10 @@
         }
 
         p { white-space: nowrap; }
-        svg { width: 3rem !important; }
+        svg { 
+            width: 2rem !important; 
+            margin: 10px 0px;
+        }
     }
 }
 
