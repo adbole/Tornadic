@@ -183,11 +183,10 @@ const Playback = ({MAP} : {MAP: L.Map}) => {
                 layersControl.addBaseLayer(radarData.availableLayers[layerKey].layerGroup, layerKey);
             }
             
-            //Due to how layers are added, the baselayerchange event will not fire until the layers have been changed at least twice. 
-            //To work around it a click is simulated on the controls at load to force the baselayerchange event to fire as expected.
             MAP.on('baselayerchange', (e) => setActive(e.name as RadarTypes.LayerTypes));
 
-            //Force the current frame to display
+            //Due to how layers are added, the baselayerchange event will not fire until the layers have been changed at least twice. 
+            //To work around it a click is simulated on the controls at load to force the baselayerchange event to fire as expected.
             [...document.querySelectorAll('.leaflet-control-layers-selector')].forEach((el) => {
                 el.dispatchEvent(new Event('click'));
             });

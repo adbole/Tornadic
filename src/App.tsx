@@ -65,12 +65,12 @@ const App = () => (
                 <Alert/>
                 <Hourly />
                 <DayValues/>
-                <SunTime/>
-                <Daily />
                 <AirUV />
+                <Daily />
                 <Radar />
                 <Wind/>
                 <Pressure/>
+                <SunTime/>
             </WeatherContext>
         </ModalContext>
     </>

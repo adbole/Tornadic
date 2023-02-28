@@ -43,7 +43,7 @@ type ModalProps = React.HTMLAttributes<HTMLDialogElement> & {
 }
 
 /**
- * 
+ * A base modal to display simple information using the ModalContext
  */
 export const Modal = (props: ModalProps) => {
     const modalContext = useModal();

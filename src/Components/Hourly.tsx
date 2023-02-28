@@ -1,6 +1,5 @@
 import React from 'react';
 import { useWeather } from './Contexes/WeatherContext';
-import { WeatherData } from '../ts/WeatherData';
 
 import { Widget } from "./SimpleComponents";
 import { Clock } from '../svgs/widget/widget.svgs';
@@ -70,15 +69,16 @@ const Hourly = () => {
 
     return (
         <Widget id="hourly" widgetTitle="Hourly Forecast" widgetIcon={<Clock/>}>
-            {/* {props.message != null && <p>{props.message}</p>} */}
             <ol className="flex-list drag-scroll" onMouseDown={MouseDown} onMouseLeave={MouseLeave} onMouseUp={MouseUp} onMouseMove={MouseMove}>
                 {
                     Array.from(weatherData.GetFutureValues()).map((forecast, index) => {
                         const time = new Date(forecast.time);
 
+                        //Determine how the time should be displayed
                         const hour = time.getHours() % 12;
                         const AMPM = time.getHours() >= 12 ? "PM" : "AM";
 
+                        //To indicate a new day, add a day seperator
                         if(time.getHours() === 0) {
                             return (
                                 <React.Fragment key={index}>
