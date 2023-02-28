@@ -27,7 +27,6 @@
 #hourly {
     flex-direction: column;
     text-align: center;
-    grid-column: span 6;
 
     >ol {
         gap: 20px;
@@ -60,9 +59,4 @@
             margin: 10px 0px;
         }
     }
-}
-
-//Should an alert appear, resize hourly to make room
-#alert + #hourly {
-    grid-column: span 4;
 }

@@ -17,7 +17,7 @@
     --border-radius: 15px;
     
     color:rgba(255, 255, 255, 0.9);
-    font-size: 20px; 
+    font-size: 16px; 
     background: {
         color: var(--bg);
         repeat: no-repeat;
@@ -38,17 +38,14 @@ body {
 
 #root {
     display: grid;
-    grid-template-columns: repeat(8, 1fr);
-    grid-auto-rows: minmax(150px, 175px);
+    grid-auto-rows: 150px;
     grid-auto-flow: dense;
-    flex-direction: column;
     gap: 20px;
 
     padding: 10px;
 
     width: 100%;
     max-width: 1800px;
-    //min-height: 100vh;
 
     &.hide-overflow {
         overflow: hidden;
@@ -186,36 +183,63 @@ p {
 @import 'modules/modal';
 
 //ALL MEDIA CHANGES SHOULD BE PLACED HERE FOR HIGHEST PRIORITY
-@media screen and (min-width: 1500px) {
+@media screen and (min-width: 1400px) {
     #root {
-        #radar { grid-column: span 4; }
-        #now { grid-column: span 2; }
+        grid-template-columns: repeat(8, 1fr);
+
+        #hourly { grid-column: span 6; }
+        #alert + #hourly { grid-column: span 4; }
+
+        //n = Now
+        //d = Daily
+        //r = Radar
+        grid-template-areas: 
+        "n n . . . . . ." 
+        "n n . . . . . ."
+        "d d . . r r r r"
+        "d d . . r r r r";
     }
 }
 
-@media screen and (max-width: 1500px) {
+@media screen and (max-width: 1400px) {
     #root {
         grid-template-columns: repeat(6, 1fr);
+        grid-template-areas: 
+        "n n . . . ." 
+        "n n . . . ."
+        "d d . . r r"
+        "d d . . r r";
 
-        #now {
-            grid-column: 1/-1;
-            order: 1
+        #hourly { grid-column: span 2; }
+        #alert + #hourly { grid-column: span 2; }
+    }
+}
+
+//Keep grid areas up to this point
+@media screen and (min-width: 1100px) {
+    #now {  grid-area: n; }
+    #daily {  grid-area: d; }
+    #radar { grid-area: r; }
+}
+
+//Grid order used from this point on
+@media screen and (max-width: 1100px) {
+    #root {
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-areas: none;
+
+        #now { 
+            grid-column: span 2; 
+            order: 1;
         }
 
-        #alert {order: 2};
-        #hourly, #daily, #radar {order: 3};
+        #alert, #hourly { order: 2 }
+        #daily, #radar { order: 3 }
         >* {
             order: 4;
         }
-    }
-}
 
-@media screen and (max-width: 1200px) {
-    #root {
-        grid-template-columns: repeat(4, 1fr);
-
-        #hourly { grid-column: 1 / -1; }
-        #alert + #hourly { grid-column: span 2; }
+        #hourly { grid-column: span 2; }
     }
 }
 
@@ -224,22 +248,8 @@ p {
         grid-template-columns: repeat(2, 1fr);
         grid-auto-rows: auto;
 
-        .widget {
-            min-height: 200px
-        }
+        .widget { min-height: 150px; }
 
-        #radar {
-            height: 300px;
-        }
-    }
-}
-
-@media screen and (max-width: 500px) {
-    :root {
-        font-size: 15px;
-    }
-
-    #root .widget {
-        min-height: 150px
+        #radar { height: 300px; }
     }
 }
