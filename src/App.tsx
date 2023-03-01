@@ -17,6 +17,7 @@ import { WeatherData } from './ts/WeatherData';
 //Icons
 import * as WidgetIcons from './svgs/widget/widget.svgs';
 import { Tornadic } from './svgs/svgs';
+import Pressure from './Components/Pressure';
 
 const DayValues = () => {
     const forecastData = useWeather().forecast;
@@ -27,17 +28,6 @@ const DayValues = () => {
             <SimpleInfoWidget icon={<WidgetIcons.Thermometer />} title="Dew Point" value={`${forecastData.hourly.dewpoint_2m[forecastData.nowIndex]}°`} />
             <SimpleInfoWidget icon={<WidgetIcons.Moisture />} title="Humidity" value={`${forecastData.hourly.relativehumidity_2m[forecastData.nowIndex]}%`} />
             <SimpleInfoWidget icon={<WidgetIcons.Eye />} title="Visibility" value={`${WeatherData.ToMi(forecastData.hourly.visibility[forecastData.nowIndex])} mi`} />
-        </>
-    );
-};
-
-const Pressure = () => {
-    const forecastData = useWeather().forecast;
-    const inHg = (forecastData.hourly.surface_pressure[forecastData.nowIndex] * 0.03).toFixed(2);
-
-    return (
-        <>
-            <SimpleInfoWidget icon={<Tornadic/>} title="Pressure" value={`${inHg} inHg`}/>
         </>
     );
 };
