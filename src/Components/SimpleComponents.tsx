@@ -56,7 +56,7 @@ export const SimpleInfoWidget = (props: {
     <Widget className="basic-info">
         {props.icon}
         <p>{props.title}</p>
-        <p>{props.value}</p>
+        <h1>{props.value}</h1>
     </Widget>
 );
 // #endregion BasicInfoView
