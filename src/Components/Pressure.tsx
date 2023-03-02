@@ -1,20 +1,16 @@
-import { useWeather } from "./Contexes/WeatherContext";
+import { Forecast, useWeather } from "./Contexes/WeatherContext";
 import { Widget } from "./SimpleComponents";
 import { Meter, Up, Down } from "../svgs/widget/widget.svgs";
 
-function GetTrendIcon(values: number[]) {
-    let total = values[1] - values[0];
+function GetTrendIcon(forecast: Forecast) {
+    const surface = forecast.hourly.surface_pressure;
+    const total = (surface[forecast.nowIndex + 1] - surface[forecast.nowIndex]) / 33.864; //Division to convert to inHG
 
-    //Get trend based on next 3 hours
-    for(let i = 1; i < 4; ++i) {
-        total += values[i + 1] - values[i];
-    }
-
-    //Changes greater than +- 0.1 are considered non-equal
-    if(total > 0.1) {
+    //Changes greater than +- 0.02 are considered non-equal
+    if(total > 0.02) {
         return <Up/>;
     }
-    else if(total < -0.1) {
+    else if(total < -0.02) {
         return <Down/>;
     }
     else {
@@ -23,10 +19,10 @@ function GetTrendIcon(values: number[]) {
 }
 
 const Pressure = () => {
-    const forecast = useWeather().forecast;
+    const forecast = useWeather().forecast; //Pressure measured in hPa
 
-    const inHg = (forecast.hourly.surface_pressure[forecast.nowIndex] * 0.03).toFixed(2);
-    const trendIcon = GetTrendIcon(forecast.hourly.surface_pressure);
+    const inHg = (forecast.hourly.surface_pressure[forecast.nowIndex] / 33.864).toFixed(2);
+    const trendIcon = GetTrendIcon(forecast);
 
     return (
         <Widget id="pressure" widgetIcon={<Meter/>} widgetTitle={"Air Pressure"}>
