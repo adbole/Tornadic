@@ -11,7 +11,7 @@
 import { clientsClaim, skipWaiting } from 'workbox-core';
 import { precacheAndRoute, createHandlerBoundToURL } from 'workbox-precaching';
 import { registerRoute } from 'workbox-routing';
-import { StaleWhileRevalidate } from 'workbox-strategies';
+import { NetworkFirst } from 'workbox-strategies';
 
 declare const self: ServiceWorkerGlobalScope;
 
@@ -55,16 +55,16 @@ registerRoute(
 
 //Cache all css files
 registerRoute(
-  /\.css/,
-  new StaleWhileRevalidate({
+  /\.css$/,
+  new NetworkFirst({
     cacheName: 'tornadic-css'
   })
 );
 
 //Cache all svgs
 registerRoute(
-    /\.svg/,
-    new StaleWhileRevalidate({
+    /\.svg$/,
+    new NetworkFirst({
         cacheName: 'tornadic-svg'
     })
 );
