@@ -2,7 +2,21 @@ import { Widget, WidgetSize } from './SimpleComponents';
 import { Normalize } from '../ts/Helpers';
 import { useWeather } from './Contexes/WeatherContext';
 import { Calendar } from '../svgs/widget/widget.svgs';
-import { DayInfo } from '../ts/WeatherData';
+import { DayInfo, WeatherCondition } from '../ts/WeatherData';
+
+function ChanceOfRain(dayInfo: DayInfo) {
+    const condition = dayInfo.condition.condition;
+
+    switch(condition) {
+        case WeatherCondition.CLEAR:
+        case WeatherCondition.MOSTLY_CLEAR:
+        case WeatherCondition.PARTLY_CLOUDY:
+        case WeatherCondition.OVERCAST:
+            return false;
+        default: 
+            return dayInfo.precipitation_probability > 0;
+    }
+}
 
 /**
  * A helper component for Daily to display the individual days of the week
@@ -18,7 +32,7 @@ const Day = ({dayInfo, style}: {
         <td><p>{dayInfo.day}</p></td>
         <td className={"condition"}>      
             {dayInfo.condition.icon}
-            {dayInfo.precipitation_probability > 0 && <span>{dayInfo.precipitation_probability}%</span>}
+            {ChanceOfRain(dayInfo) && <span>{dayInfo.precipitation_probability}%</span>}
         </td>
         <td>
             <div className='temp-range'>
