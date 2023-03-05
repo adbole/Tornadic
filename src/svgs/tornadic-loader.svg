@@ -1,13 +1,12 @@
 <svg version="1.1" viewBox="0 0 800 800" xmlns="http://www.w3.org/2000/svg">
-    
     <!--Second Line-->
-    <line y1="450" y2="450" stroke="#4d4d4d" stroke-width="5px" stroke-linecap="round">
+    <line y1="450" y2="450" stroke="white" stroke-width="5px" stroke-linecap="round">
         <animate attributeName="x1" values="500;400;300;200;200" begin="0.5s" dur="2s" repeatCount="indefinite"/>
         <animate attributeName="x2" values="500;500;400;300;200" begin="0.5s" dur="2s" repeatCount="indefinite"/>
     </line>
 
     <!--Fourth Line-->
-    <line y1="550" y2="550" stroke="#4d4d4d" stroke-width="5px" stroke-linecap="round">
+    <line y1="550" y2="550" stroke="white" stroke-width="5px" stroke-linecap="round">
         <animate attributeName="x1" values="500;400;300;200;200" begin="1.5s" dur="2s" repeatCount="indefinite"/>
         <animate attributeName="x2" values="500;500;400;300;200" begin="1.5s" dur="2s" repeatCount="indefinite"/>
     </line>
@@ -16,13 +15,13 @@
     <path fill="#1a1a1a" d="M 725,240.4502 C 599.72623,215.1512 467.21032,207.87255 351.53023,153.50536 289.24892,124.23451 227.63668,84.63827 187.17329,28.5714 c 11.87996,78.24421 64.00031,143.3292 115.43923,201.8848 45.32736,51.4257 7.80642,111.9124 -7.72987,164.1125 C 250.86288,532.9926 184.90281,670.2671 75,771.4286 148.02395,756.6076 285.60493,598.1241 330.12267,525.721 378.57954,456.0998 411.74954,375.8178 472.05604,314.363 506.22027,280.5976 557.24701,282.6114 602.58595,275.6948 644.05169,269.3691 689.43235,263.7172 725,240.4502 Z"/>
     
     <!--First Line-->
-    <line y1="400" y2="400" stroke="#4d4d4d" stroke-width="5px" stroke-linecap="round">
+    <line y1="400" y2="400" stroke="white" stroke-width="5px" stroke-linecap="round">
         <animate attributeName="x1" values="200;200;300;400;500" dur="2s" repeatCount="indefinite"/>
         <animate attributeName="x2" values="200;300;400;500;500" dur="2s" repeatCount="indefinite"/>
     </line>
     
     <!--Third Line-->
-    <line y1="500" y2="500" stroke="#4d4d4d" stroke-width="5px" stroke-linecap="round">
+    <line y1="500" y2="500" stroke="white" stroke-width="5px" stroke-linecap="round">
         <animate attributeName="x1" values="200;200;300;400;500" begin="1s" dur="2s" repeatCount="indefinite"/>
         <animate attributeName="x2" values="200;300;400;500;500" begin="1s" dur="2s" repeatCount="indefinite"/>
     </line>
