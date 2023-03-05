@@ -1,22 +1,9 @@
+import { useCallback } from 'react';
 import { Widget, WidgetSize } from './SimpleComponents';
 import { Normalize } from '../ts/Helpers';
 import { useWeather } from './Contexes/WeatherContext';
 import { Calendar } from '../svgs/widget/widget.svgs';
-import { DayInfo, WeatherCondition } from '../ts/WeatherData';
-
-function ChanceOfRain(dayInfo: DayInfo) {
-    const condition = dayInfo.condition.condition;
-
-    switch(condition) {
-        case WeatherCondition.CLEAR:
-        case WeatherCondition.MOSTLY_CLEAR:
-        case WeatherCondition.PARTLY_CLOUDY:
-        case WeatherCondition.OVERCAST:
-            return false;
-        default: 
-            return dayInfo.precipitation_probability > 0;
-    }
-}
+import { DayInfo, WeatherData } from '../ts/WeatherData';
 
 /**
  * A helper component for Daily to display the individual days of the week
@@ -32,7 +19,7 @@ const Day = ({dayInfo, style}: {
         <td><p>{dayInfo.day}</p></td>
         <td className={"condition"}>      
             {dayInfo.condition.icon}
-            {ChanceOfRain(dayInfo) && <span>{dayInfo.precipitation_probability}%</span>}
+            {WeatherData.IsRaining(dayInfo) && <span>{dayInfo.precipitation_probability}%</span>}
         </td>
         <td>
             <div className='temp-range'>
@@ -67,7 +54,7 @@ const Daily = () => {
         }
     }
 
-    function CalculateDualRangeCoverStyle(min: number, max: number) {
+    const calculateDualRangeCoverStyle = useCallback((min: number, max: number) => {
         min = Math.max(0, min);
         max = Math.min(120, max);
 
@@ -78,7 +65,7 @@ const Daily = () => {
             right: Math.max(0, 100 - Normalize.Percent(max, low_week, high_week)) + "%",
             backgroundImage: `linear-gradient(90deg, ${ToHSL(min)} 0%, ${ToHSL(max)} 100%)`
         };
-    }
+    }, [low_week, high_week]);
 
     return (
         <Widget id="daily" size={WidgetSize.LARGE} widgetTitle="7-Day Forecast" widgetIcon={<Calendar/>}>
@@ -86,7 +73,7 @@ const Daily = () => {
                 <tbody>
                     {
                         Array.from(useWeather().GetDailyValues()).map((day, index) => {
-                            return <Day key={index} dayInfo={day} style={CalculateDualRangeCoverStyle(day.temperature_low, day.temperature_high)}/>;
+                            return <Day key={index} dayInfo={day} style={calculateDualRangeCoverStyle(day.temperature_low, day.temperature_high)}/>;
                         })
                     }
                 </tbody>

@@ -43,20 +43,22 @@ export type HazardInfo = Readonly<{
     message: string
 }>
 
-export type HourInfo = Readonly<{
-    time: string,
+//Allows IsRaining to easily return values based on condition and precipitation despite if data is for hour or day
+type BaseInfo = Readonly<{
     condition: WeatherConditionInfo,
-    temperature: number,
     precipitation_probability: number
 }>
 
+export type HourInfo = Readonly<{
+    time: string,
+    temperature: number
+}> & BaseInfo
+
 export type DayInfo = Readonly<{
-    day: string,
-    condition: WeatherConditionInfo,
+    day: string
     temperature_low: number,
-    temperature_high: number,
-    precipitation_probability: number
-}>;
+    temperature_high: number
+}> & BaseInfo;
 
 type WeatherConditionInfo = Readonly<{ 
     condition: WeatherCondition, 
@@ -374,6 +376,18 @@ export class WeatherData {
             max: 11,
             message: message
         };
+    }
+
+    static IsRaining(info: BaseInfo) {
+        switch(info.condition.condition) {
+            case WeatherCondition.CLEAR:
+            case WeatherCondition.MOSTLY_CLEAR:
+            case WeatherCondition.PARTLY_CLOUDY:
+            case WeatherCondition.OVERCAST:
+                return false;
+            default: 
+                return info.precipitation_probability > 0;
+        }
     }
 
     //#endregion

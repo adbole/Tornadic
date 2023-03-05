@@ -1,6 +1,6 @@
 import React from 'react';
 import { useWeather } from './Contexes/WeatherContext';
-import { HourInfo } from '../ts/WeatherData';
+import { HourInfo, WeatherData } from '../ts/WeatherData';
 
 import { Widget } from "./SimpleComponents";
 import { Clock } from '../svgs/widget/widget.svgs';
@@ -13,7 +13,7 @@ const Hour = ({hourInfo} : {hourInfo: HourInfo}) => (
         <p>{new Date(hourInfo.time).toLocaleTimeString("en-us", {hour: "numeric", hour12: true})}</p>
         <div>
             {hourInfo.condition.icon}
-            {hourInfo.precipitation_probability > 0 && <span>{hourInfo.precipitation_probability}%</span>}
+            {WeatherData.IsRaining(hourInfo) && <span>{hourInfo.precipitation_probability}%</span>}
         </div>
         <p>{hourInfo.temperature}°</p>
     </li>
