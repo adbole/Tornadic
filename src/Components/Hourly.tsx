@@ -1,5 +1,6 @@
 import React from 'react';
 import { useWeather } from './Contexes/WeatherContext';
+import { HourInfo } from '../ts/WeatherData';
 
 import { Widget } from "./SimpleComponents";
 import { Clock } from '../svgs/widget/widget.svgs';
@@ -7,15 +8,14 @@ import { Clock } from '../svgs/widget/widget.svgs';
 /**
  * A helper component for the Hourly component to display the individual hours
  */
-const Hour = (props : {
-    time: string,
-    statusIcon: React.ReactNode,
-    temp: number
-}) => (
+const Hour = ({hourInfo} : {hourInfo: HourInfo}) => (
     <li>
-        <p>{props.time}</p>
-        {props.statusIcon}
-        <p>{props.temp}°</p>
+        <p>{new Date(hourInfo.time).toLocaleTimeString("en-us", {hour: "numeric", hour12: true})}</p>
+        <div>
+            {hourInfo.condition.icon}
+            {hourInfo.precipitation_probability > 0 && <span>{hourInfo.precipitation_probability}%</span>}
+        </div>
+        <p>{hourInfo.temperature}°</p>
     </li>
 );
 
@@ -74,22 +74,18 @@ const Hourly = () => {
                     Array.from(weatherData.GetFutureValues()).map((forecast, index) => {
                         const time = new Date(forecast.time);
 
-                        //Determine how the time should be displayed
-                        const hour = time.getHours() % 12;
-                        const AMPM = time.getHours() >= 12 ? "PM" : "AM";
-
                         //To indicate a new day, add a day seperator
                         if(time.getHours() === 0) {
                             return (
                                 <React.Fragment key={index}>
-                                    <DaySeperator day={time.toLocaleDateString("en-US", {weekday: "short", timeZone: "UTC"})}/>
-                                    <Hour statusIcon={forecast.condition.icon} time={"12 " + AMPM} temp={forecast.temperature}/>
+                                    <DaySeperator day={time.toLocaleDateString("en-US", {weekday: "short"})}/>
+                                    <Hour hourInfo={forecast}/>
                                 </React.Fragment>
                             );
                         }
                         else {
                             return (
-                                <Hour key={index} statusIcon={forecast.condition.icon} time={(hour === 0 ? 12 : hour) + " " + AMPM} temp={forecast.temperature}/>
+                                <Hour key={index} hourInfo={forecast}/>
                             );
                         }
                     })

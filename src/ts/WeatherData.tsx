@@ -43,18 +43,26 @@ export type HazardInfo = Readonly<{
     message: string
 }>
 
+export type HourInfo = Readonly<{
+    time: string,
+    condition: WeatherConditionInfo,
+    temperature: number,
+    precipitation_probability: number
+}>
+
 export type DayInfo = Readonly<{
     day: string,
     condition: WeatherConditionInfo,
     temperature_low: number,
-    temperature_high: number
+    temperature_high: number,
+    precipitation_probability: number
 }>;
 
-type WeatherConditionInfo = { 
+type WeatherConditionInfo = Readonly<{ 
     condition: WeatherCondition, 
     intesity: Intesity, 
     icon: ReactNode 
-}
+}>
 
 enum AQLevels {
     GOOD = "Good",
@@ -138,7 +146,7 @@ export class WeatherData {
     /**
      * Gets 48 hours of future values
      */
-    * GetFutureValues() {
+    * GetFutureValues(): Generator<HourInfo> {
         let currentDayIndex = 0;
 
         for(let i = this.forecast.nowIndex + 1; i < this.forecast.nowIndex + 49; ++i) {
@@ -153,18 +161,20 @@ export class WeatherData {
             yield {
                 time: this.forecast.hourly.time[i],
                 condition: WeatherData.GetWeatherCondition(this.forecast.hourly.weathercode[i], isDay),
-                temperature: Math.round(this.forecast.hourly.temperature_2m[i])
+                temperature: Math.round(this.forecast.hourly.temperature_2m[i]),
+                precipitation_probability: this.forecast.hourly.precipitation_probability[i]
             };
         }
     }
 
     * GetDailyValues(): Generator<DayInfo> {
-        //First value is today
+        //First value is current time / day
         yield {
             day: "Now",
-            condition: WeatherData.GetWeatherCondition(this.forecast.daily.weathercode[0]),
+            condition: WeatherData.GetWeatherCondition(this.forecast.hourly.weathercode[this.forecast.nowIndex]),
             temperature_low: Math.round(this.forecast.daily.temperature_2m_min[0]),
             temperature_high: Math.round(this.forecast.daily.temperature_2m_max[0]),
+            precipitation_probability: this.forecast.hourly.precipitation_probability[this.forecast.nowIndex]
         };
 
         for(let i = 1; i < this.forecast.daily.time.length; ++i) {
@@ -173,6 +183,7 @@ export class WeatherData {
                 condition: WeatherData.GetWeatherCondition(this.forecast.daily.weathercode[i]),
                 temperature_low: Math.round(this.forecast.daily.temperature_2m_min[i]),
                 temperature_high: Math.round(this.forecast.daily.temperature_2m_max[i]),
+                precipitation_probability: this.forecast.daily.precipitation_probability_max[i]
             };
         }
     }

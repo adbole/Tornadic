@@ -16,8 +16,9 @@ const Day = ({dayInfo, style}: {
 }) =>(
     <tr>
         <td><p>{dayInfo.day}</p></td>
-        <td>        
+        <td className={"condition"}>      
             {dayInfo.condition.icon}
+            {dayInfo.precipitation_probability > 0 && <span>{dayInfo.precipitation_probability}%</span>}
         </td>
         <td>
             <div className='temp-range'>
@@ -53,7 +54,10 @@ const Daily = () => {
     }
 
     function CalculateDualRangeCoverStyle(min: number, max: number) {
-        const ToHSL = (x: number) => `hsl(${240 * ((100-x)/100)}deg, 100%, 50%)`;
+        min = Math.max(0, min);
+        max = Math.min(120, max);
+
+        const ToHSL = (x: number) => `hsl(${250 * ((120-x)/120)}deg, 100%, 50%)`;
         
         return {
             left: Normalize.Percent(min, low_week, high_week) + "%",

@@ -29,6 +29,7 @@
     text-align: center;
 
     >ol {
+        height: 100%;
         gap: 20px;
 
         >.seperator {
@@ -53,10 +54,23 @@
             }
         }
 
-        p { white-space: nowrap; }
-        svg { 
-            width: 2rem !important; 
-            margin: 10px 0px;
+        >li {
+            display: flex;
+            flex-direction: column;
+
+            p { white-space: nowrap; }
+            > div {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+
+                height: 100%;
+                margin: 5px 0px;
+                
+                svg { 
+                    width: 2rem !important; 
+                }
+            }
         }
     }
 }

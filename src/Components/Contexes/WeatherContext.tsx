@@ -50,7 +50,8 @@ export type Forecast = {
         windspeed_10m: string,
         winddirection_10m: string,
         weathercode: string,
-        surface_pressure: string
+        surface_pressure: string,
+        precipitation_probability: string,
     },
     hourly: {
         time: string[]
@@ -63,7 +64,8 @@ export type Forecast = {
         windspeed_10m: number[],
         winddirection_10m: number[],
         weathercode: number[],
-        surface_pressure: number[]
+        surface_pressure: number[],
+        precipitation_probability: number[]
     },
     daily_units: {
         time: string,
@@ -71,7 +73,8 @@ export type Forecast = {
         temperature_2m_max: string,
         weathercode: string,
         sunrise: string,
-        sunset: string
+        sunset: string,
+        precipitation_probability_max: string;
     },
     daily: {
         time: string[]
@@ -79,7 +82,8 @@ export type Forecast = {
         temperature_2m_max: number[],
         weathercode: number[],
         sunrise: string[],
-        sunset: string[]
+        sunset: string[],
+        precipitation_probability_max: number[]
     },
     nowIndex: number //Indicates the index where the value for now occurs in all hourly data arrays
 }
@@ -146,8 +150,9 @@ const WeatherContextProvider = (props: {children: ReactNode}) => {
             //NOTE: Precipitation unit of in affects the unit of visibility to become ft
             //Now that we have the pos begin making the needed requests
             const forecastURL = new URL("https://api.open-meteo.com/v1/forecast?timezone=auto&current_weather=true");
-            const hourly_params = ["temperature_2m", "apparent_temperature", "precipitation", "weathercode", "relativehumidity_2m", "dewpoint_2m", "visibility", "windspeed_10m", "winddirection_10m", "surface_pressure"];
-            const daily_params = ["temperature_2m_min", "temperature_2m_max", "weathercode", "sunrise", "sunset"];
+            const hourly_params = ["temperature_2m", "apparent_temperature", "precipitation", "weathercode", "relativehumidity_2m", "dewpoint_2m", 
+                                   "visibility", "windspeed_10m", "winddirection_10m", "surface_pressure", "precipitation_probability"];
+            const daily_params = ["temperature_2m_min", "temperature_2m_max", "weathercode", "sunrise", "sunset", "precipitation_probability_max"];
     
             forecastURL.searchParams.set("latitude", latitude.toString());
             forecastURL.searchParams.set("longitude", longitude.toString());

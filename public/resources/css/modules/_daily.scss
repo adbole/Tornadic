@@ -11,9 +11,19 @@
         margin: auto;
     }
 
+    td:first-child {
+        width: 1%;
+    }
 
+    td.condition {
+        display: flex;
+        justify-content: center;
 
-    td:last-of-type { width: 55%; }
+        gap: 10px;
+    }
+
+    td:last-child{ width: 55%; }
+
     .temp-range {
         display: flex;
         flex-direction: row;
