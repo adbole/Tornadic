@@ -26,6 +26,13 @@ function ToAlertCSS(alert: AlertType) {
     }
 }
 
+const AlertDisplay = ({alertData, className, onClick} : {alertData: NWSAlert, className: string, onClick: React.MouseEventHandler<HTMLDivElement>}) => (
+    <Widget size={WidgetSize.WIDE} id="alert" className={className} onClick={onClick}>
+        <h2>{alertData.properties.event}</h2>
+        <p>{alertData.properties.event} until {GetTimeString(alertData.properties.ends ?? alertData.properties.expires)}</p>
+    </Widget>
+);
+
 const Alert = () => {
     const alertData = useWeather().alerts;
     const modals = useModal();
@@ -34,7 +41,7 @@ const Alert = () => {
     if(!alertData.length) return <></>;
 
     //Determine which alert should be shown. Warnings get highest priority with the lastest being first. 
-    let alertToShow = alertData[0].properties;
+    let alertToShow = alertData[0];
     let highestAlertType = WeatherData.GetAlertType(alertData[0]);
     let newestAge = new Date(alertData[0].properties.sent);
 
@@ -44,13 +51,13 @@ const Alert = () => {
 
         //Replace the alertToShow if its severity is lower
         if(highestAlertType < ithType) {
-            alertToShow = alertData[i].properties;
+            alertToShow = alertData[i];
             highestAlertType = ithType;
             newestAge = sentDate;
         }
         //When two alerts are the same severity, we want the youngest one
         else if(highestAlertType === ithType && sentDate > newestAge) {
-            alertToShow = alertData[i].properties;
+            alertToShow = alertData[i];
             highestAlertType = ithType;
             newestAge = sentDate;
         }
@@ -58,12 +65,7 @@ const Alert = () => {
 
     const onClickHandler = () => modals.showModal(alertData.length > 1 ? <AlertSelectionModal alertData={alertData}/> : <AlertModal alert={alertData[0]}/>);
 
-    return (
-        <Widget size={WidgetSize.WIDE} id="alert" className={ToAlertCSS(highestAlertType)} onClick={onClickHandler}>
-            <h2>{alertToShow.event}</h2>
-            <p>{alertToShow.event} until {GetTimeString(alertToShow.ends)}</p>
-        </Widget>
-    );
+    return <AlertDisplay alertData={alertToShow} className={ToAlertCSS(highestAlertType)} onClick={onClickHandler}/>;
 };
 
 export default Alert;
@@ -79,12 +81,7 @@ const AlertSelectionModal = ({alertData}: {alertData: NWSAlert[]}) => {
                     //Inclues override to onClose to reopen the alert selection modal
                     const onClickHandler = () => modals.showModal(<AlertModal alert={alert} onClose={() => modals.showModal(memoizedComponent)}/>);
 
-                    return (
-                        <Widget key={key} size={WidgetSize.WIDE} id="alert" className={ToAlertCSS(WeatherData.GetAlertType(alert))} onClick={onClickHandler}>
-                            <h2>{alert.properties.event}</h2>
-                            <p>{alert.properties.event} until {GetTimeString(alert.properties.ends)}</p>
-                        </Widget>
-                    );
+                    return <AlertDisplay key={key} alertData={alert} className={ToAlertCSS(WeatherData.GetAlertType(alert))} onClick={onClickHandler}/>;
                 })
             }
         </Modal>
@@ -108,11 +105,16 @@ export const AlertModal = (props: {alert: NWSAlert} & React.DialogHTMLAttributes
             <p><em>Issuing Office:</em> {alertData.senderName}</p>
             <p><em>Issued:</em> {GetTimeString(alertData.sent)}</p>
             <p><em>Effective:</em> {GetTimeString(alertData.effective)}</p>
-            <p><em>Ends:</em> {GetTimeString(alertData.ends)}</p>
+            <p><em>Ends:</em> {GetTimeString(alertData.ends ?? alertData.expires)}</p>
             <hr/>
-            <h3>Instructions</h3>
-            <p>{alertData.instruction}</p>
-            <hr/>
+            {
+                alertData.instruction && 
+                <>
+                    <h3>Instructions</h3>
+                    <p>{alertData.instruction}</p>
+                    <hr/>
+                </>
+            }
             {
                 alertData.description.split("*").map((string, index) => {
                     if(!string.length) return <React.Fragment key={index}/>;
