@@ -2,7 +2,7 @@ import { Tornadic, WifiOff } from "./svgs/svgs";
 
 const OfflineApp = () => (
     <>
-        <div id="offline">
+        <div id="error-screen">
             <Tornadic />
             <div>
                 <WifiOff/>

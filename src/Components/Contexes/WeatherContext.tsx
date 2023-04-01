@@ -7,6 +7,7 @@ import React, { ReactNode } from 'react';
 import { WeatherData } from '../../ts/WeatherData';
 import { Loader } from '../SimpleComponents';
 import { FetchData } from '../../ts/Helpers';
+import { ExclamationTriangle, Tornadic } from "../../svgs/svgs";
 
 const WeatherContext = React.createContext<WeatherData | undefined>(undefined);
 const temp_unit = "fahrenheit";
@@ -134,7 +135,7 @@ export type NWSAlert = {
 }
 
 const WeatherContextProvider = (props: {children: ReactNode}) => {
-    const [error, setError] = React.useState<boolean>();
+    const [error, setError] = React.useState<string[]>();
     const [weatherData, setWeather] = React.useState<WeatherData>();
 
     React.useMemo(() => {
@@ -172,10 +173,10 @@ const WeatherContextProvider = (props: {children: ReactNode}) => {
                 FetchData<GridPoint>(`https://api.weather.gov/points/${latitude},${longitude}`, "Could not get point data from the NWS")
             ];
 
-            //The nws alert endpoint cannot be hit until the point data is provided
+            //The nws alert endpoint cannot be hit unless the point data is provided
             const point = await pointRequest;
             if(!point) {
-                setError(true);
+                setError(["National Weather Service API Point Endpoint"]);
                 return;
             }
 
@@ -188,9 +189,15 @@ const WeatherContextProvider = (props: {children: ReactNode}) => {
             //Await all the requests to finish
             const [forecast, airquality, alertResponse] = await Promise.all([ forecastRequest, airqualityRequest, alertRequest ]);
 
-            //If any of the requests failed then set the error value to true and abort
+            //If any of the requests failed then set the error array to the proper sources
             if(!forecast || !airquality || !alertResponse) {
-                setError(true);
+                const errorSources: string[] = [];
+
+                if(forecast) errorSources.push("Open-Meteo Weather Forecast");
+                if(airquality) errorSources.push("Open-Meteo Air Quality");
+                if(alertResponse) errorSources.push("National Weather Service API Alert Endpoint");
+
+                setError(errorSources);
                 return;
             }
 
@@ -209,11 +216,18 @@ const WeatherContextProvider = (props: {children: ReactNode}) => {
         GetData();
     }, []);
 
-    if(error) {
+    if(error !== undefined && error.length !== 0) {
         return (
-            <>
-                <h1>An error ocurred in one or more requests to third-party sources. See the console for details</h1>
-            </>
+            <div id="error-screen">
+                <Tornadic />
+                <div>
+                    <ExclamationTriangle />
+                    <p>An error occured when requesting from the following sources: </p>
+                    {error.map(source => (
+                        <p>{source}</p>
+                    ))}
+                </div>
+            </div>
         );
     }
 
