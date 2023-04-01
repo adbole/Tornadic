@@ -85,7 +85,7 @@ const AlertSelectionModal = ({alertData}: {alertData: NWSAlert[]}) => {
                 })
             }
         </Modal>
-    ), [alertData]);
+    ), [alertData, modals]);
     
 
     return memoizedComponent;

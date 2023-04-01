@@ -198,14 +198,10 @@ export class WeatherData {
         const type = alert.properties.event.slice(lastSpace + 1).toLowerCase();
 
         switch(type) {
-            case "warning":
-                return AlertType.WARNING;
-            case "watch":
-                return AlertType.WATCH;
-            case "advisory":
-                return AlertType.ADVISORY;
-            default: 
-                return AlertType.NONE;
+            case "warning":  return AlertType.WARNING;
+            case "watch":    return AlertType.WATCH;
+            case "advisory": return AlertType.ADVISORY;
+            default:         return AlertType.NONE;
         }
     }
 
@@ -355,21 +351,11 @@ export class WeatherData {
     static GetUVInfo(uv: number): HazardInfo {
         let message: string;
 
-        if(uv <= 2) {
-            message = UVLevels.LOW;
-        }
-        else if(uv <= 5) {
-            message = UVLevels.MODERATE;
-        }
-        else if(uv <= 7) {
-            message = UVLevels.HIGH;
-        }
-        else if(uv <= 10) {
-            message = UVLevels.VERY_HIGH;
-        }
-        else {
-            message = UVLevels.EXTREME;
-        }
+        if     (uv <= 2)  { message = UVLevels.LOW; }
+        else if(uv <= 5)  { message = UVLevels.MODERATE; }
+        else if(uv <= 7)  { message = UVLevels.HIGH; }
+        else if(uv <= 10) { message = UVLevels.VERY_HIGH; }
+        else              { message = UVLevels.EXTREME; }
 
         return {
             id: "UV",

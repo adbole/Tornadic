@@ -16,7 +16,6 @@ import { WeatherData } from './ts/WeatherData';
 
 //Icons
 import * as WidgetIcons from './svgs/widget/widget.svgs';
-import { Tornadic } from './svgs/svgs';
 import Pressure from './Components/Pressure';
 
 const DayValues = () => {
