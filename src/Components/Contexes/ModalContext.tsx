@@ -14,7 +14,7 @@ export function useModal() {
     const contextInstance = React.useContext(Context);
 
     if(!contextInstance) {
-        throw new Error("Please use useAlert inside a ModalContext provider");
+        throw new Error("Please use useModal inside a ModalContext provider");
     } 
     else {
         return contextInstance;
@@ -55,16 +55,22 @@ export const Modal = (props: ModalProps) => {
         if(!dialogRef.current) return;
 
         dialogRef.current.showModal();
+        dialogRef.current.classList.add("enter-active");
+        document.body.style.overflow = "hidden";
     }, [dialogRef]);
 
     function onClick(e: React.MouseEvent<HTMLDialogElement, MouseEvent>) {
-        if(e.target === dialogRef.current) {
-            dialogRef.current.close();
-        }
+        e.currentTarget.classList.remove("enter", "enter-active");
+        e.currentTarget.classList.add("leave", "leave-active");
+        document.body.style.overflow = "unset";
+
+        e.currentTarget.addEventListener('transitionend', (e) => {
+            (e.currentTarget as HTMLDialogElement).close();
+        });
     }
 
     return (
-        <dialog className="modal" ref={dialogRef} onClick={onClick} onClose={() => modalContext.hideModal()} {...excess}>
+        <dialog className="modal enter" ref={dialogRef} onClick={onClick} onClose={() => modalContext.hideModal()} {...excess}>
             <h1 className={modalTitleClass}>{modalTitle}</h1>
             <div className="modal-content">
                 {children}

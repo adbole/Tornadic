@@ -251,4 +251,10 @@ p {
 
         #radar { height: 300px; }
     }
+
+    dialog {
+        max-height: 75%;
+        margin: auto auto 0px auto;
+        border-radius: var(--border-radius) var(--border-radius) 0px 0px;
+    }
 }
