@@ -82,7 +82,6 @@ enum UVLevels {
     VERY_HIGH = "Very High",
     EXTREME = "Extreme"
 }
-//#endregion Enum and type definitions
 
 //Different Intesities a WMO code can have. 
 enum Intesity {
@@ -91,25 +90,7 @@ enum Intesity {
     HEAVY = "Heavy",
     NONE = "N/A"
 }
-
-function GetIntensity(weatherCode: number): Intesity {
-    //open-meteo's translation of WMO codes has a pattern where the last digit of those with different intesities being nearly always consistant.
-    //Some codes don't havfe intesities and shouldn't be fed to this method otherwise false input will be given.
-    const intesity = weatherCode % 10;
-
-    switch(intesity) {
-        case 1:
-        case 6:
-            return Intesity.LIGHT;
-        case 3:
-            return Intesity.MODERATE;
-        case 5:
-        case 7:
-            return Intesity.HEAVY;
-        default:
-            return Intesity.NONE;
-    }
-}
+//#endregion Enum and type definitions
 
 /**
  * The WeatherData class takes forecast, airquality, point, and alert data to provide access to said data along with helpful methods to act on the data.
@@ -143,6 +124,20 @@ export class WeatherData {
         const sunset = new Date(this.forecast.daily.sunset[dayValueIndex]);
 
         return time > sunrise && time < sunset;
+    }
+
+    GetNow(): {
+        location: string,
+        conditionInfo: WeatherConditionInfo
+        temperature: string,
+        feelsLike: string
+    } {
+        return {
+            location: this.point.properties.relativeLocation.properties.city,
+            conditionInfo: WeatherData.GetWeatherCondition(this.forecast.current_weather.weathercode),
+            temperature: this.forecast.current_weather.temperature.toFixed(0),
+            feelsLike: this.forecast.hourly.apparent_temperature[this.forecast.nowIndex].toFixed(0)  
+        };
     }
 
     /**
@@ -217,7 +212,26 @@ export class WeatherData {
      * @param weathercode The weathercode to convert
      * @param isDay If applicable icons will return a sun when true or a moon when false. True by default
     */
-    static GetWeatherCondition(weathercode: number, isDay: boolean = true): WeatherConditionInfo {
+    private static GetWeatherCondition(weathercode: number, isDay: boolean = true): WeatherConditionInfo {
+        function GetIntensity(weatherCode: number): Intesity {
+            //open-meteo's translation of WMO codes has a pattern where the last digit of those with different intesities being nearly always consistant.
+            //Some codes don't havfe intesities and shouldn't be fed to this method otherwise false input will be given.
+            const intesity = weatherCode % 10;
+        
+            switch(intesity) {
+                case 1:
+                case 6:
+                    return Intesity.LIGHT;
+                case 3:
+                    return Intesity.MODERATE;
+                case 5:
+                case 7:
+                    return Intesity.HEAVY;
+                default:
+                    return Intesity.NONE;
+            }
+        }
+
         let condition: WeatherCondition;
         let intesity: Intesity = Intesity.NONE;
         let icon: ReactNode;
@@ -318,24 +332,12 @@ export class WeatherData {
     static GetAQInfo(aq: number): HazardInfo {
         let message: string;
 
-        if(aq <= 50) {
-            message = AQLevels.GOOD;
-        }
-        else if(aq <= 100) {
-            message = AQLevels.MODERATE;
-        }
-        else if(aq <= 150) {
-            message = AQLevels.UNHEALTHY_SENS;
-        }
-        else if(aq <= 200) {
-            message = AQLevels.UNHEALTHY;
-        }
-        else if(aq <= 300) {
-            message = AQLevels.VERY_UNHEALTHY;
-        }
-        else {
-            message = AQLevels.VERY_UNHEALTHY;
-        }
+        if     (aq <= 50)  { message = AQLevels.GOOD; }
+        else if(aq <= 100) { message = AQLevels.MODERATE; }
+        else if(aq <= 150) { message = AQLevels.UNHEALTHY_SENS; }
+        else if(aq <= 200) { message = AQLevels.UNHEALTHY; }
+        else if(aq <= 300) { message = AQLevels.VERY_UNHEALTHY; }
+        else               { message = AQLevels.VERY_UNHEALTHY; }
 
         return {
             id: "AQ",

@@ -1,5 +1,5 @@
 import { useWeather } from './Contexes/WeatherContext';
-import { WeatherCondition, WeatherData } from '../ts/WeatherData';
+import { WeatherCondition } from '../ts/WeatherData';
 import { Widget } from './SimpleComponents';
 
 /**
@@ -8,14 +8,11 @@ import { Widget } from './SimpleComponents';
  */
 const Now = () => {
     const weatherData = useWeather();
-    const forecastData = weatherData.forecast;
-    const pointData = weatherData.point;
-
-    const conditionInfo = WeatherData.GetWeatherCondition(forecastData.current_weather.weathercode);
+    const nowData = weatherData.GetNow();
 
     //Determine what background should be applied
     let background;
-    switch(conditionInfo.condition) {
+    switch(nowData.conditionInfo.condition) {
         case WeatherCondition.OVERCAST:
             background = `overcast-${weatherData.IsDay() ? "day" : "night"}`;
             break;
@@ -36,12 +33,12 @@ const Now = () => {
 
     return (
         <Widget id="now" className={background}>
-            <p>{pointData.properties.relativeLocation.properties.city}</p>
+            <p>{nowData.location}</p>
     
-            <p id="current">{forecastData.current_weather.temperature.toFixed(0)}</p>
+            <p id="current">{nowData.temperature}</p>
     
-            <p>{conditionInfo.condition}</p>
-            <p>Feels like <span>{forecastData.hourly.apparent_temperature[forecastData.nowIndex].toFixed(0)}</span>°</p>
+            <p>{nowData.conditionInfo.condition}</p>
+            <p>Feels like <span>{nowData.feelsLike}</span>°</p>
         </Widget>
     );
 };
