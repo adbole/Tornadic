@@ -18,7 +18,7 @@ const Day = ({dayInfo, style}: {
     <tr>
         <td><p>{dayInfo.day}</p></td>
         <td className={"condition"}>      
-            {dayInfo.condition.icon}
+            {dayInfo.conditionInfo.icon}
             {WeatherData.IsRaining(dayInfo) && <span>{dayInfo.precipitation_probability}%</span>}
         </td>
         <td>

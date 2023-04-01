@@ -12,7 +12,7 @@ const Hour = ({hourInfo} : {hourInfo: HourInfo}) => (
     <li>
         <p>{new Date(hourInfo.time).toLocaleTimeString("en-us", {hour: "numeric", hour12: true})}</p>
         <div>
-            {hourInfo.condition.icon}
+            {hourInfo.conditionInfo.icon}
             {WeatherData.IsRaining(hourInfo) && <span>{hourInfo.precipitation_probability}%</span>}
         </div>
         <p>{hourInfo.temperature}°</p>

@@ -45,7 +45,7 @@ export type HazardInfo = Readonly<{
 
 //Allows IsRaining to easily return values based on condition and precipitation despite if data is for hour or day
 type BaseInfo = Readonly<{
-    condition: WeatherConditionInfo,
+    conditionInfo: WeatherConditionInfo,
     precipitation_probability: number
 }>
 
@@ -157,7 +157,7 @@ export class WeatherData {
 
             yield {
                 time: this.forecast.hourly.time[i],
-                condition: WeatherData.GetWeatherCondition(this.forecast.hourly.weathercode[i], isDay),
+                conditionInfo: WeatherData.GetWeatherCondition(this.forecast.hourly.weathercode[i], isDay),
                 temperature: Math.round(this.forecast.hourly.temperature_2m[i]),
                 precipitation_probability: this.forecast.hourly.precipitation_probability[i]
             };
@@ -165,10 +165,12 @@ export class WeatherData {
     }
 
     * GetDailyValues(): Generator<DayInfo> {
+        const isDay = this.IsDay(this.forecast.hourly.time[this.forecast.nowIndex], 0);
+
         //First value is current time / day
         yield {
             day: "Now",
-            condition: WeatherData.GetWeatherCondition(this.forecast.hourly.weathercode[this.forecast.nowIndex]),
+            conditionInfo: WeatherData.GetWeatherCondition(this.forecast.hourly.weathercode[this.forecast.nowIndex], isDay),
             temperature_low: Math.round(this.forecast.daily.temperature_2m_min[0]),
             temperature_high: Math.round(this.forecast.daily.temperature_2m_max[0]),
             precipitation_probability: this.forecast.hourly.precipitation_probability[this.forecast.nowIndex]
@@ -177,7 +179,7 @@ export class WeatherData {
         for(let i = 1; i < this.forecast.daily.time.length; ++i) {
             yield {
                 day: new Date(this.forecast.daily.time[i]).toLocaleDateString("en-US", {weekday: "short", timeZone: "UTC"}),
-                condition: WeatherData.GetWeatherCondition(this.forecast.daily.weathercode[i]),
+                conditionInfo: WeatherData.GetWeatherCondition(this.forecast.daily.weathercode[i]),
                 temperature_low: Math.round(this.forecast.daily.temperature_2m_min[i]),
                 temperature_high: Math.round(this.forecast.daily.temperature_2m_max[i]),
                 precipitation_probability: this.forecast.daily.precipitation_probability_max[i]
@@ -381,7 +383,7 @@ export class WeatherData {
     }
 
     static IsRaining(info: BaseInfo) {
-        switch(info.condition.condition) {
+        switch(info.conditionInfo.condition) {
             case WeatherCondition.CLEAR:
             case WeatherCondition.MOSTLY_CLEAR:
             case WeatherCondition.PARTLY_CLOUDY:
