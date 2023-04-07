@@ -26,6 +26,16 @@
     }
 }
 
+*::-webkit-scrollbar { 
+    width: 5px;
+    height: 5px; 
+}
+*::-webkit-scrollbar-track { background: transparent; }
+*::-webkit-scrollbar-thumb { 
+    background: rgba(255, 255, 255, 0.25);
+    border-radius: 5px; 
+}
+
 body {
     min-height: 100vh;
     display: flex;
