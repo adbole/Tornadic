@@ -17,6 +17,7 @@ import { WeatherData } from './ts/WeatherData';
 //Icons
 import * as WidgetIcons from './svgs/widget/widget.svgs';
 import Pressure from './Components/Pressure';
+import Chart from './Components/Chart';
 
 const DayValues = () => {
     const forecastData = useWeather().forecast;
