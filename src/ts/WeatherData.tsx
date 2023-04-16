@@ -318,15 +318,7 @@ export class WeatherData {
             icon: icon
         };
     }
-
-    static ToMi(ft: number) {
-        return (ft / 5280).toFixed(0);
-    }
-
-    static ToKM(meters: number) {
-        return (meters / 1000).toFixed(0);
-    }
-
+    
     static GetAQInfo(aq: number): HazardInfo {
         let message: string;
 

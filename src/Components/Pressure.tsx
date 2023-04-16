@@ -4,7 +4,7 @@ import { Meter, Up, Down } from "../svgs/widget/widget.svgs";
 
 function GetTrendIcon(forecast: Forecast) {
     const surface = forecast.hourly.surface_pressure;
-    const total = (surface[forecast.nowIndex + 1] - surface[forecast.nowIndex]) / 33.864; //Division to convert to inHG
+    const total = (surface[forecast.nowIndex + 1] - surface[forecast.nowIndex]);
 
     //Changes greater than +- 0.02 are considered non-equal
     if(total > 0.02) {
@@ -19,17 +19,15 @@ function GetTrendIcon(forecast: Forecast) {
 }
 
 const Pressure = () => {
-    const forecast = useWeather().forecast; //Pressure measured in hPa
-
-    const inHg = (forecast.hourly.surface_pressure[forecast.nowIndex] / 33.864).toFixed(2);
+    const forecast = useWeather().forecast;
     const trendIcon = GetTrendIcon(forecast);
 
     return (
         <Widget id="pressure" widgetIcon={<Meter/>} widgetTitle={"Air Pressure"}>
             <div>
                 {trendIcon}
-                <h1>{inHg}</h1>
-                <p>inHG</p>
+                <h1>{(forecast.hourly.surface_pressure[forecast.nowIndex]).toFixed(2)}</h1>
+                <p>{forecast.hourly_units.surface_pressure}</p>
             </div>
         </Widget>
     );

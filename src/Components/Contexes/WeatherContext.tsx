@@ -132,6 +132,26 @@ export type NWSAlert = Readonly<{
         instruction: string
         response: string
     }
+}>
+
+//Certain data points in forecast are in units that aren't user friendly
+//This method converts such points into better formats
+function ConvertData(forecastData: Forecast) {
+    //All data point arrays have the same length, so one loop is sufficient
+    for(let i = 0; i < forecastData.hourly.time.length; ++i) {
+        forecastData.hourly.surface_pressure[i] /= 33.864;
+        forecastData.hourly.visibility[i] /= 5280;
+    }
+
+    let units = forecastData.hourly_units;
+
+    units.surface_pressure = "inHG";
+    units.visibility = "mi";
+    units.precipitation = "\"";
+
+    //Other data points have units that are inconsistent with app unit style
+    units.apparent_temperature = units.temperature_2m = units.dewpoint_2m = "°";
+    units.windspeed_10m = "mph";
 }
 
 const WeatherContextProvider = (props: {children: ReactNode}) => {
@@ -210,6 +230,7 @@ const WeatherContextProvider = (props: {children: ReactNode}) => {
             }
 
             //Compile all the data
+            ConvertData(forecast);
             setWeather(new WeatherData(forecast, airquality, point, alertResponse.features));
         }
 

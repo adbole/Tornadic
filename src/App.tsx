@@ -23,10 +23,10 @@ const DayValues = () => {
 
     return (
         <>
-            <SimpleInfoWidget icon={<WidgetIcons.Droplet />} title="Precipitation" value={`${forecastData.hourly.precipitation[forecastData.nowIndex]}"`} />
-            <SimpleInfoWidget icon={<WidgetIcons.Thermometer />} title="Dew Point" value={`${forecastData.hourly.dewpoint_2m[forecastData.nowIndex]}°`} />
-            <SimpleInfoWidget icon={<WidgetIcons.Moisture />} title="Humidity" value={`${forecastData.hourly.relativehumidity_2m[forecastData.nowIndex]}%`} />
-            <SimpleInfoWidget icon={<WidgetIcons.Eye />} title="Visibility" value={`${WeatherData.ToMi(forecastData.hourly.visibility[forecastData.nowIndex])} mi`} />
+            <SimpleInfoWidget icon={<WidgetIcons.Droplet />} title="Precipitation" value={forecastData.hourly.precipitation[forecastData.nowIndex] + forecastData.hourly_units.precipitation} />
+            <SimpleInfoWidget icon={<WidgetIcons.Thermometer />} title="Dew Point" value={forecastData.hourly.dewpoint_2m[forecastData.nowIndex] + forecastData.hourly_units.dewpoint_2m} />
+            <SimpleInfoWidget icon={<WidgetIcons.Moisture />} title="Humidity" value={forecastData.hourly.relativehumidity_2m[forecastData.nowIndex] + forecastData.hourly_units.relativehumidity_2m} />
+            <SimpleInfoWidget icon={<WidgetIcons.Eye />} title="Visibility" value={`${forecastData.hourly.visibility[forecastData.nowIndex].toFixed(0)} ${forecastData.hourly_units.visibility}`} />
         </>
     );
 };

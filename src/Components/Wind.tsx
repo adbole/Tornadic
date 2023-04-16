@@ -44,7 +44,7 @@ const Wind = () => {
     
                 <div>
                     <p>{forecastData.current_weather.windspeed.toFixed(0)}</p>
-                    <p>mph</p>
+                    <p>{forecastData.hourly_units.windspeed_10m}</p>
                 </div>
             </div>
         </Widget>
