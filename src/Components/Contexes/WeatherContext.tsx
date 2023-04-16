@@ -27,19 +27,19 @@ export function useWeather() {
 
 //Forecast and AirQuality are from open-meteo
 export type Forecast = {
-    latitude: number,
-    longitude: number,
-    generationtime_ms: number,
-    timezone: string,
-    timezone_abbreviation: string,
-    elevation: number,
-    current_weather: {
+    readonly latitude: number,
+    readonly longitude: number,
+    readonly generationtime_ms: number,
+    readonly timezone: string,
+    readonly timezone_abbreviation: string,
+    readonly elevation: number,
+    readonly current_weather: Readonly<{
         temperature: number,
         windspeed: number,
         winddirection: number,
         weathercode: number,
         time: string
-    },
+    }>,
     hourly_units: {
         time: string,
         temperature_2m: string,
@@ -65,7 +65,7 @@ export type Forecast = {
         windspeed_10m: number[],
         winddirection_10m: number[],
         weathercode: number[],
-        surface_pressure: number[],
+        surface_pressure: number[], //hPa
         precipitation_probability: number[]
     },
     daily_units: {
@@ -91,16 +91,16 @@ export type Forecast = {
 
 //Airquality and forecast data are connected in that the current index for forecast will correlate to the
 //correct UV index and AQI for that hour.
-export type AirQuality = {
+export type AirQuality = Readonly<{
     hourly: {
         time: string[],
         uv_index: number[],
         us_aqi: number[]
     },
-}
+}>
 
 //Point and Alert data from NWS
-export type GridPoint = {
+export type GridPoint = Readonly<{
     properties: {
         relativeLocation: {
             properties: {
@@ -110,9 +110,9 @@ export type GridPoint = {
         }
         county: string
     }
-}
+}>
 
-export type NWSAlert = {
+export type NWSAlert = Readonly<{
     geometry: {
         coordinates: number[][][]
     }
