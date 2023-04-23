@@ -40,55 +40,37 @@ export type Forecast = {
         weathercode: number,
         time: string
     }>,
-    hourly_units: {
-        time: string,
-        temperature_2m: string,
-        apparent_temperature: string,
-        precipitation: string,
-        relativehumidity_2m: string,
-        dewpoint_2m: string,
-        visibility: string,
-        windspeed_10m: string,
-        windgusts_10m: string,
-        winddirection_10m: string,
-        weathercode: string,
-        surface_pressure: string,
-        precipitation_probability: string,
-    },
-    hourly: {
-        time: string[]
-        temperature_2m: number[]
-        apparent_temperature: number[],
-        relativehumidity_2m: number[],
-        precipitation: number[],
-        dewpoint_2m: number[],
-        visibility: number[],
-        windspeed_10m: number[],
-        windgusts_10m: number[],
-        winddirection_10m: number[],
-        weathercode: number[],
-        surface_pressure: number[], //hPa
-        precipitation_probability: number[]
-    },
-    daily_units: {
-        time: string,
-        temperature_2m_min: string,
-        temperature_2m_max: string,
-        weathercode: string,
-        sunrise: string,
-        sunset: string,
-        precipitation_probability_max: string;
-    },
-    daily: {
-        time: string[]
-        temperature_2m_min: number[],
-        temperature_2m_max: number[],
-        weathercode: number[],
-        sunrise: string[],
-        sunset: string[],
-        precipitation_probability_max: number[]
-    },
+    hourly_units: { time: string } & HourlyProperties<string>,
+    hourly: { time: string[] } & HourlyProperties<number[]>,
+    daily_units: { time: string } & DailyProperties<string, string>,
+    daily: { time: string[] } & DailyProperties<number[], string[]>,
     nowIndex: number //Indicates the index where the value for now occurs in all hourly data arrays
+}
+
+//Helper type to ensure properties are consistent across hourly_units and hourly
+type HourlyProperties<T extends number[] | string> = {
+    temperature_2m: T
+    apparent_temperature: T,
+    relativehumidity_2m: T,
+    precipitation: T,
+    dewpoint_2m: T,
+    visibility: T,
+    windspeed_10m: T,
+    windgusts_10m: T,
+    winddirection_10m: T,
+    weathercode: T,
+    surface_pressure: T, //hPa
+    precipitation_probability: T
+}
+
+//Helper type to ensure properties are consistent across daily_units and daily
+type DailyProperties<T extends number[] | string, Q extends string[] | string> = {
+    temperature_2m_min: T,
+    temperature_2m_max: T,
+    weathercode: T,
+    sunrise: Q,
+    sunset: Q,
+    precipitation_probability_max: T
 }
 
 //Airquality and forecast data are connected in that the current index for forecast will correlate to the
@@ -153,7 +135,7 @@ function ConvertData(forecastData: Forecast) {
 
     //Other data points have units that are inconsistent with app unit style
     units.apparent_temperature = units.temperature_2m = units.dewpoint_2m = "°";
-    units.windspeed_10m = "mph";
+    units.windspeed_10m = units.windgusts_10m = "mph";
 }
 
 const WeatherContextProvider = (props: {children: ReactNode}) => {
@@ -173,9 +155,15 @@ const WeatherContextProvider = (props: {children: ReactNode}) => {
             //NOTE: Precipitation unit of in affects the unit of visibility to become ft
             //Now that we have the pos begin making the needed requests
             const forecastURL = new URL("https://api.open-meteo.com/v1/forecast?timezone=auto&current_weather=true");
-            const hourly_params = ["temperature_2m", "apparent_temperature", "precipitation", "weathercode", "relativehumidity_2m", "dewpoint_2m", 
-                                   "visibility", "windspeed_10m", "winddirection_10m", "surface_pressure", "precipitation_probability", "windgusts_10m"];
-            const daily_params = ["temperature_2m_min", "temperature_2m_max", "weathercode", "sunrise", "sunset", "precipitation_probability_max"];
+
+            //Type Array<keyof T> provides compile-time checking to ensure array values match a property on T
+            const hourly_params: Array<keyof HourlyProperties<any>> = [
+                "temperature_2m", "apparent_temperature", "precipitation", "weathercode", "relativehumidity_2m", "dewpoint_2m", 
+                "visibility", "windspeed_10m", "winddirection_10m", "surface_pressure", "precipitation_probability", "windgusts_10m"
+            ];
+            const daily_params: Array<keyof DailyProperties<any, any>> = [
+                "temperature_2m_min", "temperature_2m_max", "weathercode", "sunrise", "sunset", "precipitation_probability_max"
+            ];
     
             forecastURL.searchParams.set("latitude", latitude.toString());
             forecastURL.searchParams.set("longitude", longitude.toString());
@@ -215,9 +203,9 @@ const WeatherContextProvider = (props: {children: ReactNode}) => {
             if(!forecast || !airquality || !alertResponse) {
                 const errorSources: string[] = [];
 
-                if(forecast) errorSources.push("Open-Meteo Weather Forecast");
-                if(airquality) errorSources.push("Open-Meteo Air Quality");
-                if(alertResponse) errorSources.push("National Weather Service API Alert Endpoint");
+                if(!forecast) errorSources.push("Open-Meteo Weather Forecast");
+                if(!airquality) errorSources.push("Open-Meteo Air Quality");
+                if(!alertResponse) errorSources.push("National Weather Service API Alert Endpoint");
 
                 setError(errorSources);
                 return;
