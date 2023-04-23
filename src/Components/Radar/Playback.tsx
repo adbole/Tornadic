@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import L from 'leaflet';
 import { useMap } from 'react-leaflet';
 import { createControlComponent } from '@react-leaflet/core';
-import { FetchData } from '../../ts/Helpers';
+import { FetchData, TimeConverter } from '../../ts/Helpers';
 
 import PlayPauseButtom from './PlayPauseButton';
 
@@ -13,7 +13,7 @@ function mod(x: number, div: number) {
 }
 
 function getTimeDisplay(time: number) {
-    return `${Date.now() > time * 1000 ? "Past" : "Forecast"}: ${new Date(time * 1000).toLocaleTimeString("en-us", {hour: "numeric", minute: "numeric", hour12: true})}`;
+    return `${Date.now() > time * 1000 ? "Past" : "Forecast"}: ${TimeConverter.GetHourMinuteOfDay(time * 1000)}`;
 }
 
 namespace RadarTypes {

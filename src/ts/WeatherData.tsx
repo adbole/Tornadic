@@ -6,6 +6,7 @@ import { ReactNode } from "react";
 import { AirQuality, NWSAlert, Forecast, GridPoint } from "../Components/Contexes/WeatherContext";
 import * as Conditions from "../svgs/conditions/conditions.svgs";
 import { Lungs } from '../svgs/widget/widget.svgs';
+import { TimeConverter } from "./Helpers";
 
 //#region Enum and type definitions
 export enum WeatherCondition {
@@ -119,7 +120,6 @@ export class WeatherData {
         //Determine if it is day and set the isDay field
         const time = isoTime ? new Date(isoTime) : new Date();
 
-        //day: new Date(forecast.daily.time[i] + " " + forecast.timezone_abbreviation).toLocaleDateString("en-US", {weekday: "short"}),
         const sunrise = new Date(this.forecast.daily.sunrise[dayValueIndex]);
         const sunset = new Date(this.forecast.daily.sunset[dayValueIndex]);
 
@@ -178,7 +178,7 @@ export class WeatherData {
 
         for(let i = 1; i < this.forecast.daily.time.length; ++i) {
             yield {
-                day: new Date(this.forecast.daily.time[i]).toLocaleDateString("en-US", {weekday: "short", timeZone: "UTC"}),
+                day: TimeConverter.GetDayOfWeek(this.forecast.daily.time[i]),
                 conditionInfo: WeatherData.GetWeatherCondition(this.forecast.daily.weathercode[i]),
                 temperature_low: Math.round(this.forecast.daily.temperature_2m_min[i]),
                 temperature_high: Math.round(this.forecast.daily.temperature_2m_max[i]),

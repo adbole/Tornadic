@@ -1,6 +1,7 @@
 import { Widget, WidgetSize } from './SimpleComponents';
 import { Sunrise, Sunset } from '../svgs/widget/widget.svgs';
 import { useWeather } from './Contexes/WeatherContext';
+import { TimeConverter } from '../ts/Helpers';
 
 /**
  * A helper component for SunTime to display when the sunrise/sunset will ocurr along with what comes next.
@@ -9,8 +10,8 @@ const HelperWidget = (props: {isSunrise: boolean,  time: string, nextTime: strin
     <Widget id="suntime" size={WidgetSize.WIDE}>
         <div>
             <p>{props.isSunrise ? "Sunrise" : "Sunset"}</p>
-            <h1>{new Date(props.time).toLocaleTimeString(undefined, {hour:"numeric", minute:"2-digit", hourCycle: "h12"})}</h1>
-            <p>{props.isSunrise ? "Sunset" : "Sunrise"} {new Date(props.nextTime).toLocaleTimeString(undefined, {hour:"numeric", minute:"2-digit", hourCycle: "h12"})}</p>
+            <h1>{TimeConverter.GetHourMinuteOfDay(props.time)}</h1>
+            <p>{props.isSunrise ? "Sunset" : "Sunrise"} {TimeConverter.GetHourMinuteOfDay(props.nextTime)}</p>
         </div>
         <div>
             {props.isSunrise ? <Sunrise /> : <Sunset />}

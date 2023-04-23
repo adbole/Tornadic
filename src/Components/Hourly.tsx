@@ -4,13 +4,14 @@ import { HourInfo, WeatherData } from '../ts/WeatherData';
 
 import { Widget } from "./SimpleComponents";
 import { Clock } from '../svgs/widget/widget.svgs';
+import { TimeConverter } from '../ts/Helpers';
 
 /**
  * A helper component for the Hourly component to display the individual hours
  */
 const Hour = ({hourInfo} : {hourInfo: HourInfo}) => (
     <li>
-        <p>{new Date(hourInfo.time).toLocaleTimeString("en-us", {hour: "numeric", hour12: true})}</p>
+        <p>{TimeConverter.GetHourOfDay(hourInfo.time)}</p>
         <div>
             {hourInfo.conditionInfo.icon}
             {WeatherData.IsRaining(hourInfo) && <span>{hourInfo.precipitation_probability}%</span>}
@@ -78,7 +79,7 @@ const Hourly = () => {
                         if(time.getHours() === 0) {
                             return (
                                 <React.Fragment key={index}>
-                                    <DaySeperator day={time.toLocaleDateString("en-US", {weekday: "short"})}/>
+                                    <DaySeperator day={TimeConverter.GetDayOfWeek(time)}/>
                                     <Hour hourInfo={forecast}/>
                                 </React.Fragment>
                             );

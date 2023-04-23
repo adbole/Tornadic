@@ -11,6 +11,44 @@ export class Normalize {
     }
 }
 
+export class TimeConverter {
+    /**
+     * Takes a string, number, or date and converts it to a readable string in the format weekday-short
+     * @param value The value to be converted
+     * @returns The readable string obtained from conversion
+     */
+    static GetDayOfWeek(value: string | number| Date) {
+        return new Date(value).toLocaleDateString("en-US", {weekday: "short", timeZone: "UTC"});
+    }
+
+    /**
+     * Takes a string, number, or date and converts it to a readable string in the format hour AM/PM
+     * @param value The value to be converted
+     * @returns The readable string obtained from conversion
+     */
+    static GetHourOfDay(value: string | number| Date) {
+        return new Date(value).toLocaleTimeString("en-us", {hour: "numeric", hour12: true});
+    }
+
+    /**
+     * Takes a string, number, or date and converts it to a readable string in the format hour:minute AM/PM
+     * @param value The value to be converted
+     * @returns The readable string obtained from conversion
+     */
+    static GetHourMinuteOfDay(value: string | number| Date) {
+        return new Date(value).toLocaleTimeString("en-us", {hour: "numeric", minute: "numeric", hour12: true});
+    }
+
+    /**
+     * Takes a string, number, or date and converts it to a readable string in the format weekday, month, day, hour:minute AM/PM timezone
+     * @param value The value to be converted
+     * @returns The readable string obtained from conversion
+     */
+    static GetDateString(value: string | number| Date) {
+        return new Date(value).toLocaleTimeString("en-us", {weekday:"short", month:"short", day:"numeric", hour12:true, hour:"numeric", minute:"numeric", timeZoneName:"short"});
+    }
+}
+
 /**
  * Makes a request to the given url (supports strings and URL objects) and an error message. Await to get data
 */
