@@ -3,6 +3,7 @@ import { Widget } from "./SimpleComponents";
 import { Forecast, useWeather } from "./Contexes/WeatherContext";
 import { Tornadic } from "../svgs/svgs";
 import React from "react";
+import { TimeConverter } from "../ts/Helpers";
 
 //Helper method to ensure that a string matches a property on a type 
 const nameof = <T,>(name: Extract<keyof T, string>): string => name;
@@ -28,7 +29,7 @@ function GetData(forecastData: Forecast, property: HourlyProperties, day: number
 
     for(let i = 24 * (day); i < 24 * (day + 1); ++i) {
         data.push({
-            name: new Date(forecastData.hourly.time[i]).toLocaleTimeString("en-us", {hour: "numeric", hour12: true}),
+            name: TimeConverter.GetHourOfDay(forecastData.hourly.time[i]),
             primaryKey: forecastData.hourly[property][i],
             secondaryKey: GetSecondaryKey(i)
         });
@@ -55,32 +56,35 @@ const ToHSL = (x: number) => `hsl(${250 * ((120-x)/120)}deg, 100%, 50%)`;
 
 function GetChart(forecastData: Forecast, property: HourlyProperties, day: number) {
     const data = GetData(forecastData, property, day);
-    const minMax = GetMinMax();
-
+    
     if(property === HourlyProperties.Precipitation) {
         return (
             <BarChart data={data} margin={{top: 0, left: 0, right: 0, bottom: 0}}>
                 <CartesianGrid stroke="#ffffff19"/>
-                <XAxis dataKey="name"/>
-                <YAxis domain={[0, Math.max(0.5, minMax.max)]} dataKey={"key"} unit={forecastData.hourly_units[property]}/>
+                <XAxis dataKey="name" interval={5}/>
+                <YAxis domain={([_, dataMax]) => [0, Math.max(0.5, dataMax)]} dataKey={"key"} unit={forecastData.hourly_units[property]}/>
+                <Tooltip/>
 
                 <Bar dataKey={nameof<DataPoint>("primaryKey")} fill={"#0078ef"} />
             </BarChart>
         );
     }
     else if(property === HourlyProperties.Temperature) {
+        const dataValues = data.map(point => [point.primaryKey, point.secondaryKey as number]);
+        const minMax = GetMinMax([Math.min(...dataValues.flat()), Math.max(...dataValues.flat())]);
+
         return (
             <AreaChart data={data} margin={{top: 0, left: 0, right: 0, bottom: 0}}>
                 <defs>
                     <linearGradient id="tempGradient" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stopColor={ToHSL(Math.min(120, minMax.max))} stopOpacity="0.5"/>
-                        <stop offset="100%" stopColor={ToHSL(Math.max(0, minMax.min))} stopOpacity="0.5"/>
+                        <stop offset="0%" stopColor={ToHSL(Math.min(120, minMax[1]))} stopOpacity="0.5"/>
+                        <stop offset="100%" stopColor={ToHSL(Math.max(0, minMax[0]))} stopOpacity="0.5"/>
                     </linearGradient>
                 </defs>
 
                 <CartesianGrid stroke="#ffffff19"/>
-                <XAxis dataKey="name"/>
-                <YAxis domain={[minMax.min, minMax.max]} unit={forecastData.hourly_units[property]}/>
+                <XAxis dataKey="name" interval={5}/>
+                <YAxis domain={([dataMin, dataMax]) => GetMinMax([dataMin, dataMax])} unit={forecastData.hourly_units[property]}/>
                 <Tooltip/>
 
                 <Area type="monotone" dataKey={nameof<DataPoint>("primaryKey")} fillOpacity={1} fill="url(#tempGradient)" />
@@ -93,8 +97,8 @@ function GetChart(forecastData: Forecast, property: HourlyProperties, day: numbe
             <LineChart data={data} margin={{top: 0, left: 0, right: 0, bottom: 0}}>
                 {data[0].secondaryKey != null && <Line type="monotone" dataKey={nameof<DataPoint>("secondaryKey")} stroke="#82ca9d"/>}
                 <CartesianGrid stroke="#ffffff19"/>
-                <XAxis dataKey="name"/>
-                <YAxis dataKey={"key"} domain={[minMax.min, minMax.max]} unit={forecastData.hourly_units[property]}/>
+                <XAxis dataKey="name" interval={5}/>
+                <YAxis domain={([dataMin, dataMax]) => GetMinMax([dataMin, dataMax])} unit={forecastData.hourly_units[property]}/>
                 <Tooltip/>
 
                 <Line type="monotone" dataKey={nameof<DataPoint>("primaryKey")} stroke="#82ca9d"/>
@@ -102,28 +106,21 @@ function GetChart(forecastData: Forecast, property: HourlyProperties, day: numbe
         );
     }
 
-    function GetMinMax() {
-        const dataKeys = data.map(point => point.primaryKey);
-        if(data[0].secondaryKey != null) {
-            dataKeys.push(...data.map(point => point.secondaryKey as number));
-        }
-    
-        let min = Math.min(...dataKeys);
-        let max = Math.max(...dataKeys);
-    
+    function GetMinMax([min, max]: [number, number]): [number, number] {
         if(property === HourlyProperties.Pressure) {
             min -= 0.1;
             max += 0.1;
+        }
+        else if (property === HourlyProperties.Humidity) {
+            min = 0;
+            max = 100;
         }
         else {
             min = Math.floor((min * 0.95) / 10) * 10;
             max = Math.ceil((max * 1.10) / 10) * 10;
         }
 
-        return {
-            min: min,
-            max: max
-        };
+        return [min, max];
     }
 }
 
@@ -134,6 +131,13 @@ const Chart = () => {
 
     return (
         <Widget id="chart" widgetIcon={<Tornadic/>} widgetTitle={"Charts"}>
+            {
+                forecastData.hourly.time.filter((_, i) =>  i % 24 === 0).map((time, i) => (
+                    <button type="button" onClick={() => setDay(i)}>
+                        {TimeConverter.GetDayOfWeek(time)}
+                    </button>
+                ))
+            }
             <select onChange={(e) => setProperty(e.currentTarget.value as HourlyProperties)}>
                 {
                     Object.keys(HourlyProperties).map(key => (
