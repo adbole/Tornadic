@@ -16,6 +16,17 @@ dialog {
     h1 { 
         text-align: center; 
         padding: 20px;
+
+        >* {
+            background: transparent;
+            border: none;
+            color:inherit;
+            font-size: inherit;
+            
+            &:focus, &:focus-visible {
+                border: none;
+            }
+        }
     }
 
     >.modal-content {

@@ -35,12 +35,12 @@ const ModalContextProvider = ({children}: {children: React.ReactNode}) => {
 
 export default ModalContextProvider;
 
-type ModalProps = React.HTMLAttributes<HTMLDialogElement> & {
+type ModalProps = React.HTMLAttributes<HTMLDialogElement> & ({
     /** The title of the modal */
-    modalTitle: string
+    modalTitle: React.ReactNode
     /** The className to be applied to the modal's title */
-    modalTitleClass: string
-}
+    modalTitleClass?: string
+})
 
 /**
  * A base modal to display simple information using the ModalContext
@@ -60,6 +60,14 @@ export const Modal = (props: ModalProps) => {
     }, [dialogRef]);
 
     function onClick(e: React.MouseEvent<HTMLDialogElement, MouseEvent>) {
+        /*
+            Target will be the element where the event propagated from. 
+            Therefore, since the dialog is covered in targets that aren't itself
+            we can say that if the dialog is the target then we must've clicked the backdrop
+            as it has no other target elements on it.
+        */
+        if(e.target !== dialogRef.current) return;
+
         e.currentTarget.classList.remove("enter", "enter-active");
         e.currentTarget.classList.add("leave", "leave-active");
         document.body.style.overflow = "unset";
