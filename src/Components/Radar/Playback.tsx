@@ -13,7 +13,7 @@ function mod(x: number, div: number) {
 }
 
 function getTimeDisplay(time: number) {
-    return `${Date.now() > time * 1000 ? "Past" : "Forecast"}: ${TimeConverter.GetHourMinuteOfDay(time * 1000)}`;
+    return `${Date.now() > time * 1000 ? "Past" : "Forecast"}: ${TimeConverter.GetTimeFormatted(time * 1000, TimeConverter.TimeFormat.HourMinute)}`;
 }
 
 namespace RadarTypes {

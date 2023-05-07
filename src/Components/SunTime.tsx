@@ -10,8 +10,8 @@ const HelperWidget = (props: {isSunrise: boolean,  time: string, nextTime: strin
     <Widget id="suntime" size={WidgetSize.WIDE}>
         <div>
             <p>{props.isSunrise ? "Sunrise" : "Sunset"}</p>
-            <h1>{TimeConverter.GetHourMinuteOfDay(props.time)}</h1>
-            <p>{props.isSunrise ? "Sunset" : "Sunrise"} {TimeConverter.GetHourMinuteOfDay(props.nextTime)}</p>
+            <h1>{TimeConverter.GetTimeFormatted(props.time, TimeConverter.TimeFormat.HourMinute)}</h1>
+            <p>{props.isSunrise ? "Sunset" : "Sunrise"} {TimeConverter.GetTimeFormatted(props.nextTime, TimeConverter.TimeFormat.HourMinute)}</p>
         </div>
         <div>
             {props.isSunrise ? <Sunrise /> : <Sunset />}

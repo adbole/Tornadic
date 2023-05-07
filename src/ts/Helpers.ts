@@ -11,41 +11,39 @@ export class Normalize {
     }
 }
 
-export class TimeConverter {
-    /**
-     * Takes a string, number, or date and converts it to a readable string in the format weekday-short
-     * @param value The value to be converted
-     * @returns The readable string obtained from conversion
-     */
-    static GetDayOfWeek(value: string | number| Date) {
-        return new Date(value).toLocaleDateString("en-US", {weekday: "short", timeZone: "UTC"});
+export namespace TimeConverter {
+    export enum TimeFormat {
+        Weekday,
+        Hour,
+        HourMinute,
+        Date,
+        DateTime
     }
 
     /**
-     * Takes a string, number, or date and converts it to a readable string in the format hour AM/PM
+     * Takes a string, number, or date and converts it to a readable string using the given format
      * @param value The value to be converted
+     * @param format The format to convert to
      * @returns The readable string obtained from conversion
      */
-    static GetHourOfDay(value: string | number| Date) {
-        return new Date(value).toLocaleTimeString("en-us", {hour: "numeric", hour12: true});
+    export function GetTimeFormatted(value: string | number | Date, format: TimeFormat) {
+        if(format === TimeFormat.Weekday || format === TimeFormat.Date) {
+            return new Date(value).toLocaleDateString("en-US", GetFormatOptions(format));
+        }
+        else {
+            return new Date(value).toLocaleString("en-US", GetFormatOptions(format));
+        }
     }
 
-    /**
-     * Takes a string, number, or date and converts it to a readable string in the format hour:minute AM/PM
-     * @param value The value to be converted
-     * @returns The readable string obtained from conversion
-     */
-    static GetHourMinuteOfDay(value: string | number| Date) {
-        return new Date(value).toLocaleTimeString("en-us", {hour: "numeric", minute: "numeric", hour12: true});
-    }
-
-    /**
-     * Takes a string, number, or date and converts it to a readable string in the format weekday, month, day, hour:minute AM/PM timezone
-     * @param value The value to be converted
-     * @returns The readable string obtained from conversion
-     */
-    static GetDateString(value: string | number| Date) {
-        return new Date(value).toLocaleTimeString("en-us", {weekday:"short", month:"short", day:"numeric", hour12:true, hour:"numeric", minute:"numeric", timeZoneName:"short"});
+    function GetFormatOptions(format: TimeFormat): Intl.DateTimeFormatOptions {
+        switch(format) {
+            case TimeFormat.Weekday: return {weekday: "short", timeZone: "UTC"};
+            case TimeFormat.Hour: return {hour: "numeric", hour12: true};
+            case TimeFormat.HourMinute: return {hour: "numeric", minute: "numeric", hour12: true};
+            case TimeFormat.Date: return {weekday:"long", month:"short", day:"numeric"};
+            case TimeFormat.DateTime: return {weekday:"short", month:"short", day:"numeric", hour12:true, hour:"numeric", minute:"numeric", timeZoneName:"short"};
+            default: return {};
+        }
     }
 }
 

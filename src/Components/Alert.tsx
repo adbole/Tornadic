@@ -21,7 +21,7 @@ function ToAlertCSS(alert: AlertType) {
 const AlertDisplay = ({alertData, className, onClick} : {alertData: NWSAlert, className: string, onClick: React.MouseEventHandler<HTMLDivElement>}) => (
     <Widget size={WidgetSize.WIDE} id="alert" className={className} onClick={onClick}>
         <h2>{alertData.properties.event}</h2>
-        <p>{alertData.properties.event} until {TimeConverter.GetDateString(alertData.properties.ends ?? alertData.properties.expires)}</p>
+        <p>{alertData.properties.event} until {TimeConverter.GetTimeFormatted(alertData.properties.ends ?? alertData.properties.expires, TimeConverter.TimeFormat.DateTime)}</p>
     </Widget>
 );
 
@@ -91,13 +91,15 @@ export const AlertModal = (props: {alert: NWSAlert} & React.DialogHTMLAttributes
 
     const alertData = alert.properties;
     const alertType = ToAlertCSS(WeatherData.GetAlertType(alert));
+
+    const ConvertTime = (a: string) => TimeConverter.GetTimeFormatted(a, TimeConverter.TimeFormat.DateTime);
     
     return (
         <Modal modalTitle={alertData.event} modalTitleClass={alertType} id="alert-modal" {...excess}>
             <p><em>Issuing Office:</em> {alertData.senderName}</p>
-            <p><em>Issued:</em> {TimeConverter.GetDateString(alertData.sent)}</p>
-            <p><em>Effective:</em> {TimeConverter.GetDateString(alertData.effective)}</p>
-            <p><em>Ends:</em> {TimeConverter.GetDateString(alertData.ends ?? alertData.expires)}</p>
+            <p><em>Issued:</em> {ConvertTime(alertData.sent)}</p>
+            <p><em>Effective:</em> {ConvertTime(alertData.effective)}</p>
+            <p><em>Ends:</em> {ConvertTime(alertData.ends ?? alertData.expires)}</p>
             <hr/>
             {
                 alertData.instruction && 

@@ -178,7 +178,7 @@ export class WeatherData {
 
         for(let i = 1; i < this.forecast.daily.time.length; ++i) {
             yield {
-                day: TimeConverter.GetDayOfWeek(this.forecast.daily.time[i]),
+                day: TimeConverter.GetTimeFormatted(this.forecast.daily.time[i], TimeConverter.TimeFormat.Weekday),
                 conditionInfo: WeatherData.GetWeatherCondition(this.forecast.daily.weathercode[i]),
                 temperature_low: Math.round(this.forecast.daily.temperature_2m_min[i]),
                 temperature_high: Math.round(this.forecast.daily.temperature_2m_max[i]),

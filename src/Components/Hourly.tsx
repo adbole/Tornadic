@@ -11,7 +11,7 @@ import { TimeConverter } from '../ts/Helpers';
  */
 const Hour = ({hourInfo} : {hourInfo: HourInfo}) => (
     <li>
-        <p>{TimeConverter.GetHourOfDay(hourInfo.time)}</p>
+        <p>{TimeConverter.GetTimeFormatted(hourInfo.time, TimeConverter.TimeFormat.Hour)}</p>
         <div>
             {hourInfo.conditionInfo.icon}
             {WeatherData.IsRaining(hourInfo) && <span>{hourInfo.precipitation_probability}%</span>}
@@ -79,7 +79,7 @@ const Hourly = () => {
                         if(time.getHours() === 0) {
                             return (
                                 <React.Fragment key={index}>
-                                    <DaySeperator day={TimeConverter.GetDayOfWeek(time)}/>
+                                    <DaySeperator day={TimeConverter.GetTimeFormatted(time, TimeConverter.TimeFormat.Weekday)}/>
                                     <Hour hourInfo={forecast}/>
                                 </React.Fragment>
                             );
