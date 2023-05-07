@@ -11,19 +11,13 @@
     box-sizing: border-box !important;
 }
 
-:root { 
-    --bg: #191B1F;
+:root {
     --widget-back: #2c2c2c;
     --border-radius: 15px;
+    --primary: #0051ff;
     
     color:rgba(255, 255, 255, 0.9);
-    font-size: 16px; 
-    background: {
-        color: var(--bg);
-        repeat: no-repeat;
-        size: cover;
-        position: center;
-    }
+    font-size: 16px;
 }
 
 *::-webkit-scrollbar { 
