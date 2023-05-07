@@ -48,20 +48,20 @@ const AirUV = () => {
 
 const App = () => (
     <>
-        <ModalContext>
-            <WeatherContext>
-                <Now/>
-                <Alert/>
-                <Hourly />
-                <DayValues/>
-                <AirUV />
-                <Daily />
-                <Radar />
-                <Wind/>
-                <Pressure/>
-                <SunTime/>
-            </WeatherContext>
-        </ModalContext>
+        <WeatherContext>
+            <ModalContext>
+                    <Now/>
+                    <Alert/>
+                    <Hourly />
+                    <DayValues/>
+                    <AirUV />
+                    <Daily />
+                    <Radar />
+                    <Wind/>
+                    <Pressure/>
+                    <SunTime/>
+            </ModalContext>
+        </WeatherContext>
     </>
 );
 
