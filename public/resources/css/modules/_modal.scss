@@ -23,9 +23,7 @@ dialog {
             color:inherit;
             font-size: inherit;
             
-            &:focus, &:focus-visible {
-                border: none;
-            }
+            &:focus { outline: none; }
         }
     }
 
@@ -43,6 +41,11 @@ dialog {
     
         p { margin-bottom: 10px; }
         hr {  margin: 5px; }
+    }
+
+    &.wide {
+        max-width: 75%;
+        max-height: 75%;
     }
 
     &::backdrop {
