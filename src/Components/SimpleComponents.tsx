@@ -51,9 +51,10 @@ Widget.defaultProps = {
 export const SimpleInfoWidget = (props: {
     icon: React.ReactNode,
     title: string,
-    value: string
+    value: string,
+    onClick: (e: React.MouseEvent<HTMLDivElement>) => void
 }) => (
-    <Widget className="basic-info">
+    <Widget className="basic-info" onClick={props.onClick}>
         {props.icon}
         <p>{props.title}</p>
         <h1>{props.value}</h1>

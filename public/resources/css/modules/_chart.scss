@@ -1,0 +1,44 @@
+@import 'mixin';
+
+#chart {
+    width: 100%;
+    height: 100%;
+
+    .recharts-responsive-container {
+        border: 1px solid #ffffff19;
+        border-radius: var(--border-radius);
+        overflow: hidden;
+    }
+    
+    .controls {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 5px;
+    }
+
+    .modal-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: 100%;
+        padding-top: 0;
+    }
+
+    
+    svg.recharts-surface {
+        width: unset;
+    }
+
+    div.chart-tooltip {
+        @include dark-back-blur;
+        border-radius: var(--border-radius);
+
+        @include center-flex;
+        flex-direction: column;
+
+        padding: 10px;
+
+        h1 { padding: 0 }
+    }
+}
+
