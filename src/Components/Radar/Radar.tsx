@@ -3,10 +3,10 @@ import { MapContainer, TileLayer, ZoomControl, AttributionControl } from 'react-
 import L from 'leaflet';
 
 import { WidgetSize, Widget } from '../SimpleComponents';
-import Home from './Home';
-import Playback from './Playback';
-import Locate from './Locate';
-import AlertPolygons from './AlertPolygons';
+import Home from './Radar.Home';
+import Playback from './Radar.Playback';
+import Locate from './Radar.Locate';
+import AlertPolygons from './Radar.AlertPolygons';
 import { Map } from '../../svgs/widget/widget.svgs';
 
 interface IDictionary {

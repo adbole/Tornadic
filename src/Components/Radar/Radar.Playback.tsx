@@ -5,7 +5,7 @@ import { useMap } from 'react-leaflet';
 import { createControlComponent } from '@react-leaflet/core';
 import { FetchData, TimeConverter } from '../../ts/Helpers';
 
-import PlayPauseButtom from './PlayPauseButton';
+import PlayPauseButtom from './Radar.PlayPauseButton';
 
 //Uses floor function to keep remainder the same sign as divisor. 
 function mod(x: number, div: number) {

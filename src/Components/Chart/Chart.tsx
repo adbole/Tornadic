@@ -1,5 +1,5 @@
 import { ResponsiveContainer, Line, CartesianGrid, XAxis, YAxis, Tooltip, Bar, Area, ReferenceLine } from "recharts";
-import { CustomTooltip, PressureTick, ChartDisplay } from "./CustomComponents";
+import { CustomTooltip, PressureTick, ChartDisplay } from "./Chart.Components";
 
 import { Forecast, useWeather } from "../Contexes/WeatherContext";
 import React from "react";
