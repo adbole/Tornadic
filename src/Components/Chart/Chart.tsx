@@ -6,6 +6,7 @@ import React from "react";
 import { TimeConverter, nameof } from "../../ts/Helpers";
 import { Modal } from "../Contexes/ModalContext";
 
+//Properties denoted here represent values supported for displaying by a Chart
 export enum HourlyProperties {
     Temperature = "temperature_2m",
     Humidity = "relativehumidity_2m",
