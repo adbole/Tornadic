@@ -255,7 +255,7 @@ p {
         #radar { height: 300px; }
     }
 
-    dialog, dialog.wide {
+    dialog, dialog#chart {
         max-width: 100%;
         max-height: 75%;
         margin: auto auto 0px auto;
