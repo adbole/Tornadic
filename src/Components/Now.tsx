@@ -25,6 +25,10 @@ const Now = () => {
         case WeatherCondition.RAIN_SHOWERS:
             background = "rain";
             break;
+        case WeatherCondition.THUNDERSTORMS:
+        case WeatherCondition.THRUNDERSTORMS_HAIL:
+            background = "thunderstorms";
+            break;
         case WeatherCondition.SNOW:
         case WeatherCondition.SNOW_GRAINS:
         case WeatherCondition.SNOW_SHOWERS:
