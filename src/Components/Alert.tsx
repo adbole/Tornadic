@@ -1,7 +1,7 @@
 import React from 'react';
 import { AlertType, WeatherData } from '../ts/WeatherData';
 import { NWSAlert, useWeather } from './Contexes/WeatherContext';
-import { Modal, useModal } from './Contexes/ModalContext';
+import { Modal, ModalContent, ModalTitle, useModal } from './Contexes/ModalContext';
 import { Widget, WidgetSize } from './SimpleComponents';
 import { TimeConverter } from '../ts/Helpers';
 
@@ -67,15 +67,20 @@ const AlertSelectionModal = ({alertData}: {alertData: NWSAlert[]}) => {
 
     //Memoize the component to prevent unnecessary operations
     const memoizedComponent = React.useMemo(() => (
-        <Modal modalTitle={alertData.length + " Weather Alerts"} modalTitleClass={"alert-none"} id="alert-list-modal">
-            {
-                alertData.map((alert, key) => {
-                    //Inclues override to onClose to reopen the alert selection modal
-                    const onClickHandler = () => modals.showModal(<AlertModal alert={alert} onClose={() => modals.showModal(memoizedComponent)}/>);
+        <Modal id="alert-list-modal">
+            <ModalTitle>
+                {alertData.length} Weather Alerts
+            </ModalTitle>
+            <ModalContent>
+                {
+                    alertData.map((alert, key) => {
+                        //Inclues override to onClose to reopen the alert selection modal
+                        const onClickHandler = () => modals.showModal(<AlertModal alert={alert} onClose={() => modals.showModal(memoizedComponent)}/>);
 
-                    return <AlertDisplay key={key} alertData={alert} className={ToAlertCSS(WeatherData.GetAlertType(alert))} onClick={onClickHandler}/>;
-                })
-            }
+                        return <AlertDisplay key={key} alertData={alert} className={ToAlertCSS(WeatherData.GetAlertType(alert))} onClick={onClickHandler}/>;
+                    })
+                }
+            </ModalContent>
         </Modal>
     ), [alertData, modals]);
     
@@ -95,30 +100,35 @@ export const AlertModal = (props: {alert: NWSAlert} & React.DialogHTMLAttributes
     const ConvertTime = (a: string) => TimeConverter.GetTimeFormatted(a, TimeConverter.TimeFormat.DateTime);
     
     return (
-        <Modal modalTitle={alertData.event} modalTitleClass={alertType} id="alert-modal" {...excess}>
-            <p><em>Issuing Office:</em> {alertData.senderName}</p>
-            <p><em>Issued:</em> {ConvertTime(alertData.sent)}</p>
-            <p><em>Effective:</em> {ConvertTime(alertData.effective)}</p>
-            <p><em>Ends:</em> {ConvertTime(alertData.ends ?? alertData.expires)}</p>
-            <hr/>
-            {
-                alertData.instruction && 
-                <>
-                    <h3>Instructions</h3>
-                    <p>{alertData.instruction}</p>
-                    <hr/>
-                </>
-            }
-            {
-                alertData.description.split("*").map((string, index) => {
-                    if(!string.length) return <React.Fragment key={index}/>;
-        
-                    return <p key={index}>* {string}</p>;
-                })    
-            }
-            <hr/>
-            <h3>Affected Areas</h3>
-            <p>{alertData.areaDesc}</p>
+        <Modal id="alert-modal" {...excess}>
+            <ModalTitle className={alertType}>
+                {alertData.event}
+            </ModalTitle>
+            <ModalContent>
+                <p><em>Issuing Office:</em> {alertData.senderName}</p>
+                <p><em>Issued:</em> {ConvertTime(alertData.sent)}</p>
+                <p><em>Effective:</em> {ConvertTime(alertData.effective)}</p>
+                <p><em>Ends:</em> {ConvertTime(alertData.ends ?? alertData.expires)}</p>
+                <hr/>
+                {
+                    alertData.instruction && 
+                    <>
+                        <h3>Instructions</h3>
+                        <p>{alertData.instruction}</p>
+                        <hr/>
+                    </>
+                }
+                {
+                    alertData.description.split("*").map((string, index) => {
+                        if(!string.length) return <React.Fragment key={index}/>;
+            
+                        return <p key={index}>* {string}</p>;
+                    })    
+                }
+                <hr/>
+                <h3>Affected Areas</h3>
+                <p>{alertData.areaDesc}</p>
+            </ModalContent>
         </Modal>
     );
 };

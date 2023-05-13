@@ -22,7 +22,7 @@ export function useModal() {
 }
 
 const ModalContextProvider = ({children}: {children: React.ReactNode}) => {
-    const [modal, setModal] = React.useState<React.ReactNode>(null);
+    const [modal, setModal] = React.useState<React.ReactNode>();
     const hideModal = React.useCallback(() => setModal(null), []);
 
     return (
@@ -35,21 +35,28 @@ const ModalContextProvider = ({children}: {children: React.ReactNode}) => {
 
 export default ModalContextProvider;
 
-type ModalProps = React.HTMLAttributes<HTMLDialogElement> & ({
-    /** The title of the modal */
-    modalTitle: React.ReactNode
-    /** The className to be applied to the modal's title */
-    modalTitleClass?: string
-})
+export const ModalTitle = (props: React.HTMLAttributes<HTMLHeadingElement>) => {
+    const {children, ...excess} = props;
+
+    return (
+        <h1 {...excess}>{children}</h1>
+    );
+};
+
+export const ModalContent = ({children}: {children: React.ReactNode}) => (
+    <div className="modal-content">
+        {children}
+    </div>
+);
 
 /**
  * A base modal to display simple information using the ModalContext
  */
-export const Modal = (props: ModalProps) => {
-    const modalContext = useModal();
+export const Modal = (props: React.HTMLAttributes<HTMLDialogElement>) => {
+    const {hideModal} = useModal();
 
     const dialogRef = React.useRef<HTMLDialogElement>(null);
-    const {children, modalTitle, modalTitleClass, ...excess} = props;
+    const {children, ...excess} = props;
 
     React.useEffect(() => {
         if(!dialogRef.current) return;
@@ -68,21 +75,18 @@ export const Modal = (props: ModalProps) => {
         */
         if(e.target !== dialogRef.current) return;
 
-        e.currentTarget.classList.remove("enter", "enter-active");
+        e.currentTarget.classList.remove("enter-active");
         e.currentTarget.classList.add("leave", "leave-active");
         document.body.style.overflow = "unset";
 
-        e.currentTarget.addEventListener('transitionend', (e) => {
+        dialogRef.current.addEventListener('transitionend', (e) => {
             (e.currentTarget as HTMLDialogElement).close();
         });
     }
 
     return (
-        <dialog className="modal enter" ref={dialogRef} onClick={onClick} onClose={() => modalContext.hideModal()} {...excess}>
-            <h1 className={modalTitleClass}>{modalTitle}</h1>
-            <div className="modal-content">
-                {children}
-            </div>
+        <dialog className="modal" ref={dialogRef} onClick={onClick} onClose={() => hideModal()} {...excess}>
+            {children}
         </dialog>
     );
 };

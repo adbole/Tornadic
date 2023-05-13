@@ -4,7 +4,7 @@ import { CustomTooltip, PressureTick, ChartDisplay } from "./Chart.Components";
 import { Forecast, useWeather } from "../Contexes/WeatherContext";
 import React from "react";
 import { TimeConverter, nameof } from "../../ts/Helpers";
-import { Modal } from "../Contexes/ModalContext";
+import { Modal, ModalContent, ModalTitle } from "../Contexes/ModalContext";
 
 //Properties denoted here represent values supported for displaying by a Chart
 export enum HourlyProperties {
@@ -122,49 +122,50 @@ const Chart = ({showProperty, showDay = 0}: {showProperty: HourlyProperties, sho
     const onMouseMove = React.useCallback((e: any) => e.activeLabel ? setTimeText(", " + e.activeLabel) : setTimeText(""), [setTimeText]);
     const onMouseLeave = React.useCallback(() => setTimeText(""), [setTimeText]);
 
-    const select = (
-        <select className="clear" title="Current Chart" onChange={(e) => setProperty(e.currentTarget.value as HourlyProperties)} value={property}>
-            {
-                Object.keys(HourlyProperties).map(key => (
-                    <option key={key} value={HourlyProperties[key as keyof typeof HourlyProperties]}>{key}</option>
-                ))
-            }
-        </select>
-    );
-
     return (
-       <Modal modalTitle={select} id="chart">
-            <div className="controls">
-                {
-                    forecastData.hourly.time.filter((_, i) =>  i % 24 === 0).map((time, i) => (
-                        <div key={i} className="toggle-button" onClick={() => setDay(i)}>
-                            <input type="radio" name="chart-radio" id={i.toString()} defaultChecked={i === day}/>
-                            <label htmlFor={i.toString()}>{TimeConverter.GetTimeFormatted(time, TimeConverter.TimeFormat.Weekday)}</label>
-                        </div>
-                    ))
-                }
-            </div>
-
-            <p><span>{TimeConverter.GetTimeFormatted(forecastData.hourly.time[day * 24], TimeConverter.TimeFormat.Date)}</span><span ref={timeRef}></span></p>
-
-            <hr></hr>
-
-            <ResponsiveContainer width={"100%"} height="100%">
-                <ChartDisplay property={property} data={chartData} margin={{top: 0, left: 0, right: 0, bottom: 0}} onMouseMove={onMouseMove} onMouseLeave={onMouseLeave}>
-                    {GetDataVisual(forecastData, property, chartData)}
-                    <CartesianGrid stroke="#ffffff19"/>
-                    <XAxis dataKey="name" interval={5} textAnchor="start"/>
+       <Modal id="chart">
+            <ModalTitle>
+                <select className="clear" title="Current Chart" onChange={(e) => setProperty(e.currentTarget.value as HourlyProperties)} value={property}>
                     {
-                        property === HourlyProperties.Pressure 
-                        ? <YAxis domain={([dataMin, dataMax]) => GetMinMax([dataMin, dataMax], property)} tick={<PressureTick unit={forecastData.hourly_units[property]}/>}/>
-                        : <YAxis domain={([dataMin, dataMax]) => GetMinMax([dataMin, dataMax], property)} unit={forecastData.hourly_units[property]} />
+                        Object.keys(HourlyProperties).map(key => (
+                            <option key={key} value={HourlyProperties[key as keyof typeof HourlyProperties]}>{key}</option>
+                        ))
                     }
-                    
-                    {/* @ts-ignore */}
-                    <Tooltip wrapperStyle={{ outline: "none" }} position={{x: 'auto', y: 10}} content={<CustomTooltip/>}/>
-                    {day === 0 && <ReferenceLine x={TimeConverter.GetTimeFormatted(forecastData.hourly.time[forecastData.nowIndex], TimeConverter.TimeFormat.Hour)}/>}
-                </ChartDisplay>
-            </ResponsiveContainer>
+                </select>
+            </ModalTitle>
+            <ModalContent>
+                <div className="controls">
+                    {
+                        forecastData.hourly.time.filter((_, i) =>  i % 24 === 0).map((time, i) => (
+                            <div key={i} className="toggle-button" onClick={() => setDay(i)}>
+                                <input type="radio" name="chart-radio" id={i.toString()} defaultChecked={i === day}/>
+                                <label htmlFor={i.toString()}>{TimeConverter.GetTimeFormatted(time, TimeConverter.TimeFormat.Weekday)}</label>
+                            </div>
+                        ))
+                    }
+                </div>
+
+                <p><span>{TimeConverter.GetTimeFormatted(forecastData.hourly.time[day * 24], TimeConverter.TimeFormat.Date)}</span><span ref={timeRef}></span></p>
+
+                <hr></hr>
+
+                <ResponsiveContainer width={"100%"} height="100%">
+                    <ChartDisplay property={property} data={chartData} margin={{top: 0, left: 0, right: 0, bottom: 0}} onMouseMove={onMouseMove} onMouseLeave={onMouseLeave}>
+                        {GetDataVisual(forecastData, property, chartData)}
+                        <CartesianGrid stroke="#ffffff19"/>
+                        <XAxis dataKey="name" interval={5} textAnchor="start"/>
+                        {
+                            property === HourlyProperties.Pressure 
+                            ? <YAxis domain={([dataMin, dataMax]) => GetMinMax([dataMin, dataMax], property)} tick={<PressureTick unit={forecastData.hourly_units[property]}/>}/>
+                            : <YAxis domain={([dataMin, dataMax]) => GetMinMax([dataMin, dataMax], property)} unit={forecastData.hourly_units[property]} />
+                        }
+                        
+                        {/* @ts-ignore */}
+                        <Tooltip wrapperStyle={{ outline: "none" }} position={{x: 'auto', y: 10}} content={<CustomTooltip/>}/>
+                        {day === 0 && <ReferenceLine x={TimeConverter.GetTimeFormatted(forecastData.hourly.time[forecastData.nowIndex], TimeConverter.TimeFormat.Hour)}/>}
+                    </ChartDisplay>
+                </ResponsiveContainer>
+            </ModalContent>
        </Modal>
     );
 };
