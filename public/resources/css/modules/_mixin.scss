@@ -1,12 +1,12 @@
 //do-transition allows easy definition of simple transitions.
 @mixin do-transition($transition-property, $from, $to, $duration, $pseudo:"") {
-    &.enter#{$pseudo} {
+    &#{$pseudo} {
         #{$transition-property}: #{$from};
     }
 
     &.enter-active#{$pseudo} {
         #{$transition-property}: #{$to};
-        transition: #{$transition-property} #{$duration};
+        transition: #{$transition-property} #{$duration} ease-in-out;
     }
 
     &.leave#{$pseudo} {
@@ -15,7 +15,7 @@
 
     &.leave-active#{$pseudo} {
         #{$transition-property}: #{$from};
-        transition: #{$transition-property} #{$duration} ease-in;
+        transition: #{$transition-property} #{$duration} ease-in-out;
     }
 }
 

@@ -53,6 +53,6 @@ dialog {
         background-color: rgba(0, 0, 0, 0.5);
     }
 
-    @include do-transition(transform, translateY(200%), translateY(0), 0.5s);
-    @include do-transition(opacity, 0, 1, 0.5s, '::backdrop');
+    @include do-transition(transform, translateY(100vh), translateY(0), 1s);
+    @include do-transition(opacity, 0, 1, 1s, '::backdrop');
 }
