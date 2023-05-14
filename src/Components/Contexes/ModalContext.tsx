@@ -36,10 +36,10 @@ const ModalContextProvider = ({children}: {children: React.ReactNode}) => {
 export default ModalContextProvider;
 
 export const ModalTitle = (props: React.HTMLAttributes<HTMLHeadingElement>) => {
-    const {children, ...excess} = props;
+    const {children, className, ...excess} = props;
 
     return (
-        <h1 {...excess}>{children}</h1>
+        <h1 className={className ? "modal-title " + className : "modal-title"} {...excess}>{children}</h1>
     );
 };
 
@@ -63,7 +63,7 @@ export const Modal = (props: React.HTMLAttributes<HTMLDialogElement>) => {
 
         dialogRef.current.showModal();
         dialogRef.current.classList.add("enter-active");
-        document.body.style.overflow = "hidden";
+        document.body.classList.add("hide-overflow");
     }, [dialogRef]);
 
     function onClick(e: React.MouseEvent<HTMLDialogElement, MouseEvent>) {
@@ -75,9 +75,9 @@ export const Modal = (props: React.HTMLAttributes<HTMLDialogElement>) => {
         */
         if(e.target !== dialogRef.current) return;
 
-        e.currentTarget.classList.remove("enter-active");
-        e.currentTarget.classList.add("leave", "leave-active");
-        document.body.style.overflow = "unset";
+        dialogRef.current.classList.remove("enter-active");
+        dialogRef.current.classList.add("leave", "leave-active");
+        document.body.classList.remove("hide-overflow");
 
         dialogRef.current.addEventListener('transitionend', (e) => {
             (e.currentTarget as HTMLDialogElement).close();
