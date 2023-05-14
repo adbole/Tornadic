@@ -3,7 +3,7 @@
 dialog {
     color: inherit;
     margin: auto;
-    max-width: 500px;
+    width: 500px;
     background-color: var(--widget-back);
     border-radius: var(--border-radius);
     border: none;
@@ -13,7 +13,7 @@ dialog {
     flex-direction: column;
     overflow: hidden;
 
-    h1 { 
+    .modal-title { 
         text-align: center; 
         padding: 20px;
 
@@ -27,7 +27,7 @@ dialog {
         }
     }
 
-    >.modal-content {
+    .modal-content {
         overflow-y: auto;
         padding: 20px;
 

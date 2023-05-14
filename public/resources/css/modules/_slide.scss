@@ -1,0 +1,17 @@
+.slidable {
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+
+    //max-height is used to ensure compatibiltiy with automatically sized content with overflow scrolling.
+    transition: max-height 0.75s ease-in-out;
+
+    >div {
+        min-width: 100%;
+        transition: margin 1s ease-in-out;
+    }
+
+    >div.slide-out {
+        margin-left: -100%;
+    }
+}

@@ -4,7 +4,7 @@ import { useWeather } from "../Contexes/WeatherContext";
 import { LatLngExpression } from 'leaflet';
 import React from "react";
 import { useModal } from "../Contexes/ModalContext";
-import { AlertModal } from "../Alert";
+import { AlertModal } from "../Alert/Alert.Modal";
 
 /**
  * Takes an AlertType and converts it to a a simple color for the polygon to use

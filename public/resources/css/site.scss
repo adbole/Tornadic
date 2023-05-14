@@ -170,7 +170,10 @@ p {
 }
 
 //INDIVIDUAL MODULES SHOULD BE PLACED HERE TO ENSURE HIGHEST PRIORITY
-@import 'modules/navbar';
+@import 'modules/modal';
+@import 'modules/slide';
+@import 'modules/input';
+
 @import 'modules/now';
 @import 'modules/alert';
 @import 'modules/hourly';
@@ -178,10 +181,8 @@ p {
 @import 'modules/radar';
 @import 'modules/level_and_wind';
 @import 'modules/suntime';
-@import 'modules/modal';
 @import 'modules/pressure';
 @import 'modules/chart';
-@import 'modules/input';
 
 //ALL MEDIA CHANGES SHOULD BE PLACED HERE FOR HIGHEST PRIORITY
 @media screen and (min-width: 1400px) {

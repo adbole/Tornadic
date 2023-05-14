@@ -3,13 +3,18 @@
 
 $alertTypes: ("warning": #C31700, "watch": #FFF501, "advisory": #FF9431, "special": #8F00FF);
 
-#alert-list-modal >.modal-content{
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+#alert-list-modal {
+    >.slidable>div {
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+    }
 
-    * {
-        font-weight: 400;
+    .modal-content>.widget {
+        h2 { font-weight: 400; }
+        &:not(:last-of-type) {
+            margin-bottom: 10px;
+        }
     }
 }
 

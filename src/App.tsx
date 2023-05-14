@@ -5,7 +5,7 @@ import Daily from './Components/Daily';
 import Radar from './Components/Radar/Radar';
 import Wind from './Components/Wind';
 import SunTime from './Components/SunTime';
-import Alert from './Components/Alert';
+import Alert from './Components/Alert/Alert';
 import Pressure from './Components/Pressure';
 
 //Contexes
