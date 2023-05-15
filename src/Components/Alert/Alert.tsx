@@ -34,7 +34,7 @@ const Alert = () => {
         }
     }
     
-    const onClickHandler = () => modals.showModal(alertData.length > 0 ? <AlertSelectionModal alert={alertData}/> : <AlertModal alert={alertData[0]}/>);
+    const onClickHandler = () => modals.showModal(alertData.length > 1 ? <AlertSelectionModal alert={alertData}/> : <AlertModal alert={alertData[0]}/>);
 
     return <AlertDisplay id="alert" alert={alertToShow} onClick={onClickHandler}/>;
 };
