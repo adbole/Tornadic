@@ -4,7 +4,7 @@ import ReactDOMServer from 'react-dom/server';
 import L from 'leaflet';
 import { createControlComponent } from '@react-leaflet/core';
 import { useMap } from 'react-leaflet';
-import { Cursor, LocationDot } from '../../svgs/radar/radar.svgs';
+import { Cursor, LocationDot } from '../../svgs/radar';
 
 const Current_Location_Icon = L.divIcon({
     html: ReactDOMServer.renderToString(<LocationDot/>),

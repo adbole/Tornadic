@@ -4,7 +4,7 @@ import L from 'leaflet';
 import { createControlComponent } from '@react-leaflet/core';
 import { useMap } from 'react-leaflet';
 
-import { Grid } from '../../svgs/radar/radar.svgs';
+import { Grid } from '../../svgs/radar';
 
 /**
  * Provides the zooming functionality for the Radar component along with returning a button to be added to leaflet to provide unzooming

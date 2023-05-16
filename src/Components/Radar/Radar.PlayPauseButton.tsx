@@ -1,5 +1,5 @@
 import React from "react";
-import { Play, Pause } from '../../svgs/radar/radar.svgs';
+import { Play, Pause } from '../../svgs/radar';
 
 const PlayPauseButton = (props: {Play: VoidFunction, Pause: Function}) => {
     const [isPlaying, setIsPlaying] = React.useState(false);

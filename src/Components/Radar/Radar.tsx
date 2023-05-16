@@ -4,10 +4,10 @@ import L from 'leaflet';
 
 import { WidgetSize, Widget } from '../SimpleComponents';
 import Home from './Radar.Home';
-import Playback from './Radar.Playback';
 import Locate from './Radar.Locate';
 import AlertPolygons from './Radar.AlertPolygons';
 import { Map } from '../../svgs/widget/widget.svgs';
+import RainViewer from './Radar.RainViewer';
 
 interface IDictionary {
     [indiex: string]: HTMLDivElement
@@ -52,11 +52,11 @@ const Radar = () => {
                 <ZoomControl position="topright"/>
                 <AttributionControl position="topleft" prefix={'<a href="https://leafletjs.com/" title="A JavaScript library for interactive maps">Leaflet</a>'}/>
 
-                {/* Cutom Controls */}
+                {/* Custom Controls */}
                 <AlertPolygons />
                 <Home radar={radar}/>
                 <Locate />
-                <Playback/>
+                <RainViewer/>
             </MapContainer>
         </Widget>
     );
