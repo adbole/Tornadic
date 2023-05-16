@@ -7,7 +7,7 @@ import React, { ReactNode } from 'react';
 import { WeatherData } from '../../ts/WeatherData';
 import { Loader } from '../SimpleComponents';
 import { FetchData } from '../../ts/Helpers';
-import { ExclamationTriangle, Tornadic } from "../../svgs/svgs";
+import { ExclamationTriangle, Tornadic } from "../../svgs";
 
 const WeatherContext = React.createContext<WeatherData | undefined>(undefined);
 const temp_unit = "fahrenheit";

@@ -4,8 +4,8 @@
 
 import { ReactNode } from "react";
 import { AirQuality, NWSAlert, Forecast, GridPoint } from "../Components/Contexes/WeatherContext";
-import * as Conditions from "../svgs/conditions/conditions.svgs";
-import { Lungs } from '../svgs/widget/widget.svgs';
+import * as Conditions from "../svgs/conditions";
+import { Lungs } from '../svgs/widget';
 import { TimeConverter } from "./Helpers";
 
 //#region Enum and type definitions

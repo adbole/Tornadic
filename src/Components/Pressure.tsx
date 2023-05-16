@@ -1,6 +1,6 @@
 import { Forecast, useWeather } from "./Contexes/WeatherContext";
 import { Widget } from "./SimpleComponents";
-import { Meter, Up, Down } from "../svgs/widget/widget.svgs";
+import { Meter, Up, Down } from "../svgs/widget";
 
 import { useModal } from "./Contexes/ModalContext";
 import Chart, { HourlyProperties } from "./Chart/Chart";

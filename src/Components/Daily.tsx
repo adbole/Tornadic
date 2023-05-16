@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 import { Widget, WidgetSize } from './SimpleComponents';
 import { Normalize } from '../ts/Helpers';
 import { useWeather } from './Contexes/WeatherContext';
-import { Calendar } from '../svgs/widget/widget.svgs';
+import { Calendar } from '../svgs/widget';
 import { DayInfo, WeatherData } from '../ts/WeatherData';
 
 import { useModal } from './Contexes/ModalContext';

@@ -1,4 +1,4 @@
-import { Wind as WindIcon } from '../svgs/widget/widget.svgs';
+import { Wind as WindIcon } from '../svgs/widget';
 import { Widget } from './SimpleComponents';
 import { useWeather } from './Contexes/WeatherContext';
 

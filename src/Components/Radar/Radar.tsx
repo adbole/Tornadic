@@ -6,7 +6,7 @@ import { WidgetSize, Widget } from '../SimpleComponents';
 import Home from './Radar.Home';
 import Locate from './Radar.Locate';
 import AlertPolygons from './Radar.AlertPolygons';
-import { Map } from '../../svgs/widget/widget.svgs';
+import { Map } from '../../svgs/widget';
 import RainViewer from './Radar.RainViewer';
 
 interface IDictionary {

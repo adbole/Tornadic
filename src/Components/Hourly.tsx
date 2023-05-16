@@ -3,7 +3,7 @@ import { useWeather } from './Contexes/WeatherContext';
 import { HourInfo, WeatherData } from '../ts/WeatherData';
 
 import { Widget } from "./SimpleComponents";
-import { Clock } from '../svgs/widget/widget.svgs';
+import { Clock } from '../svgs/widget';
 import { TimeConverter } from '../ts/Helpers';
 
 /**
