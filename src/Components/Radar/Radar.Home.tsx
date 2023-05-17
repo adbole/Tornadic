@@ -1,7 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
 import L from 'leaflet';
-import { createControlComponent } from '@react-leaflet/core';
 import { useMap } from 'react-leaflet';
 
 import { Grid } from '../../svgs/radar';
