@@ -1,8 +1,6 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
 import ReactDOMServer from 'react-dom/server';
 import L from 'leaflet';
-import { createControlComponent } from '@react-leaflet/core';
 import { useMap } from 'react-leaflet';
 import { Cursor, LocationDot } from '../../svgs/radar';
 
@@ -36,17 +34,7 @@ const Locate = () => {
         });
     }, [LocateUser, map]);
 
-    const Home = L.Control.extend({
-        onAdd: () => {
-            const button = L.DomUtil.create("a", "leaflet-custom-control button");;
-            ReactDOM.createRoot(button).render(<Cursor />);
-            button.addEventListener('click', LocateUser);
-
-            return button;
-        }
-    });
-
-    return new Home();
+    return <button type="button" className="leaflet-custom-control button leaflet-control" onClick={() => LocateUser()}><Cursor /></button>;
 };
 
-export default createControlComponent(Locate);
+export default Locate;

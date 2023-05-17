@@ -5,6 +5,7 @@ import { createControlComponent } from '@react-leaflet/core';
 import { useMap } from 'react-leaflet';
 
 import { Grid } from '../../svgs/radar';
+import { useMountedEffect } from '../../ts/Helpers';
 
 /**
  * Provides the zooming functionality for the Radar component along with returning a button to be added to leaflet to provide unzooming
@@ -14,47 +15,31 @@ const Home = (props: L.ControlOptions & {
     radar: React.MutableRefObject<HTMLDivElement | null>
 }) => {
     const [isZoomed, setIsZoomed] = React.useState(false);
+
     const radar = props.radar.current;
     const map = useMap();
 
-    function zoom() {
-        if (isZoomed) return;
-
-        setIsZoomed(true);
-        radar?.classList.add("zoom-radar");
-        document.body.classList.add("hide-overflow");
-        window.scrollTo(0, 0);
-
-        map.invalidateSize();
-        map.dragging.enable();
-        map.scrollWheelZoom.enable();
-    }
-
-    function unZoom(e: Event) {
+    const zoom = React.useCallback(() => !isZoomed && setIsZoomed(true), [isZoomed]);
+    const unZoom = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.stopPropagation();
         setIsZoomed(false);
+    };
 
-        radar?.classList.remove("zoom-radar");
-        document.body.classList.remove("hide-overflow");
+    React.useEffect(() => {
+        radar?.addEventListener("click", zoom);
+        return () => radar?.removeEventListener("click", zoom);
+    }, [radar, zoom]);
+
+    useMountedEffect(() => {
+        radar?.classList.toggle('zoom-radar');
+        document.body.classList.toggle('zoom-radar');
 
         map.invalidateSize();
-        map.dragging.disable();
-        map.scrollWheelZoom.disable();
-    }
-    
-    radar?.addEventListener("click", zoom);
+        map.dragging.enabled() ? map.dragging.disable() : map.dragging.enable();
+        map.scrollWheelZoom.enabled() ? map.scrollWheelZoom.disable() : map.scrollWheelZoom.enable();
+    }, [isZoomed, map, radar]);
 
-    const Home = L.Control.extend({
-        onAdd: () => {
-            const button = L.DomUtil.create("a", "leaflet-custom-control button");
-            button.addEventListener("click", unZoom);
-            ReactDOM.createRoot(button).render(<Grid />);
-
-            return button;
-        }
-    });
-
-    return new Home();
+    return <button type="button" className="leaflet-custom-control button leaflet-control" onClick={unZoom}><Grid /></button>;
 };
 
-export default createControlComponent(Home);
+export default Home;

@@ -30,12 +30,10 @@ function GetPolygonColor(alertType: AlertType): string {
  * @returns The new coords to be used by a polygon
  */
 function ConvertToLatLng(coords: number[][][]): LatLngExpression[] {
-    return coords[0].map<LatLngExpression>(latlng => {
-        return {
-            lat: latlng[1],
-            lng: latlng[0]
-        };
-    });
+    return coords[0].map<LatLngExpression>(latlng => ({
+        lat: latlng[1],
+        lng: latlng[0]
+    }));
 }
 
 /**

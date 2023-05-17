@@ -17,12 +17,12 @@ function getTimeDisplay(time: number) {
 }
 
 export namespace RadarTypes {
-    export type Tile = {
+    export type Tile = Readonly<{
         time: number,
         path: string,
-    }
+    }>
     
-    export type ApiResponse = {
+    export type ApiResponse = Readonly<{
         generated: number,
         host: string,
         radar: {
@@ -32,7 +32,7 @@ export namespace RadarTypes {
         satellite: {
             infrared: Tile[]
         }
-    }
+    }>
     
     //Last available layer is default
     export enum LayerTypes {
@@ -47,11 +47,9 @@ export namespace RadarTypes {
         layerAnimPos: number, //Where in the animation we currently are
     }
     
-    export type LayerDict = Record<LayerTypes, AvailableLayer>
-    
     export type RadarData = {
         readonly host: string,
-        readonly availableLayers: LayerDict,
+        readonly availableLayers: Record<LayerTypes, AvailableLayer>,
         activeLayerData: AvailableLayer,
         animationTimer: NodeJS.Timeout | null
     }
@@ -161,7 +159,7 @@ const RainViewer = () => {
 
             const radarData = {
                 host: response.host,
-                availableLayers: {Satellite: {}, Radar: {}} as RadarTypes.LayerDict
+                availableLayers: {Satellite: {}, Radar: {}}
             } as RadarTypes.RadarData;
 
             radarData.activeLayerData = radarData.availableLayers[active];

@@ -4,6 +4,7 @@
 
 import ReactDOM from "react-dom";
 import L from 'leaflet';
+import React from "react";
 
 export enum Position {
     TOP_LEFT = "leaflet-top leaflet-left",
@@ -19,10 +20,18 @@ type ControlPortalProps = {
 }
 
 const ControlPortal = (props: ControlPortalProps) => {
-    const root = document.getElementsByClassName(props.position)[0] as HTMLElement;
-    L.DomEvent.disableClickPropagation(root);
+    const [portalRoot, setPortalRoot] = React.useState<Element | null>(null);
 
-    return ReactDOM.createPortal(props.children, root);
+    React.useEffect(() => {
+        const root = document.getElementsByClassName(props.position)[0];
+
+        L.DomEvent.disableClickPropagation(root as HTMLElement);
+        setPortalRoot(root);
+    }, [props.position]);
+
+    return portalRoot 
+    ? ReactDOM.createPortal(props.children, portalRoot)
+    : null;
 };
 
 export default ControlPortal;

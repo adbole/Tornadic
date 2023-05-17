@@ -8,6 +8,7 @@ import Locate from './Radar.Locate';
 import AlertPolygons from './Radar.AlertPolygons';
 import { Map } from '../../svgs/widget';
 import RainViewer from './Radar.RainViewer';
+import ControlPortal, { Position } from './Radar.ControlPortal';
 
 interface IDictionary {
     [indiex: string]: HTMLDivElement
@@ -54,8 +55,10 @@ const Radar = () => {
 
                 {/* Custom Controls */}
                 <AlertPolygons />
-                <Home radar={radar}/>
-                <Locate />
+                <ControlPortal position={Position.TOP_RIGHT}>
+                    <Home radar={radar}/>
+                    <Locate />
+                </ControlPortal>
                 <RainViewer/>
             </MapContainer>
         </Widget>
