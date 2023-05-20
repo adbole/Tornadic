@@ -27,13 +27,6 @@ export enum WeatherCondition {
     THRUNDERSTORMS_HAIL = "Thunderstorms and Hail"
 }
 
-export enum AlertType {
-    NONE,
-    ADVISORY,
-    WATCH,
-    WARNING
-}
-
 export type HazardInfo = Readonly<{
     id: string, //Used to distinguish the different gradient requirements in CSS
     title: string,
@@ -188,22 +181,6 @@ export class WeatherData {
     }
 
     //#region Static Definitions
-
-    /**
-     * Takes an alert and tries to see what kind of alert it is and returns a color based on that determined kind
-     * @param alert The alert to get the color of.
-     */
-    static GetAlertType(alert: NWSAlert): AlertType {
-        const lastSpace = alert.properties.event.lastIndexOf(" ");
-        const type = alert.properties.event.slice(lastSpace + 1).toLowerCase();
-
-        switch(type) {
-            case "warning":  return AlertType.WARNING;
-            case "watch":    return AlertType.WATCH;
-            case "advisory": return AlertType.ADVISORY;
-            default:         return AlertType.NONE;
-        }
-    }
 
     /**
      * Converts a WMO code into three parts to be rendered, the message (condition), intesity (if applicable), and the icon.

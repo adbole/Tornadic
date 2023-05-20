@@ -1,7 +1,7 @@
 @use "sass:math";
 @use "sass:color";
 
-$alertTypes: ("warning": #C31700, "watch": #FFF501, "advisory": #FF9431, "special": #8F00FF);
+$alertTypes: ("warning": #C31700, "watch": #FFF501, "advisory": #FF9431, "statement": #8F00FF, "none": gray);
 
 #alert-list-modal {
     >.slidable>div {
@@ -37,5 +37,10 @@ $alertTypes: ("warning": #C31700, "watch": #FFF501, "advisory": #FF9431, "specia
     .alert-#{$alert} {
         background: $color;
         color: if(Luminance($color) < 0.179, white, black)
+    }
+
+    path.alert-#{$alert} {
+        stroke: $color;
+        fill: $color;
     }
 }

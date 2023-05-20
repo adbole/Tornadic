@@ -1,9 +1,8 @@
 import React from 'react';
-import { WeatherData } from '../../ts/WeatherData';
 import { NWSAlert } from '../Contexes/WeatherContext';
 import { Modal, ModalContent, ModalTitle } from '../Contexes/ModalContext';
 import SlideContextProvider, { useSlideOver } from '../Contexes/SlideContext';
-import { AlertDisplay, ConvertTime, ToAlertCSS } from './Alert.Common';
+import { AlertDisplay, AlertHelpers } from './Alert.Common';
 
 export const AlertSelectionModal = ({alert}: {alert: NWSAlert[]}) => {
     //Memoize the component to prevent unnecessary operations
@@ -49,12 +48,12 @@ export const AlertModal = (props: {alert: NWSAlert} & React.DialogHTMLAttributes
 
 const AlertModalBody = ({alert, onClick}: {alert: NWSAlert, onClick?: (e: React.MouseEvent<HTMLHeadingElement>) => void}) => (
     <>
-        <ModalTitle className={ToAlertCSS(WeatherData.GetAlertType(alert))} onClick={onClick}>{alert.properties.event}</ModalTitle>
+        <ModalTitle className={AlertHelpers.GetAlertCSSClass(alert)} onClick={onClick}>{alert.properties.event}</ModalTitle>
         <ModalContent>
             <p><em>Issuing Office:</em> {alert.properties.senderName}</p>
-            <p><em>Issued:</em> {ConvertTime(alert.properties.sent)}</p>
-            <p><em>Effective:</em> {ConvertTime(alert.properties.effective)}</p>
-            <p><em>Ends:</em> {ConvertTime(alert.properties.ends ?? alert.properties.expires)}</p>
+            <p><em>Issued:</em> {AlertHelpers.ConvertTime(alert.properties.sent)}</p>
+            <p><em>Effective:</em> {AlertHelpers.ConvertTime(alert.properties.effective)}</p>
+            <p><em>Ends:</em> {AlertHelpers.ConvertTime(alert.properties.ends ?? alert.properties.expires)}</p>
             <hr/>
             {
                 alert.properties.instruction && 

@@ -1,28 +1,10 @@
 import { Polygon } from "react-leaflet";
-import { AlertType, WeatherData } from "../../ts/WeatherData";
 import { useWeather } from "../Contexes/WeatherContext";
 import { LatLngExpression } from 'leaflet';
 import React from "react";
 import { useModal } from "../Contexes/ModalContext";
 import { AlertModal } from "../Alert/Alert.Modal";
-
-/**
- * Takes an AlertType and converts it to a a simple color for the polygon to use
- * @param alertType The AlertType to convert
- * @returns The color to be used
- */
-function GetPolygonColor(alertType: AlertType): string {
-    switch(alertType) {
-        case AlertType.WARNING:
-            return "red";
-        case AlertType.WATCH:
-            return "yellow";
-        case AlertType.ADVISORY:
-            return "orange";
-        default:
-            return "gray";
-    }
-}
+import { AlertHelpers } from "../Alert/Alert.Common";
 
 /**
  * Converts the coords given by the NWSAlert to an array of LatLngExpressions to be used by a polygon.
@@ -47,12 +29,10 @@ const AlertPolygons = () => {
     return (
         <>
             {
-                alertData.map((singleAlert, index) => {
-                    if(!singleAlert.geometry) return <React.Fragment key={index}/>;
+                alertData.map((alert, index) => {
+                    if(!alert.geometry) return null;
             
-                    const polygonColor = GetPolygonColor(WeatherData.GetAlertType(singleAlert));
-            
-                    return <Polygon key={index} pathOptions={{color: polygonColor}} positions={ConvertToLatLng(singleAlert.geometry.coordinates)} eventHandlers={{click: () => modals.showModal(<AlertModal alert={alertData[index]}/>)}}/>;
+                    return <Polygon className={AlertHelpers.GetAlertCSSClass(alert)} key={index} positions={ConvertToLatLng(alert.geometry.coordinates)} eventHandlers={{click: () => modals.showModal(<AlertModal alert={alertData[index]}/>)}}/>;
                 })
             }
         </>
