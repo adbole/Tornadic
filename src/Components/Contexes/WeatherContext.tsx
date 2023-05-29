@@ -7,7 +7,8 @@ import React, { ReactNode } from 'react';
 import { WeatherData } from '../../ts/WeatherData';
 import { Loader } from '../SimpleComponents';
 import { FetchData } from '../../ts/Helpers';
-import { ExclamationTriangle, Tornadic } from "../../svgs";
+import { ExclamationTriangle } from "../../svgs";
+import MessageScreen from '../MessageScreen';
 
 const WeatherContext = React.createContext<WeatherData | undefined>(undefined);
 const temp_unit = "fahrenheit";
@@ -144,11 +145,7 @@ const WeatherContextProvider = (props: {children: ReactNode}) => {
 
     React.useMemo(() => {
         async function GetData() {
-            const pos: GeolocationPosition = await new Promise((resolve, reject) => {
-                navigator.geolocation.getCurrentPosition(resolve, (error) => {
-                    alert(error.message);
-                });
-            });
+            const pos: GeolocationPosition = await new Promise((resolve, reject) => navigator.geolocation.getCurrentPosition(resolve, reject));
 
             const [latitude, longitude] = [pos.coords.latitude, pos.coords.longitude];
         
@@ -229,16 +226,13 @@ const WeatherContextProvider = (props: {children: ReactNode}) => {
 
     if(error !== undefined && error.length !== 0) {
         return (
-            <div id="error-screen">
-                <Tornadic />
-                <div>
-                    <ExclamationTriangle />
-                    <p>An error occured when requesting from the following sources: </p>
-                    {error.map(source => (
-                        <p>{source}</p>
-                    ))}
-                </div>
-            </div>
+            <MessageScreen>
+                <ExclamationTriangle />
+                <p>An error occured when requesting from the following sources: </p>
+                {error.map(source => (
+                    <p>{source}</p>
+                ))}
+            </MessageScreen>
         );
     }
 
