@@ -34,7 +34,7 @@ const Locate = () => {
         });
     }, [LocateUser, map]);
 
-    return <button type="button" className="leaflet-custom-control button leaflet-control" onClick={() => LocateUser()}><Cursor /></button>;
+    return <button type="button" className="leaflet-custom-control leaflet-control" onClick={() => LocateUser()}><Cursor /></button>;
 };
 
 export default Locate;

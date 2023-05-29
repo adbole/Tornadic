@@ -11,6 +11,7 @@ button {
     color: inherit;
 
     &:hover, &:focus {
+        cursor: pointer;
         filter: brightness(70%);
     }
 

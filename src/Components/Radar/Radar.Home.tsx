@@ -37,7 +37,7 @@ const Home = (props: L.ControlOptions & {
         map.scrollWheelZoom.enabled() ? map.scrollWheelZoom.disable() : map.scrollWheelZoom.enable();
     }, [isZoomed, map, radar]);
 
-    return <button type="button" className="leaflet-custom-control button leaflet-control" onClick={unZoom}><Grid /></button>;
+    return <button type="button" className="leaflet-custom-control leaflet-control" onClick={unZoom}><Grid /></button>;
 };
 
 export default Home;
