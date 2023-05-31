@@ -39,6 +39,7 @@ $alertTypes: ("warning": #C31700, "watch": #FFF501, "advisory": #FF9431, "statem
         color: if(Luminance($color) < 0.179, white, black)
     }
 
+    //For leaflet polygons
     path.alert-#{$alert} {
         stroke: $color;
         fill: $color;
