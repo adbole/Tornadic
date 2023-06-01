@@ -1,6 +1,6 @@
-import { TimeConverter } from '../../ts/Helpers';
-import { NWSAlert } from '../Contexes/Weather';
-import { Widget, WidgetSize } from '../SimpleComponents';
+import { TimeConverter } from 'ts/Helpers';
+import { NWSAlert } from 'Components/Contexts/Weather';
+import { Widget, WidgetSize } from 'Components/SimpleComponents';
 
 export namespace AlertHelpers {
     enum AlertType {

@@ -1,10 +1,10 @@
 import { ResponsiveContainer, Line, CartesianGrid, XAxis, YAxis, Tooltip, Bar, Area, ReferenceLine } from "recharts";
-import { CustomTooltip, PressureTick, ChartDisplay } from "./Chart.Components";
+import { CustomTooltip, PressureTick, ChartDisplay } from "./Components";
 
-import { Forecast, useWeather } from "../Contexes/Weather";
+import { Forecast, useWeather } from "Components/Contexts/Weather";
 import React from "react";
-import { TimeConverter, nameof } from "../../ts/Helpers";
-import { Modal, ModalContent, ModalTitle } from "../Contexes/ModalContext";
+import { TimeConverter, nameof } from "ts/Helpers";
+import { Modal, ModalContent, ModalTitle } from "Components/Contexts/ModalContext";
 
 //Properties denoted here represent values supported for displaying by a Chart
 export enum HourlyProperties {

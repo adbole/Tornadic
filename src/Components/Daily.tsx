@@ -1,12 +1,12 @@
 import { useCallback } from 'react';
 import { Widget, WidgetSize } from './SimpleComponents';
-import { Normalize } from '../ts/Helpers';
-import { useWeather } from './Contexes/Weather';
-import { Calendar } from '../svgs/widget';
-import { DayInfo, WeatherData } from './Contexes/Weather/WeatherData';
+import { Normalize } from 'ts/Helpers';
+import { useWeather } from './Contexts/Weather';
+import { Calendar } from 'svgs/widget';
+import { DayInfo, WeatherData } from './Contexts/Weather/WeatherData';
 
-import { useModal } from './Contexes/ModalContext';
-import Chart, { HourlyProperties } from './Chart/Chart';
+import { useModal } from './Contexts/ModalContext';
+import Chart, { HourlyProperties } from './Chart';
 
 /**
  * A helper component for Daily to display the individual days of the week

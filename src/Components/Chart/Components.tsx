@@ -1,7 +1,7 @@
 import { TooltipProps, BarChart, AreaChart, LineChart } from "recharts";
 import { CategoricalChartProps } from "recharts/types/chart/generateCategoricalChart";
 import { NameType } from "recharts/types/component/DefaultTooltipContent";
-import { DataPoint, HourlyProperties } from "./Chart";
+import { DataPoint, HourlyProperties } from ".";
 
 //Airpressure needs a special tick in order to display properly
 export const PressureTick = ({x, y, payload, unit}: {x: number, y:number, payload: {value: number}, unit: string} & any) => (

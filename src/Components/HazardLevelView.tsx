@@ -4,8 +4,8 @@
  */
 
 import { Widget } from './SimpleComponents';
-import { HazardInfo } from './Contexes/Weather/WeatherData';
-import { Normalize } from '../ts/Helpers';
+import { HazardInfo } from './Contexts/Weather/WeatherData';
+import { Normalize } from 'ts/Helpers';
 
 /**
  * Takes the information on agiven hazard such as AQ or UV Index and displays it using a radial level indicator.

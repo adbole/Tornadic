@@ -1,7 +1,7 @@
 import { Polygon } from "react-leaflet";
-import { useWeather } from "../Contexes/Weather";
+import { useWeather } from "../Contexts/Weather";
 import { LatLngExpression } from 'leaflet';
-import { useModal } from "../Contexes/ModalContext";
+import { useModal } from "../Contexts/ModalContext";
 import { AlertModal } from "../Alert/Modal";
 import { AlertHelpers } from "../Alert/Common";
 

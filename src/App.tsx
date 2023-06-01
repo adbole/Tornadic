@@ -8,9 +8,9 @@ import SunTime from './Components/SunTime';
 import Alert from './Components/Alert';
 import Pressure from './Components/Pressure';
 
-//Contexes
-import ModalContext from './Components/Contexes/ModalContext';
-import WeatherContext from './Components/Contexes/Weather';
+//Contexts
+import ModalContext from './Components/Contexts/ModalContext';
+import WeatherContext from './Components/Contexts/Weather';
 import { AirUV, DayValues } from './Components/SimpleComponents';
 
 import React from 'react';

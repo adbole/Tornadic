@@ -4,9 +4,9 @@
 
 import { ReactNode } from "react";
 import { AirQuality, NWSAlert, Forecast, GridPoint } from ".";
-import * as Conditions from "../../../svgs/conditions";
-import { Lungs } from '../../../svgs/widget';
-import { TimeConverter } from "../../../ts/Helpers";
+import * as Conditions from "svgs/conditions";
+import { Lungs } from 'svgs/widget';
+import { TimeConverter } from "ts/Helpers";
 
 //#region Enum and type definitions
 export enum WeatherCondition {

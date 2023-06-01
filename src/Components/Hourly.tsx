@@ -1,10 +1,10 @@
 import React from 'react';
-import { useWeather } from './Contexes/Weather';
-import { HourInfo, WeatherData } from './Contexes/Weather/WeatherData';
+import { useWeather } from './Contexts/Weather';
+import { HourInfo, WeatherData } from './Contexts/Weather/WeatherData';
 
 import { Widget } from "./SimpleComponents";
-import { Clock } from '../svgs/widget';
-import { TimeConverter } from '../ts/Helpers';
+import { Clock } from 'svgs/widget';
+import { TimeConverter } from 'ts/Helpers';
 
 /**
  * A helper component for the Hourly component to display the individual hours

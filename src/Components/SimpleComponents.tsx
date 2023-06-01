@@ -3,16 +3,16 @@
  */
 
 import React from 'react';
-import { TornadicLoader } from '../svgs';
-import * as WidgetIcons from '../svgs/widget';
+import { TornadicLoader } from 'svgs';
+import * as WidgetIcons from 'svgs/widget';
 
 import HazardLevelView from './HazardLevelView';
 
-import { Forecast, useWeather } from './Contexes/Weather';
-import { WeatherData } from './Contexes/Weather/WeatherData';
+import { Forecast, useWeather } from './Contexts/Weather';
+import { WeatherData } from './Contexts/Weather/WeatherData';
 
-import { useModal } from './Contexes/ModalContext';
-import Chart, { HourlyProperties } from './Chart/Chart';
+import { useModal } from './Contexts/ModalContext';
+import Chart, { HourlyProperties } from './Chart';
 
 // #region Widget
 export enum WidgetSize {

@@ -1,9 +1,9 @@
-import { Forecast, useWeather } from "./Contexes/Weather";
+import { Forecast, useWeather } from "./Contexts/Weather";
 import { Widget } from "./SimpleComponents";
-import { Meter, Up, Down } from "../svgs/widget";
+import { Meter, Up, Down } from "svgs/widget";
 
-import { useModal } from "./Contexes/ModalContext";
-import Chart, { HourlyProperties } from "./Chart/Chart";
+import { useModal } from "./Contexts/ModalContext";
+import Chart, { HourlyProperties } from "./Chart";
 
 function GetTrendIcon(forecast: Forecast) {
     const surface = forecast.hourly.surface_pressure;

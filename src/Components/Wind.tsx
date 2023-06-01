@@ -1,9 +1,9 @@
-import { Wind as WindIcon } from '../svgs/widget';
+import { Wind as WindIcon } from 'svgs/widget';
 import { Widget } from './SimpleComponents';
-import { useWeather } from './Contexes/Weather';
+import { useWeather } from './Contexts/Weather';
 
-import { useModal } from './Contexes/ModalContext';
-import Chart, { HourlyProperties } from './Chart/Chart';
+import { useModal } from './Contexts/ModalContext';
+import Chart, { HourlyProperties } from './Chart';
 
 
 /**

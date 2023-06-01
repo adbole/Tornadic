@@ -1,7 +1,7 @@
 import { Widget, WidgetSize } from './SimpleComponents';
-import { Sunrise, Sunset } from '../svgs/widget';
-import { useWeather } from './Contexes/Weather';
-import { TimeConverter } from '../ts/Helpers';
+import { Sunrise, Sunset } from 'svgs/widget';
+import { useWeather } from './Contexts/Weather';
+import { TimeConverter } from 'ts/Helpers';
 
 /**
  * A helper component for SunTime to display when the sunrise/sunset will ocurr along with what comes next.

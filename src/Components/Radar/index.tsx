@@ -10,7 +10,7 @@ import AlertPolygons from './AlertPolygons';
 import RainViewer from './RainViewer';
 import ControlPortal, { Position } from './ControlPortal';
 
-import { Map } from '../../svgs/widget';
+import { Map } from 'svgs/widget';
 
 interface IDictionary {
     [indiex: string]: HTMLDivElement
