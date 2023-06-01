@@ -4,11 +4,11 @@
  */
 
 import React, { ReactNode } from 'react';
-import { WeatherData } from '../../ts/WeatherData';
-import { Loader } from '../SimpleComponents';
-import { FetchData } from '../../ts/Helpers';
-import { ExclamationTriangle } from "../../svgs";
-import MessageScreen from '../MessageScreen';
+import { WeatherData } from './WeatherData';
+import { Loader } from '../../SimpleComponents';
+import { FetchData } from '../../../ts/Helpers';
+import { ExclamationTriangle } from "../../../svgs";
+import MessageScreen from '../../MessageScreen';
 
 const WeatherContext = React.createContext<WeatherData | undefined>(undefined);
 const temp_unit = "fahrenheit";

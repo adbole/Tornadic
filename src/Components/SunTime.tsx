@@ -1,6 +1,6 @@
 import { Widget, WidgetSize } from './SimpleComponents';
 import { Sunrise, Sunset } from '../svgs/widget';
-import { useWeather } from './Contexes/WeatherContext';
+import { useWeather } from './Contexes/Weather';
 import { TimeConverter } from '../ts/Helpers';
 
 /**

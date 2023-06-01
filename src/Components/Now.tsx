@@ -1,5 +1,5 @@
-import { useWeather } from './Contexes/WeatherContext';
-import { WeatherCondition } from '../ts/WeatherData';
+import { useWeather } from './Contexes/Weather';
+import { WeatherCondition } from './Contexes/Weather/WeatherData';
 import { Widget } from './SimpleComponents';
 
 import { useModal } from './Contexes/ModalContext';

@@ -1,6 +1,6 @@
 import { Wind as WindIcon } from '../svgs/widget';
 import { Widget } from './SimpleComponents';
-import { useWeather } from './Contexes/WeatherContext';
+import { useWeather } from './Contexes/Weather';
 
 import { useModal } from './Contexes/ModalContext';
 import Chart, { HourlyProperties } from './Chart/Chart';

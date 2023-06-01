@@ -1,6 +1,6 @@
 import React from 'react';
-import { useWeather } from './Contexes/WeatherContext';
-import { HourInfo, WeatherData } from '../ts/WeatherData';
+import { useWeather } from './Contexes/Weather';
+import { HourInfo, WeatherData } from './Contexes/Weather/WeatherData';
 
 import { Widget } from "./SimpleComponents";
 import { Clock } from '../svgs/widget';

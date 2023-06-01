@@ -1,4 +1,4 @@
-import { Forecast, useWeather } from "./Contexes/WeatherContext";
+import { Forecast, useWeather } from "./Contexes/Weather";
 import { Widget } from "./SimpleComponents";
 import { Meter, Up, Down } from "../svgs/widget";
 

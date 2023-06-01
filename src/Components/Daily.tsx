@@ -1,9 +1,9 @@
 import { useCallback } from 'react';
 import { Widget, WidgetSize } from './SimpleComponents';
 import { Normalize } from '../ts/Helpers';
-import { useWeather } from './Contexes/WeatherContext';
+import { useWeather } from './Contexes/Weather';
 import { Calendar } from '../svgs/widget';
-import { DayInfo, WeatherData } from '../ts/WeatherData';
+import { DayInfo, WeatherData } from './Contexes/Weather/WeatherData';
 
 import { useModal } from './Contexes/ModalContext';
 import Chart, { HourlyProperties } from './Chart/Chart';

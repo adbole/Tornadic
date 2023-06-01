@@ -8,8 +8,8 @@ import * as WidgetIcons from '../svgs/widget';
 
 import HazardLevelView from './HazardLevelView';
 
-import { Forecast, useWeather } from './Contexes/WeatherContext';
-import { WeatherData } from '../ts/WeatherData';
+import { Forecast, useWeather } from './Contexes/Weather';
+import { WeatherData } from './Contexes/Weather/WeatherData';
 
 import { useModal } from './Contexes/ModalContext';
 import Chart, { HourlyProperties } from './Chart/Chart';

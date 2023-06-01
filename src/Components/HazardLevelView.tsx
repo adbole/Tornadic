@@ -4,7 +4,7 @@
  */
 
 import { Widget } from './SimpleComponents';
-import { HazardInfo } from '../ts/WeatherData';
+import { HazardInfo } from './Contexes/Weather/WeatherData';
 import { Normalize } from '../ts/Helpers';
 
 /**

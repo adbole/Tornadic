@@ -1,5 +1,5 @@
 import { TimeConverter } from '../../ts/Helpers';
-import { NWSAlert } from '../Contexes/WeatherContext';
+import { NWSAlert } from '../Contexes/Weather';
 import { Widget, WidgetSize } from '../SimpleComponents';
 
 export namespace AlertHelpers {

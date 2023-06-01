@@ -1,4 +1,4 @@
-import { useWeather } from '../Contexes/WeatherContext';
+import { useWeather } from '../Contexes/Weather';
 import { useModal } from '../Contexes/ModalContext';
 import { AlertDisplay, AlertHelpers } from './Alert.Common';
 import { AlertModal, AlertSelectionModal } from './Alert.Modal';
