@@ -3,9 +3,6 @@ import ReactDOM from 'react-dom/client';
 import React from 'react';
 // import reportWebVitals from './reportWebVitals';
 
-//Service Worker
-import * as serviceWorkerRegistration from './serviceWorkerRegistration';
-
 //Components
 import App from './App';
 import OfflineApp from './OfflineApp';
@@ -39,8 +36,6 @@ root.render(
        <OnlineOfflineManager />
     </>
 );
-
-serviceWorkerRegistration.register();
 
 // const root = ReactDOM.createRoot(document.getElementById('root'));
 // root.render(

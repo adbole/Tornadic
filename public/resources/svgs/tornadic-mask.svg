@@ -1,0 +1,25 @@
+<svg viewBox="0 0 800 800" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <radialGradient id="radial" cx="74.29%" cy="-11%" r="111%">
+            <stop offset="0%" style="stop-color: #A93300;" />
+            <stop offset="100%" style="stop-color: #083434;" />
+        </radialGradient>
+        <linearGradient id="linear" gradientTransform="rotate(30)">
+            <stop offset="0%" style="stop-color: #00D5C8;" />
+            <stop offset="100%" style="stop-color: #2200AA;" />
+        </linearGradient>
+
+        <rect id="radial-rect" width="100%" height="100%" fill="url(#radial)" />
+        <rect id="linear-rect" width="100%" height="100%" fill="url(#linear)" />
+        <filter id="blend" x="0" y="0" width="1" height="1">
+            <feImage x="0" y="0" href="#radial-rect" result="radialImg" />
+            <feImage x="0" y="0" href="#linear-rect" result="linearImg" />
+            <feBlend in="radialImg" in2="linearImg" mode="difference" result="blendedGrad" />
+            <feComposite in="blendedGrad" in2="SourceGraphic" operator="in" />
+        </filter>
+    </defs>
+    <rect width="100%" height="100%" filter="url(#blend)" />
+    <path
+        d="m658.75 292.61c-84.319-17.028-173.51-21.927-251.37-58.521-41.92-19.702-83.39-46.353-110.62-84.09 7.9961 52.664 43.077 96.472 77.699 135.88 30.509 34.613 5.2543 75.326-5.2028 110.46-29.629 93.17-74.025 185.57-148 253.66 49.151-9.9757 141.75-116.65 171.72-165.38 32.615-46.86 54.941-100.9 95.532-142.26 22.995-22.727 57.34-21.371 87.857-26.027 27.91-4.2577 58.454-8.0618 82.394-23.722z"
+        fill="#1a1a1a" />
+</svg>

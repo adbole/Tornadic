@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self'; style-src 'self'; object-src 'none';" >
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Weather app providing weather data from open-meteo and the NWS for your current location." />
+    <meta name="theme-color" content="#000000">
+    <title>Tornadic</title>
+
+    <link rel="icon" href="/resources/svgs/tornadic.svg" />
+    <link rel="mask-icon" href="/resources/svgs/tornadic-mask.svg">
+    <link rel="apple-touch-icon" href="/resources/images/icons/apple-touch-icon.png" />
+
+    <link rel="stylesheet" href="/resources/css/leaflet.min.css" />
+    <link rel="stylesheet" href="/resources/css/site.min.css" />
+
+    <!--Preconnect to API endpoints-->
+    <link rel="preconnect" href="https://api.open-meteo.com"/>
+    <link rel="preconnect" href="https://air-quality-api.open-meteo.com"/>
+    <link rel="preconnect" href="https://api.weather.gov"/>
+    <link rel="preconnect" href="https://tile.openstreetmap.org"/>
+    <link rel="preconnect" href="https://api.rainviewer.com"/>
+    <link rel="preconnect" href="https://tilecache.rainviewer.com"/>
+  </head>
+  <body>
+    <noscript>Tornadic requires you to have JavaScript enabled to work.</noscript>
+    <main id="root"></main>
+    <script type="module" src="/src/index.tsx"></script>
+  </body>
+</html>
