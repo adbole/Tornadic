@@ -2,8 +2,8 @@ import { Polygon } from "react-leaflet";
 import { useWeather } from "../Contexes/Weather";
 import { LatLngExpression } from 'leaflet';
 import { useModal } from "../Contexes/ModalContext";
-import { AlertModal } from "../Alert/Alert.Modal";
-import { AlertHelpers } from "../Alert/Alert.Common";
+import { AlertModal } from "../Alert/Modal";
+import { AlertHelpers } from "../Alert/Common";
 
 /**
  * Converts the coords given by the NWSAlert to an array of LatLngExpressions to be used by a polygon.

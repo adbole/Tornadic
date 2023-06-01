@@ -3,9 +3,9 @@ import L from 'leaflet';
 import { useMap } from 'react-leaflet';
 import { FetchData, TimeConverter } from '../../ts/Helpers';
 
-import PlayPauseButtom from './Radar.PlayPauseButton';
-import ControlPortal, { Position } from './Radar.ControlPortal';
-import Opacity from './Radar.Opacity';
+import PlayPauseButtom from './PlayPauseButton';
+import ControlPortal, { Position } from './ControlPortal';
+import Opacity from './Opacity';
 
 //Uses floor function to keep remainder the same sign as divisor. 
 function mod(x: number, div: number) {

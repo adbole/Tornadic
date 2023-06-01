@@ -2,7 +2,7 @@ import React from 'react';
 import { NWSAlert } from '../Contexes/Weather';
 import { Modal, ModalContent, ModalTitle } from '../Contexes/ModalContext';
 import SlideContextProvider, { useSlideOver } from '../Contexes/SlideContext';
-import { AlertDisplay, AlertHelpers } from './Alert.Common';
+import { AlertDisplay, AlertHelpers } from './Common';
 
 export const AlertSelectionModal = ({alert}: {alert: NWSAlert[]}) => {
     //Memoize the component to prevent unnecessary operations

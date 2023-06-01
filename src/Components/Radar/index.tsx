@@ -3,12 +3,14 @@ import { MapContainer, TileLayer, ZoomControl, AttributionControl } from 'react-
 import L from 'leaflet';
 
 import { WidgetSize, Widget } from '../SimpleComponents';
-import Home from './Radar.Home';
-import Locate from './Radar.Locate';
-import AlertPolygons from './Radar.AlertPolygons';
+
+import Home from './Home';
+import Locate from './Locate';
+import AlertPolygons from './AlertPolygons';
+import RainViewer from './RainViewer';
+import ControlPortal, { Position } from './ControlPortal';
+
 import { Map } from '../../svgs/widget';
-import RainViewer from './Radar.RainViewer';
-import ControlPortal, { Position } from './Radar.ControlPortal';
 
 interface IDictionary {
     [indiex: string]: HTMLDivElement
