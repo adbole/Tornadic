@@ -69,18 +69,6 @@ p {
     }
 }
 
-#loader {
-    @include center-flex;
-
-    position: fixed;
-    left: 0px;
-    right: 0px;
-    top: 0px;
-    height: 100vh;
-
-    >svg { width: 500px }
-}
-
 #message-screen {
     @include center-flex;
     flex-direction: column;
@@ -128,25 +116,9 @@ p {
 @import 'modules/chart';
 
 //ALL MEDIA CHANGES SHOULD BE PLACED HERE FOR HIGHEST PRIORITY
-@media screen and (min-width: 1400px) {
-    #root {
-        grid-template-columns: repeat(8, 1fr);
 
-        #hourly { grid-column: span 6; }
-        #alert + #hourly { grid-column: span 4; }
-
-        //n = Now
-        //d = Daily
-        //r = Radar
-        grid-template-areas: 
-        "n n . . . . . ." 
-        "n n . . . . . ."
-        "d d . . r r r r"
-        "d d . . r r r r";
-    }
-}
-
-@media screen and (max-width: 1400px) {
+//Keep grid areas up to this point
+@media screen and (min-width: 1100px) {
     #root {
         grid-template-columns: repeat(6, 1fr);
         grid-template-areas: 
@@ -154,17 +126,29 @@ p {
         "n n . . . ."
         "d d . . r r"
         "d d . . r r";
-
+    
         #hourly { grid-column: span 2; }
         #alert + #hourly { grid-column: span 2; }
     }
-}
 
-//Keep grid areas up to this point
-@media screen and (min-width: 1100px) {
     #now {  grid-area: n; }
     #daily {  grid-area: d; }
     #radar { grid-area: r; }
+}
+
+@media screen and (min-width: 1400px) {
+    #root {
+        grid-template-columns: repeat(8, 1fr);
+
+        #hourly { grid-column: span 6; }
+        #alert + #hourly { grid-column: span 4; }
+
+        grid-template-areas: 
+        "n n . . . . . ." 
+        "n n . . . . . ."
+        "d d . . r r r r"
+        "d d . . r r r r";
+    }
 }
 
 //Grid order used from this point on
@@ -180,11 +164,13 @@ p {
 
         #alert, #hourly { order: 2 }
         #daily, #radar { order: 3 }
-        >* {
-            order: 4;
-        }
+        >* { order: 4; }
 
         #hourly { grid-column: span 2; }
+    }
+
+    dialog#chart {
+        max-height: 50%;
     }
 }
 
@@ -203,5 +189,10 @@ p {
         max-height: 75%;
         margin: auto auto 0px auto;
         border-radius: var(--border-radius) var(--border-radius) 0px 0px;
+    }
+
+    dialog#chart {
+        max-height: 50%;
+        padding-bottom: 10%;
     }
 }

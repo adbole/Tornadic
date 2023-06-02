@@ -82,7 +82,7 @@ export const SimpleInfoWidget = ({icon, title, property}: {
 
 export const Loader = () => (
     <>
-        <div id="loader">
+        <div id="message-screen">
             <TornadicLoader/>
         </div>
     </>
