@@ -4,8 +4,8 @@ import React from 'react';
 // import reportWebVitals from './reportWebVitals';
 
 //Components
-import App from './App';
-import OfflineApp from './OfflineApp';
+import App from 'App';
+import OfflineApp from 'OfflineApp';
 
 const OnlineOfflineManager = () => {
     const [online, setOnline] = React.useState(navigator.onLine);

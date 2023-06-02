@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import { TornadicLoader } from 'svgs';
+import { TornadicLoader } from 'svgs/icon';
 import * as WidgetIcons from 'svgs/widget';
 
 import HazardLevelView from './HazardLevelView';

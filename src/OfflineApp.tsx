@@ -1,4 +1,5 @@
-import { Tornadic, WifiOff } from "./svgs";
+import { Tornadic } from "svgs/icon";
+import { WifiOff } from "svgs";
 
 const OfflineApp = () => (
     <>

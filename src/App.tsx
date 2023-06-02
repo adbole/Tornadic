@@ -1,22 +1,22 @@
 //Components
-import Now from './Components/Now';
-import Hourly from './Components/Hourly';
-import Daily from './Components/Daily';
-import Radar from './Components/Radar';
-import Wind from './Components/Wind';
-import SunTime from './Components/SunTime';
-import Alert from './Components/Alert';
-import Pressure from './Components/Pressure';
+import Now from 'Components/Now';
+import Hourly from 'Components/Hourly';
+import Daily from 'Components/Daily';
+import Radar from 'Components/Radar';
+import Wind from 'Components/Wind';
+import SunTime from 'Components/SunTime';
+import Alert from 'Components/Alert';
+import Pressure from 'Components/Pressure';
 
 //Contexts
-import ModalContext from './Components/Contexts/ModalContext';
-import WeatherContext from './Components/Contexts/Weather';
-import { AirUV, DayValues } from './Components/SimpleComponents';
+import ModalContext from 'Components/Contexts/ModalContext';
+import WeatherContext from 'Components/Contexts/Weather';
+import { AirUV, DayValues } from 'Components/SimpleComponents';
 
 import React from 'react';
-import MessageScreen from './Components/MessageScreen';
-import { ExclamationTriangle } from './svgs';
-import { Cursor } from './svgs/radar';
+import MessageScreen from 'Components/MessageScreen';
+import { ExclamationTriangle } from 'svgs';
+import { Cursor } from 'svgs/radar';
 
 const App = () => {
     //Before tornadic can load, it needs location permissions. 
