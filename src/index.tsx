@@ -5,7 +5,8 @@ import React from 'react';
 
 //Components
 import App from 'App';
-import OfflineApp from 'OfflineApp';
+import MessageScreen from 'Components/MessageScreen';
+import { WifiOff } from 'svgs';
 
 const OnlineOfflineManager = () => {
     const [online, setOnline] = React.useState(navigator.onLine);
@@ -25,17 +26,22 @@ const OnlineOfflineManager = () => {
 
     return (
         <>
-            {online ? <App/> : <OfflineApp/>}
+            {
+                online 
+                ? <App/> 
+                : (
+                    <MessageScreen>
+                        <WifiOff/>
+                        <p>Tornadic requires an internet connection to function properly</p>
+                    </MessageScreen>
+                )
+            }
         </>
     );
 };
 
 const root = ReactDOM.createRoot(document.getElementById('root')!);
-root.render(
-    <>
-       <OnlineOfflineManager />
-    </>
-);
+root.render(<OnlineOfflineManager />);
 
 // const root = ReactDOM.createRoot(document.getElementById('root'));
 // root.render(

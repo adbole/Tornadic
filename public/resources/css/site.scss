@@ -95,7 +95,7 @@ p, h1 {
         @include center-flex;
         flex-direction: column;
 
-        >svg { width: 100px; }
+        >svg { width: 50px; }
     }
 }
 
@@ -183,6 +183,8 @@ p, h1 {
 
         #radar { height: 300px; }
     }
+
+    #message-screen > svg { width: 300px }
 
     dialog, dialog#chart {
         max-width: 100%;
