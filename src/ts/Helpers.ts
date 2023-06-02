@@ -65,6 +65,7 @@ export async function FetchData<T>(url: string | URL, onErrorMessage: string) {
 //Helper method to ensure that a string matches a property on a type 
 export const nameof = <T,>(name: Extract<keyof T, string>): string => name;
 
+//An effect that will only run when the component is mounted
 export const useMountedEffect = (func: React.EffectCallback, deps?: React.DependencyList | undefined) => {
     const ready = React.useRef(false);
 

@@ -113,6 +113,22 @@ const Chart = ({showProperty, showDay = 0}: {showProperty: HourlyProperties, sho
     const chartData = React.useMemo(() => GetData(forecastData, property, day), [forecastData, property, day]);
 
     const timeRef = React.useRef<HTMLSpanElement>(null);
+    const selectRef = React.useRef<HTMLSelectElement>(null);
+
+    //Autosize the select element for style points
+    React.useEffect(() => {
+        if(!selectRef.current) return;
+
+        const canvasContext = document.createElement('canvas').getContext('2d')!;
+        //16px is default font-size and select is within a h1 getting 2rem font-size, therefore 32px is used here.
+        canvasContext.font = '32px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif'
+
+        //Incase textContent is null Temperature is default since its the largest option
+        const width = canvasContext.measureText(selectRef.current.children[selectRef.current.selectedIndex].textContent ?? "Temperature").width
+
+        selectRef.current.style.width = Math.round(width) + 20 + "px";
+    }, [property, selectRef])
+
     const setTimeText = React.useCallback((s: string) => {
         if(!timeRef.current) return;
 
@@ -125,7 +141,7 @@ const Chart = ({showProperty, showDay = 0}: {showProperty: HourlyProperties, sho
     return (
        <Modal id="chart">
             <ModalTitle>
-                <select className="clear" title="Current Chart" onChange={(e) => setProperty(e.currentTarget.value as HourlyProperties)} value={property}>
+                <select ref={selectRef} className="clear" title="Current Chart" onChange={(e) => setProperty(e.currentTarget.value as HourlyProperties)} value={property}>
                     {
                         Object.keys(HourlyProperties).map(key => (
                             <option key={key} value={HourlyProperties[key as keyof typeof HourlyProperties]}>{key}</option>
