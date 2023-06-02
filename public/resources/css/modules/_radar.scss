@@ -1,10 +1,7 @@
 @import './mixin';
 
 #radar {
-    >.leaflet-container { 
-        border-radius: 10px;
-        height: 100% 
-    }
+    >.leaflet-container { border-radius: 10px; }
 
     &:not(.zoom-radar) > .leaflet-container {
         cursor: pointer;

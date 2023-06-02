@@ -1,28 +1,39 @@
 #daily {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
     >table {  
         svg { width: 1.5rem; }
         
-        width: 100%; 
-        border-spacing: 0px 5px;
-        margin: auto;
+        border-collapse: collapse;
     }
 
-    td:first-child {
-        width: 1%;
+    tr {
+        &:hover {
+            filter: brightness(75%);
+            cursor: pointer;
+        }
+
+        &:active { filter: brightness(50%); }
+
+        &:not(:first-child) td { padding-top: 5px; }
+
+        &:not(:last-child) {
+            td { padding-bottom: 5px;}
+    
+            border-bottom: 1px solid rgba(100, 100, 100, 0.25);
+        }
     }
 
-    td.condition {
-        display: flex;
-        justify-content: center;
+    td {
+        &:first-child { width: 1%; }
 
-        gap: 10px;
+        &.condition {
+            display: flex;
+            justify-content: center;
+    
+            gap: 10px;
+        }
+
+        &:last-child{ width: 55%; }
     }
-
-    td:last-child{ width: 55%; }
 
     .temp-range {
         display: flex;
@@ -30,11 +41,7 @@
         align-items: center;
         gap: 5px;
 
-        p {
-            &:first-child {
-                text-align: right;
-            }
-        }
+        p:first-child { text-align: right; }
 
         .dual-range {
             position: relative;

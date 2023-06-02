@@ -44,7 +44,7 @@ const Now = () => {
         <Widget id="now" className={background} onClick={() => showModal(<Chart showProperty={HourlyProperties.Temperature}/>)}>
             <p>{nowData.location}</p>
     
-            <p id="current">{nowData.temperature}</p>
+            <h1>{nowData.temperature}</h1>
     
             <p>{nowData.conditionInfo.condition}</p>
             <p>Feels like <span>{nowData.feelsLike}</span>°</p>

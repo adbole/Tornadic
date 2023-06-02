@@ -58,12 +58,12 @@ svg {
     width: 1rem; 
 }
 
-p {
+p, h1 {
     margin: 0px;
     line-height: 1;
     height: fit-content;
 
-    //If an svg is within a p, this will ensure it aligns somewhat properly
+    //If an svg is within a p or h1, this will ensure it aligns somewhat properly
     >svg {
         vertical-align: middle;
     }

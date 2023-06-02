@@ -21,9 +21,14 @@
     .widget-title {
         display: flex;
         flex-direction: row;
-        width: 100%;
+        gap: 5px;
 
-        padding-bottom: 10px;
+        font-size: 1rem;
+        margin-bottom: 10px;
+    }
+
+    &:not(.template) > :not(.widget-title) {
+        flex: 1
     }
 }
 
@@ -32,6 +37,8 @@
     flex-direction: column;
 
     >svg { width: 2.5rem; }
+    >.widget-title { margin: 0;}
+    >p { font-size: 2rem;}
 }
 
 //Backdrop filter causes postition fixed to not work

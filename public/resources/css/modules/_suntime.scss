@@ -3,14 +3,7 @@
     justify-content: space-evenly;
     flex-direction: row;
 
-    >div:last-child {
-        @include center-flex;
-        flex-direction: column;
-
-        height: 100%;
-
-        >svg {
-            width: 5rem;
-        }
+    >svg {
+        width: 5rem;
     }
 }

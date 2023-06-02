@@ -1,20 +1,20 @@
-#pressure {
-    >div:last-child {
-        height: 100%;
+#pressure > div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
+    >svg {
+        width: 2rem;
+        margin: -0.5rem;
+    }
 
-        >svg {
-            width: 2rem;
-            margin: -0.5rem;
-        }
+    >.equal {
+        font-size: 2rem;
+        margin: -0.5rem;
+    }
 
-        >.equal {
-            font-size: 2rem;
-            margin: -0.5rem;
-        }
+    >.value {
+        font-size: 2rem;
     }
 }

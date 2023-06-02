@@ -18,7 +18,7 @@ import Chart, { HourlyProperties } from './Chart';
 export enum WidgetSize {
     NORMAL = "",
     LARGE = " widget-large",
-    WIDE = " widget-wide"
+    WIDE =  " widget-wide"
 }
 
 /**
@@ -26,21 +26,17 @@ export enum WidgetSize {
  * This component will display a simple rectangle box in the root's grid, but can be expanded and customized to fit any need. 
  */
 export const Widget = React.forwardRef<HTMLDivElement, WidgetProps & React.HTMLAttributes<HTMLDivElement>>((props, ref) => {
-    const {className, children, size, widgetTitle, widgetIcon, ...excess} = props;
+    const {className, children, size, widgetTitle, widgetIcon, isTemplate, ...excess} = props;
 
     let classList = "widget" + size;
+    if(isTemplate) classList += " template"
     if(className) classList += " " + className;
 
     return (
-        <div className={classList} ref={ref} {...excess}>
-            {widgetTitle && widgetIcon && 
-                <div className="widget-title">
-                    <p>{widgetIcon} {widgetTitle} </p>
-                </div>
-            }
-            
+        <section className={classList} ref={ref} {...excess}>
+            {widgetTitle && widgetIcon && <h1 className="widget-title">{widgetIcon} {widgetTitle}</h1>}
             {children}
-    </div>
+        </section>
     );
 });
 
@@ -48,7 +44,10 @@ type WidgetProps = {
     size?: WidgetSize,
     children: React.ReactNode,
     widgetTitle?: string,
-    widgetIcon?: React.ReactNode
+    widgetIcon?: React.ReactNode,
+    //Normal Widgets have a style rule that causes all child elements (excluding the title) to get flex: 1
+    //so they take up as much space as possible. This flag will determine if the template class is added to prevent it
+    isTemplate?: boolean 
 }
 
 Widget.defaultProps = {
@@ -69,16 +68,14 @@ export const SimpleInfoWidget = ({icon, title, property}: {
 
     return (
         //Because HourlyProperties' values map to a Forecast property, then a property of Forecast can be mapped to a key of HourlyProperties (if it exists on HourlyProperties)
-        <Widget className="basic-info" onClick={() => showModal(<Chart showProperty={HourlyProperties[Object.keys(HourlyProperties).filter((k) => HourlyProperties[k as HourlyKey] === property)[0] as HourlyKey]}/>)}>
+        <Widget className="basic-info" isTemplate onClick={() => showModal(<Chart showProperty={HourlyProperties[Object.keys(HourlyProperties).filter((k) => HourlyProperties[k as HourlyKey] === property)[0] as HourlyKey]}/>)}>
             {icon}
-            <p>{title}</p>
-            <h1>{forecastData.hourly[property][forecastData.nowIndex].toFixed(0) + forecastData.hourly_units[property]}</h1>
+            <h1 className='widget-title'>{title}</h1>
+            <p>{forecastData.hourly[property][forecastData.nowIndex].toFixed(0) + forecastData.hourly_units[property]}</p>
         </Widget>
     );
 };
 // #endregion SimpleInfoWidget
-
-
 
 export const Loader = () => (
     <>

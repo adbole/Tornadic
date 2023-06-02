@@ -7,15 +7,13 @@ import { TimeConverter } from 'ts/Helpers';
  * A helper component for SunTime to display when the sunrise/sunset will ocurr along with what comes next.
  */
 const HelperWidget = (props: {isSunrise: boolean,  time: string, nextTime: string}) => (
-    <Widget id="suntime" size={WidgetSize.WIDE}>
+    <Widget id="suntime" isTemplate size={WidgetSize.WIDE}>
         <div>
             <p>{props.isSunrise ? "Sunrise" : "Sunset"}</p>
             <h1>{TimeConverter.GetTimeFormatted(props.time, TimeConverter.TimeFormat.HourMinute)}</h1>
             <p>{props.isSunrise ? "Sunset" : "Sunrise"} {TimeConverter.GetTimeFormatted(props.nextTime, TimeConverter.TimeFormat.HourMinute)}</p>
         </div>
-        <div>
-            {props.isSunrise ? <Sunrise /> : <Sunset />}
-        </div>
+        {props.isSunrise ? <Sunrise /> : <Sunset />}
     </Widget>
 );
 

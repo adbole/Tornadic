@@ -78,11 +78,13 @@ const Daily = () => {
             <table>
                 <tbody>
                     {
-                        Array.from(useWeather().GetDailyValues()).map((day, index) => {
-                            return <Day key={index} dayInfo={day} 
-                                        style={calculateDualRangeCoverStyle(day.temperature_low, day.temperature_high)} 
-                                        onClick={() => showModal(<Chart showProperty={HourlyProperties.Temperature} showDay={index}/>)}/>;
-                        })
+                        Array.from(useWeather().GetDailyValues()).map((day, index) => (
+                            <Day 
+                                key={index} dayInfo={day} 
+                                style={calculateDualRangeCoverStyle(day.temperature_low, day.temperature_high)} 
+                                onClick={() => showModal(<Chart showProperty={HourlyProperties.Temperature} showDay={index}/>)}
+                            />
+                        ))
                     }
                 </tbody>
             </table>

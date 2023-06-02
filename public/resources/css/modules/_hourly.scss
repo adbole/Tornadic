@@ -3,7 +3,6 @@
     list-style-type: none;
 
     padding: 0px;
-    width: 100%;
     overflow-y: hidden;
 
     &-row { flex-direction: row; }
@@ -22,7 +21,6 @@
     text-align: center;
 
     >ol {
-        height: 100%;
         gap: 20px;
 
         >.seperator {
@@ -38,27 +36,21 @@
                 background-color: white;
                 border-radius: 5px; 
             }
-
-            &::before { 
-                margin-bottom: 5px;
-            }
-            &::after { 
-                margin-top: 5px;
-            }
         }
 
         >li {
             display: flex;
             flex-direction: column;
+            gap: 5px;
 
             p { white-space: nowrap; }
             > div {
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
+                align-items: center;
 
-                height: 100%;
-                margin: 5px 0px;
+                flex: 1;
                 
                 svg { 
                     width: 2rem !important; 

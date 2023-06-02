@@ -30,7 +30,7 @@ const Pressure = () => {
         <Widget id="pressure" widgetIcon={<Meter/>} widgetTitle={"Air Pressure"} onClick={() => showModal(<Chart showProperty={HourlyProperties.Pressure}/>)}>
             <div>
                 {trendIcon}
-                <h1>{(forecast.hourly.surface_pressure[forecast.nowIndex]).toFixed(2)}</h1>
+                <p className="value">{(forecast.hourly.surface_pressure[forecast.nowIndex]).toFixed(2)}</p>
                 <p>{forecast.hourly_units.surface_pressure}</p>
             </div>
         </Widget>
