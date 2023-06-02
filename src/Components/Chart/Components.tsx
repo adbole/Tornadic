@@ -2,16 +2,6 @@ import { TooltipProps, BarChart, AreaChart, LineChart } from "recharts";
 import { CategoricalChartProps } from "recharts/types/chart/generateCategoricalChart";
 import { NameType } from "recharts/types/component/DefaultTooltipContent";
 import { DataPoint, HourlyProperties } from ".";
-
-//Airpressure needs a special tick in order to display properly
-export const PressureTick = ({x, y, payload, unit}: {x: number, y:number, payload: {value: number}, unit: string} & any) => (
-    <g transform={`translate(${x},${y})`}>
-        <text x={0} y={0} dy={5} fill="#666">
-        <tspan textAnchor="end" x="0">{payload.value.toFixed(2)}</tspan>
-        <tspan textAnchor="end" x="0" dy="20">{unit}</tspan>
-        </text>
-    </g>
-);
   
 //Customized tooltip to display primary and secondary data with labels if applicable
 export const CustomTooltip = ({active, payload}: TooltipProps<number, NameType>) => {

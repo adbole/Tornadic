@@ -1,5 +1,5 @@
 import { ResponsiveContainer, Line, CartesianGrid, XAxis, YAxis, Tooltip, Bar, Area, ReferenceLine } from "recharts";
-import { CustomTooltip, PressureTick, ChartDisplay } from "./Components";
+import { CustomTooltip, ChartDisplay } from "./Components";
 
 import { Forecast, useWeather } from "Components/Contexts/Weather";
 import React from "react";
@@ -56,8 +56,8 @@ function GetData(forecastData: Forecast, property: HourlyProperties, day: number
 
 function GetMinMax([min, max]: [number, number], property: HourlyProperties): [number, number] {
     if(property === HourlyProperties.Pressure) {
-        min -= 0.1;
-        max += 0.1;
+        min -= 0.3;
+        max += 0.3;
     }
     else if(property === HourlyProperties.Precipitation) {
         min = 0;
@@ -155,9 +155,9 @@ const Chart = ({showProperty, showDay = 0}: {showProperty: HourlyProperties, sho
                         <CartesianGrid stroke="#ffffff19"/>
                         <XAxis dataKey="name" interval={5} textAnchor="start"/>
                         {
-                            property === HourlyProperties.Pressure 
-                            ? <YAxis domain={([dataMin, dataMax]) => GetMinMax([dataMin, dataMax], property)} tick={<PressureTick unit={forecastData.hourly_units[property]}/>}/>
-                            : <YAxis domain={([dataMin, dataMax]) => GetMinMax([dataMin, dataMax], property)} unit={forecastData.hourly_units[property]} />
+                            property == HourlyProperties.Temperature || property === HourlyProperties.Dewpoint || property === HourlyProperties.Humidity
+                            ? <YAxis width={50} domain={([dataMin, dataMax]) => GetMinMax([dataMin, dataMax], property)} unit={forecastData.hourly_units[property]}/>
+                            : <YAxis width={50} domain={([dataMin, dataMax]) => GetMinMax([dataMin, dataMax], property)} tickFormatter={(value: number) => (Math.round(value * 10) / 10).toString()}/>
                         }
                         
                         {/* @ts-ignore */}

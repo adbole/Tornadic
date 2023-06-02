@@ -192,7 +192,10 @@ p, h1 {
     }
 
     dialog#chart {
-        max-height: 50%;
-        padding-bottom: 10%;
+        max-height: 60%;
+        padding-bottom: 30px;
+
+        .modal-content { padding: 10px; }
+        .recharts-cartesian-axis-tick-value > tspan { font-size: 0.75rem; }
     }
 }
