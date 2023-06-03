@@ -154,7 +154,7 @@ export const AlertDisplay = (props: {alert: NWSAlert} & React.HTMLAttributes<HTM
     const {alert, ...excess} = props;
 
     return (
-        <Widget size={WidgetSize.WIDE} className={AlertHelpers.GetAlertCSSClass(alert)} {...excess}>
+        <Widget isTemplate size={WidgetSize.WIDE} className={AlertHelpers.GetAlertCSSClass(alert)} {...excess}>
             <h2>{alert.properties.event}</h2>
             <p>{alert.properties.event} until {AlertHelpers.ConvertTime(alert.properties.ends ?? alert.properties.expires)}</p>
         </Widget>
