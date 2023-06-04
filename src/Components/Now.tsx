@@ -3,7 +3,7 @@ import { WeatherCondition } from './Contexts/Weather/WeatherData';
 import { Widget } from './SimpleComponents';
 
 import { useModal } from './Contexts/ModalContext';
-import Chart, { HourlyProperties } from './Chart';
+import Chart, { ChartViews } from './Chart';
 
 /**
  * Displays the current location name, temperature, condition, and feels like temperature along with having a gradient to match the condition
@@ -41,7 +41,7 @@ const Now = () => {
     document.body.classList.add(background);
 
     return (
-        <Widget id="now" className={background} onClick={() => showModal(<Chart showProperty={HourlyProperties.Temperature}/>)}>
+        <Widget id="now" className={background} onClick={() => showModal(<Chart showProperty={ChartViews.Temperature}/>)}>
             <p>{nowData.location}</p>
     
             <h1>{nowData.temperature}</h1>

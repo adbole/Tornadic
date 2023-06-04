@@ -52,7 +52,7 @@ export namespace TimeConverter {
 /**
  * Makes a request to the given url (supports strings and URL objects) and an error message. Await to get data
 */
-export async function FetchData<T>(url: string | URL, onErrorMessage: string) {
+export async function fetchData<T>(url: string | URL, onErrorMessage: string) {
     return fetch(url)
            .then((response) => response.ok ? response.json() : Promise.reject(onErrorMessage))
            .then((data: T) => data)
@@ -60,6 +60,30 @@ export async function FetchData<T>(url: string | URL, onErrorMessage: string) {
                 console.error(error); 
                 return null;
             });
+}
+
+export type FetchResponse<T> = {
+    data: T
+    headers: Headers
+} | null
+/**
+ * Makes a request to the given url (supports strings and URL objects) and an error message. Await to get data and headers
+*/
+export async function fetchDataAndHeaders<T>(url: string | URL, onErrorMessage: string): Promise<FetchResponse<T>>{
+    const response = await fetch(url);
+
+    if(response.ok) {
+        const json: T = await response.json();
+
+        return {
+            data: json,
+            headers: response.headers
+        };
+    }
+    else {
+        console.error(onErrorMessage);
+        return null;
+    }
 }
 
 //Helper method to ensure that a string matches a property on a type 

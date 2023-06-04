@@ -1,7 +1,7 @@
 import React from 'react';
 import L from 'leaflet';
 import { useMap } from 'react-leaflet';
-import { FetchData, TimeConverter } from '../../ts/Helpers';
+import { fetchData, TimeConverter } from '../../ts/Helpers';
 
 import PlayPauseButtom from './PlayPauseButton';
 import ControlPortal, { Position } from './ControlPortal';
@@ -154,7 +154,7 @@ const RainViewer = () => {
 
     React.useMemo(() => {
         async function GetData() {
-            const response = await FetchData<RadarTypes.ApiResponse>("https://api.rainviewer.com/public/weather-maps.json", "Could not get radar data");
+            const response = await fetchData<RadarTypes.ApiResponse>("https://api.rainviewer.com/public/weather-maps.json", "Could not get radar data");
             if(response === null) return;
 
             const radarData = {

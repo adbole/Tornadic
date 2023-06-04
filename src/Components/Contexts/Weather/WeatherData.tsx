@@ -3,7 +3,7 @@
  */
 
 import { ReactNode } from "react";
-import { AirQuality, NWSAlert, Forecast, GridPoint } from ".";
+import { Forecast, AirQuality, NWSAlert, GridPoint } from "./index.types";
 import * as Conditions from "svgs/conditions";
 import { Lungs } from 'svgs/widget';
 import { TimeConverter } from "ts/Helpers";

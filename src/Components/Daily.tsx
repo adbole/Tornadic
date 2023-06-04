@@ -1,4 +1,3 @@
-import { useCallback } from 'react';
 import { Widget, WidgetSize } from './SimpleComponents';
 import { Normalize } from 'ts/Helpers';
 import { useWeather } from './Contexts/Weather';
@@ -6,7 +5,7 @@ import { Calendar } from 'svgs/widget';
 import { DayInfo, WeatherData } from './Contexts/Weather/WeatherData';
 
 import { useModal } from './Contexts/ModalContext';
-import Chart, { HourlyProperties } from './Chart';
+import Chart, { ChartViews } from './Chart';
 
 /**
  * A helper component for Daily to display the individual days of the week
@@ -60,7 +59,7 @@ const Daily = () => {
         }
     }
 
-    const calculateDualRangeCoverStyle = useCallback((min: number, max: number) => {
+    const calculateDualRangeCoverStyle = (min: number, max: number) => {
         min = Math.max(0, min);
         max = Math.min(120, max);
 
@@ -71,7 +70,7 @@ const Daily = () => {
             right: Math.max(0, 100 - Normalize.Percent(max, low_week, high_week)) + "%",
             backgroundImage: `linear-gradient(90deg, ${ToHSL(min)} 0%, ${ToHSL(max)} 100%)`
         };
-    }, [low_week, high_week]);
+    };
 
     return (
         <Widget id="daily" size={WidgetSize.LARGE} widgetTitle="7-Day Forecast" widgetIcon={<Calendar/>}>
@@ -82,7 +81,7 @@ const Daily = () => {
                             <Day 
                                 key={index} dayInfo={day} 
                                 style={calculateDualRangeCoverStyle(day.temperature_low, day.temperature_high)} 
-                                onClick={() => showModal(<Chart showProperty={HourlyProperties.Temperature} showDay={index}/>)}
+                                onClick={() => showModal(<Chart showProperty={ChartViews.Temperature} showDay={index}/>)}
                             />
                         ))
                     }

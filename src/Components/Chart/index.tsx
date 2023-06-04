@@ -1,13 +1,14 @@
 import { ResponsiveContainer, Line, CartesianGrid, XAxis, YAxis, Tooltip, Bar, Area, ReferenceLine } from "recharts";
 import { CustomTooltip, ChartDisplay } from "./Components";
 
-import { Forecast, useWeather } from "Components/Contexts/Weather";
+import { useWeather } from "Components/Contexts/Weather";
+import { Forecast } from "Components/Contexts/Weather/index.types";
 import React from "react";
 import { TimeConverter, nameof } from "ts/Helpers";
 import { Modal, ModalContent, ModalTitle } from "Components/Contexts/ModalContext";
 
 //Properties denoted here represent values supported for displaying by a Chart
-export enum HourlyProperties {
+export enum ChartViews {
     Temperature = "temperature_2m",
     Humidity = "relativehumidity_2m",
     Precipitation = "precipitation",
@@ -18,7 +19,7 @@ export enum HourlyProperties {
 }
 
 export type DataPoint = {
-    property: HourlyProperties,
+    property: ChartViews,
     name: string,
     primaryKey: number,
     secondaryKey: number | null
@@ -27,7 +28,7 @@ export type DataPoint = {
 const ToHSL = (x: number) => `hsl(${250 * ((120-x)/120)}deg, 100%, 50%)`;
 
 //Gets the data for the given day and property
-function GetData(forecastData: Forecast, property: HourlyProperties, day: number) {
+function GetData(forecastData: Forecast, property: ChartViews, day: number) {
     let data: DataPoint[] = [];
 
     for(let i = 24 * (day); i < 24 * (day + 1); ++i) {
@@ -44,9 +45,9 @@ function GetData(forecastData: Forecast, property: HourlyProperties, day: number
     //Some properties have secondary values
     function GetSecondaryKey(i: number) {
         switch(property) {
-            case HourlyProperties.Temperature:
+            case ChartViews.Temperature:
                 return forecastData.hourly.apparent_temperature[i];
-            case HourlyProperties.Windspeed:
+            case ChartViews.Windspeed:
                 return forecastData.hourly.windgusts_10m[i];
             default:
                 return null;
@@ -54,16 +55,16 @@ function GetData(forecastData: Forecast, property: HourlyProperties, day: number
     }
 }
 
-function GetMinMax([min, max]: [number, number], property: HourlyProperties): [number, number] {
-    if(property === HourlyProperties.Pressure) {
+function GetMinMax([min, max]: [number, number], property: ChartViews): [number, number] {
+    if(property === ChartViews.Pressure) {
         min -= 0.3;
         max += 0.3;
     }
-    else if(property === HourlyProperties.Precipitation) {
+    else if(property === ChartViews.Precipitation) {
         min = 0;
         max = Math.max(0.5, max);
     }
-    else if (property === HourlyProperties.Humidity) {
+    else if (property === ChartViews.Humidity) {
         min = 0;
         max = 100;
     }
@@ -75,11 +76,11 @@ function GetMinMax([min, max]: [number, number], property: HourlyProperties): [n
     return [min, max];
 }
 
-function GetDataVisual(forecastData: Forecast, property: HourlyProperties, data: DataPoint[]) {
+function GetDataVisual(forecastData: Forecast, property: ChartViews, data: DataPoint[]) {
     switch(property) {
-        case HourlyProperties.Precipitation:
+        case ChartViews.Precipitation:
             return <Bar dataKey={nameof<DataPoint>("primaryKey")} fill={"#0078ef"} />;
-        case HourlyProperties.Temperature:
+        case ChartViews.Temperature:
             const dataValues = data.flatMap(point => [point.primaryKey, (point.secondaryKey as number) ?? 0]);
             const minMax = GetMinMax([Math.min(...dataValues), Math.max(...dataValues)], property);
 
@@ -105,7 +106,7 @@ function GetDataVisual(forecastData: Forecast, property: HourlyProperties, data:
     }
 }
 
-const Chart = ({showProperty, showDay = 0}: {showProperty: HourlyProperties, showDay?: number}) => {
+const Chart = ({showProperty, showDay = 0}: {showProperty: ChartViews, showDay?: number}) => {
     const forecastData = useWeather().forecast;
     const [property, setProperty] = React.useState(showProperty);
     const [day, setDay] = React.useState(showDay);
@@ -141,10 +142,10 @@ const Chart = ({showProperty, showDay = 0}: {showProperty: HourlyProperties, sho
     return (
        <Modal id="chart">
             <ModalTitle>
-                <select ref={selectRef} className="clear" title="Current Chart" onChange={(e) => setProperty(e.currentTarget.value as HourlyProperties)} value={property}>
+                <select ref={selectRef} className="clear" title="Current Chart" onChange={(e) => setProperty(e.currentTarget.value as ChartViews)} value={property}>
                     {
-                        Object.keys(HourlyProperties).map(key => (
-                            <option key={key} value={HourlyProperties[key as keyof typeof HourlyProperties]}>{key}</option>
+                        Object.keys(ChartViews).map(key => (
+                            <option key={key} value={ChartViews[key as keyof typeof ChartViews]}>{key}</option>
                         ))
                     }
                 </select>
@@ -171,7 +172,7 @@ const Chart = ({showProperty, showDay = 0}: {showProperty: HourlyProperties, sho
                         <CartesianGrid stroke="#ffffff19"/>
                         <XAxis dataKey="name" interval={5} textAnchor="start"/>
                         {
-                            property === HourlyProperties.Temperature || property === HourlyProperties.Dewpoint || property === HourlyProperties.Humidity
+                            property === ChartViews.Temperature || property === ChartViews.Dewpoint || property === ChartViews.Humidity
                             ? <YAxis width={50} domain={([dataMin, dataMax]) => GetMinMax([dataMin, dataMax], property)} unit={forecastData.hourly_units[property]}/>
                             : <YAxis width={50} domain={([dataMin, dataMax]) => GetMinMax([dataMin, dataMax], property)} tickFormatter={(value: number) => (Math.round(value * 10) / 10).toString()}/>
                         }

@@ -8,11 +8,12 @@ import * as WidgetIcons from 'svgs/widget';
 
 import HazardLevelView from './HazardLevelView';
 
-import { Forecast, useWeather } from './Contexts/Weather';
+import { useWeather } from './Contexts/Weather';
+import { Forecast } from './Contexts/Weather/index.types';
 import { WeatherData } from './Contexts/Weather/WeatherData';
 
 import { useModal } from './Contexts/ModalContext';
-import Chart, { HourlyProperties } from './Chart';
+import Chart, { ChartViews } from './Chart';
 
 // #region Widget
 export enum WidgetSize {
@@ -56,7 +57,7 @@ Widget.defaultProps = {
 // #endregion Widget
 
 // #region SimpleInfoWidget
-type HourlyKey = keyof typeof HourlyProperties;
+type HourlyKey = keyof typeof ChartViews;
 
 export const SimpleInfoWidget = ({icon, title, property}: {
     icon: React.ReactNode,
@@ -68,7 +69,7 @@ export const SimpleInfoWidget = ({icon, title, property}: {
 
     return (
         //Because HourlyProperties' values map to a Forecast property, then a property of Forecast can be mapped to a key of HourlyProperties (if it exists on HourlyProperties)
-        <Widget className="basic-info" isTemplate onClick={() => showModal(<Chart showProperty={HourlyProperties[Object.keys(HourlyProperties).filter((k) => HourlyProperties[k as HourlyKey] === property)[0] as HourlyKey]}/>)}>
+        <Widget className="basic-info" isTemplate onClick={() => showModal(<Chart showProperty={ChartViews[Object.keys(ChartViews).filter((k) => ChartViews[k as HourlyKey] === property)[0] as HourlyKey]}/>)}>
             {icon}
             <h1 className='widget-title'>{title}</h1>
             <p>{forecastData.hourly[property][forecastData.nowIndex].toFixed(0) + forecastData.hourly_units[property]}</p>
