@@ -1,8 +1,9 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import svgr from 'vite-plugin-svgr';
-import { VitePWA } from 'vite-plugin-pwa'
-import tsConfigPaths from 'vite-tsconfig-paths'
+import { VitePWA } from 'vite-plugin-pwa';
+import tsConfigPaths from 'vite-tsconfig-paths';
+import eslint from 'vite-plugin-eslint';
 
 export default defineConfig(() => {
   return {
@@ -13,6 +14,7 @@ export default defineConfig(() => {
         react(), 
         svgr(), 
         tsConfigPaths(),
+        eslint(),
         VitePWA({
             registerType: "prompt",
             workbox: {

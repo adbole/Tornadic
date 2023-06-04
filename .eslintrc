@@ -1,9 +1,9 @@
 {
     "extends": [
-        "react-app",
-        "react-app/jest"
+        "react-app"
     ],
     "rules": {
-        "semi": [2, "always"]
+        "semi": [2, "always"],
+        "eqeqeq": "error"
     }
 }

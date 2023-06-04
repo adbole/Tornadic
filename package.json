@@ -23,7 +23,8 @@
     "scripts": {
         "start": "vite",
         "build": "vite build",
-        "serve": "vite preview"
+        "serve": "vite preview",
+        "lint": "eslint --fix --ext .ts,.tsx ."
     },
     "eslintConfig": {
         "extends": [
@@ -45,7 +46,10 @@
     },
     "devDependencies": {
         "@vitejs/plugin-react": "^4.0.0",
+        "eslint": "^8.42.0",
+        "eslint-config-react-app": "^7.0.1",
         "vite": "^4.3.9",
+        "vite-plugin-eslint": "^1.8.1",
         "vite-plugin-pwa": "^0.16.0",
         "vite-plugin-svgr": "^3.2.0",
         "vite-tsconfig-paths": "^4.2.0"

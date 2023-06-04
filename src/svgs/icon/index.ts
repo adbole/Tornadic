@@ -6,4 +6,4 @@ export {
     Tornadic,
     TornadicFull,
     TornadicLoader
-}
+};

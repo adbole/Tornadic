@@ -29,7 +29,7 @@ export const Widget = React.forwardRef<HTMLDivElement, WidgetProps & React.HTMLA
     const {className, children, size, widgetTitle, widgetIcon, isTemplate, ...excess} = props;
 
     let classList = "widget" + size;
-    if(isTemplate) classList += " template"
+    if(isTemplate) classList += " template";
     if(className) classList += " " + className;
 
     return (

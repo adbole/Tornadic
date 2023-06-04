@@ -121,13 +121,13 @@ const Chart = ({showProperty, showDay = 0}: {showProperty: HourlyProperties, sho
 
         const canvasContext = document.createElement('canvas').getContext('2d')!;
         //16px is default font-size and select is within a h1 getting 2rem font-size, therefore 32px is used here.
-        canvasContext.font = '32px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif'
+        canvasContext.font = '32px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif';
 
         //Incase textContent is null Temperature is default since its the largest option
-        const width = canvasContext.measureText(selectRef.current.children[selectRef.current.selectedIndex].textContent ?? "Temperature").width
+        const width = canvasContext.measureText(selectRef.current.children[selectRef.current.selectedIndex].textContent ?? "Temperature").width;
 
-        selectRef.current.style.width = Math.round(width) + 20 + "px";
-    }, [property, selectRef])
+        selectRef.current.style.width = Math.round(width) + 30 + "px";
+    }, [property, selectRef]);
 
     const setTimeText = React.useCallback((s: string) => {
         if(!timeRef.current) return;
@@ -171,7 +171,7 @@ const Chart = ({showProperty, showDay = 0}: {showProperty: HourlyProperties, sho
                         <CartesianGrid stroke="#ffffff19"/>
                         <XAxis dataKey="name" interval={5} textAnchor="start"/>
                         {
-                            property == HourlyProperties.Temperature || property === HourlyProperties.Dewpoint || property === HourlyProperties.Humidity
+                            property === HourlyProperties.Temperature || property === HourlyProperties.Dewpoint || property === HourlyProperties.Humidity
                             ? <YAxis width={50} domain={([dataMin, dataMax]) => GetMinMax([dataMin, dataMax], property)} unit={forecastData.hourly_units[property]}/>
                             : <YAxis width={50} domain={([dataMin, dataMax]) => GetMinMax([dataMin, dataMax], property)} tickFormatter={(value: number) => (Math.round(value * 10) / 10).toString()}/>
                         }
