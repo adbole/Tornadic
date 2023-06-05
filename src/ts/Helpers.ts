@@ -55,17 +55,13 @@ export namespace TimeConverter {
 export async function fetchData<T>(url: string | URL, onErrorMessage: string) {
     return fetch(url)
            .then((response) => response.ok ? response.json() : Promise.reject(onErrorMessage))
-           .then((data: T) => data)
-           .catch((error) => { 
-                console.error(error); 
-                return null;
-            });
+           .then((data: T) => data);
 }
 
 export type FetchResponse<T> = {
     data: T
     headers: Headers
-} | null
+}
 /**
  * Makes a request to the given url (supports strings and URL objects) and an error message. Await to get data and headers
 */
@@ -81,8 +77,7 @@ export async function fetchDataAndHeaders<T>(url: string | URL, onErrorMessage: 
         };
     }
     else {
-        console.error(onErrorMessage);
-        return null;
+        return Promise.reject(onErrorMessage);
     }
 }
 

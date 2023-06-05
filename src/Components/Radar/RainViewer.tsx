@@ -56,6 +56,8 @@ export namespace RadarTypes {
 }
 
 const RainViewer = () => {
+    const [error, setError] = React.useState(false);
+
     const MAP = useMap();
     const [active, setActive] = React.useState(RadarTypes.LayerTypes.Radar);
     const [data, setData] = React.useState<RadarTypes.RadarData>();
@@ -154,8 +156,8 @@ const RainViewer = () => {
 
     React.useMemo(() => {
         async function GetData() {
-            const response = await fetchData<RadarTypes.ApiResponse>("https://api.rainviewer.com/public/weather-maps.json", "Could not get radar data");
-            if(response === null) return;
+            const response = await fetchData<RadarTypes.ApiResponse>("https://api.rainviewer.com/public/weather-maps.json", "").catch(e => setError(true));
+            if(!response) return;
 
             const radarData = {
                 host: response.host,
@@ -197,6 +199,7 @@ const RainViewer = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+    //Set new active layer
     React.useEffect(() => {
         if(!data) return;
 
@@ -204,11 +207,22 @@ const RainViewer = () => {
         showFrame(data.activeLayerData.layerAnimPos);
     }, [active, data, showFrame]);
 
+    //Set new opacity
     React.useEffect(() => {
         if(!data) return;
 
         data.activeLayerData.loadedLayers[data.activeLayerData.layerAnimPos].setOpacity(opacity);
     }, [opacity, data]);
+
+    if(error) {
+        return (
+            <ControlPortal position={Position.BOTTOM_CENTER}>
+                <div className="leaflet-custom-control leaflet-control" id="playback">
+                    <p className='time'>Could not get radar data</p>
+                </div>
+            </ControlPortal>
+        );
+    }
     
     if(data) {
         const activeData = data.availableLayers[active];

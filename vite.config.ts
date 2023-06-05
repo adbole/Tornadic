@@ -8,7 +8,7 @@ import eslint from 'vite-plugin-eslint';
 export default defineConfig(() => {
   return {
     build: {
-      outDir: 'build',
+      outDir: 'build'
     },
     plugins: [
         react(), 
@@ -52,6 +52,6 @@ export default defineConfig(() => {
                 background_color: "#191B1F"
             }
         })
-    ],
+    ]
   };
 });

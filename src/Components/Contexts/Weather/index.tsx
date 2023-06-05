@@ -83,8 +83,7 @@ async function getAlertData(from: string | GridPoint): Promise<{
 
     //If we are given a string then we must hit the point endpoint
     if(typeof from === "string") {
-        point = await fetchData<GridPoint>(from, "Could not get point data from the NWS");
-        if(!point) return null;
+        point = await fetchData<GridPoint>(from, "National Weather Service API Point Endpoint");
     }
     //If we aren't given a string then we use exisiting point data
     else point = from;
@@ -93,9 +92,7 @@ async function getAlertData(from: string | GridPoint): Promise<{
 
     //Extract the county from the county url given by the point
     const county = point.properties.county.substring(lastIndex);
-    const alerts = await fetchDataAndHeaders<{features: NWSAlert[]}>(`https://api.weather.gov/alerts/active/zone/${county}`, "Could not get alert data from the NWS");
-
-    if(!alerts) return null;
+    const alerts = await fetchDataAndHeaders<{features: NWSAlert[]}>(`https://api.weather.gov/alerts/active/zone/${county}`, "National Weather Service Alert Endpoint");
 
     return {
         point: point,
@@ -130,7 +127,7 @@ function configureData(forecastData: Forecast) {
 
 const WeatherContextProvider = ({children}: {children: ReactNode}) => {
     const [urls, setURLs] = React.useState<EnpointURLs>();
-    const [error, setError] = React.useState<string[]>();
+    const [error, setError] = React.useState<string | null>(null);
     const [weatherData, setWeather] = React.useState<WeatherData | null>(null);
 
     //null here will indicate a refresh is needed as a stored value indicates a timer is running
@@ -162,27 +159,14 @@ const WeatherContextProvider = ({children}: {children: ReactNode}) => {
                     setAlertRefresh(null);
                 }
 
-                //Start the requests
-                const [forecastRequest, airqualityRequest, alertRequest] = [
-                    fetchData<Forecast>(urls.forecastURL, "Could not get forecast data from open-meteo"),
-                    fetchData<AirQuality>(urls.airQualityURL, "Could not get air quality data from open-meteo"),
-                    getAlertData(weatherData ? weatherData.point : urls.pointURL)
-                ];
-
                 //Await all the requests to finish
-                const [forecast, airquality, alertResponse] = await Promise.all([ forecastRequest, airqualityRequest, alertRequest ]);
+                const [forecast, airquality, alertResponse] = await Promise.all([
+                    fetchData<Forecast>(urls.forecastURL, "Open-Meteo Weather Forecast").catch(e => setError(e)),
+                    fetchData<AirQuality>(urls.airQualityURL, "Open-Meteo Air Quality").catch(e => setError(e)),
+                    getAlertData(weatherData ? weatherData.point : urls.pointURL).catch(e => setError(e))
+                ]);
 
-                //If any of the requests failed then set the error array to the proper sources
-                if(!forecast || !airquality || !alertResponse) {
-                    const errorSources: string[] = [];
-
-                    if(!forecast) errorSources.push("Open-Meteo Weather Forecast");
-                    if(!airquality) errorSources.push("Open-Meteo Air Quality");
-                    if(!alertResponse) errorSources.push("National Weather Service API Point/Alert Endpoints");
-
-                    setError(errorSources);
-                    return;
-                }
+                if(!forecast || !airquality ||!alertResponse) return;
                 
                 //Determine when the next hour is
                 const ms = 3.6e6 - new Date().getTime() % 3.6e6;
@@ -194,12 +178,9 @@ const WeatherContextProvider = ({children}: {children: ReactNode}) => {
                 setWeather(new WeatherData(forecast, airquality, alertResponse.point, alertResponse.alerts.data.features));
             }
             else if(!alertRefresh && weatherData) {
-                const alertResponse = await getAlertData(weatherData.point);
+                const alertResponse = await getAlertData(weatherData.point).catch(e => setError(e));
 
-                if(!alertResponse) {
-                    setError(["National Weather Service API Point/Alert Endpoints"]);
-                    return;
-                }
+                if(!alertResponse) return;
 
                 configureAlertRefresh(alertResponse.alerts.headers);
                 setWeather(new WeatherData(weatherData.forecast, weatherData.airQuality, alertResponse.point, alertResponse.alerts.data.features));
@@ -209,15 +190,15 @@ const WeatherContextProvider = ({children}: {children: ReactNode}) => {
         getData();
     }, [urls, refresh, alertRefresh, weatherData]);
 
-    if(error !== undefined && error.length !== 0) {
+    if(error) {
         return (
             <MessageScreen>
                 <ExclamationTriangle />
-                <p>An error occured when requesting from the following sources: </p>
-                {error.map((source, index) => <p key={index}>{source}</p>)}
+                <p>An error occured when requesting from the following source: </p>
+                <p>{error}</p>
 
                 {/* When there is an error, but data exists, allow the user to dismiss the error message */}
-                {weatherData && <button type="button" onClick={() => setError([])}>Dismiss (A refresh is required to get new data)</button>}
+                {weatherData && <button type="button" onClick={() => setError(null)}>Dismiss (A refresh is required to get new data)</button>}
             </MessageScreen>
         );
     }

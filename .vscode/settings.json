@@ -1,8 +1,8 @@
 {
     "terminal.integrated.profiles.windows" : {
-        "npm Runner": {
+        "node": {
             "path": [
-                "powershell"
+                "pwsh"
             ],
             "env" : {
                 "PATH":"${env:PATH};C:\\Program Files\\nodejs"
@@ -11,6 +11,6 @@
             "default" : true
         }
     },
-    "terminal.integrated.defaultProfile.windows": "npm Runner",
+    "terminal.integrated.defaultProfile.windows": "node",
     "eslint.validate": ["typescriptreact"]
 }
