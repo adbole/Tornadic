@@ -11,7 +11,12 @@
         transition: margin 1s ease-in-out;
     }
 
-    >div.slide-out {
+    >.slide-out {
         margin-left: -100%;
     }
+
+    //DO NOT REMOVE
+    //FIXES A BUG WITH ANIMATION ON IOS WHERE .slide-out 
+    //ELEMENTS MAY GET STUCK
+    >.slide-in { z-index: 1; }
 }
