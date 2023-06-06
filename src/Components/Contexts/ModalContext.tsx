@@ -80,6 +80,8 @@ export const Modal = (props: React.HTMLAttributes<HTMLDialogElement>) => {
         document.body.classList.remove("hide-overflow");
 
         dialogRef.current.addEventListener('transitionend', (e) => {
+            //Prevent closing early if our transition wasn't the one that ended
+            if(e.target !== e.currentTarget) return;
             (e.currentTarget as HTMLDialogElement).close();
         });
     }

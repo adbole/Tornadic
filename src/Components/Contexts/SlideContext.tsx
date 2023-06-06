@@ -46,7 +46,11 @@ const SlideContextProvider = ({children}: {children: React.ReactNode}) => {
         primaryDiv.current.classList.remove("slide-out");
         wrapperDiv.current.style.maxHeight = originalHeight.current + "px";
         
-        primaryDiv.current.addEventListener('transitionend', () => setSecondaryContent(null), {once: true});
+        primaryDiv.current.addEventListener('transitionend', (e) => {
+            //Prevent setting null if our event didn't fire
+            if(e.target !== e.currentTarget) return;
+            setSecondaryContent(null);
+        }, {once: true});
     };
 
     return (
