@@ -10,16 +10,16 @@ import Chart, { ChartViews } from './Chart';
  * @returns The Now widget
  */
 const Now = () => {
-    const weatherData = useWeather();
-    const nowData = weatherData.GetNow();
+    const weather = useWeather();
+    const now = weather.GetNow();
 
     const {showModal} = useModal();
 
     //Determine what background should be applied
     let background;
-    switch(nowData.conditionInfo.condition) {
+    switch(now.conditionInfo.condition) {
         case WeatherCondition.OVERCAST:
-            background = `overcast-${weatherData.IsDay() ? "day" : "night"}`;
+            background = `overcast-${weather.IsDay() ? "day" : "night"}`;
             break;
         case WeatherCondition.RAIN: 
         case WeatherCondition.RAIN_SHOWERS:
@@ -35,19 +35,19 @@ const Now = () => {
             background = "snow";
             break;
         default:
-            background = `clear-${weatherData.IsDay() ? "day" : "night"}`;
+            background = `clear-${weather.IsDay() ? "day" : "night"}`;
     }
 
     document.body.classList.add(background);
 
     return (
-        <Widget id="now" className={background} onClick={() => showModal(<Chart showProperty={ChartViews.Temperature}/>)}>
-            <p>{nowData.location}</p>
+        <Widget id="now" className={background} onClick={() => showModal(<Chart showView={ChartViews.Temperature}/>)}>
+            <p>{now.location}</p>
     
-            <h1>{nowData.temperature}</h1>
+            <h1>{now.temperature}</h1>
     
-            <p>{nowData.conditionInfo.condition}</p>
-            <p>Feels like <span>{nowData.feelsLike}</span>°</p>
+            <p>{now.conditionInfo.condition}</p>
+            <p>Feels like <span>{now.feelsLike}</span>°</p>
         </Widget>
     );
 };

@@ -4,14 +4,14 @@ import { HourInfo, WeatherData } from './Contexts/Weather/WeatherData';
 
 import { Widget } from "./SimpleComponents";
 import { Clock } from 'svgs/widget';
-import { TimeConverter } from 'ts/Helpers';
+import * as TimeConversion from 'ts/TimeConversion';
 
 /**
  * A helper component for the Hourly component to display the individual hours
  */
 const Hour = ({hourInfo} : {hourInfo: HourInfo}) => (
     <li>
-        <p>{TimeConverter.GetTimeFormatted(hourInfo.time, TimeConverter.TimeFormat.Hour)}</p>
+        <p>{TimeConversion.getTimeFormatted(hourInfo.time, TimeConversion.TimeFormat.Hour)}</p>
         <div>
             {hourInfo.conditionInfo.icon}
             {WeatherData.IsRaining(hourInfo) && <span>{hourInfo.precipitation_probability}%</span>}
@@ -34,7 +34,7 @@ const DaySeperator = ({day}: { day: string }) => (
  * @returns The Hourly widget
  */
 const Hourly = () => {
-    const weatherData = useWeather();
+    const weather = useWeather();
 
     let isDown = false;
     let startX: number;
@@ -43,43 +43,39 @@ const Hourly = () => {
     function SetIsDown(value: boolean, list: HTMLOListElement) {
         isDown = value;
         
-        if(isDown)
-            list.classList.add('active');
-        else
-            list.classList.remove('active');
+        list.classList.toggle('active', isDown);
     }
 
-    function MouseDown(e: React.MouseEvent<HTMLOListElement>) {
+    function mouseDown(e: React.MouseEvent<HTMLOListElement>) {
         SetIsDown(true, e.currentTarget);
         startX = e.pageX;
 
         scrollLeft = e.currentTarget.scrollLeft;
     }
 
-    function MouseLeave(e: React.MouseEvent<HTMLOListElement>) { SetIsDown(false, e.currentTarget); }
-    function MouseUp(e: React.MouseEvent<HTMLOListElement>) { SetIsDown(false, e.currentTarget); }
-
-    function MouseMove(e: React.MouseEvent<HTMLOListElement>) {
+    function mouseMove(e: React.MouseEvent<HTMLOListElement>) {
         if(!isDown) return;
         e.preventDefault();
-
+        
         const x = e.pageX;
         const change = (x - startX);
         e.currentTarget.scrollLeft = scrollLeft - change;
     }
+    
+    function mouseExit(e: React.MouseEvent<HTMLOListElement>) { SetIsDown(false, e.currentTarget); }
 
     return (
         <Widget id="hourly" widgetTitle="Hourly Forecast" widgetIcon={<Clock/>}>
-            <ol className="flex-list drag-scroll" onMouseDown={MouseDown} onMouseLeave={MouseLeave} onMouseUp={MouseUp} onMouseMove={MouseMove}>
+            <ol className="flex-list drag-scroll" onMouseDown={mouseDown} onMouseLeave={mouseExit} onMouseUp={mouseExit} onMouseMove={mouseMove}>
                 {
-                    Array.from(weatherData.GetFutureValues()).map((forecast, index) => {
+                    Array.from(weather.GetFutureValues()).map((forecast, index) => {
                         const time = new Date(forecast.time);
 
                         //To indicate a new day, add a day seperator
                         if(time.getHours() === 0) {
                             return (
                                 <React.Fragment key={index}>
-                                    <DaySeperator day={TimeConverter.GetTimeFormatted(time, TimeConverter.TimeFormat.Weekday)}/>
+                                    <DaySeperator day={TimeConversion.getTimeFormatted(time, TimeConversion.TimeFormat.Weekday)}/>
                                     <Hour hourInfo={forecast}/>
                                 </React.Fragment>
                             );

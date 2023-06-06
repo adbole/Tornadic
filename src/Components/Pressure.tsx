@@ -6,7 +6,7 @@ import { Meter, Up, Down } from "svgs/widget";
 import { useModal } from "./Contexts/ModalContext";
 import Chart, { ChartViews } from "./Chart";
 
-function GetTrendIcon(forecast: Forecast) {
+function getTrendIcon(forecast: Readonly<Forecast>) {
     const surface = forecast.hourly.surface_pressure;
     const total = (surface[forecast.nowIndex + 1] - surface[forecast.nowIndex]);
 
@@ -23,14 +23,13 @@ function GetTrendIcon(forecast: Forecast) {
 }
 
 const Pressure = () => {
-    const forecast = useWeather().forecast;
-    const trendIcon = GetTrendIcon(forecast);
-    const {showModal} = useModal();
+    const { forecast } = useWeather();
+    const { showModal } = useModal();
 
     return (
-        <Widget id="pressure" widgetIcon={<Meter/>} widgetTitle={"Air Pressure"} onClick={() => showModal(<Chart showProperty={ChartViews.Pressure}/>)}>
+        <Widget id="pressure" widgetIcon={<Meter/>} widgetTitle={"Air Pressure"} onClick={() => showModal(<Chart showView={ChartViews.Pressure}/>)}>
             <div>
-                {trendIcon}
+                { getTrendIcon(forecast) }
                 <p className="value">{(forecast.hourly.surface_pressure[forecast.nowIndex]).toFixed(2)}</p>
                 <p>{forecast.hourly_units.surface_pressure}</p>
             </div>

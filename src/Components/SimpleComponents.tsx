@@ -65,11 +65,11 @@ export const SimpleInfoWidget = ({icon, title, property}: {
     property: keyof Omit<Forecast["hourly"], "time">
 }) => {
     const forecastData = useWeather().forecast;
-    const {showModal} = useModal();
+    const { showModal } = useModal();
 
     return (
-        //Because HourlyProperties' values map to a Forecast property, then a property of Forecast can be mapped to a key of HourlyProperties (if it exists on HourlyProperties)
-        <Widget className="basic-info" isTemplate onClick={() => showModal(<Chart showProperty={ChartViews[Object.keys(ChartViews).filter((k) => ChartViews[k as HourlyKey] === property)[0] as HourlyKey]}/>)}>
+        //Because CharViews' values map to a Forecast property, then a property of Forecast can be mapped to a key of CharViews (if it exists on CharViews)
+        <Widget className="basic-info" isTemplate onClick={() => showModal(<Chart showView={ChartViews[Object.keys(ChartViews).filter((k) => ChartViews[k as HourlyKey] === property)[0] as HourlyKey]}/>)}>
             {icon}
             <h1 className='widget-title'>{title}</h1>
             <p>{forecastData.hourly[property][forecastData.nowIndex].toFixed(0) + forecastData.hourly_units[property]}</p>
@@ -79,11 +79,9 @@ export const SimpleInfoWidget = ({icon, title, property}: {
 // #endregion SimpleInfoWidget
 
 export const Loader = () => (
-    <>
-        <div id="message-screen">
-            <TornadicLoader/>
-        </div>
-    </>
+    <div id="message-screen">
+        <TornadicLoader/>
+    </div>
 );
 
 export const DayValues = () => {
@@ -98,11 +96,10 @@ export const DayValues = () => {
 };
 
 export const AirUV = () => {
-    const forecastData = useWeather().forecast;
-    const airqualityData = useWeather().airQuality.hourly;
+    const { forecast, airQuality: { hourly: aqHourly } } = useWeather();
 
-    const AQ = Math.round(airqualityData.us_aqi[forecastData.nowIndex]);
-    const UV = Math.round(airqualityData.uv_index[forecastData.nowIndex]);
+    const AQ = Math.round(aqHourly.us_aqi[forecast.nowIndex]);
+    const UV = Math.round(aqHourly.uv_index[forecast.nowIndex]);
 
     return (
         <>

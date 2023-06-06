@@ -4,11 +4,14 @@
  */
 
 import React, { ReactNode } from 'react';
-import { WeatherData } from './WeatherData';
 import { Loader } from 'Components/SimpleComponents';
-import { fetchData, FetchResponse, fetchDataAndHeaders } from 'ts/Helpers';
-import { ExclamationTriangle } from "svgs";
 import MessageScreen from 'Components/MessageScreen';
+import { ExclamationTriangle } from "svgs";
+
+import { fetchData, FetchResponse, fetchDataAndHeaders } from 'ts/Fetch';
+import { throwError } from 'ts/Helpers';
+
+import { WeatherData } from './WeatherData';
 import { 
     Forecast, 
     AirQuality, 
@@ -19,20 +22,11 @@ import {
 } from './index.types';
 
 const WeatherContext = React.createContext<WeatherData | null>(null);
+export const useWeather = () => React.useContext(WeatherContext) ?? throwError("Please use useWeather inside a WeatherContext provider");
+
 const TEMP_UNIT = "fahrenheit";
 const WIND_UNIT = "mph";
 const PRECIP_UNIT = "inch";
-
-export function useWeather() {
-    const context = React.useContext(WeatherContext);
-
-    if(!context) {
-        throw new Error("Please use useWeather inside a WeatherContext provider");
-    } 
-    else {
-        return context;
-    }
-}
 
 async function getURLs(): Promise<EnpointURLs> {
     const pos: GeolocationPosition = await new Promise((resolve, reject) => navigator.geolocation.getCurrentPosition(resolve, reject));

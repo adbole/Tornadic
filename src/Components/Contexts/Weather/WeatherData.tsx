@@ -6,7 +6,7 @@ import { ReactNode } from "react";
 import { Forecast, AirQuality, NWSAlert, GridPoint } from "./index.types";
 import * as Conditions from "svgs/conditions";
 import { Lungs } from 'svgs/widget';
-import { TimeConverter } from "ts/Helpers";
+import * as TimeConversion from "ts/TimeConversion";
 
 //#region Enum and type definitions
 export enum WeatherCondition {
@@ -91,10 +91,10 @@ enum Intesity {
  * This class is automatically initialized by WeatherContext and is used as the context throughout the application.
  */
 export class WeatherData {
-    readonly forecast: Forecast;
-    readonly airQuality: AirQuality;
-    readonly point: GridPoint;
-    readonly alerts: NWSAlert[];
+    readonly forecast: Readonly<Forecast>;
+    readonly airQuality: Readonly<AirQuality>;
+    readonly point: Readonly<GridPoint>;
+    readonly alerts: Readonly<NWSAlert>[];
 
     constructor(forecast: Forecast, airQuality: AirQuality, point: GridPoint, alerts: NWSAlert[]) {
         this.forecast = forecast;
@@ -171,7 +171,7 @@ export class WeatherData {
 
         for(let i = 1; i < this.forecast.daily.time.length; ++i) {
             yield {
-                day: TimeConverter.GetTimeFormatted(this.forecast.daily.time[i], TimeConverter.TimeFormat.Weekday),
+                day: TimeConversion.getTimeFormatted(this.forecast.daily.time[i], TimeConversion.TimeFormat.Weekday),
                 conditionInfo: WeatherData.GetWeatherCondition(this.forecast.daily.weathercode[i]),
                 temperature_low: Math.round(this.forecast.daily.temperature_2m_min[i]),
                 temperature_high: Math.round(this.forecast.daily.temperature_2m_max[i]),
@@ -190,7 +190,7 @@ export class WeatherData {
     private static GetWeatherCondition(weathercode: number, isDay: boolean = true): WeatherConditionInfo {
         function GetIntensity(weatherCode: number): Intesity {
             //open-meteo's translation of WMO codes has a pattern where the last digit of those with different intesities being nearly always consistant.
-            //Some codes don't havfe intesities and shouldn't be fed to this method otherwise false input will be given.
+            //Some codes don't havfe intesities and shouldn't be fed to this method otherwise false output will be given.
             const intesity = weatherCode % 10;
         
             switch(intesity) {

@@ -7,6 +7,8 @@
 
     &-row { flex-direction: row; }
     &-column { flex-direction: column; }
+
+    gap: 20px;
 }
 
 .drag-scroll {
@@ -21,8 +23,6 @@
     text-align: center;
 
     >ol {
-        gap: 20px;
-
         >.seperator {
             display: flex;
             flex-direction: column;

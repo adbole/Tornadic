@@ -1,20 +1,12 @@
 import React from "react";
+import { throwError } from "ts/Helpers";
 
-const Context = React.createContext<{
+const Context = React.createContext<Readonly<{
     slideTo: React.Dispatch<React.SetStateAction<React.ReactNode>>
     reset: () => void
-} | null>(null);
+}> | null>(null);
 
-export function useSlideOver() {
-    const contextInstance = React.useContext(Context);
-
-    if(!contextInstance) {
-        throw new Error("Please use useModal inside a ModalContext provider");
-    } 
-    else {
-        return contextInstance;
-    }
-}
+export const useSlide = () => React.useContext(Context) ?? throwError("Please use useSlide inside a SlideContext provider");
 
 const SlideContextProvider = ({children}: {children: React.ReactNode}) => {
     const [secondaryContent, setSecondaryContent] = React.useState<React.ReactNode>(null);

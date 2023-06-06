@@ -1,7 +1,8 @@
 import React from 'react';
 import L from 'leaflet';
 import { useMap } from 'react-leaflet';
-import { fetchData, TimeConverter } from '../../ts/Helpers';
+import { fetchData } from 'ts/Fetch';
+import * as TimeConversion from 'ts/TimeConversion';
 
 import PlayPauseButtom from './PlayPauseButton';
 import ControlPortal, { Position } from './ControlPortal';
@@ -13,10 +14,10 @@ function mod(x: number, div: number) {
 }
 
 function getTimeDisplay(time: number) {
-    return `${Date.now() > time * 1000 ? "Past" : "Forecast"}: ${TimeConverter.GetTimeFormatted(time * 1000, TimeConverter.TimeFormat.HourMinute)}`;
+    return `${Date.now() > time * 1000 ? "Past" : "Forecast"}: ${TimeConversion.getTimeFormatted(time * 1000, TimeConversion.TimeFormat.HourMinute)}`;
 }
 
-export namespace RadarTypes {
+namespace RadarTypes {
     export type Tile = Readonly<{
         time: number,
         path: string,
@@ -232,7 +233,7 @@ const RainViewer = () => {
                 <ControlPortal position={Position.BOTTOM_CENTER}>
                     <div className="leaflet-custom-control leaflet-control" id="playback">
                         <p ref={timeP} className='time'>{getTimeDisplay(activeData.frames[activeData.layerAnimPos].time)}</p>
-                        <PlayPauseButtom Play={play} Pause={pause}/>
+                        <PlayPauseButtom play={play} pause={pause}/>
                         <div className="timeline">
                             <input ref={timeLine} type="range" list="radar-list" min={0} max={activeData.frames.length - 1} defaultValue={activeData.layerAnimPos} onChange={(e) => showFrame(e.currentTarget.valueAsNumber)}/>
                             <datalist id="radar-list">

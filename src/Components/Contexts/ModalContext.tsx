@@ -4,22 +4,14 @@
 
 import React from "react";
 import ReactDOM from "react-dom";
+import { throwError } from "ts/Helpers";
 
-const Context = React.createContext<{
+const Context = React.createContext<Readonly<{
     showModal: React.Dispatch<React.SetStateAction<React.ReactNode>>
     hideModal: () => void
-} | null>(null);
+}> | null>(null);
 
-export function useModal() {
-    const contextInstance = React.useContext(Context);
-
-    if(!contextInstance) {
-        throw new Error("Please use useModal inside a ModalContext provider");
-    } 
-    else {
-        return contextInstance;
-    }
-}
+export const useModal = () => React.useContext(Context) ?? throwError("Please use useModal inside a ModalContext provider");
 
 const ModalContextProvider = ({children}: {children: React.ReactNode}) => {
     const [modal, setModal] = React.useState<React.ReactNode>();

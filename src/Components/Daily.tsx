@@ -81,7 +81,7 @@ const Daily = () => {
                             <Day 
                                 key={index} dayInfo={day} 
                                 style={calculateDualRangeCoverStyle(day.temperature_low, day.temperature_high)} 
-                                onClick={() => showModal(<Chart showProperty={ChartViews.Temperature} showDay={index}/>)}
+                                onClick={() => showModal(<Chart showView={ChartViews.Temperature} showDay={index}/>)}
                             />
                         ))
                     }

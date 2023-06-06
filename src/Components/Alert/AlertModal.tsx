@@ -1,23 +1,23 @@
 import React from 'react';
-import { NWSAlert } from 'Components/Contexts/Weather';
+import { NWSAlert } from 'Components/Contexts/Weather/index.types';
 import { Modal, ModalContent, ModalTitle } from 'Components/Contexts/ModalContext';
-import SlideContextProvider, { useSlideOver } from 'Components/Contexts/SlideContext';
+import SlideContextProvider, { useSlide } from 'Components/Contexts/SlideContext';
 import { AlertDisplay, AlertHelpers } from './Common';
 
-export const AlertSelectionModal = ({alert}: {alert: NWSAlert[]}) => {
+export const AlertSelectionModal = ({alerts}: {alerts: NWSAlert[]}) => {
     //Memoize the component to prevent unnecessary operations
     const memoizedComponent = React.useMemo(() => (
         <Modal id="alert-list-modal">
             <SlideContextProvider>
                 <ModalTitle>
-                    {alert.length} Weather Alerts
+                    {alerts.length} Weather Alerts
                 </ModalTitle>
                 <ModalContent>
-                    {alert.map((alert, index) => <AlertDisplaySelectionWrapper key={index} alert={alert}/>)}
+                    {alerts.map((alert, index) => <AlertDisplaySelectionWrapper key={index} alert={alert}/>)}
                 </ModalContent>
             </SlideContextProvider>
         </Modal>
-    ),[alert]);
+    ),[alerts]);
     
 
     return memoizedComponent;
@@ -25,7 +25,7 @@ export const AlertSelectionModal = ({alert}: {alert: NWSAlert[]}) => {
 
 
 const AlertDisplaySelectionWrapper = ({alert}: {alert: NWSAlert}) => {
-    const slideOver = useSlideOver();
+    const slideOver = useSlide();
 
     const onClickHandler = () => slideOver.slideTo(<AlertModalBody alert={alert} onClick={() => slideOver.reset()}/>);
     

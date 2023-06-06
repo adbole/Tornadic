@@ -2,7 +2,7 @@ import { Polygon } from "react-leaflet";
 import { useWeather } from "../Contexts/Weather";
 import { LatLngExpression } from 'leaflet';
 import { useModal } from "../Contexts/ModalContext";
-import { AlertModal } from "../Alert/Modal";
+import { AlertModal } from "../Alert/AlertModal";
 import { AlertHelpers } from "../Alert/Common";
 
 /**
@@ -22,19 +22,30 @@ function ConvertToLatLng(coords: number[][][]): LatLngExpression[] {
  * @returns Polygons representing every alert in the current WeatherData
  */
 const AlertPolygons = () => {
-    const alertData = useWeather().alerts;
+    const { alerts } = useWeather();
     const modals = useModal();
 
     return (
-        <>
-            {
-                alertData.map((alert, index) => {
-                    if(!alert.geometry) return null;
-            
-                    return <Polygon className={AlertHelpers.GetAlertCSSClass(alert)} key={index} positions={ConvertToLatLng(alert.geometry.coordinates)} eventHandlers={{click: () => modals.showModal(<AlertModal alert={alertData[index]}/>)}}/>;
-                })
-            }
-        </>
+        <>{
+            alerts.filter(alert => alert.geometry !== null).map((alert, index) => {
+                const onClick = (e: L.LeafletMouseEvent) => {
+                    //Don't show modal if we weren't clicked
+                    const event = e.originalEvent;
+                    if(event.target !== event.currentTarget) return;
+
+                    modals.showModal(<AlertModal alert={alerts[index]}/>);
+                };
+
+                return (
+                    <Polygon 
+                        className={AlertHelpers.GetAlertCSSClass(alert)} 
+                        key={index} 
+                        positions={ConvertToLatLng(alert.geometry.coordinates)} 
+                        eventHandlers={{click: onClick}}
+                    />
+                );
+            })
+        }</>
     );
 };
 

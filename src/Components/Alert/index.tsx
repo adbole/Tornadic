@@ -1,20 +1,20 @@
 import { useWeather } from 'Components/Contexts/Weather';
 import { useModal } from 'Components/Contexts/ModalContext';
 import { AlertDisplay, AlertHelpers } from './Common';
-import { AlertModal, AlertSelectionModal } from './Modal';
+import { AlertModal, AlertSelectionModal } from './AlertModal';
 
 const Alert = () => {
-    const alertData = useWeather().alerts;
+    const { alerts }  = useWeather();
     const modals = useModal();
     
     //If no alerts are active then don't display this component.
-    if(!alertData.length) return <></>;
+    if(!alerts.length) return <></>;
     
     //Determine which alert should be shown.
-    const alertToShow = alertData.reduce((highest, next) => 
-        AlertHelpers.DetermineAlertPriority(next) < AlertHelpers.DetermineAlertPriority(highest) ? next : highest, alertData[0]);
+    const alertToShow = alerts.reduce((highest, next) => 
+        AlertHelpers.DetermineAlertPriority(next) < AlertHelpers.DetermineAlertPriority(highest) ? next : highest, alerts[0]);
 
-    const onClickHandler = () => modals.showModal(alertData.length > 1 ? <AlertSelectionModal alert={alertData}/> : <AlertModal alert={alertData[0]}/>);
+    const onClickHandler = () => modals.showModal(alerts.length > 1 ? <AlertSelectionModal alerts={alerts}/> : <AlertModal alert={alerts[0]}/>);
 
     return <AlertDisplay id="alert" alert={alertToShow} onClick={onClickHandler}/>;
 };

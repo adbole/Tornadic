@@ -1,5 +1,5 @@
-import { TimeConverter } from 'ts/Helpers';
-import { NWSAlert } from 'Components/Contexts/Weather';
+import * as TimeConversion from 'ts/TimeConversion';
+import { NWSAlert } from 'Components/Contexts/Weather/index.types';
 import { Widget, WidgetSize } from 'Components/SimpleComponents';
 
 export namespace AlertHelpers {
@@ -147,7 +147,7 @@ export namespace AlertHelpers {
         return "alert-" + AlertType[GetAlertType(alert)].toLowerCase();
     }
 
-    export const ConvertTime = (a: string) => TimeConverter.GetTimeFormatted(a, TimeConverter.TimeFormat.DateTime);
+    export const ConvertTime = (a: string) => TimeConversion.getTimeFormatted(a, TimeConversion.TimeFormat.DateTime);
 }
 
 export const AlertDisplay = (props: {alert: NWSAlert} & React.HTMLAttributes<HTMLDivElement>) => {
