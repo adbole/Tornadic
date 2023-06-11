@@ -2,8 +2,8 @@ import React from 'react';
 import L from 'leaflet';
 import { useMap } from 'react-leaflet';
 
-import { Grid } from '../../svgs/radar';
-import { useMountedEffect } from '../../ts/Helpers';
+import { Grid } from 'svgs/radar';
+import { useMountedEffect } from 'ts/Helpers';
 
 /**
  * Provides the zooming functionality for the Radar component along with returning a button to be added to leaflet to provide unzooming

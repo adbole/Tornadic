@@ -1,5 +1,5 @@
 import { useWeather } from './Contexts/Weather';
-import { WeatherCondition } from './Contexts/Weather/WeatherData';
+import { WeatherConditionType } from 'ts/WeatherCondition';
 import { Widget } from './SimpleComponents';
 
 import { useModal } from './Contexts/ModalContext';
@@ -11,31 +11,31 @@ import Chart, { ChartViews } from './Chart';
  */
 const Now = () => {
     const weather = useWeather();
-    const now = weather.GetNow();
+    const now = weather.getNow();
 
-    const {showModal} = useModal();
+    const { showModal } = useModal();
 
     //Determine what background should be applied
     let background;
-    switch(now.conditionInfo.condition) {
-        case WeatherCondition.OVERCAST:
-            background = `overcast-${weather.IsDay() ? "day" : "night"}`;
+    switch(now.conditionInfo.type) {
+        case WeatherConditionType.OVERCAST:
+            background = `overcast-${weather.isDay() ? "day" : "night"}`;
             break;
-        case WeatherCondition.RAIN: 
-        case WeatherCondition.RAIN_SHOWERS:
+        case WeatherConditionType.RAIN: 
+        case WeatherConditionType.RAIN_SHOWERS:
             background = "rain";
             break;
-        case WeatherCondition.THUNDERSTORMS:
-        case WeatherCondition.THRUNDERSTORMS_HAIL:
+        case WeatherConditionType.THUNDERSTORMS:
+        case WeatherConditionType.THRUNDERSTORMS_HAIL:
             background = "thunderstorms";
             break;
-        case WeatherCondition.SNOW:
-        case WeatherCondition.SNOW_GRAINS:
-        case WeatherCondition.SNOW_SHOWERS:
+        case WeatherConditionType.SNOW:
+        case WeatherConditionType.SNOW_GRAINS:
+        case WeatherConditionType.SNOW_SHOWERS:
             background = "snow";
             break;
         default:
-            background = `clear-${weather.IsDay() ? "day" : "night"}`;
+            background = `clear-${weather.isDay() ? "day" : "night"}`;
     }
 
     document.body.classList.add(background);
@@ -46,7 +46,7 @@ const Now = () => {
     
             <h1>{now.temperature}</h1>
     
-            <p>{now.conditionInfo.condition}</p>
+            <p>{now.conditionInfo.intensity} {now.conditionInfo.type}</p>
             <p>Feels like <span>{now.feelsLike}</span>°</p>
         </Widget>
     );

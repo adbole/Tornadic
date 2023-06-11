@@ -16,7 +16,7 @@
     }
 
     //DO NOT REMOVE
-    //FIXES A BUG WITH ANIMATION ON IOS WHERE .slide-out 
+    //FIXES A BUG WITH ANIMATION ON SAFARI WHERE .slide-out 
     //ELEMENTS MAY GET STUCK
     >.slide-in { z-index: 1; }
 }

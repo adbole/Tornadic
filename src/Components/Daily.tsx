@@ -2,7 +2,7 @@ import { Widget, WidgetSize } from './SimpleComponents';
 import { Normalize } from 'ts/Helpers';
 import { useWeather } from './Contexts/Weather';
 import { Calendar } from 'svgs/widget';
-import { DayInfo, WeatherData } from './Contexts/Weather/WeatherData';
+import { DayInfo, WeatherData } from 'ts/WeatherData';
 
 import { useModal } from './Contexts/ModalContext';
 import Chart, { ChartViews } from './Chart';
@@ -22,8 +22,8 @@ const Day = ({dayInfo, style, onClick}: {
     <tr onClick={onClick}>
         <td><p>{dayInfo.day}</p></td>
         <td className={"condition"}>      
-            {dayInfo.conditionInfo.icon}
-            {WeatherData.IsRaining(dayInfo) && <span>{dayInfo.precipitation_probability}%</span>}
+            <dayInfo.conditionInfo.icon/>
+            {WeatherData.hasChanceOfRain(dayInfo) && <span>{dayInfo.precipitation_probability}%</span>}
         </td>
         <td>
             <div className='temp-range'>
@@ -42,20 +42,21 @@ const Day = ({dayInfo, style, onClick}: {
  * @returns The Daily widget
  */
 const Daily = () => {
-    const dailyData = useWeather().forecast.daily;
-    const {showModal} = useModal();
+    const weather = useWeather();
+    const { forecast: { daily } } = weather;
+    const { showModal } = useModal();
 
     //Determine the weeks low and high
-    let low_week = dailyData.temperature_2m_min[0];
-    let high_week = dailyData.temperature_2m_max[0];
+    let low_week = daily.temperature_2m_min[0];
+    let high_week = daily.temperature_2m_max[0];
 
-    for(let i = 1; i < dailyData.time.length; ++i) {
-        if(dailyData.temperature_2m_min[i] < low_week) {
-            low_week = dailyData.temperature_2m_min[i];
+    for(let i = 1; i < daily.time.length; ++i) {
+        if(daily.temperature_2m_min[i] < low_week) {
+            low_week = daily.temperature_2m_min[i];
         }
 
-        if(dailyData.temperature_2m_max[i] > high_week) {
-            high_week = dailyData.temperature_2m_max[i];
+        if(daily.temperature_2m_max[i] > high_week) {
+            high_week = daily.temperature_2m_max[i];
         }
     }
 
@@ -77,7 +78,7 @@ const Daily = () => {
             <table>
                 <tbody>
                     {
-                        Array.from(useWeather().GetDailyValues()).map((day, index) => (
+                        Array.from(weather.getDailyValues()).map((day, index) => (
                             <Day 
                                 key={index} dayInfo={day} 
                                 style={calculateDualRangeCoverStyle(day.temperature_low, day.temperature_high)} 

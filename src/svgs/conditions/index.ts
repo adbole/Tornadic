@@ -4,22 +4,22 @@ import { ReactComponent as Lightning } from './cloud-lightning-rain-fill.svg';
 import { ReactComponent as Rain } from './cloud-rain-fill.svg';
 import { ReactComponent as CloudSun } from './cloud-sun-fill.svg';
 import { ReactComponent as CloudMoon } from './cloud-moon-fill.svg';
-import { ReactComponent as Cloudy } from './cloudy-fill.svg';
+import { ReactComponent as Cloud } from './cloud-single-fill.svg';
 import { ReactComponent as Clouds } from './clouds-fill.svg';
 import { ReactComponent as Snow } from './snow.svg';
-import { ReactComponent as Sun } from './sun-fill.svg';
 import { ReactComponent as Moon } from './moon-fill.svg';
+import { ReactComponent as Sun } from './sun-fill.svg';
 
 export {
-    Drizzle,
-    Fog,
-    Lightning,
-    Rain,
+    Sun,
+    Moon,
     CloudSun,
     CloudMoon,
-    Cloudy,
+    Cloud,
     Clouds,
+    Fog,
+    Drizzle,
+    Rain,
     Snow,
-    Sun,
-    Moon
+    Lightning,
 };

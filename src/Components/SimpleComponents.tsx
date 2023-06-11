@@ -6,14 +6,12 @@ import React from 'react';
 import { TornadicLoader } from 'svgs/icon';
 import * as WidgetIcons from 'svgs/widget';
 
-import HazardLevelView from './HazardLevelView';
-
 import { useWeather } from './Contexts/Weather';
-import { Forecast } from './Contexts/Weather/index.types';
-import { WeatherData } from './Contexts/Weather/WeatherData';
+import { HourlyProperties } from './Contexts/Weather/index.types';
 
 import { useModal } from './Contexts/ModalContext';
 import Chart, { ChartViews } from './Chart';
+import HazardLevel, { HazardType } from './HazardLevel';
 
 // #region Widget
 export enum WidgetSize {
@@ -62,13 +60,13 @@ type HourlyKey = keyof typeof ChartViews;
 export const SimpleInfoWidget = ({icon, title, property}: {
     icon: React.ReactNode,
     title: string,
-    property: keyof Omit<Forecast["hourly"], "time">
+    property: keyof HourlyProperties<any>
 }) => {
     const forecastData = useWeather().forecast;
     const { showModal } = useModal();
 
     return (
-        //Because CharViews' values map to a Forecast property, then a property of Forecast can be mapped to a key of CharViews (if it exists on CharViews)
+        //Because ChartViews' values map to a HourlyProperties property, then a property of HourlyProperties can be mapped to a key of ChartViews (if it exists on ChartViews)
         <Widget className="basic-info" isTemplate onClick={() => showModal(<Chart showView={ChartViews[Object.keys(ChartViews).filter((k) => ChartViews[k as HourlyKey] === property)[0] as HourlyKey]}/>)}>
             {icon}
             <h1 className='widget-title'>{title}</h1>
@@ -103,8 +101,8 @@ export const AirUV = () => {
 
     return (
         <>
-            <HazardLevelView info={WeatherData.GetAQInfo(AQ)} />
-            <HazardLevelView info={WeatherData.GetUVInfo(UV)} />
+            <HazardLevel hazard={HazardType.AirQuality} hazardValue={AQ} />
+            <HazardLevel hazard={HazardType.UV} hazardValue={UV} />
         </>
     );
 };

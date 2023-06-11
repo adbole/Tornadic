@@ -11,12 +11,12 @@ import { ExclamationTriangle } from "svgs";
 import { fetchData, FetchResponse, fetchDataAndHeaders } from 'ts/Fetch';
 import { throwError } from 'ts/Helpers';
 
-import { WeatherData } from './WeatherData';
+import { WeatherData } from 'ts/WeatherData';
 import { 
     Forecast, 
     AirQuality, 
     GridPoint, NWSAlert, 
-    EnpointURLs, 
+    EndpointURLs, 
     HourlyProperties, 
     DailyProperties 
 } from './index.types';
@@ -28,7 +28,7 @@ const TEMP_UNIT = "fahrenheit";
 const WIND_UNIT = "mph";
 const PRECIP_UNIT = "inch";
 
-async function getURLs(): Promise<EnpointURLs> {
+async function getURLs(): Promise<EndpointURLs> {
     const pos: GeolocationPosition = await new Promise((resolve, reject) => navigator.geolocation.getCurrentPosition(resolve, reject));
     
     const [latitude, longitude] = [pos.coords.latitude, pos.coords.longitude];
@@ -120,7 +120,7 @@ function configureData(forecastData: Forecast) {
 }
 
 const WeatherContextProvider = ({children}: {children: ReactNode}) => {
-    const [urls, setURLs] = React.useState<EnpointURLs>();
+    const [urls, setURLs] = React.useState<EndpointURLs>();
     const [error, setError] = React.useState<string | null>(null);
     const [weatherData, setWeather] = React.useState<WeatherData | null>(null);
 

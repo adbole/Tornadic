@@ -1,6 +1,6 @@
 import React from 'react';
 import { useWeather } from './Contexts/Weather';
-import { HourInfo, WeatherData } from './Contexts/Weather/WeatherData';
+import { HourInfo, WeatherData } from 'ts/WeatherData';
 
 import { Widget } from "./SimpleComponents";
 import { Clock } from 'svgs/widget';
@@ -13,8 +13,8 @@ const Hour = ({hourInfo} : {hourInfo: HourInfo}) => (
     <li>
         <p>{TimeConversion.getTimeFormatted(hourInfo.time, TimeConversion.TimeFormat.Hour)}</p>
         <div>
-            {hourInfo.conditionInfo.icon}
-            {WeatherData.IsRaining(hourInfo) && <span>{hourInfo.precipitation_probability}%</span>}
+            <hourInfo.conditionInfo.icon/>
+            {WeatherData.hasChanceOfRain(hourInfo) && <span>{hourInfo.precipitation_probability}%</span>}
         </div>
         <p>{hourInfo.temperature}°</p>
     </li>
@@ -68,7 +68,7 @@ const Hourly = () => {
         <Widget id="hourly" widgetTitle="Hourly Forecast" widgetIcon={<Clock/>}>
             <ol className="flex-list drag-scroll" onMouseDown={mouseDown} onMouseLeave={mouseExit} onMouseUp={mouseExit} onMouseMove={mouseMove}>
                 {
-                    Array.from(weather.GetFutureValues()).map((forecast, index) => {
+                    Array.from(weather.getFutureValues()).map((forecast, index) => {
                         const time = new Date(forecast.time);
 
                         //To indicate a new day, add a day seperator

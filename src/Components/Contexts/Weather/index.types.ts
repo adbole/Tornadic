@@ -91,7 +91,7 @@ export type NWSAlert = Readonly<{
     }
 }>
 
-export type EnpointURLs = Readonly<{
+export type EndpointURLs = Readonly<{
     forecastURL: URL,
     airQualityURL: string,
     pointURL: string
