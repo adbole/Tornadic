@@ -157,7 +157,7 @@ const WeatherContextProvider = ({children}: {children: ReactNode}) => {
                 const [forecast, airquality, alertResponse] = await Promise.all([
                     fetchData<Forecast>(urls.forecastURL, "Open-Meteo Weather Forecast").catch(e => setError(e)),
                     fetchData<AirQuality>(urls.airQualityURL, "Open-Meteo Air Quality").catch(e => setError(e)),
-                    getAlertData(weatherData ? weatherData.point : urls.pointURL).catch(e => setError(e))
+                    getAlertData(weatherData?.point ?? urls.pointURL).catch(e => setError(e))
                 ]);
 
                 if(!forecast || !airquality ||!alertResponse) return;

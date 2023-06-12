@@ -20,12 +20,21 @@ export enum WidgetSize {
     WIDE =  " widget-wide"
 }
 
+type WidgetProps = {
+    size?: WidgetSize,
+    children: React.ReactNode,
+    widgetTitle?: string,
+    widgetIcon?: React.ReactNode,
+    //Normal Widgets have a style rule that causes all child elements (excluding the title) to get flex: 1
+    //so they take up as much space as possible. This flag will determine if the template class is added to prevent it
+    isTemplate?: boolean 
+}
 /**
  * The base of all widgets in the Tornadic application. Everything is a widget and it all starts here.
  * This component will display a simple rectangle box in the root's grid, but can be expanded and customized to fit any need. 
  */
 export const Widget = React.forwardRef<HTMLDivElement, WidgetProps & React.HTMLAttributes<HTMLDivElement>>((props, ref) => {
-    const {className, children, size, widgetTitle, widgetIcon, isTemplate, ...excess} = props;
+    const { className, children, size = WidgetSize.NORMAL, widgetTitle, widgetIcon, isTemplate, ...excess } = props;
 
     let classList = "widget" + size;
     if(isTemplate) classList += " template";
@@ -38,39 +47,27 @@ export const Widget = React.forwardRef<HTMLDivElement, WidgetProps & React.HTMLA
         </section>
     );
 });
-
-type WidgetProps = {
-    size?: WidgetSize,
-    children: React.ReactNode,
-    widgetTitle?: string,
-    widgetIcon?: React.ReactNode,
-    //Normal Widgets have a style rule that causes all child elements (excluding the title) to get flex: 1
-    //so they take up as much space as possible. This flag will determine if the template class is added to prevent it
-    isTemplate?: boolean 
-}
-
-Widget.defaultProps = {
-    size: WidgetSize.NORMAL
-};
 // #endregion Widget
 
 // #region SimpleInfoWidget
-type HourlyKey = keyof typeof ChartViews;
+type ChartViewKey = keyof typeof ChartViews;
 
 export const SimpleInfoWidget = ({icon, title, property}: {
     icon: React.ReactNode,
     title: string,
     property: keyof HourlyProperties<any>
 }) => {
-    const forecastData = useWeather().forecast;
+    const { forecast } = useWeather();
     const { showModal } = useModal();
 
+    //Because ChartViews' values map to a HourlyProperties property, then a property of HourlyProperties can be mapped to a key of ChartViews (if it exists on ChartViews)
+    const chartView = ChartViews[Object.keys(ChartViews).find((k) => ChartViews[k as ChartViewKey] === property) as ChartViewKey];
+
     return (
-        //Because ChartViews' values map to a HourlyProperties property, then a property of HourlyProperties can be mapped to a key of ChartViews (if it exists on ChartViews)
-        <Widget className="basic-info" isTemplate onClick={() => showModal(<Chart showView={ChartViews[Object.keys(ChartViews).filter((k) => ChartViews[k as HourlyKey] === property)[0] as HourlyKey]}/>)}>
+        <Widget className="basic-info" isTemplate onClick={() => showModal(<Chart showView={chartView}/>)}>
             {icon}
             <h1 className='widget-title'>{title}</h1>
-            <p>{forecastData.hourly[property][forecastData.nowIndex].toFixed(0) + forecastData.hourly_units[property]}</p>
+            <p>{forecast.hourly[property][forecast.nowIndex].toFixed(0) + forecast.hourly_units[property]}</p>
         </Widget>
     );
 };

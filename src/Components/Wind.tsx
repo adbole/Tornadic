@@ -12,7 +12,7 @@ import Chart, { ChartViews } from './Chart';
  */
 function generateAngledStamps() {
     const angle = 45;
-    const numOfIncrements = 360 / 45; 
+    const numOfIncrements = 360 / angle; 
 
     const rects = [];
 
