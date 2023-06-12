@@ -53,19 +53,8 @@ export class WeatherData {
         this.alerts = alerts;
     }
 
-    /**
-     * Determines if the given time is day or not based on the sunrise and sunset times of the day
-     * @param isoTime The time to check. Is null by default to check current time
-     * @param dayValueIndex The day whose sunrise and sunset will be used. Is 0 by default for the current day
-     * @returns A boolean indicating if it day or not
-     */
-    isDay(isoTime: string | null = null, dayValueIndex: number = 0) {
-        const time = isoTime ? new Date(isoTime) : new Date();
-
-        const sunrise = new Date(this.forecast.daily.sunrise[dayValueIndex]);
-        const sunset = new Date(this.forecast.daily.sunset[dayValueIndex]);
-
-        return time > sunrise && time < sunset;
+    isDay(timeIndex: number) {
+        return Boolean(this.forecast.hourly.is_day[timeIndex]);
     }
 
     /**
@@ -90,20 +79,10 @@ export class WeatherData {
      * Gets 48 hours of future values
      */
     * getFutureValues(): Generator<HourInfo> {
-        let currentDayIndex = 0;
-
         for(let i = this.forecast.nowIndex + 1; i < this.forecast.nowIndex + 49; ++i) {
-            //If the current time is in the next day, incremenet the currentDayIndex for proper use of the IsDay method
-            if(new Date(this.forecast.hourly.time[i]) >= new Date(this.forecast.daily.time[currentDayIndex + 1])) {
-                currentDayIndex += 1;
-            }
-
-            //Determine if this time is day to get the proper icon from GetWeatherCondition
-            const isDay = this.isDay(this.forecast.hourly.time[i], currentDayIndex);
-
             yield {
                 time: this.forecast.hourly.time[i],
-                conditionInfo: new WeatherCondition(this.forecast.hourly.weathercode[i], isDay),
+                conditionInfo: new WeatherCondition(this.forecast.hourly.weathercode[i], this.isDay(i)),
                 temperature: Math.round(this.forecast.hourly.temperature_2m[i]),
                 precipitation_probability: this.forecast.hourly.precipitation_probability[i]
             };
@@ -111,7 +90,7 @@ export class WeatherData {
     }
 
     * getDailyValues(): Generator<DayInfo> {
-        const isDay = this.isDay(this.forecast.hourly.time[this.forecast.nowIndex], 0);
+        const isDay = this.isDay(this.forecast.nowIndex);
 
         //First value is current time / day
         yield {

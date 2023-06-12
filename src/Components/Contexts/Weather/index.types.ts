@@ -33,7 +33,8 @@ export type HourlyProperties<T extends number[] | string> = {
     winddirection_10m: T,
     weathercode: T,
     surface_pressure: T, //hPa
-    precipitation_probability: T
+    precipitation_probability: T,
+    is_day: T
 }
 
 //Helper type to ensure properties are consistent across daily_units and daily

@@ -29,6 +29,7 @@ type WidgetProps = {
     //so they take up as much space as possible. This flag will determine if the template class is added to prevent it
     isTemplate?: boolean 
 }
+
 /**
  * The base of all widgets in the Tornadic application. Everything is a widget and it all starts here.
  * This component will display a simple rectangle box in the root's grid, but can be expanded and customized to fit any need. 

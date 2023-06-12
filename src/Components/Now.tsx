@@ -19,7 +19,7 @@ const Now = () => {
     let background;
     switch(now.conditionInfo.type) {
         case WeatherConditionType.OVERCAST:
-            background = `overcast-${weather.isDay() ? "day" : "night"}`;
+            background = `overcast-${weather.isDay(weather.forecast.nowIndex) ? "day" : "night"}`;
             break;
         case WeatherConditionType.RAIN: 
         case WeatherConditionType.RAIN_SHOWERS:
@@ -35,7 +35,7 @@ const Now = () => {
             background = "snow";
             break;
         default:
-            background = `clear-${weather.isDay() ? "day" : "night"}`;
+            background = `clear-${weather.isDay(weather.forecast.nowIndex) ? "day" : "night"}`;
     }
 
     document.body.classList.add(background);

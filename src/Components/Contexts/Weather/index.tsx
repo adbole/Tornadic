@@ -39,7 +39,7 @@ async function getURLs(): Promise<EndpointURLs> {
     //Type Array<keyof T> provides compile-time checking to ensure array values match a property on T
     const hourly_params: Array<keyof HourlyProperties<any>> = [
         "temperature_2m", "apparent_temperature", "precipitation", "weathercode", "relativehumidity_2m", "dewpoint_2m", 
-        "visibility", "windspeed_10m", "winddirection_10m", "surface_pressure", "precipitation_probability", "windgusts_10m"
+        "visibility", "windspeed_10m", "winddirection_10m", "surface_pressure", "precipitation_probability", "windgusts_10m", "is_day"
     ];
     const daily_params: Array<keyof DailyProperties<any, any>> = [
         "temperature_2m_min", "temperature_2m_max", "weathercode", "sunrise", "sunset", "precipitation_probability_max"
