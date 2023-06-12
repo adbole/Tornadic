@@ -18,7 +18,7 @@ export enum HazardType {
 enum AQLevels {
     GOOD = "Good",
     MODERATE = "Moderate",
-    UNHEALTHY_SENS = "Unhealthy for Sensitive Groups",
+    UNHEALTHY_SENS = "Unhealthy*",
     UNHEALTHY = "Unhealthy",
     VERY_UNHEALTHY = "Very Unhealthy",
     HAZARDOUS = "Hazardous"
@@ -120,7 +120,7 @@ export const HazardLevel = ({ hazard, hazardValue }: { hazard: HazardType, hazar
                 <Meter rotation={rotation} />
                 <div>
                     <p>{value}</p>
-                    <p>{message}</p>
+                    <p className='level-message'>{message}</p>
                 </div>
             </div>
         </Widget>
