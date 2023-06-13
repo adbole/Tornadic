@@ -157,13 +157,10 @@ p, h1 {
         grid-template-columns: repeat(4, 1fr);
         grid-template-areas: none;
 
-        #now { 
-            grid-column: span 2; 
-            order: 1;
-        }
+        #now { order: 1; }
 
-        #alert, #hourly { order: 2 }
-        #daily, #radar { order: 3 }
+        #alert, #hourly { order: 2; }
+        #daily, #radar { order: 3; }
         >* { order: 4; }
 
         #hourly { grid-column: span 2; }
@@ -179,9 +176,7 @@ p, h1 {
         grid-template-columns: repeat(2, 1fr);
         grid-auto-rows: auto;
 
-        .widget { min-height: 150px; }
-
-        #radar { height: 300px; }
+        .widget:not(.widget-large) { min-height: 150px; }
     }
 
     #message-screen > svg { width: 300px }

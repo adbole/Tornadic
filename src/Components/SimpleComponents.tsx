@@ -3,7 +3,6 @@
  */
 
 import React from 'react';
-import { TornadicLoader } from 'svgs/icon';
 import * as WidgetIcons from 'svgs/widget';
 
 import { useWeather } from './Contexts/Weather';
@@ -73,12 +72,6 @@ export const SimpleInfoWidget = ({icon, title, property}: {
     );
 };
 // #endregion SimpleInfoWidget
-
-export const Loader = () => (
-    <div id="message-screen">
-        <TornadicLoader/>
-    </div>
-);
 
 export const DayValues = () => {
     return (

@@ -1,6 +1,6 @@
 import { useWeather } from './Contexts/Weather';
 import { WeatherConditionType } from 'ts/WeatherCondition';
-import { Widget } from './SimpleComponents';
+import { Widget, WidgetSize } from './SimpleComponents';
 
 import { useModal } from './Contexts/ModalContext';
 import Chart, { ChartViews } from './Chart';
@@ -41,7 +41,7 @@ const Now = () => {
     document.body.classList.add(background);
 
     return (
-        <Widget id="now" className={background} onClick={() => showModal(<Chart showView={ChartViews.Temperature}/>)}>
+        <Widget id="now" size={WidgetSize.LARGE} className={background} onClick={() => showModal(<Chart showView={ChartViews.Temperature}/>)}>
             <p>{now.location}</p>
     
             <h1>{now.temperature}</h1>

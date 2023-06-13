@@ -4,7 +4,6 @@
  */
 
 import React, { ReactNode } from 'react';
-import { Loader } from 'Components/SimpleComponents';
 import MessageScreen from 'Components/MessageScreen';
 import { ExclamationTriangle } from "svgs";
 
@@ -20,6 +19,7 @@ import {
     HourlyProperties, 
     DailyProperties 
 } from './index.types';
+import Skeleton from 'Components/Radar/Skeleton';
 
 const WeatherContext = React.createContext<WeatherData | null>(null);
 export const useWeather = () => React.useContext(WeatherContext) ?? throwError("Please use useWeather inside a WeatherContext provider");
@@ -199,7 +199,7 @@ const WeatherContextProvider = ({children}: {children: ReactNode}) => {
 
     return (
         <WeatherContext.Provider value={weatherData}>
-            {weatherData ? children : <Loader />}
+            {weatherData ? children : <Skeleton />}
         </WeatherContext.Provider>
     );
 };
