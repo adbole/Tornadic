@@ -34,7 +34,7 @@ async function getURLs(): Promise<EndpointURLs> {
     const [latitude, longitude] = [pos.coords.latitude, pos.coords.longitude];
 
     //NOTE: Precipitation unit of in affects the unit of visibility to become ft
-    const forecastURL = new URL("https://api.open-meteo.com/v1/forecast?timezone=auto&current_weather=true");
+    const forecastURL = new URL("https://api.open-meteo.com/v1/gfs?timezone=auto&current_weather=true");
 
     //Type Array<keyof T> provides compile-time checking to ensure array values match a property on T
     const hourly_params: Array<keyof HourlyProperties<any>> = [
@@ -119,6 +119,17 @@ function configureData(forecastData: Forecast) {
     units.windspeed_10m = units.windgusts_10m = "mph";
 }
 
+function smartTimeout(fn: () => void, ms: number) {
+    return setTimeout(() => {
+        if(document.visibilityState === "hidden") {
+            document.addEventListener("visibilitychange", fn, {once: true});
+        }
+        else {
+            fn();
+        }
+    }, ms);
+}
+
 const WeatherContextProvider = ({children}: {children: ReactNode}) => {
     const [urls, setURLs] = React.useState<EndpointURLs>();
     const [error, setError] = React.useState<string | null>(null);
@@ -132,15 +143,15 @@ const WeatherContextProvider = ({children}: {children: ReactNode}) => {
     React.useMemo(() => getURLs().then(urls => setURLs(urls)), []);
 
     React.useEffect(() => {
-        function configureAlertRefresh(headers: Headers, buffer: boolean = false) {
+        function configureAlertRefresh(headers: Headers) {
             //Determine when the alert will expire
             const expires = new Date(headers.get("expires")!);
-            //Add a buffer of 30 seconds to prevent sending a request too soon.
-            if(buffer) expires.setSeconds(expires.getSeconds() + 30);
+            
+            //5s buffer added to ensure a request isn't made so soon that the same expires 
+            //header is retreived again causing mutliple requests per refresh.
+            const remainingTime = (expires.getTime() - new Date().getTime()) + 5000;
 
-            const remainingTime = expires.getTime() - new Date().getTime();
-
-            setAlertRefresh(setTimeout(() => setAlertRefresh(null), remainingTime));
+            setAlertRefresh(smartTimeout(() => setAlertRefresh(null), remainingTime));
         }
 
         async function getData() {    
@@ -164,8 +175,8 @@ const WeatherContextProvider = ({children}: {children: ReactNode}) => {
                 
                 //Determine when the next hour is
                 const ms = 3.6e6 - new Date().getTime() % 3.6e6;
-                setRefresh(setTimeout(() => setRefresh(null), ms));
-                configureAlertRefresh(alertResponse.alerts.headers, true);
+                setRefresh(smartTimeout(() => setRefresh(null), ms));
+                configureAlertRefresh(alertResponse.alerts.headers);
 
                 //Convert data to desired formats
                 configureData(forecast);
