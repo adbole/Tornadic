@@ -41,14 +41,13 @@ L.Map.include({
  * @returns The Radar widget
  */
 const Radar = () => {
-    const radar = React.useRef<HTMLDivElement>(null);
     const defaultCent: L.LatLngExpression = {
         lat: 35.5,
         lng: -97.5
     };
 
     return (
-        <Widget id="radar" size={WidgetSize.LARGE} widgetTitle="Radar" widgetIcon={<Map/>} ref={radar}>
+        <Widget id="radar" size={WidgetSize.LARGE} widgetTitle="Radar" widgetIcon={<Map/>}>
             <MapContainer center={defaultCent} zoom={10} zoomControl={false} attributionControl={false} scrollWheelZoom={false} dragging={false}> 
                 <TileLayer attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors | <a href="https://www.rainviewer.com/api.html">RainViewer</a>' url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"/>
 
@@ -56,10 +55,10 @@ const Radar = () => {
                 <AttributionControl position="topleft" prefix={'<a href="https://leafletjs.com/" title="A JavaScript library for interactive maps">Leaflet</a>'}/>
 
                 {/* Custom Controls */}
-                <AlertPolygons />
+                <AlertPolygons/>
                 <ControlPortal position={Position.TOP_RIGHT}>
-                    <Home radar={radar}/>
-                    <Locate />
+                    <Home/>
+                    <Locate/>
                 </ControlPortal>
                 <RainViewer/>
             </MapContainer>

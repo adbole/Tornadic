@@ -1,5 +1,3 @@
-import React from "react";
-
 //Provides methods to normalize a value between to values to be between 0 and 1
 export class Normalize {
     //Normalizes a value to be between 0 and 1 given it and the minimum and maximum values possible
@@ -21,18 +19,3 @@ export const throwError = (msg: string) => { throw new Error(msg); };
 
 //Helper method to ensure that a string matches a property on a type 
 export const nameof = <T,>(name: Extract<keyof T, string>): string => name;
-
-//An effect that will only run when the component is mounted
-export const useMountedEffect = (func: React.EffectCallback, deps?: React.DependencyList | undefined) => {
-    const ready = React.useRef(false);
-
-    React.useEffect(() => {
-        if(!ready.current) {
-            ready.current = true;
-            return;
-        };
-
-        return func();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, deps);
-};

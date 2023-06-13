@@ -1,22 +1,20 @@
 @import './mixin';
 
 #radar {
-    >.leaflet-container { border-radius: 10px; }
+    >.leaflet-container { 
+        border-radius: 10px; 
 
-    &:not(.zoom-radar) > .leaflet-container {
-        cursor: pointer;
+        &.zoom-radar {
+            z-index: 999;
+            inset: 0px;
+            position: fixed !important;
+            border-radius: 0px;
+        }
 
-        .leaflet-control {  display: none; }
-    }
-
-    &.zoom-radar > .leaflet-container {
-        z-index: 999;
-        position: fixed !important;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        border-radius: 0px;
+        &:not(.zoom-radar) {
+            cursor: pointer;
+            .leaflet-control {  display: none; }
+        }
     }
 
     .current-location > svg {

@@ -1,21 +1,17 @@
 import React from 'react';
-import L from 'leaflet';
 import { useMap } from 'react-leaflet';
 
 import { Grid } from 'svgs/radar';
-import { useMountedEffect } from 'ts/Helpers';
 
 /**
  * Provides the zooming functionality for the Radar component along with returning a button to be added to leaflet to provide unzooming
  * @returns A button to allow unzooming once inside the zoomed Radar
  */
-const Home = (props: L.ControlOptions & {
-    radar: React.MutableRefObject<HTMLDivElement | null>
-}) => {
+const Home = () => {
     const [isZoomed, setIsZoomed] = React.useState(false);
 
-    const radar = props.radar.current;
     const map = useMap();
+    const container = map.getContainer();
 
     const zoom = React.useCallback(() => !isZoomed && setIsZoomed(true), [isZoomed]);
     const unZoom = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -24,18 +20,18 @@ const Home = (props: L.ControlOptions & {
     };
 
     React.useEffect(() => {
-        radar?.addEventListener("click", zoom);
-        return () => radar?.removeEventListener("click", zoom);
-    }, [radar, zoom]);
+        container.addEventListener("click", zoom);
+        return () => container.removeEventListener("click", zoom);
+    }, [container, zoom]);
 
-    useMountedEffect(() => {
-        radar?.classList.toggle('zoom-radar');
-        document.body.classList.toggle('zoom-radar');
+    React.useEffect(() => {
+        container.classList.toggle('zoom-radar', isZoomed);
+        document.body.classList.toggle('zoom-radar', isZoomed);
 
         map.invalidateSize();
-        map.dragging.enabled() ? map.dragging.disable() : map.dragging.enable();
-        map.scrollWheelZoom.enabled() ? map.scrollWheelZoom.disable() : map.scrollWheelZoom.enable();
-    }, [isZoomed, map, radar]);
+        isZoomed ? map.dragging.enable() : map.dragging.disable();
+        isZoomed ? map.scrollWheelZoom.enable() : map.scrollWheelZoom.disable();
+    }, [isZoomed, map, container]);
 
     return <button type="button" className="leaflet-custom-control leaflet-control" onClick={unZoom}><Grid /></button>;
 };
