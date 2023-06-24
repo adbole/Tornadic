@@ -1,5 +1,5 @@
 import React from 'react';
-import { useWeather } from './Contexts/Weather';
+import { useWeather } from 'Contexts/Weather';
 import { HourInfo, WeatherData } from 'ts/WeatherData';
 
 import { Widget } from "./SimpleComponents";

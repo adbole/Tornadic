@@ -10,8 +10,8 @@ import Pressure from 'Components/Pressure';
 import { AirUV, DayValues } from 'Components/SimpleComponents';
 
 //Contexts
-import ModalContext from 'Components/Contexts/ModalContext';
-import WeatherContext from 'Components/Contexts/Weather';
+import ModalContext from 'Contexts/ModalContext';
+import WeatherContext from 'Contexts/Weather';
 
 const App = () => (
     <>

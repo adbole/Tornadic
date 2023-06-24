@@ -1,8 +1,8 @@
 import { Wind as WindIcon } from 'svgs/widget';
 import { Widget } from './SimpleComponents';
-import { useWeather } from './Contexts/Weather';
+import { useWeather } from 'Contexts/Weather';
 
-import { useModal } from './Contexts/ModalContext';
+import { useModal } from 'Contexts/ModalContext';
 import Chart, { ChartViews } from './Chart';
 
 

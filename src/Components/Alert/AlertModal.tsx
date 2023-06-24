@@ -1,7 +1,7 @@
 import React from 'react';
-import { NWSAlert } from 'Components/Contexts/Weather/index.types';
-import { Modal, ModalContent, ModalTitle } from 'Components/Contexts/ModalContext';
-import SlideContextProvider, { useSlide } from 'Components/Contexts/SlideContext';
+import { NWSAlert } from 'Contexts/Weather/index.types';
+import { Modal, ModalContent, ModalTitle } from 'Contexts/ModalContext';
+import SlideContextProvider, { useSlide } from 'Contexts/SlideContext';
 import { AlertDisplay, AlertHelpers } from './Common';
 
 export const AlertSelectionModal = ({alerts}: {alerts: NWSAlert[]}) => {

@@ -1,5 +1,5 @@
-import { useWeather } from 'Components/Contexts/Weather';
-import { useModal } from 'Components/Contexts/ModalContext';
+import { useWeather } from 'Contexts/Weather';
+import { useModal } from 'Contexts/ModalContext';
 import { AlertDisplay, AlertHelpers } from './Common';
 import { AlertModal, AlertSelectionModal } from './AlertModal';
 

@@ -1,8 +1,8 @@
-import { useWeather } from './Contexts/Weather';
+import { useWeather } from 'Contexts/Weather';
 import { WeatherConditionType } from 'ts/WeatherCondition';
 import { Widget, WidgetSize } from './SimpleComponents';
 
-import { useModal } from './Contexts/ModalContext';
+import { useModal } from 'Contexts/ModalContext';
 import Chart, { ChartViews } from './Chart';
 
 /**

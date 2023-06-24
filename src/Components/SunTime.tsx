@@ -1,4 +1,4 @@
-import { useWeather } from './Contexts/Weather';
+import { useWeather } from 'Contexts/Weather';
 import { Widget, WidgetSize } from './SimpleComponents';
 import { Sunrise, Sunset } from 'svgs/widget';
 import * as TimeConversion from 'ts/TimeConversion';

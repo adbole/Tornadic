@@ -3,7 +3,7 @@
  */
 
 import { ReactNode } from "react";
-import { Forecast, AirQuality, NWSAlert, GridPoint } from "../Components/Contexts/Weather/index.types";
+import { Forecast, AirQuality, NWSAlert, GridPoint } from "Contexts/Weather/index.types";
 import * as TimeConversion from "ts/TimeConversion";
 import WeatherCondition, { WeatherConditionType } from "./WeatherCondition";
 

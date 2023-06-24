@@ -1,8 +1,8 @@
 import React from "react";
 
-import { useWeather } from "Components/Contexts/Weather";
-import { Forecast } from "Components/Contexts/Weather/index.types";
-import { Modal, ModalContent, ModalTitle } from "Components/Contexts/ModalContext";
+import { useWeather } from "Contexts/Weather";
+import { Forecast } from "Contexts/Weather/index.types";
+import { Modal, ModalContent, ModalTitle } from "Contexts/ModalContext";
 
 import { ResponsiveContainer, Line, CartesianGrid, XAxis, YAxis, Tooltip, Bar, Area, ReferenceLine, YAxisProps } from "recharts";
 import { CustomTooltip, ChartDisplay } from "./Components";

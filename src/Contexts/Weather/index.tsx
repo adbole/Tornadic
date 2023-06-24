@@ -14,7 +14,8 @@ import { WeatherData } from 'ts/WeatherData';
 import { 
     Forecast, 
     AirQuality, 
-    GridPoint, NWSAlert, 
+    GridPoint, 
+    NWSAlert, 
     EndpointURLs, 
     HourlyProperties, 
     DailyProperties 
@@ -58,9 +59,9 @@ async function getURLs(): Promise<EndpointURLs> {
     const pointURL = `https://api.weather.gov/points/${latitude},${longitude}`;
 
     return {
-        forecastURL: forecastURL,
-        airQualityURL: airQualityURL,
-        pointURL: pointURL
+        forecastURL,
+        airQualityURL,
+        pointURL
     };
 }
 
@@ -89,8 +90,8 @@ async function getAlertData(from: string | GridPoint): Promise<{
     const alerts = await fetchDataAndHeaders<{features: NWSAlert[]}>(`https://api.weather.gov/alerts/active/zone/${county}`, "National Weather Service Alert Endpoint");
 
     return {
-        point: point,
-        alerts: alerts
+        point,
+        alerts
     };
 }
 

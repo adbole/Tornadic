@@ -5,10 +5,10 @@
 import React from 'react';
 import * as WidgetIcons from 'svgs/widget';
 
-import { useWeather } from './Contexts/Weather';
-import { HourlyProperties } from './Contexts/Weather/index.types';
+import { useWeather } from 'Contexts/Weather';
+import { HourlyProperties } from 'Contexts/Weather/index.types';
 
-import { useModal } from './Contexts/ModalContext';
+import { useModal } from 'Contexts/ModalContext';
 import Chart, { ChartViews } from './Chart';
 import HazardLevel, { HazardType } from './HazardLevel';
 

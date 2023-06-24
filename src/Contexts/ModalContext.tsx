@@ -14,11 +14,11 @@ const Context = React.createContext<Readonly<{
 export const useModal = () => React.useContext(Context) ?? throwError("Please use useModal inside a ModalContext provider");
 
 const ModalContextProvider = ({children}: {children: React.ReactNode}) => {
-    const [modal, setModal] = React.useState<React.ReactNode>();
-    const hideModal = React.useCallback(() => setModal(null), []);
+    const [modal, showModal] = React.useState<React.ReactNode>();
+    const hideModal = React.useCallback(() => showModal(null), []);
 
     return (
-        <Context.Provider value={{showModal: setModal, hideModal: hideModal}}>
+        <Context.Provider value={{showModal, hideModal}}>
             {children}
             {modal && ReactDOM.createPortal(modal, document.body)}
         </Context.Provider>

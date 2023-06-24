@@ -1,10 +1,10 @@
 import { Widget, WidgetSize } from './SimpleComponents';
 import { Normalize } from 'ts/Helpers';
-import { useWeather } from './Contexts/Weather';
+import { useWeather } from 'Contexts/Weather';
 import { Calendar } from 'svgs/widget';
 import { DayInfo, WeatherData } from 'ts/WeatherData';
 
-import { useModal } from './Contexts/ModalContext';
+import { useModal } from 'Contexts/ModalContext';
 import Chart, { ChartViews } from './Chart';
 
 /**

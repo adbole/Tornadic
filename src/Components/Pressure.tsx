@@ -1,9 +1,9 @@
-import { useWeather } from "./Contexts/Weather";
-import { Forecast } from "./Contexts/Weather/index.types";
+import { useWeather } from "Contexts/Weather";
+import { Forecast } from "Contexts/Weather/index.types";
 import { Widget } from "./SimpleComponents";
 import { Meter, Up, Down } from "svgs/widget";
 
-import { useModal } from "./Contexts/ModalContext";
+import { useModal } from "Contexts/ModalContext";
 import Chart, { ChartViews } from "./Chart";
 
 function getTrendIcon(forecast: Readonly<Forecast>) {
