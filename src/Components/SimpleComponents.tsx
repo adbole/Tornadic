@@ -88,7 +88,7 @@ export const AirUV = () => {
     const { forecast, airQuality: { hourly: aqHourly } } = useWeather();
 
     const AQ = Math.round(aqHourly.us_aqi[forecast.nowIndex]);
-    const UV = Math.round(aqHourly.uv_index[forecast.nowIndex]);
+    const UV = Math.round(forecast.hourly.uv_index[forecast.nowIndex]);
 
     return (
         <>

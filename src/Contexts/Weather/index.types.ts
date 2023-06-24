@@ -34,6 +34,7 @@ export type HourlyProperties<T extends number[] | string> = {
     weathercode: T,
     surface_pressure: T, //hPa
     precipitation_probability: T,
+    uv_index: T,
     is_day: T
 }
 
@@ -52,7 +53,6 @@ export type DailyProperties<T extends number[] | string, Q extends string[] | st
 export type AirQuality = Readonly<{
     hourly: {
         time: string[],
-        uv_index: number[],
         us_aqi: number[]
     },
 }>

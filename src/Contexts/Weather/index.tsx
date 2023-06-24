@@ -40,7 +40,7 @@ async function getURLs(): Promise<EndpointURLs> {
     //Type Array<keyof T> provides compile-time checking to ensure array values match a property on T
     const hourly_params: Array<keyof HourlyProperties<any>> = [
         "temperature_2m", "apparent_temperature", "precipitation", "weathercode", "relativehumidity_2m", "dewpoint_2m", 
-        "visibility", "windspeed_10m", "winddirection_10m", "surface_pressure", "precipitation_probability", "windgusts_10m", "is_day"
+        "visibility", "windspeed_10m", "winddirection_10m", "surface_pressure", "precipitation_probability", "windgusts_10m", "uv_index", "is_day"
     ];
     const daily_params: Array<keyof DailyProperties<any, any>> = [
         "temperature_2m_min", "temperature_2m_max", "weathercode", "sunrise", "sunset", "precipitation_probability_max"
@@ -55,7 +55,7 @@ async function getURLs(): Promise<EndpointURLs> {
     hourly_params.forEach(param => forecastURL.searchParams.append("hourly", param));
     daily_params.forEach(param => forecastURL.searchParams.append("daily", param));
 
-    const airQualityURL = `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${latitude}&longitude=${longitude}&hourly=uv_index,us_aqi&timezone=auto`;
+    const airQualityURL = `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${latitude}&longitude=${longitude}&hourly=us_aqi&timezone=auto`;
     const pointURL = `https://api.weather.gov/points/${latitude},${longitude}`;
 
     return {

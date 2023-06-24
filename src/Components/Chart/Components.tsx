@@ -2,22 +2,38 @@ import { TooltipProps, BarChart, AreaChart, LineChart } from "recharts";
 import { CategoricalChartProps } from "recharts/types/chart/generateCategoricalChart";
 import { NameType } from "recharts/types/component/DefaultTooltipContent";
 import { DataPoint, ChartViews } from ".";
+import { UV_MAX_VALUES } from "ts/Constants";
+
+function getUnit(data: DataPoint, defaultUnit: React.ReactNode) {
+    const {property, primaryKey} = data;
+
+    if(property === ChartViews.UV_Index) {
+        if (primaryKey <= UV_MAX_VALUES.LOW) return " Low"; 
+        else if (primaryKey <= UV_MAX_VALUES.MODERATE) return " Moderate";
+        else if (primaryKey <= UV_MAX_VALUES.HIGH) return " High";
+        else if (primaryKey <= UV_MAX_VALUES.VERY_HIGH) return " Very High";
+        else return " Extreme"; 
+    }
+
+    return defaultUnit;
+}
   
 //Customized tooltip to display primary and secondary data with labels if applicable
 export const CustomTooltip = ({active, payload}: TooltipProps<number, NameType>) => {
     if(!active || !payload || !payload.length) return null;
 
-    const FixDecimal = (property: ChartViews, value: number): string | number => 
+    const fixDecimal = (property: ChartViews, value: number): string | number => 
         (property === ChartViews.Precipitation || property === ChartViews.Pressure) ? value.toFixed(2) : value.toFixed(0);
 
     const data: DataPoint = payload[0].payload;
-    const unit = payload[0].unit;
+    let unit = getUnit(data, payload[0].unit);
     const label = (data.property === ChartViews.Temperature && "Feels: ") || (data.property === ChartViews.Windspeed && "Gust: ");
+
 
     return (
         <div className="chart-tooltip">
-            <h1>{FixDecimal(data.property, data.primaryKey)}{unit}</h1>
-            {data.secondaryKey && <p>{label}{FixDecimal(data.property, data.secondaryKey)}{unit}</p>}
+            <h1>{fixDecimal(data.property, data.primaryKey)}{unit}</h1>
+            {data.secondaryKey && <p>{label}{fixDecimal(data.property, data.secondaryKey)}{unit}</p>}
         </div>
     );
 };
@@ -38,6 +54,7 @@ export const ChartDisplay = (props: ChartDisplayProps) => {
             ChosenChart = BarChart;
             break;
         case ChartViews.Temperature:
+        case ChartViews.UV_Index:
             ChosenChart = AreaChart;
             break;
         default:

@@ -9,6 +9,7 @@ import { CustomTooltip, ChartDisplay } from "./Components";
 
 import * as TimeConversion from 'ts/TimeConversion';
 import { nameof, toHSL } from "ts/Helpers";
+import { UV_MAX_VALUES } from "ts/Constants";
 
 //Properties denoted here represent values supported for displaying by a Chart
 export enum ChartViews {
@@ -18,7 +19,8 @@ export enum ChartViews {
     Dewpoint = "dewpoint_2m",
     Visibility = "visibility",
     Windspeed = "windspeed_10m",
-    Pressure = "surface_pressure"
+    Pressure = "surface_pressure",
+    UV_Index = "uv_index"
 }
 
 export type DataPoint = {
@@ -57,24 +59,21 @@ function getData(forecast: Readonly<Forecast>, property: ChartViews, day: number
 }
 
 function getMinMax([min, max]: [number, number], property: ChartViews): [number, number] {
-    if(property === ChartViews.Pressure) {
-        min -= 0.3;
-        max += 0.3;
+    switch(property) {
+        case ChartViews.Pressure:
+            return [min - 0.3, max + 0.3];
+        case ChartViews.Precipitation:
+            return [0, Math.max(0.5, max + 0.25)];
+        case ChartViews.Humidity:
+            return [0, 100];
+        case ChartViews.UV_Index:
+            return [0, Math.max(11, max)];
+        default:
+            return [
+                Math.floor((min * 0.95) / 10) * 10,
+                Math.ceil((max * 1.10) / 10) * 10
+            ];
     }
-    else if(property === ChartViews.Precipitation) {
-        min = 0;
-        max = Math.max(0.5, max);
-    }
-    else if (property === ChartViews.Humidity) {
-        min = 0;
-        max = 100;
-    }
-    else {
-        min = Math.floor((min * 0.95) / 10) * 10;
-        max = Math.ceil((max * 1.10) / 10) * 10;
-    }
-
-    return [min, max];
 }
 
 function getDataVisual(unit: string, view: ChartViews, dataPoints: DataPoint[]) {
@@ -89,12 +88,29 @@ function getDataVisual(unit: string, view: ChartViews, dataPoints: DataPoint[]) 
                 <>
                     <defs>
                         <linearGradient id="tempGradient" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="0%" stopColor={toHSL(Math.min(120, minMax[1]))} stopOpacity="0.5"/>
-                            <stop offset="100%" stopColor={toHSL(Math.max(0, minMax[0]))} stopOpacity="0.5"/>
+                            <stop offset="0%" stopColor={toHSL(Math.min(120, minMax[1]))}/>
+                            <stop offset="100%" stopColor={toHSL(Math.max(0, minMax[0]))}/>
                         </linearGradient>
                     </defs>
-                    <Area type="monotone" dataKey={nameof<DataPoint>("primaryKey")} stroke="#ffffff00" fillOpacity={1} fill="url(#tempGradient)" unit={unit}/>
+                    <Area type="monotone" dataKey={nameof<DataPoint>("primaryKey")} stroke="#ffffff00" fillOpacity={0.75} fill="url(#tempGradient)" unit={unit}/>
                     <Area type="monotone" dataKey={nameof<DataPoint>("secondaryKey")} stroke="#fff" fillOpacity={0}/>
+                </>
+            );
+        case ChartViews.UV_Index:
+            const maxUV = Math.max(...dataPoints.flatMap(point => point.primaryKey));
+
+            return (
+                <>
+                    <defs>
+                        <linearGradient id="tempGradient" x1="0" y1="0" x2="0" y2="1">
+                            {maxUV >= UV_MAX_VALUES.EXTREME && <stop offset="0%" stopColor="#FF00D6"/>}
+                            {maxUV > UV_MAX_VALUES.HIGH && <stop offset="25%" stopColor="#FF2204"/>}
+                            {maxUV > UV_MAX_VALUES.MODERATE && <stop offset="50%" stopColor="#FF9431"/>}
+                            {maxUV > UV_MAX_VALUES.LOW && <stop offset="75%" stopColor="#FFF501"/>}
+                            <stop offset="100%" stopColor="#00FF66"/>
+                        </linearGradient>
+                    </defs>
+                    <Area type="monotone" dataKey={nameof<DataPoint>("primaryKey")} stroke="#ffffff00" fillOpacity={0.75} fill="url(#tempGradient)"/>
                 </>
             );
         default:
@@ -151,7 +167,7 @@ const Chart = ({showView, showDay = 0}: {showView: ChartViews, showDay?: number}
                 <select ref={selectRef} className="clear" title="Current Chart" onChange={(e) => setView(e.currentTarget.value as ChartViews)} value={view}>
                     {
                         Object.keys(ChartViews).map(key => (
-                            <option key={key} value={ChartViews[key as keyof typeof ChartViews]}>{key}</option>
+                            <option key={key} value={ChartViews[key as keyof typeof ChartViews]}>{key.replace("_", " ")}</option>
                         ))
                     }
                 </select>

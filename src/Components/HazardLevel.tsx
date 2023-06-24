@@ -9,6 +9,9 @@ import { Normalize } from 'ts/Helpers';
 import React from 'react';
 import { Lungs } from 'svgs/widget';
 import { Sun } from 'svgs/conditions';
+import { useModal } from 'Contexts/ModalContext';
+import Chart, { ChartViews } from './Chart';
+import { UV_MAX_VALUES } from 'ts/Constants';
 
 export enum HazardType {
     AirQuality,
@@ -64,10 +67,10 @@ function getUVInfo(uv: number): HazardInfo {
     };
 
     function getMessage() {
-        if (uv <= 2) return UVLevels.LOW; 
-        else if (uv <= 5) return UVLevels.MODERATE;
-        else if (uv <= 7) return UVLevels.HIGH;
-        else if (uv <= 10) return UVLevels.VERY_HIGH;
+        if (uv <= UV_MAX_VALUES.LOW) return UVLevels.LOW; 
+        else if (uv <= UV_MAX_VALUES.MODERATE) return UVLevels.MODERATE;
+        else if (uv <= UV_MAX_VALUES.HIGH) return UVLevels.HIGH;
+        else if (uv <= UV_MAX_VALUES.VERY_HIGH) return UVLevels.VERY_HIGH;
         else return UVLevels.EXTREME; 
     }
 }
@@ -111,11 +114,13 @@ const Meter = ({ rotation }: { rotation: number }) => {
 export const HazardLevel = ({ hazard, hazardValue }: { hazard: HazardType, hazardValue: number }) => {
     //Extracts everything but value, min, and max which are spread on the input
     const { id, title, titleIcon, message, value, min, max } = getHazardProps(hazard, hazardValue);
+    const { showModal } = useModal();
 
     const rotation = 20 + (320 * Normalize.Decimal(value, min, max));
+    const onClick = hazard === HazardType.UV ? (() => showModal(<Chart showView={ChartViews.UV_Index}/>)) : undefined;
 
     return (
-        <Widget className={`level-info`} id={id} widgetTitle={title} widgetIcon={titleIcon}>
+        <Widget className={`level-info`} id={id} widgetTitle={title} widgetIcon={titleIcon} onClick={onClick}>
             <div>
                 <Meter rotation={rotation} />
                 <div>
