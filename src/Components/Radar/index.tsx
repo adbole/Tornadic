@@ -17,7 +17,7 @@ interface IDictionary {
 }
 
 L.Map.include({
-    _initControlPos: function () {
+    _initControlPos () {
         const corners = this._controlCorners = {} as IDictionary;
         const l = 'leaflet-';
         const container = this._controlContainer = L.DomUtil.create('div', l + 'control-container', this._container);

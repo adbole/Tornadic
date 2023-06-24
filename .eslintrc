@@ -4,6 +4,7 @@
     ],
     "rules": {
         "semi": [2, "always"],
-        "eqeqeq": "error"
+        "eqeqeq": "error",
+        "object-shorthand": "error"
     }
 }

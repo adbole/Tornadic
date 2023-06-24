@@ -34,17 +34,17 @@ function getData(forecast: Readonly<Forecast>, property: ChartViews, day: number
 
     for(let i = 24 * (day); i < 24 * (day + 1); ++i) {
         data.push({
-            property: property,
+            property,
             name: TimeConversion.getTimeFormatted(forecast.hourly.time[i], TimeConversion.TimeFormat.Hour),
             primaryKey: forecast.hourly[property][i],
-            secondaryKey: GetSecondaryKey(i)
+            secondaryKey: getSecondaryKey(i)
         });
     }
 
     return data;
 
     //Some properties have secondary values
-    function GetSecondaryKey(i: number) {
+    function getSecondaryKey(i: number) {
         switch(property) {
             case ChartViews.Temperature:
                 return forecast.hourly.apparent_temperature[i];
