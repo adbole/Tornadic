@@ -20,7 +20,7 @@ import {
     HourlyProperties, 
     DailyProperties 
 } from './index.types';
-import Skeleton from 'Components/Radar/Skeleton';
+import Skeleton from 'Components/Skeleton';
 
 const WeatherContext = React.createContext<WeatherData | null>(null);
 export const useWeather = () => React.useContext(WeatherContext) ?? throwError("Please use useWeather inside a WeatherContext provider");
