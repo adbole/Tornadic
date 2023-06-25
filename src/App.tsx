@@ -17,18 +17,18 @@ const App = () => (
     <>
         <WeatherContext>
             <ModalContext>
-                    <Now/>
-                    <Daily/>
-                    <Radar/>
+                <Now/>
+                <Daily/>
+                <Radar/>
 
-                    <Alert/>
-                    <Hourly/>
+                <Alert/>
+                <Hourly/>
 
-                    <DayValues/>
-                    <AirUV/>
-                    <Wind/>
-                    <Pressure/>
-                    <SunTime/>
+                <DayValues/>
+                <AirUV/>
+                <Wind/>
+                <Pressure/>
+                <SunTime/>
             </ModalContext>
         </WeatherContext>
     </>

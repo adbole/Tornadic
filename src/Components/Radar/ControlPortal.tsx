@@ -21,19 +21,19 @@ type ControlPortalProps = {
     children: React.ReactNode
 }
 
-const ControlPortal = (props: ControlPortalProps) => {
+const ControlPortal = ({ position, children }: ControlPortalProps) => {
     const [portalRoot, setPortalRoot] = useNullableState<Element>();
 
     React.useEffect(() => {
-        const root = document.getElementsByClassName(props.position)[0];
+        const root = document.getElementsByClassName(position)[0];
 
         L.DomEvent.disableClickPropagation(root as HTMLElement);
         setPortalRoot(root);
-    }, [props.position, setPortalRoot]);
+    }, [position, setPortalRoot]);
 
     return portalRoot 
-    ? ReactDOM.createPortal(props.children, portalRoot)
-    : null;
+        ? ReactDOM.createPortal(children, portalRoot)
+        : null;
 };
 
 export default ControlPortal;

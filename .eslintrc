@@ -1,17 +1,30 @@
 {
     "plugins": ["simple-import-sort"],
     "extends": [
+        "eslint:recommended",
         "react-app"
     ],
     "rules": {
-        "quotes": [2, "double", { "avoidEscape": true }],
+        "@typescript-eslint/indent": ["error", 4, { "SwitchCase": 1 }],
+        "quotes": ["error", "double", { "avoidEscape": true }],
         "comma-spacing": "error",
-        "semi": [2, "always"],
+        "semi": ["error", "always"],
         "eqeqeq": "error",
         "object-shorthand": "error",
+        "object-curly-newline": ["error", { "multiline": true }],
         "@typescript-eslint/object-curly-spacing": ["error", "always"],
+        "simple-import-sort/exports": "error",
         "simple-import-sort/imports": "error",
-        "no-duplicate-imports": "error"
+        "no-duplicate-imports": "error",
+        "prefer-const": "error",
+        "keyword-spacing": ["error", { "overrides": {
+            "if": { "after": false },
+            "switch": { "after": false },
+            "for": { "after": false}
+        } }],
+
+        "react/jsx-closing-bracket-location": ["error", "tag-aligned"],
+        "react/destructuring-assignment": "error"
     },
     "overrides": [
         {

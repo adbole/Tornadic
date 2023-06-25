@@ -2,7 +2,7 @@ import { ReactComponent as ExclamationTriangle } from "./exclamation-triangle-fi
 import { ReactComponent as WifiOff } from "./wifi-off.svg";
 
 
-export { 
-    WifiOff,
-    ExclamationTriangle
+export {
+    ExclamationTriangle,
+    WifiOff
 };

@@ -10,10 +10,10 @@ function getUnit(data: DataPoint, defaultUnit: React.ReactNode) {
     const { property, primaryKey } = data;
 
     if(property === ChartViews.UV_Index) {
-        if (primaryKey <= UV_MAX_VALUES.LOW) return " Low"; 
-        else if (primaryKey <= UV_MAX_VALUES.MODERATE) return " Moderate";
-        else if (primaryKey <= UV_MAX_VALUES.HIGH) return " High";
-        else if (primaryKey <= UV_MAX_VALUES.VERY_HIGH) return " Very High";
+        if(primaryKey <= UV_MAX_VALUES.LOW) return " Low"; 
+        else if(primaryKey <= UV_MAX_VALUES.MODERATE) return " Moderate";
+        else if(primaryKey <= UV_MAX_VALUES.HIGH) return " High";
+        else if(primaryKey <= UV_MAX_VALUES.VERY_HIGH) return " Very High";
         else return " Extreme"; 
     }
 
@@ -28,9 +28,8 @@ export const CustomTooltip = ({ active, payload }: TooltipProps<number, NameType
         (property === ChartViews.Precipitation || property === ChartViews.Pressure) ? value.toFixed(2) : value.toFixed(0);
 
     const data: DataPoint = payload[0].payload;
-    let unit = getUnit(data, payload[0].unit);
+    const unit = getUnit(data, payload[0].unit);
     const label = (data.property === ChartViews.Temperature && "Feels: ") || (data.property === ChartViews.Windspeed && "Gust: ");
-
 
     return (
         <div className="chart-tooltip">

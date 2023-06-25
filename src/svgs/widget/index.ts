@@ -14,18 +14,18 @@ import { ReactComponent as Thermometer } from "./thermometer.svg";
 import { ReactComponent as Wind } from "./wind.svg";
 
 export {
+    Calendar,
+    Clock,
+    Down,
     Droplet,
     Eye,
+    Lungs,
+    Map,
+    Meter,
     Moisture,
     Sunrise,
     Sunset,
     Thermometer,
-    Calendar,
-    Lungs,
-    Map,
-    Wind,
-    Clock,
-    Meter,
     Up,
-    Down
+    Wind 
 };

@@ -5,11 +5,11 @@ import { ReactComponent as Grid } from "./grid.svg";
 import { ReactComponent as Pause } from "./pause-fill.svg";
 import { ReactComponent as Play } from "./play-fill.svg";
 
-export { 
-    Play,
-    Pause,
-    Grid,
+export {
+    CircleSlashes,
     Cursor,
+    Grid,
     LocationDot,
-    CircleSlashes
+    Pause,
+    Play 
 };

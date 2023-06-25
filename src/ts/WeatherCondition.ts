@@ -45,7 +45,7 @@ export default class WeatherCondition {
     }
 
     private getCondition() {
-        switch (this.weathercode) {
+        switch(this.weathercode) {
             case 1:
                 return WeatherConditionType.MOSTLY_CLEAR;
             case 2:

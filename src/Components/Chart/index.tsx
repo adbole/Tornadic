@@ -32,7 +32,7 @@ export type DataPoint = {
 
 //Gets the data for the given day and property
 function getData(forecast: Readonly<Forecast>, property: ChartViews, day: number) {
-    let data: DataPoint[] = [];
+    const data: DataPoint[] = [];
 
     for(let i = 24 * (day); i < 24 * (day + 1); ++i) {
         data.push({
@@ -80,7 +80,7 @@ function getDataVisual(unit: string, view: ChartViews, dataPoints: DataPoint[]) 
     switch(view) {
         case ChartViews.Precipitation:
             return <Bar dataKey={nameof<DataPoint>("primaryKey")} fill={"#0078ef"} />;
-        case ChartViews.Temperature:
+        case ChartViews.Temperature: {
             const dataValues = dataPoints.flatMap(point => [point.primaryKey, (point.secondaryKey as number) ?? 0]);
             const minMax = getMinMax([Math.min(...dataValues), Math.max(...dataValues)], view);
 
@@ -96,7 +96,8 @@ function getDataVisual(unit: string, view: ChartViews, dataPoints: DataPoint[]) 
                     <Area type="monotone" dataKey={nameof<DataPoint>("secondaryKey")} stroke="#fff" fillOpacity={0}/>
                 </>
             );
-        case ChartViews.UV_Index:
+        }
+        case ChartViews.UV_Index: {
             const maxUV = Math.max(...dataPoints.flatMap(point => point.primaryKey));
 
             return (
@@ -113,6 +114,7 @@ function getDataVisual(unit: string, view: ChartViews, dataPoints: DataPoint[]) 
                     <Area type="monotone" dataKey={nameof<DataPoint>("primaryKey")} stroke="#ffffff00" fillOpacity={0.75} fill="url(#tempGradient)"/>
                 </>
             );
+        }
         default:
             return (
                 <>
@@ -162,7 +164,7 @@ const Chart = ({ showView, showDay = 0 }: { showView: ChartViews, showDay?: numb
     };
 
     return (
-       <Modal id="chart">
+        <Modal id="chart">
             <ModalTitle>
                 <select ref={selectRef} className="clear" title="Current Chart" onChange={(e) => setView(e.currentTarget.value as ChartViews)} value={view}>
                     {
@@ -193,8 +195,8 @@ const Chart = ({ showView, showDay = 0 }: { showView: ChartViews, showDay?: numb
                         <XAxis dataKey="name" interval={5} textAnchor="start"/>
                         {
                             view === ChartViews.Temperature || view === ChartViews.Dewpoint || view === ChartViews.Humidity
-                            ? <YAxis {...yAxisProps} unit={forecast.hourly_units[view]}/>
-                            : <YAxis {...yAxisProps} tickFormatter={(value: number) => (Math.round(value * 10) / 10).toString()}/>
+                                ? <YAxis {...yAxisProps} unit={forecast.hourly_units[view]}/>
+                                : <YAxis {...yAxisProps} tickFormatter={(value: number) => (Math.round(value * 10) / 10).toString()}/>
                         }
                         
                         {/* @ts-ignore */}
@@ -203,7 +205,7 @@ const Chart = ({ showView, showDay = 0 }: { showView: ChartViews, showDay?: numb
                     </ChartDisplay>
                 </ResponsiveContainer>
             </ModalContent>
-       </Modal>
+        </Modal>
     );
 };
 

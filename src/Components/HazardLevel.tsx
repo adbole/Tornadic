@@ -50,11 +50,11 @@ function getAQInfo(aq: number): HazardInfo {
     };
 
     function getMessage() {
-        if (aq <= 50)  return AQLevels.GOOD; 
-        else if (aq <= 100)  return AQLevels.MODERATE; 
-        else if (aq <= 150)  return AQLevels.UNHEALTHY_SENS; 
-        else if (aq <= 200)  return AQLevels.UNHEALTHY; 
-        else  return AQLevels.VERY_UNHEALTHY; 
+        if(aq <= 50) return AQLevels.GOOD; 
+        else if(aq <= 100) return AQLevels.MODERATE; 
+        else if(aq <= 150) return AQLevels.UNHEALTHY_SENS; 
+        else if(aq <= 200) return AQLevels.UNHEALTHY; 
+        else return AQLevels.VERY_UNHEALTHY; 
     }
 }
 
@@ -70,16 +70,16 @@ function getUVInfo(uv: number): HazardInfo {
     };
 
     function getMessage() {
-        if (uv <= UV_MAX_VALUES.LOW) return UVLevels.LOW; 
-        else if (uv <= UV_MAX_VALUES.MODERATE) return UVLevels.MODERATE;
-        else if (uv <= UV_MAX_VALUES.HIGH) return UVLevels.HIGH;
-        else if (uv <= UV_MAX_VALUES.VERY_HIGH) return UVLevels.VERY_HIGH;
+        if(uv <= UV_MAX_VALUES.LOW) return UVLevels.LOW; 
+        else if(uv <= UV_MAX_VALUES.MODERATE) return UVLevels.MODERATE;
+        else if(uv <= UV_MAX_VALUES.HIGH) return UVLevels.HIGH;
+        else if(uv <= UV_MAX_VALUES.VERY_HIGH) return UVLevels.VERY_HIGH;
         else return UVLevels.EXTREME; 
     }
 }
 
 function getHazardProps(hazard: HazardType, hazardValue: number) {
-    if (hazard === HazardType.AirQuality)
+    if(hazard === HazardType.AirQuality)
         return getAQInfo(hazardValue);
     else
         return getUVInfo(hazardValue);

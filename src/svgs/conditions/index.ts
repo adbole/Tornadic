@@ -11,15 +11,15 @@ import { ReactComponent as Snow } from "./snow.svg";
 import { ReactComponent as Sun } from "./sun-fill.svg";
 
 export {
-    Sun,
-    Moon,
-    CloudSun,
-    CloudMoon,
     Cloud,
+    CloudMoon,
     Clouds,
-    Fog,
+    CloudSun,
     Drizzle,
+    Fog,
+    Lightning,
+    Moon,
     Rain,
     Snow,
-    Lightning,
+    Sun,
 };

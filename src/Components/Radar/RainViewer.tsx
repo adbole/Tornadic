@@ -145,7 +145,7 @@ const RainViewer = () => {
     }, [data, active, showFrame]);
 
     const pause = React.useCallback(() => {
-        if(!data) return;
+        if(!data) return true;
 
         if(data.animationTimer) {
             clearTimeout(data.animationTimer);

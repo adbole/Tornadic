@@ -112,7 +112,7 @@ function configureData(forecastData: Forecast) {
         forecastData.hourly.visibility[i] /= 5280;
     }
 
-    let units = forecastData.hourly_units;
+    const units = forecastData.hourly_units;
 
     units.surface_pressure = "inHG";
     units.visibility = "mi";
