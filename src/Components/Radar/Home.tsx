@@ -1,3 +1,4 @@
+import { useBooleanState } from 'Hooks';
 import React from 'react';
 import { useMap } from 'react-leaflet';
 
@@ -8,15 +9,15 @@ import { Grid } from 'svgs/radar';
  * @returns A button to allow unzooming once inside the zoomed Radar
  */
 const Home = () => {
-    const [isZoomed, setIsZoomed] = React.useState(false);
+    const [isZoomed, setIsZoomedTrue, setIsZoomedFalse] = useBooleanState(false);
 
     const map = useMap();
     const container = map.getContainer();
 
-    const zoom = React.useCallback(() => !isZoomed && setIsZoomed(true), [isZoomed]);
+    const zoom = React.useCallback(() => !isZoomed && setIsZoomedTrue(), [isZoomed, setIsZoomedTrue]);
     const unZoom = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.stopPropagation();
-        setIsZoomed(false);
+        setIsZoomedFalse();
     };
 
     React.useEffect(() => {

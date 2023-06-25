@@ -26,9 +26,9 @@ export const AlertSelectionModal = ({alerts}: {alerts: NWSAlert[]}) => {
 
 
 const AlertDisplaySelectionWrapper = ({alert}: {alert: NWSAlert}) => {
-    const slideOver = useSlide();
+    const { slideTo, reset } = useSlide();
 
-    const onClickHandler = () => slideOver.slideTo(<AlertModalBody alert={alert} onClick={() => slideOver.reset()}/>);
+    const onClickHandler = () => slideTo(<AlertModalBody alert={alert} onClick={reset}/>);
     
     return (
         <Widget className={AlertHelpers.getAlertCSSClass(alert)} onClick={onClickHandler}>

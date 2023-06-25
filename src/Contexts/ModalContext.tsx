@@ -2,20 +2,20 @@
  * The Modal context provides a consitant way to display modals no matter the place in the DOM of the calling component. 
  */
 
+import { useNullableState } from "Hooks";
 import React from "react";
 import ReactDOM from "react-dom";
 import { throwError } from "ts/Helpers";
 
 const Context = React.createContext<Readonly<{
-    showModal: React.Dispatch<React.SetStateAction<React.ReactNode>>
+    showModal: (value: NonNullable<React.ReactNode>) => void
     hideModal: () => void
 }> | null>(null);
 
 export const useModal = () => React.useContext(Context) ?? throwError("Please use useModal inside a ModalContext provider");
 
 const ModalContextProvider = ({children}: {children: React.ReactNode}) => {
-    const [modal, showModal] = React.useState<React.ReactNode>();
-    const hideModal = React.useCallback(() => showModal(null), []);
+    const [modal, showModal, hideModal] = useNullableState<React.ReactNode>();
 
     return (
         <Context.Provider value={{showModal, hideModal}}>
@@ -79,7 +79,7 @@ export const Modal = (props: React.HTMLAttributes<HTMLDialogElement>) => {
     }
 
     return (
-        <dialog className="modal" ref={dialogRef} onClick={onClick} onClose={() => hideModal()} {...excess}>
+        <dialog className="modal" ref={dialogRef} onClick={onClick} onClose={hideModal} {...excess}>
             {children}
         </dialog>
     );

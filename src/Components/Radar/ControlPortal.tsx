@@ -5,6 +5,7 @@
 import ReactDOM from "react-dom";
 import L from 'leaflet';
 import React from "react";
+import { useNullableState } from "Hooks";
 
 export enum Position {
     TOP_LEFT = "leaflet-top leaflet-left",
@@ -20,14 +21,14 @@ type ControlPortalProps = {
 }
 
 const ControlPortal = (props: ControlPortalProps) => {
-    const [portalRoot, setPortalRoot] = React.useState<Element | null>(null);
+    const [portalRoot, setPortalRoot] = useNullableState<Element>();
 
     React.useEffect(() => {
         const root = document.getElementsByClassName(props.position)[0];
 
         L.DomEvent.disableClickPropagation(root as HTMLElement);
         setPortalRoot(root);
-    }, [props.position]);
+    }, [props.position, setPortalRoot]);
 
     return portalRoot 
     ? ReactDOM.createPortal(props.children, portalRoot)

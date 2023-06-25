@@ -7,6 +7,7 @@ import * as TimeConversion from 'ts/TimeConversion';
 import PlayPauseButtom from './PlayPauseButton';
 import ControlPortal, { Position } from './ControlPortal';
 import Opacity from './Opacity';
+import { useBooleanState } from 'Hooks';
 
 //Uses floor function to keep remainder the same sign as divisor. 
 function mod(x: number, div: number) {
@@ -43,7 +44,7 @@ namespace RadarTypes {
     
     export type AvailableLayer = {
         frames: Tile[], //Frames available to show
-        loadedLayers: { [index: number]: L.TileLayer }, //Layers representing a frame
+        loadedLayers: L.TileLayer[], //Layers representing a frame
         layerGroup: L.LayerGroup, //Layer group that houses the layers
         layerAnimPos: number, //Where in the animation we currently are
     }
@@ -57,7 +58,7 @@ namespace RadarTypes {
 }
 
 const RainViewer = () => {
-    const [error, setError] = React.useState(false);
+    const [error, setErrorTrue] = useBooleanState(false);
 
     const MAP = useMap();
     const [active, setActive] = React.useState(RadarTypes.LayerTypes.Radar);
@@ -112,7 +113,6 @@ const RainViewer = () => {
 
     }, [data, addLayer, opacity]);
 
-
     const showFrame = React.useCallback((loadPos: number) => {
         if(!data) return;
 
@@ -132,8 +132,7 @@ const RainViewer = () => {
             timeP.current.innerText = getTimeDisplay(activeData.frames[activeData.layerAnimPos].time);
         }
     }, [data, active, changeRadarPos]);
-
-    
+   
     //Play will show the next frame every 0.5s.
     const play = React.useCallback(() => {
         if(!data) return;
@@ -156,8 +155,8 @@ const RainViewer = () => {
     }, [data]);
 
     React.useMemo(() => {
-        async function GetData() {
-            const response = await fetchData<RadarTypes.ApiResponse>("https://api.rainviewer.com/public/weather-maps.json", "").catch(e => setError(true));
+        async function getData() {
+            const response = await fetchData<RadarTypes.ApiResponse>("https://api.rainviewer.com/public/weather-maps.json", "").catch(setErrorTrue);
             if(!response) return;
 
             const radarData = {
@@ -196,7 +195,7 @@ const RainViewer = () => {
             setData(radarData);
         }
 
-        GetData();
+        getData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 

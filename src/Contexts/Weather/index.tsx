@@ -21,6 +21,7 @@ import {
     DailyProperties 
 } from './index.types';
 import Skeleton from 'Components/Skeleton';
+import { useNullableState } from 'Hooks';
 
 const WeatherContext = React.createContext<WeatherData | null>(null);
 export const useWeather = () => React.useContext(WeatherContext) ?? throwError("Please use useWeather inside a WeatherContext provider");
@@ -133,12 +134,12 @@ function smartTimeout(fn: () => void, ms: number) {
 
 const WeatherContextProvider = ({children}: {children: ReactNode}) => {
     const [urls, setURLs] = React.useState<EndpointURLs>();
-    const [error, setError] = React.useState<string | null>(null);
-    const [weatherData, setWeather] = React.useState<WeatherData | null>(null);
+    const [error, setError, unsetError] = useNullableState<string>();
+    const [weather, setWeather] = useNullableState<WeatherData>();
 
     //null here will indicate a refresh is needed as a stored value indicates a timer is running
-    const [refresh, setRefresh] = React.useState<NodeJS.Timeout | null>(null);
-    const [alertRefresh, setAlertRefresh] = React.useState<NodeJS.Timeout | null>(null);
+    const [refresh, setRefresh, unsetRefresh] = useNullableState<NodeJS.Timeout>();
+    const [alertRefresh, setAlertRefresh, unsetAlertRefresh] = useNullableState<NodeJS.Timeout>();
 
     //Setup the urls for all future requests
     React.useMemo(() => getURLs().then(urls => setURLs(urls)), []);
@@ -152,7 +153,7 @@ const WeatherContextProvider = ({children}: {children: ReactNode}) => {
             //header is retreived again causing mutliple requests per refresh.
             const remainingTime = (expires.getTime() - new Date().getTime()) + 5000;
 
-            setAlertRefresh(smartTimeout(() => setAlertRefresh(null), remainingTime));
+            setAlertRefresh(smartTimeout(unsetAlertRefresh, remainingTime));
         }
 
         async function getData() {    
@@ -162,39 +163,39 @@ const WeatherContextProvider = ({children}: {children: ReactNode}) => {
             if(!refresh) { 
                 if(alertRefresh) {
                     clearTimeout(alertRefresh);
-                    setAlertRefresh(null);
+                    unsetAlertRefresh();
                 }
 
                 //Await all the requests to finish
                 const [forecast, airquality, alertResponse] = await Promise.all([
                     fetchData<Forecast>(urls.forecastURL, "Open-Meteo Weather Forecast").catch(e => setError(e)),
                     fetchData<AirQuality>(urls.airQualityURL, "Open-Meteo Air Quality").catch(e => setError(e)),
-                    getAlertData(weatherData?.point ?? urls.pointURL).catch(e => setError(e))
+                    getAlertData(weather?.point ?? urls.pointURL).catch(e => setError(e))
                 ]);
 
                 if(!forecast || !airquality ||!alertResponse) return;
                 
                 //Determine when the next hour is
                 const ms = 3.6e6 - new Date().getTime() % 3.6e6;
-                setRefresh(smartTimeout(() => setRefresh(null), ms));
+                setRefresh(smartTimeout(unsetRefresh, ms));
                 configureAlertRefresh(alertResponse.alerts.headers);
 
                 //Convert data to desired formats
                 configureData(forecast);
                 setWeather(new WeatherData(forecast, airquality, alertResponse.point, alertResponse.alerts.data.features));
             }
-            else if(!alertRefresh && weatherData) {
-                const alertResponse = await getAlertData(weatherData.point).catch(e => setError(e));
+            else if(!alertRefresh && weather) {
+                const alertResponse = await getAlertData(weather.point).catch(e => setError(e));
 
                 if(!alertResponse) return;
 
                 configureAlertRefresh(alertResponse.alerts.headers);
-                setWeather(new WeatherData(weatherData.forecast, weatherData.airQuality, alertResponse.point, alertResponse.alerts.data.features));
+                setWeather(new WeatherData(weather.forecast, weather.airQuality, alertResponse.point, alertResponse.alerts.data.features));
             }
         }
 
         getData();
-    }, [urls, refresh, alertRefresh, weatherData]);
+    }, [urls, refresh, alertRefresh, weather, setAlertRefresh, unsetAlertRefresh, setRefresh, unsetRefresh, setWeather, setError]);
 
     if(error) {
         return (
@@ -204,14 +205,14 @@ const WeatherContextProvider = ({children}: {children: ReactNode}) => {
                 <p>{error}</p>
 
                 {/* When there is an error, but data exists, allow the user to dismiss the error message */}
-                {weatherData && <button type="button" onClick={() => setError(null)}>Dismiss (A refresh is required to get new data)</button>}
+                {weather && <button type="button" onClick={unsetError}>Dismiss (A refresh is required to get new data)</button>}
             </MessageScreen>
         );
     }
 
     return (
-        <WeatherContext.Provider value={weatherData}>
-            {weatherData ? children : <Skeleton />}
+        <WeatherContext.Provider value={weather}>
+            {weather ? children : <Skeleton />}
         </WeatherContext.Provider>
     );
 };
