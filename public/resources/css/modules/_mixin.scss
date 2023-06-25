@@ -6,7 +6,7 @@
 
     &.enter-active#{$pseudo} {
         #{$transition-property}: #{$to};
-        transition: #{$transition-property} #{$duration} ease-in-out;
+        transition: #{$transition-property} #{$duration} ease;
     }
 
     &.leave#{$pseudo} {
@@ -15,7 +15,7 @@
 
     &.leave-active#{$pseudo} {
         #{$transition-property}: #{$from};
-        transition: #{$transition-property} #{$duration} ease-in-out;
+        transition: #{$transition-property} #{$duration} ease;
     }
 }
 
