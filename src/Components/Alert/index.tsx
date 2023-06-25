@@ -27,7 +27,7 @@ const Alert = () => {
                 <p><em>Until:</em> {AlertHelpers.convertTime(alertToShow.properties.ends ?? alertToShow.properties.expires)}</p>
             </div>
 
-            {alerts.length > 1 && <p className='excess-alerts'>+{alerts.length} more alert(s)</p>}
+            {alerts.length > 1 && <p className='excess-alerts'>+{alerts.length - 1} more alert(s)</p>}
         </Widget>
     );
 };
