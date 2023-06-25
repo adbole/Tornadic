@@ -2,7 +2,8 @@ import React from 'react';
 import { NWSAlert } from 'Contexts/Weather/index.types';
 import { Modal, ModalContent, ModalTitle } from 'Contexts/ModalContext';
 import SlideContextProvider, { useSlide } from 'Contexts/SlideContext';
-import { AlertDisplay, AlertHelpers } from './Common';
+import * as AlertHelpers from './Common';
+import { Widget } from 'Components/SimpleComponents';
 
 export const AlertSelectionModal = ({alerts}: {alerts: NWSAlert[]}) => {
     //Memoize the component to prevent unnecessary operations
@@ -29,7 +30,13 @@ const AlertDisplaySelectionWrapper = ({alert}: {alert: NWSAlert}) => {
 
     const onClickHandler = () => slideOver.slideTo(<AlertModalBody alert={alert} onClick={() => slideOver.reset()}/>);
     
-    return <AlertDisplay alert={alert} onClick={onClickHandler}/>;
+    return (
+        <Widget className={AlertHelpers.getAlertCSSClass(alert)} onClick={onClickHandler}>
+            <h2>{alert.properties.event}</h2>
+            <p><em>Issued:</em> {AlertHelpers.convertTime(alert.properties.sent)}</p>
+            <p><em>Until:</em> {AlertHelpers.convertTime(alert.properties.ends ?? alert.properties.expires)}</p>
+        </Widget>
+    );
 };
 
 /**
@@ -48,12 +55,12 @@ export const AlertModal = (props: {alert: NWSAlert} & React.DialogHTMLAttributes
 
 const AlertModalBody = ({alert, onClick}: {alert: NWSAlert, onClick?: (e: React.MouseEvent<HTMLHeadingElement>) => void}) => (
     <>
-        <ModalTitle className={AlertHelpers.GetAlertCSSClass(alert)} onClick={onClick}>{alert.properties.event}</ModalTitle>
+        <ModalTitle className={AlertHelpers.getAlertCSSClass(alert)} onClick={onClick}>{alert.properties.event}</ModalTitle>
         <ModalContent>
             <p><em>Issuing Office:</em> {alert.properties.senderName}</p>
-            <p><em>Issued:</em> {AlertHelpers.ConvertTime(alert.properties.sent)}</p>
-            <p><em>Effective:</em> {AlertHelpers.ConvertTime(alert.properties.effective)}</p>
-            <p><em>Ends:</em> {AlertHelpers.ConvertTime(alert.properties.ends ?? alert.properties.expires)}</p>
+            <p><em>Issued:</em> {AlertHelpers.convertTime(alert.properties.sent)}</p>
+            <p><em>Effective:</em> {AlertHelpers.convertTime(alert.properties.effective)}</p>
+            <p><em>Ends:</em> {AlertHelpers.convertTime(alert.properties.ends ?? alert.properties.expires)}</p>
             <hr/>
             {
                 alert.properties.instruction && 
