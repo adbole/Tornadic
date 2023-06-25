@@ -2,9 +2,10 @@
     Creates a react portal to leaflet-control-container in one of its positions to allow the adding of controls. 
 */
 
-import ReactDOM from "react-dom";
-import L from 'leaflet';
 import React from "react";
+import ReactDOM from "react-dom";
+import L from "leaflet";
+
 import { useNullableState } from "Hooks";
 
 export enum Position {

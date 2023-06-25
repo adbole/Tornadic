@@ -1,5 +1,7 @@
-import { useNullableState } from "Hooks";
 import React from "react";
+
+import { useNullableState } from "Hooks";
+
 import { throwError } from "ts/Helpers";
 
 const Context = React.createContext<Readonly<{
@@ -9,7 +11,7 @@ const Context = React.createContext<Readonly<{
 
 export const useSlide = () => React.useContext(Context) ?? throwError("Please use useSlide inside a SlideContext provider");
 
-const SlideContextProvider = ({children}: {children: React.ReactNode}) => {
+const SlideContextProvider = ({ children }: { children: React.ReactNode }) => {
     const [secondaryContent, slideTo, unsetSecondaryContent] = useNullableState<React.ReactNode>();
 
     const wrapperDiv = React.useRef<HTMLDivElement>(null);
@@ -39,16 +41,16 @@ const SlideContextProvider = ({children}: {children: React.ReactNode}) => {
         primaryDiv.current.classList.remove("slide-out");
         wrapperDiv.current.style.maxHeight = originalHeight.current + "px";
         
-        primaryDiv.current.addEventListener('transitionend', (e) => {
+        primaryDiv.current.addEventListener("transitionend", (e) => {
             //Prevent setting null if our event didn't fire
             if(e.target !== e.currentTarget) return;
             unsetSecondaryContent();
-        }, {once: true});
+        }, { once: true });
     };
 
     return (
         <div ref={wrapperDiv} className="slidable">
-            <Context.Provider value={{slideTo, reset}}>
+            <Context.Provider value={{ slideTo, reset }}>
                 <div ref={primaryDiv}  className={secondaryContent ? "slide-out" : ""}>
                     {children}
                 </div>

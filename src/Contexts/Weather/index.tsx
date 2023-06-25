@@ -3,25 +3,27 @@
  * open-meteo is used for general weather information while NWS is used to get the location name and alerts. 
  */
 
-import React, { ReactNode } from 'react';
-import MessageScreen from 'Components/MessageScreen';
+import React, { ReactNode } from "react";
+
+import { useNullableState } from "Hooks";
+
+import MessageScreen from "Components/MessageScreen";
+import Skeleton from "Components/Skeleton";
 import { ExclamationTriangle } from "svgs";
 
-import { fetchData, FetchResponse, fetchDataAndHeaders } from 'ts/Fetch';
-import { throwError } from 'ts/Helpers';
+import { fetchData, fetchDataAndHeaders, FetchResponse } from "ts/Fetch";
+import { throwError } from "ts/Helpers";
+import { WeatherData } from "ts/WeatherData";
 
-import { WeatherData } from 'ts/WeatherData';
 import { 
-    Forecast, 
     AirQuality, 
-    GridPoint, 
-    NWSAlert, 
+    DailyProperties, 
     EndpointURLs, 
+    Forecast, 
+    GridPoint, 
     HourlyProperties, 
-    DailyProperties 
-} from './index.types';
-import Skeleton from 'Components/Skeleton';
-import { useNullableState } from 'Hooks';
+    NWSAlert
+} from "./index.types";
 
 const WeatherContext = React.createContext<WeatherData | null>(null);
 export const useWeather = () => React.useContext(WeatherContext) ?? throwError("Please use useWeather inside a WeatherContext provider");
@@ -40,7 +42,7 @@ async function getURLs(): Promise<EndpointURLs> {
 
     //Type Array<keyof T> provides compile-time checking to ensure array values match a property on T
     const hourly_params: Array<keyof HourlyProperties<any>> = [
-        "temperature_2m", "apparent_temperature", "precipitation", "weathercode", "relativehumidity_2m", "dewpoint_2m", 
+        "temperature_2m", "apparent_temperature", "precipitation", "weathercode", "relativehumidity_2m", "dewpoint_2m",
         "visibility", "windspeed_10m", "winddirection_10m", "surface_pressure", "precipitation_probability", "windgusts_10m", "uv_index", "is_day"
     ];
     const daily_params: Array<keyof DailyProperties<any, any>> = [
@@ -73,7 +75,7 @@ async function getURLs(): Promise<EndpointURLs> {
  */
 async function getAlertData(from: string | GridPoint): Promise<{
     point: GridPoint,
-    alerts: NonNullable<FetchResponse<{features: NWSAlert[]}>>
+    alerts: NonNullable<FetchResponse<{ features: NWSAlert[] }>>
 } | null> {
     let point;
 
@@ -84,11 +86,11 @@ async function getAlertData(from: string | GridPoint): Promise<{
     //If we aren't given a string then we use exisiting point data
     else point = from;
 
-    const lastIndex = point.properties.county.lastIndexOf('/') + 1;
+    const lastIndex = point.properties.county.lastIndexOf("/") + 1;
 
     //Extract the county from the county url given by the point
     const county = point.properties.county.substring(lastIndex);
-    const alerts = await fetchDataAndHeaders<{features: NWSAlert[]}>(`https://api.weather.gov/alerts/active/zone/${county}`, "National Weather Service Alert Endpoint");
+    const alerts = await fetchDataAndHeaders<{ features: NWSAlert[] }>(`https://api.weather.gov/alerts/active/zone/${county}`, "National Weather Service Alert Endpoint");
 
     return {
         point,
@@ -124,7 +126,7 @@ function configureData(forecastData: Forecast) {
 function smartTimeout(fn: () => void, ms: number) {
     return setTimeout(() => {
         if(document.visibilityState === "hidden") {
-            document.addEventListener("visibilitychange", fn, {once: true});
+            document.addEventListener("visibilitychange", fn, { once: true });
         }
         else {
             fn();
@@ -132,7 +134,7 @@ function smartTimeout(fn: () => void, ms: number) {
     }, ms);
 }
 
-const WeatherContextProvider = ({children}: {children: ReactNode}) => {
+const WeatherContextProvider = ({ children }: { children: ReactNode }) => {
     const [urls, setURLs] = React.useState<EndpointURLs>();
     const [error, setError, unsetError] = useNullableState<string>();
     const [weather, setWeather] = useNullableState<WeatherData>();

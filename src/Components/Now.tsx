@@ -1,9 +1,10 @@
-import { useWeather } from 'Contexts/Weather';
-import { WeatherConditionType } from 'ts/WeatherCondition';
-import { Widget, WidgetSize } from './SimpleComponents';
+import { useModal } from "Contexts/ModalContext";
+import { useWeather } from "Contexts/Weather";
 
-import { useModal } from 'Contexts/ModalContext';
-import Chart, { ChartViews } from './Chart';
+import Chart, { ChartViews } from "Components/Chart";
+import { Widget, WidgetSize } from "Components/SimpleComponents";
+
+import { WeatherConditionType } from "ts/WeatherCondition";
 
 /**
  * Displays the current location name, temperature, condition, and feels like temperature along with having a gradient to match the condition

@@ -1,13 +1,15 @@
-import React from 'react';
-import L from 'leaflet';
-import { useMap } from 'react-leaflet';
-import { fetchData } from 'ts/Fetch';
-import * as TimeConversion from 'ts/TimeConversion';
+import React from "react";
+import { useMap } from "react-leaflet";
+import L from "leaflet";
 
-import PlayPauseButtom from './PlayPauseButton';
-import ControlPortal, { Position } from './ControlPortal';
-import Opacity from './Opacity';
-import { useBooleanState } from 'Hooks';
+import { useBooleanState } from "Hooks";
+
+import { fetchData } from "ts/Fetch";
+import * as TimeConversion from "ts/TimeConversion";
+
+import ControlPortal, { Position } from "./ControlPortal";
+import Opacity from "./Opacity";
+import PlayPauseButtom from "./PlayPauseButton";
 
 //Uses floor function to keep remainder the same sign as divisor. 
 function mod(x: number, div: number) {
@@ -161,7 +163,7 @@ const RainViewer = () => {
 
             const radarData = {
                 host: response.host,
-                availableLayers: {Satellite: {}, Radar: {}}
+                availableLayers: { Satellite: {}, Radar: {} }
             } as RadarTypes.RadarData;
 
             radarData.activeLayerData = radarData.availableLayers[active];
@@ -182,12 +184,12 @@ const RainViewer = () => {
                 layersControl.addBaseLayer(radarData.availableLayers[layerKey].layerGroup, layerKey);
             }
             
-            MAP.on('baselayerchange', (e) => setActive(e.name as RadarTypes.LayerTypes));
+            MAP.on("baselayerchange", (e) => setActive(e.name as RadarTypes.LayerTypes));
 
             //Due to how layers are added, the baselayerchange event will not fire until the layers have been changed at least twice. 
             //To work around it a click is simulated on the controls at load to force the baselayerchange event to fire as expected.
-            [...document.querySelectorAll('.leaflet-control-layers-selector')].forEach((el) => {
-                el.dispatchEvent(new Event('click'));
+            [...document.querySelectorAll(".leaflet-control-layers-selector")].forEach((el) => {
+                el.dispatchEvent(new Event("click"));
             });
 
             //Since the default is radar the lastFramePos will be determined by the last past frame

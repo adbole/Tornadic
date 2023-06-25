@@ -1,15 +1,17 @@
-import React from 'react';
-import { useWeather } from 'Contexts/Weather';
-import { HourInfo, WeatherData } from 'ts/WeatherData';
+import React from "react";
 
-import { Widget } from "./SimpleComponents";
-import { Clock } from 'svgs/widget';
-import * as TimeConversion from 'ts/TimeConversion';
+import { useWeather } from "Contexts/Weather";
+
+import { Widget } from "Components/SimpleComponents";
+import { Clock } from "svgs/widget";
+
+import * as TimeConversion from "ts/TimeConversion";
+import { HourInfo, WeatherData } from "ts/WeatherData";
 
 /**
  * A helper component for the Hourly component to display the individual hours
  */
-const Hour = ({hourInfo} : {hourInfo: HourInfo}) => (
+const Hour = ({ hourInfo } : { hourInfo: HourInfo }) => (
     <li>
         <p>{TimeConversion.getTimeFormatted(hourInfo.time, TimeConversion.TimeFormat.Hour)}</p>
         <div>
@@ -23,7 +25,7 @@ const Hour = ({hourInfo} : {hourInfo: HourInfo}) => (
 /**
  * A helper component for the Hourly component to display a seperator to indicate when a new day starts.
  */
-const DaySeperator = ({day}: { day: string }) => (
+const DaySeperator = ({ day }: { day: string }) => (
     <li className="seperator">
         <p>{day}</p>
     </li>
@@ -43,7 +45,7 @@ const Hourly = () => {
     function SetIsDown(value: boolean, list: HTMLOListElement) {
         isDown = value;
         
-        list.classList.toggle('active', isDown);
+        list.classList.toggle("active", isDown);
     }
 
     function mouseDown(e: React.MouseEvent<HTMLOListElement>) {

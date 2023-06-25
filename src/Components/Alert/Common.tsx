@@ -1,5 +1,6 @@
-import * as TimeConversion from 'ts/TimeConversion';
-import { NWSAlert } from 'Contexts/Weather/index.types';
+import { NWSAlert } from "Contexts/Weather/index.types";
+
+import * as TimeConversion from "ts/TimeConversion";
 
 enum AlertType {
     WARNING,

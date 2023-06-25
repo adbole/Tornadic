@@ -18,4 +18,4 @@ export const toHSL = (temp: number) => `hsl(${250 * ((120-temp)/120)}deg, 100%, 
 export const throwError = (msg: string) => { throw new Error(msg); };
 
 //Helper method to ensure that a string matches a property on a type 
-export const nameof = <T,>(name: Extract<keyof T, string>): string => name;
+export const nameof = <T, >(name: Extract<keyof T, string>): string => name;

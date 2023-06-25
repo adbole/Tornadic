@@ -1,12 +1,14 @@
-import { useWeather } from 'Contexts/Weather';
-import { Widget, WidgetSize } from './SimpleComponents';
-import { Sunrise, Sunset } from 'svgs/widget';
-import * as TimeConversion from 'ts/TimeConversion';
+import { useWeather } from "Contexts/Weather";
+
+import { Widget, WidgetSize } from "Components/SimpleComponents";
+import { Sunrise, Sunset } from "svgs/widget";
+
+import * as TimeConversion from "ts/TimeConversion";
 
 /**
  * A helper component for SunTime to display when the sunrise/sunset will ocurr along with what comes next.
  */
-const HelperWidget = ({isSunrise, time, nextTime}: {isSunrise: boolean,  time: string, nextTime: string}) => (
+const HelperWidget = ({ isSunrise, time, nextTime }: { isSunrise: boolean,  time: string, nextTime: string }) => (
     <Widget id="suntime" isTemplate size={WidgetSize.WIDE}>
         <div>
             <p>{isSunrise ? "Sunrise" : "Sunset"}</p>

@@ -1,9 +1,9 @@
-import { Wind as WindIcon } from 'svgs/widget';
-import { Widget } from './SimpleComponents';
-import { useWeather } from 'Contexts/Weather';
+import { useModal } from "Contexts/ModalContext";
+import { useWeather } from "Contexts/Weather";
 
-import { useModal } from 'Contexts/ModalContext';
-import Chart, { ChartViews } from './Chart';
+import Chart, { ChartViews } from "Components/Chart";
+import { Widget } from "Components/SimpleComponents";
+import { Wind as WindIcon } from "svgs/widget";
 
 
 /**
@@ -17,7 +17,7 @@ function generateAngledStamps() {
     const rects = [];
 
     for(let i = 0; i < numOfIncrements; ++i) {
-        rects.push(<rect key={i} className="origin-center" style={{transform: `rotate(${angle * i}deg)`}} width="1.5" height="5" x="49.25" y="1" />);
+        rects.push(<rect key={i} className="origin-center" style={{ transform: `rotate(${angle * i}deg)` }} width="1.5" height="5" x="49.25" y="1" />);
     }
 
     return rects;
@@ -41,7 +41,7 @@ const Wind = () => {
                         { generateAngledStamps() }
                     </g>
     
-                    <g style={{transformOrigin: "center", transform: `rotate(${180 + forecast.current_weather.winddirection}deg)`}}>
+                    <g style={{ transformOrigin: "center", transform: `rotate(${180 + forecast.current_weather.winddirection}deg)` }}>
                         <path fill="#0078ef" d="m49.998 4.9612e-4a49.453 50.022 0 0 0-3.0827 0.10921 49.453 50.022 0 0 0-0.82737 0.06204 49.453 50.022 0 0 0-2.525 0.26754 49.453 50.022 0 0 0-0.60248 0.075608 49.453 50.022 0 0 0-3.0066 0.53637 49.453 50.022 0 0 0-0.70343 0.16027 49.453 50.022 0 0 0-2.4092 0.60747 49.453 50.022 0 0 0-0.74367 0.20809 49.453 50.022 0 0 0-2.9076 0.95514 49.453 50.022 0 0 0-0.10414 0.040717l2.1148 5.877a43.272 43.769 0 0 1 0.50537-0.19 43.272 43.769 0 0 1 1.5371-0.51182 43.272 43.769 0 0 1 1.5551-0.45301 43.272 43.769 0 0 1 1.571-0.39421 43.272 43.769 0 0 1 1.5839-0.33475 43.272 43.769 0 0 1 1.5954-0.27401 43.272 43.769 0 0 1 1.6049-0.21391 43.272 43.769 0 0 1 1.6113-0.15252 43.272 43.769 0 0 1 1.6158-0.091765 43.272 43.769 0 0 1 1.6176-0.030375 43.272 43.769 0 0 1 1.1142 0.014219 43.272 43.769 0 0 1 1.1136 0.043944 43.272 43.769 0 0 1 1.1117 0.072381 43.272 43.769 0 0 1 1.1098 0.10146 43.272 43.769 0 0 1 1.1066 0.12989 43.272 43.769 0 0 1 1.1034 0.15962 43.272 43.769 0 0 1 1.0983 0.18741 43.272 43.769 0 0 1 1.0938 0.2165 43.272 43.769 0 0 1 1.0874 0.24492 43.272 43.769 0 0 1 1.0816 0.27272 43.272 43.769 0 0 1 1.0733 0.30114 43.272 43.769 0 0 1 1.0657 0.32893 43.272 43.769 0 0 1 1.0574 0.35608 43.272 43.769 0 0 1 0.58203 0.21391l2.1154-5.8788a49.453 50.022 0 0 0-0.01789-0.0065 49.453 50.022 0 0 0-3.2418-1.065 49.453 50.022 0 0 0-0.051751-0.014869 49.453 50.022 0 0 0-3.2864-0.82913 49.453 50.022 0 0 0-0.070916-0.014869 49.453 50.022 0 0 0-3.3018-0.58937 49.453 50.022 0 0 0-0.11436-0.016807 49.453 50.022 0 0 0-3.3536-0.35608 49.453 50.022 0 0 0-0.045362-0.0032514 49.453 50.022 0 0 0-3.4302-0.12149z"/>
                         <path fill="#fff" d="m50-4.105e-6 -3.0908 6.2527h6.1817z"/>
                     </g>

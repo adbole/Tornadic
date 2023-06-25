@@ -2,15 +2,15 @@
  * A collection of simple components that aren't complex enough for their own files
  */
 
-import React from 'react';
-import * as WidgetIcons from 'svgs/widget';
+import React from "react";
 
-import { useWeather } from 'Contexts/Weather';
-import { HourlyProperties } from 'Contexts/Weather/index.types';
+import { useModal } from "Contexts/ModalContext";
+import { useWeather } from "Contexts/Weather";
+import { HourlyProperties } from "Contexts/Weather/index.types";
 
-import { useModal } from 'Contexts/ModalContext';
-import Chart, { ChartViews } from './Chart';
-import HazardLevel, { HazardType } from './HazardLevel';
+import Chart, { ChartViews } from "Components/Chart";
+import HazardLevel, { HazardType } from "Components/HazardLevel";
+import * as WidgetIcons from "svgs/widget";
 
 // #region Widget
 export enum WidgetSize {
@@ -52,7 +52,7 @@ export const Widget = React.forwardRef<HTMLDivElement, WidgetProps & React.HTMLA
 // #region SimpleInfoWidget
 type ChartViewKey = keyof typeof ChartViews;
 
-export const SimpleInfoWidget = ({icon, title, property}: {
+export const SimpleInfoWidget = ({ icon, title, property }: {
     icon: React.ReactNode,
     title: string,
     property: keyof HourlyProperties<any>

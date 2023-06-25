@@ -1,10 +1,10 @@
+import { useModal } from "Contexts/ModalContext";
 import { useWeather } from "Contexts/Weather";
 import { Forecast } from "Contexts/Weather/index.types";
-import { Widget } from "./SimpleComponents";
-import { Meter, Up, Down } from "svgs/widget";
 
-import { useModal } from "Contexts/ModalContext";
-import Chart, { ChartViews } from "./Chart";
+import Chart, { ChartViews } from "Components/Chart";
+import { Widget } from "Components/SimpleComponents";
+import { Down, Meter, Up } from "svgs/widget";
 
 function getTrendIcon(forecast: Readonly<Forecast>) {
     const surface = forecast.hourly.surface_pressure;

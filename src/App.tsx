@@ -1,17 +1,17 @@
 //Components
-import Now from 'Components/Now';
-import Hourly from 'Components/Hourly';
-import Daily from 'Components/Daily';
-import Radar from 'Components/Radar';
-import Wind from 'Components/Wind';
-import SunTime from 'Components/SunTime';
-import Alert from 'Components/Alert';
-import Pressure from 'Components/Pressure';
-import { AirUV, DayValues } from 'Components/SimpleComponents';
-
 //Contexts
-import ModalContext from 'Contexts/ModalContext';
-import WeatherContext from 'Contexts/Weather';
+import ModalContext from "Contexts/ModalContext";
+import WeatherContext from "Contexts/Weather";
+
+import Alert from "Components/Alert";
+import Daily from "Components/Daily";
+import Hourly from "Components/Hourly";
+import Now from "Components/Now";
+import Pressure from "Components/Pressure";
+import Radar from "Components/Radar";
+import { AirUV, DayValues } from "Components/SimpleComponents";
+import SunTime from "Components/SunTime";
+import Wind from "Components/Wind";
 
 const App = () => (
     <>

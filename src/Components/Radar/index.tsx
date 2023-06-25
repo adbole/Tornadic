@@ -1,16 +1,16 @@
-import React from 'react';
-import { MapContainer, TileLayer, ZoomControl, AttributionControl } from 'react-leaflet';
-import L from 'leaflet';
+import React from "react";
+import { AttributionControl, MapContainer, TileLayer, ZoomControl } from "react-leaflet";
+import L from "leaflet";
 
-import { WidgetSize, Widget } from '../SimpleComponents';
+import { Map } from "svgs/widget";
 
-import Home from './Home';
-import Locate from './Locate';
-import AlertPolygons from './AlertPolygons';
-import RainViewer from './RainViewer';
-import ControlPortal, { Position } from './ControlPortal';
+import { Widget, WidgetSize } from "../SimpleComponents";
 
-import { Map } from 'svgs/widget';
+import AlertPolygons from "./AlertPolygons";
+import ControlPortal, { Position } from "./ControlPortal";
+import Home from "./Home";
+import Locate from "./Locate";
+import RainViewer from "./RainViewer";
 
 interface IDictionary {
     [indiex: string]: HTMLDivElement
@@ -19,20 +19,20 @@ interface IDictionary {
 L.Map.include({
     _initControlPos () {
         const corners = this._controlCorners = {} as IDictionary;
-        const l = 'leaflet-';
-        const container = this._controlContainer = L.DomUtil.create('div', l + 'control-container', this._container);
+        const l = "leaflet-";
+        const container = this._controlContainer = L.DomUtil.create("div", l + "control-container", this._container);
     
         function createCorner(vSide: string, hSide: string) {
-            const className = l + vSide + ' ' + l + hSide;
+            const className = l + vSide + " " + l + hSide;
     
-            corners[vSide + hSide] = L.DomUtil.create('div', className, container);
+            corners[vSide + hSide] = L.DomUtil.create("div", className, container);
         }
     
-        createCorner('top', 'left');
-        createCorner('top', 'right');
-        createCorner('bottom', 'left');
-        createCorner('bottom', 'right');
-        createCorner('bottom', 'center');
+        createCorner("top", "left");
+        createCorner("top", "right");
+        createCorner("bottom", "left");
+        createCorner("bottom", "right");
+        createCorner("bottom", "center");
     }
 });
 

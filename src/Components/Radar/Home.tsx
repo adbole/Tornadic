@@ -1,8 +1,9 @@
-import { useBooleanState } from 'Hooks';
-import React from 'react';
-import { useMap } from 'react-leaflet';
+import React from "react";
+import { useMap } from "react-leaflet";
 
-import { Grid } from 'svgs/radar';
+import { useBooleanState } from "Hooks";
+
+import { Grid } from "svgs/radar";
 
 /**
  * Provides the zooming functionality for the Radar component along with returning a button to be added to leaflet to provide unzooming
@@ -26,8 +27,8 @@ const Home = () => {
     }, [container, zoom]);
 
     React.useEffect(() => {
-        container.classList.toggle('zoom-radar', isZoomed);
-        document.body.classList.toggle('zoom-radar', isZoomed);
+        container.classList.toggle("zoom-radar", isZoomed);
+        document.body.classList.toggle("zoom-radar", isZoomed);
 
         map.invalidateSize();
         isZoomed ? map.dragging.enable() : map.dragging.disable();

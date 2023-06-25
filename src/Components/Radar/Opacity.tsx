@@ -1,8 +1,10 @@
-import React from 'react';
-import { CircleSlashes } from '../../svgs/radar';
-import { useBooleanState } from 'Hooks';
+import React from "react";
 
-const Opacity = ({value, setOpacity}: {value: number, setOpacity: (x: number) => void}) => {
+import { useBooleanState } from "Hooks";
+
+import { CircleSlashes } from "../../svgs/radar";
+
+const Opacity = ({ value, setOpacity }: { value: number, setOpacity: (x: number) => void }) => {
     const [hover, setHoverTrue, setHoverFalse] = useBooleanState(false);
 
     //Fallback for touch devices

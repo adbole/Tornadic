@@ -1,11 +1,13 @@
-import { TooltipProps, BarChart, AreaChart, LineChart } from "recharts";
+import { AreaChart, BarChart, LineChart, TooltipProps } from "recharts";
 import { CategoricalChartProps } from "recharts/types/chart/generateCategoricalChart";
 import { NameType } from "recharts/types/component/DefaultTooltipContent";
-import { DataPoint, ChartViews } from ".";
+
 import { UV_MAX_VALUES } from "ts/Constants";
 
+import { ChartViews, DataPoint } from ".";
+
 function getUnit(data: DataPoint, defaultUnit: React.ReactNode) {
-    const {property, primaryKey} = data;
+    const { property, primaryKey } = data;
 
     if(property === ChartViews.UV_Index) {
         if (primaryKey <= UV_MAX_VALUES.LOW) return " Low"; 
@@ -19,7 +21,7 @@ function getUnit(data: DataPoint, defaultUnit: React.ReactNode) {
 }
   
 //Customized tooltip to display primary and secondary data with labels if applicable
-export const CustomTooltip = ({active, payload}: TooltipProps<number, NameType>) => {
+export const CustomTooltip = ({ active, payload }: TooltipProps<number, NameType>) => {
     if(!active || !payload || !payload.length) return null;
 
     const fixDecimal = (property: ChartViews, value: number): string | number => 
@@ -45,7 +47,7 @@ type ChartDisplayProps = {
 
 //Provides the proper chart to display based on the HourlyProperty passed
 export const ChartDisplay = (props: ChartDisplayProps) => {
-    const {children, property, ...excess} = props;
+    const { children, property, ...excess } = props;
 
     let ChosenChart = BarChart;
 

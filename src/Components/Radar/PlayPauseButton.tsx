@@ -1,8 +1,10 @@
 import React from "react";
-import { Play, Pause } from '../../svgs/radar';
+
 import { useBooleanState } from "Hooks";
 
-const PlayPauseButton = (props: {play: VoidFunction, pause: Function}) => {
+import { Pause, Play } from "../../svgs/radar";
+
+const PlayPauseButton = (props: { play: VoidFunction, pause: Function }) => {
     const [isPlaying, setIsPlayingTrue, setIsPlayingFalse] = useBooleanState(false);
 
     function onClick(e: React.MouseEvent) {

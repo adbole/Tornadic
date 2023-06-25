@@ -3,8 +3,11 @@
  */
 
 import { ReactNode } from "react";
-import { Forecast, AirQuality, NWSAlert, GridPoint } from "Contexts/Weather/index.types";
+
+import { AirQuality, Forecast, GridPoint, NWSAlert } from "Contexts/Weather/index.types";
+
 import * as TimeConversion from "ts/TimeConversion";
+
 import WeatherCondition, { WeatherConditionType } from "./WeatherCondition";
 
 //#region Enum and type definitions

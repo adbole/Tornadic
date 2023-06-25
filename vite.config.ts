@@ -1,14 +1,14 @@
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
-import svgr from 'vite-plugin-svgr';
-import { VitePWA } from 'vite-plugin-pwa';
-import tsConfigPaths from 'vite-tsconfig-paths';
-import eslint from 'vite-plugin-eslint';
+import react from "@vitejs/plugin-react";
+import { defineConfig } from "vite";
+import eslint from "vite-plugin-eslint";
+import { VitePWA } from "vite-plugin-pwa";
+import svgr from "vite-plugin-svgr";
+import tsConfigPaths from "vite-tsconfig-paths";
 
 export default defineConfig(() => {
   return {
     build: {
-      outDir: 'build'
+      outDir: "build"
     },
     plugins: [
         react(), 
@@ -18,7 +18,7 @@ export default defineConfig(() => {
         VitePWA({
             registerType: "prompt",
             workbox: {
-                globPatterns: ['**/*.{js,css,html,png,svg}'],
+                globPatterns: ["**/*.{js,css,html,png,svg}"],
                 cleanupOutdatedCaches: true
             },
             manifest: {

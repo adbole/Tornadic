@@ -1,8 +1,9 @@
-import React from 'react';
-import ReactDOMServer from 'react-dom/server';
-import L from 'leaflet';
-import { useMap } from 'react-leaflet';
-import { Cursor, LocationDot } from '../../svgs/radar';
+import React from "react";
+import ReactDOMServer from "react-dom/server";
+import { useMap } from "react-leaflet";
+import L from "leaflet";
+
+import { Cursor, LocationDot } from "../../svgs/radar";
 
 const Current_Location_Icon = L.divIcon({
     html: ReactDOMServer.renderToString(<LocationDot/>),
@@ -24,7 +25,7 @@ const Locate = () => {
     React.useEffect(() => {
         LocateUser();
 
-        map.on('locationfound', (e) => {
+        map.on("locationfound", (e) => {
             if(!currMarker.current) {
                 currMarker.current = L.marker(e.latlng, { icon: Current_Location_Icon }).addTo(map);
             }

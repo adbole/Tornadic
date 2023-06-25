@@ -1,14 +1,12 @@
-//React
-import ReactDOM from 'react-dom/client';
-import React from 'react';
+import React from "react";
+import ReactDOM from "react-dom/client";
 
-//Components
-import App from 'App';
-import MessageScreen from 'Components/MessageScreen';
-import { WifiOff } from 'svgs';
-import { ExclamationTriangle } from 'svgs';
-import { Cursor } from 'svgs/radar';
-import { useBooleanState, useNullableState } from 'Hooks';
+import { useBooleanState, useNullableState } from "Hooks";
+
+import App from "App";
+import MessageScreen from "Components/MessageScreen";
+import { ExclamationTriangle, WifiOff } from "svgs";
+import { Cursor } from "svgs/radar";
 
 const Index = () => {
     const [online, setOnlineTrue, setOnlineFalse] = useBooleanState(navigator.onLine);
@@ -18,7 +16,7 @@ const Index = () => {
     const [permissionStatus, setPermissionStatus] = useNullableState<PermissionState>();
 
     React.useEffect(() => {
-        navigator.permissions.query({name: "geolocation"}).then(status => setPermissionStatus(status.state));
+        navigator.permissions.query({ name: "geolocation" }).then(status => setPermissionStatus(status.state));
 
         window.addEventListener("online", setOnlineTrue);
         window.addEventListener("offline", setOnlineFalse);
@@ -68,5 +66,5 @@ const Index = () => {
     }
 };
 
-const root = ReactDOM.createRoot(document.getElementById('root')!);
+const root = ReactDOM.createRoot(document.getElementById("root")!);
 root.render(<Index />);

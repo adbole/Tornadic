@@ -18,10 +18,10 @@ export async function fetchDataAndHeaders<T>(url: string | URL, onErrorMessage: 
     const response = await fetch(url);
 
     if(response.ok) {
-        const json: T = await response.json();
+        const data: T = await response.json();
 
         return {
-            data: json,
+            data,
             headers: response.headers
         };
     }

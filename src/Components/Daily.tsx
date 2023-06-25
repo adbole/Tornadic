@@ -1,17 +1,18 @@
-import { Widget, WidgetSize } from './SimpleComponents';
-import { Normalize } from 'ts/Helpers';
-import { useWeather } from 'Contexts/Weather';
-import { Calendar } from 'svgs/widget';
-import { DayInfo, WeatherData } from 'ts/WeatherData';
+import { useModal } from "Contexts/ModalContext";
+import { useWeather } from "Contexts/Weather";
 
-import { useModal } from 'Contexts/ModalContext';
-import Chart, { ChartViews } from './Chart';
+import Chart, { ChartViews } from "Components/Chart";
+import { Widget, WidgetSize } from "Components/SimpleComponents";
+import { Calendar } from "svgs/widget";
+
+import { Normalize } from "ts/Helpers";
+import { DayInfo, WeatherData } from "ts/WeatherData";
 
 /**
  * A helper component for Daily to display the individual days of the week
  * @returns A single day as a table row entry
  */
-const Day = ({dayInfo, style, onClick}: {
+const Day = ({ dayInfo, style, onClick }: {
     //Information on the day's values
     dayInfo: DayInfo,
     //The style to display the low and high for the week and where this day falls in the range

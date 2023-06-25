@@ -2,9 +2,11 @@
  * The Modal context provides a consitant way to display modals no matter the place in the DOM of the calling component. 
  */
 
-import { useNullableState } from "Hooks";
 import React from "react";
 import ReactDOM from "react-dom";
+
+import { useNullableState } from "Hooks";
+
 import { throwError } from "ts/Helpers";
 
 const Context = React.createContext<Readonly<{
@@ -14,11 +16,11 @@ const Context = React.createContext<Readonly<{
 
 export const useModal = () => React.useContext(Context) ?? throwError("Please use useModal inside a ModalContext provider");
 
-const ModalContextProvider = ({children}: {children: React.ReactNode}) => {
+const ModalContextProvider = ({ children }: { children: React.ReactNode }) => {
     const [modal, showModal, hideModal] = useNullableState<React.ReactNode>();
 
     return (
-        <Context.Provider value={{showModal, hideModal}}>
+        <Context.Provider value={{ showModal, hideModal }}>
             {children}
             {modal && ReactDOM.createPortal(modal, document.body)}
         </Context.Provider>
@@ -28,14 +30,14 @@ const ModalContextProvider = ({children}: {children: React.ReactNode}) => {
 export default ModalContextProvider;
 
 export const ModalTitle = (props: React.HTMLAttributes<HTMLHeadingElement>) => {
-    const {children, className, ...excess} = props;
+    const { children, className, ...excess } = props;
 
     return (
         <h1 className={className ? "modal-title " + className : "modal-title"} {...excess}>{children}</h1>
     );
 };
 
-export const ModalContent = ({children}: {children: React.ReactNode}) => (
+export const ModalContent = ({ children }: { children: React.ReactNode }) => (
     <div className="modal-content">
         {children}
     </div>
@@ -45,10 +47,10 @@ export const ModalContent = ({children}: {children: React.ReactNode}) => (
  * A base modal to display simple information using the ModalContext
  */
 export const Modal = (props: React.HTMLAttributes<HTMLDialogElement>) => {
-    const {hideModal} = useModal();
+    const { hideModal } = useModal();
 
     const dialogRef = React.useRef<HTMLDialogElement>(null);
-    const {children, ...excess} = props;
+    const { children, ...excess } = props;
 
     React.useEffect(() => {
         if(!dialogRef.current) return;
@@ -71,7 +73,7 @@ export const Modal = (props: React.HTMLAttributes<HTMLDialogElement>) => {
         dialogRef.current.classList.add("leave", "leave-active");
         document.body.classList.remove("hide-overflow");
 
-        dialogRef.current.addEventListener('transitionend', (e) => {
+        dialogRef.current.addEventListener("transitionend", (e) => {
             //Prevent closing early if our transition wasn't the one that ended
             if(e.target !== e.currentTarget) return;
             (e.currentTarget as HTMLDialogElement).close();

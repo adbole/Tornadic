@@ -1,8 +1,10 @@
-import { useWeather } from 'Contexts/Weather';
-import { useModal } from 'Contexts/ModalContext';
-import * as AlertHelpers from './Common';
-import { AlertModal, AlertSelectionModal } from './AlertModal';
-import { Widget, WidgetSize } from 'Components/SimpleComponents';
+import { useModal } from "Contexts/ModalContext";
+import { useWeather } from "Contexts/Weather";
+
+import { Widget, WidgetSize } from "Components/SimpleComponents";
+
+import { AlertModal, AlertSelectionModal } from "./AlertModal";
+import * as AlertHelpers from "./Common";
 
 const Alert = () => {
     const { alerts }  = useWeather();

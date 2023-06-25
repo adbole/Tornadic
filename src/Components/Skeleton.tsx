@@ -1,6 +1,6 @@
 import { Widget, WidgetSize } from "Components/SimpleComponents";
 
-const SkeletonWidget = ({id = undefined, size = WidgetSize.NORMAL}: {id?: string, size?: WidgetSize}) => 
+const SkeletonWidget = ({ id = undefined, size = WidgetSize.NORMAL }: { id?: string, size?: WidgetSize }) => 
     <Widget className="skeleton" id={id} size={size} children={null}/>;
 
 const Skeleton = () => (

@@ -3,15 +3,18 @@
  * Simply input the index into WeatherHelper to get the needed information to populate the view
  */
 
-import { Widget } from './SimpleComponents';
-import { HazardInfo } from 'ts/WeatherData';
-import { Normalize } from 'ts/Helpers';
-import React from 'react';
-import { Lungs } from 'svgs/widget';
-import { Sun } from 'svgs/conditions';
-import { useModal } from 'Contexts/ModalContext';
-import Chart, { ChartViews } from './Chart';
-import { UV_MAX_VALUES } from 'ts/Constants';
+import React from "react";
+
+import { useModal } from "Contexts/ModalContext";
+
+import Chart, { ChartViews } from "Components/Chart";
+import { Widget } from "Components/SimpleComponents";
+import { Sun } from "svgs/conditions";
+import { Lungs } from "svgs/widget";
+
+import { UV_MAX_VALUES } from "ts/Constants";
+import { Normalize } from "ts/Helpers";
+import { HazardInfo } from "ts/WeatherData";
 
 export enum HazardType {
     AirQuality,
@@ -120,7 +123,7 @@ export const HazardLevel = ({ hazard, hazardValue }: { hazard: HazardType, hazar
     const onClick = hazard === HazardType.UV ? (() => showModal(<Chart showView={ChartViews.UV_Index}/>)) : undefined;
 
     return (
-        <Widget className={`level-info`} id={id} widgetTitle={title} widgetIcon={titleIcon} onClick={onClick}>
+        <Widget className={"level-info"} id={id} widgetTitle={title} widgetIcon={titleIcon} onClick={onClick}>
             <div>
                 <Meter rotation={rotation} />
                 <div>

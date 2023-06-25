@@ -23,11 +23,11 @@ export function getTimeFormatted(value: string | number | Date, format: TimeForm
 
 function getFormatOptions(format: TimeFormat): Intl.DateTimeFormatOptions {
     switch(format) {
-        case TimeFormat.Weekday: return {weekday: "short", timeZone: "UTC"};
-        case TimeFormat.Hour: return {hour: "numeric", hour12: true};
-        case TimeFormat.HourMinute: return {hour: "numeric", minute: "numeric", hour12: true};
-        case TimeFormat.Date: return {weekday:"long", month:"short", day:"numeric"};
-        case TimeFormat.DateTime: return {weekday:"short", month:"short", day:"numeric", hour12:true, hour:"numeric", minute:"numeric", timeZoneName:"short"};
+        case TimeFormat.Weekday: return { weekday: "short", timeZone: "UTC" };
+        case TimeFormat.Hour: return { hour: "numeric", hour12: true };
+        case TimeFormat.HourMinute: return { hour: "numeric", minute: "numeric", hour12: true };
+        case TimeFormat.Date: return { weekday:"long", month:"short", day:"numeric" };
+        case TimeFormat.DateTime: return { weekday:"short", month:"short", day:"numeric", hour12:true, hour:"numeric", minute:"numeric", timeZoneName:"short" };
         default: return {};
     }
 }

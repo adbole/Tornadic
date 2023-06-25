@@ -1,7 +1,9 @@
 import { Polygon, useMap } from "react-leaflet";
-import { useWeather } from "Contexts/Weather";
-import { LatLngExpression } from 'leaflet';
+import { LatLngExpression } from "leaflet";
+
 import { useModal } from "Contexts/ModalContext";
+import { useWeather } from "Contexts/Weather";
+
 import { AlertModal } from "../Alert/AlertModal";
 import { getAlertCSSClass } from "../Alert/Common";
 
@@ -41,7 +43,7 @@ const AlertPolygons = () => {
                         className={getAlertCSSClass(alert)} 
                         key={index} 
                         positions={ConvertToLatLng(alert.geometry.coordinates)} 
-                        eventHandlers={{click: onClick}}
+                        eventHandlers={{ click: onClick }}
                     />
                 );
             })

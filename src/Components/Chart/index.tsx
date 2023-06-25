@@ -1,15 +1,15 @@
 import React from "react";
+import { Area, Bar, CartesianGrid, Line, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis, YAxisProps } from "recharts";
 
+import { Modal, ModalContent, ModalTitle } from "Contexts/ModalContext";
 import { useWeather } from "Contexts/Weather";
 import { Forecast } from "Contexts/Weather/index.types";
-import { Modal, ModalContent, ModalTitle } from "Contexts/ModalContext";
 
-import { ResponsiveContainer, Line, CartesianGrid, XAxis, YAxis, Tooltip, Bar, Area, ReferenceLine, YAxisProps } from "recharts";
-import { CustomTooltip, ChartDisplay } from "./Components";
-
-import * as TimeConversion from 'ts/TimeConversion';
-import { nameof, toHSL } from "ts/Helpers";
 import { UV_MAX_VALUES } from "ts/Constants";
+import { nameof, toHSL } from "ts/Helpers";
+import * as TimeConversion from "ts/TimeConversion";
+
+import { ChartDisplay, CustomTooltip } from "./Components";
 
 //Properties denoted here represent values supported for displaying by a Chart
 export enum ChartViews {
@@ -123,7 +123,7 @@ function getDataVisual(unit: string, view: ChartViews, dataPoints: DataPoint[]) 
     }
 }
 
-const Chart = ({showView, showDay = 0}: {showView: ChartViews, showDay?: number}) => {
+const Chart = ({ showView, showDay = 0 }: { showView: ChartViews, showDay?: number }) => {
     const { forecast } = useWeather();
     const [view, setView] = React.useState(showView);
     const [day, setDay] = React.useState(showDay);
@@ -137,7 +137,7 @@ const Chart = ({showView, showDay = 0}: {showView: ChartViews, showDay?: number}
     React.useEffect(() => {
         if(!selectRef.current) return;
 
-        const canvasContext = document.createElement('canvas').getContext('2d')!;
+        const canvasContext = document.createElement("canvas").getContext("2d")!;
         //16px is default font-size and select is within a h1 getting 2rem font-size, therefore 32px is used here.
         canvasContext.font = '32px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif';
 
@@ -187,7 +187,7 @@ const Chart = ({showView, showDay = 0}: {showView: ChartViews, showDay?: number}
                 <p>{TimeConversion.getTimeFormatted(forecast.hourly.time[day * 24], TimeConversion.TimeFormat.Date)}<span ref={timeRef}></span></p>
 
                 <ResponsiveContainer width={"100%"} height="100%">
-                    <ChartDisplay property={view} data={chartData} margin={{top: 0, left: 0, right: 0, bottom: 0}} onMouseMove={onMouseMove} onMouseLeave={onMouseLeave}>
+                    <ChartDisplay property={view} data={chartData} margin={{ top: 0, left: 0, right: 0, bottom: 0 }} onMouseMove={onMouseMove} onMouseLeave={onMouseLeave}>
                         {getDataVisual(forecast.hourly_units[view], view, chartData)}
                         <CartesianGrid stroke="#ffffff19"/>
                         <XAxis dataKey="name" interval={5} textAnchor="start"/>
@@ -198,7 +198,7 @@ const Chart = ({showView, showDay = 0}: {showView: ChartViews, showDay?: number}
                         }
                         
                         {/* @ts-ignore */}
-                        <Tooltip wrapperStyle={{ outline: "none" }} position={{x: 'auto', y: 10}} content={<CustomTooltip/>}/>
+                        <Tooltip wrapperStyle={{ outline: "none" }} position={{ x: "auto", y: 10 }} content={<CustomTooltip/>}/>
                         {day === 0 && <ReferenceLine x={TimeConversion.getTimeFormatted(forecast.hourly.time[forecast.nowIndex], TimeConversion.TimeFormat.Hour)}/>}
                     </ChartDisplay>
                 </ResponsiveContainer>
