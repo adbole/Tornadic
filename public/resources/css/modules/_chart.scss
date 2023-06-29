@@ -1,4 +1,4 @@
-@import 'mixin';
+@use 'mixin';
 
 #chart {
     width: 100%;
@@ -30,10 +30,10 @@
     }
 
     div.chart-tooltip {
-        @include dark-back-blur;
+        @include mixin.dark-back-blur;
         border-radius: var(--border-radius);
 
-        @include center-flex;
+        @include mixin.center-flex;
         flex-direction: column;
 
         padding: 10px;

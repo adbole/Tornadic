@@ -1,7 +1,9 @@
+@use 'mixin';
+
 .widget {
     display: flex;
-    flex-direction: column;
     justify-content: center;
+    flex-direction: column;
     position: relative;
     padding: 10px;
     overflow: hidden;
@@ -47,23 +49,9 @@
 }
 
 .basic-info {
-    @include center-flex;
-    flex-direction: column;
+    align-items: center;
 
     >svg { width: 2.5rem; }
     >.widget-title { margin: 0;}
     >p { font-size: 2rem;}
-}
-
-//Backdrop filter causes postition fixed to not work
-//Following rule works around this for the radar element
-#radar.widget {
-    backdrop-filter: none;
-    &::before {
-        content: '';
-        position: absolute;
-        inset: 0;
-        backdrop-filter: saturate(130%);
-        border-radius: var(--border-radius);
-    }
 }

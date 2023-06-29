@@ -1,5 +1,7 @@
+@use "mixin";
+
 #suntime {
-    @include center-flex;
+    @include mixin.center-flex;
     justify-content: space-evenly;
     flex-direction: row;
 

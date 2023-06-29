@@ -1,4 +1,4 @@
-@import 'mixin';
+@use 'mixin';
 
 dialog {
     color: inherit;
@@ -53,6 +53,6 @@ dialog {
         background-color: rgba(0, 0, 0, 0.5);
     }
 
-    @include do-transition(transform, translateY(100vh), translateY(0), 1s);
-    @include do-transition(opacity, 0, 1, 1s, '::backdrop');
+    @include mixin.do-transition(transform, translateY(100vh), translateY(0), 1s);
+    @include mixin.do-transition(opacity, 0, 1, 1s, '::backdrop');
 }

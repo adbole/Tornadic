@@ -5,7 +5,7 @@ $alertTypes: ("warning": #C31700, "watch": #FFF501, "advisory": #FF9431, "statem
 
 #alert {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: 100%;
     grid-template-rows: 1fr;
     padding: 0px;
 
@@ -51,14 +51,14 @@ $alertTypes: ("warning": #C31700, "watch": #FFF501, "advisory": #FF9431, "statem
 }
 
 @function CalcGun($colorGun) {
-    @return if($colorGun <= 0.03928, $colorGun / 12.92, math.pow(($colorGun + 0.055) / 1.055, 2.4));
+    @return if($colorGun <= 0.03928, calc($colorGun / 12.92), math.pow(calc(($colorGun + 0.055) / 1.055), 2.4));
 }
 
 //W3 compliant luminance calculation for foreground
 @function Luminance($color) {
-    $red: CalcGun(color.red($color) / 255);
-    $green: CalcGun(color.green($color) / 255);
-    $blue: CalcGun(color.blue($color) / 255);
+    $red: CalcGun(calc(color.red($color) / 255));
+    $green: CalcGun(calc(color.green($color) / 255));
+    $blue: CalcGun(calc(color.blue($color) / 255));
   
     $relative-luminance: 0.2126 * $red + 0.7152 * $green + 0.0722 * $blue;
   

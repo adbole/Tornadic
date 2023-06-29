@@ -1,11 +1,22 @@
-@import './mixin';
+@use './mixin';
 
 #radar {
+    //Backdrop filter causes postition fixed to not work
+    //Following rule works around this for the radar element
+    backdrop-filter: none;
+    &::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        backdrop-filter: saturate(130%);
+        border-radius: var(--border-radius);
+    }
+
     >.leaflet-container { 
-        border-radius: 10px; 
+        border-radius: var(--border-radius); 
 
         &.zoom-radar {
-            z-index: 999;
+            z-index: var(--on-top);
             inset: 0px;
             position: fixed !important;
             border-radius: 0px;
@@ -13,7 +24,7 @@
 
         &:not(.zoom-radar) {
             cursor: pointer;
-            .leaflet-control {  display: none; }
+            .leaflet-control { display: none; }
         }
     }
 
@@ -29,15 +40,15 @@
 }
 
 .leaflet-control {
-    @include dark-back-blur;
-    border-radius: $border-radius;
+    @include mixin.dark-back-blur;
+    border-radius: var(--border-radius);
     overflow: hidden;
 }
 
 .leaflet-custom-control, .leaflet-control-toggle {
     color: white !important;
 
-    @include center-flex;
+    @include mixin.center-flex;
     min-width: 2rem;
     min-height: 2rem;
     border: none;
@@ -89,7 +100,7 @@ button.leaflet-control {
 
             &::-webkit-slider-runnable-track {
                 background-color: rgba(136, 136, 136, 0.5);
-                border-radius: $border-radius;
+                border-radius: var(--border-radius);
             }
 
             &::-webkit-slider-thumb {
@@ -97,7 +108,7 @@ button.leaflet-control {
                 appearance: none;
                 height: 10px;
                 width: 10px;
-                border-radius: $border-radius;
+                border-radius: var(--border-radius);
                 background-color: #6498fa;
             }
         }
@@ -109,7 +120,7 @@ button.leaflet-control {
             >option  {
                 padding: 0px 1px;
                 background: rgba(136, 136, 136, 0.5);
-                border-radius: $border-radius;
+                border-radius: var(--border-radius);
             }
         }
           
