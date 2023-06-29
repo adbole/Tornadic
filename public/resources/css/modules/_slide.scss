@@ -1,9 +1,8 @@
 .slidable {
     display: flex;
-    flex-direction: row;
     overflow: hidden;
 
-    >div { min-width: 100%; }
+    >div { flex: 0 0 100%; }
 
     //DO NOT REMOVE
     //FIXES A BUG WITH ANIMATION ON SAFARI WHERE .slide-out 
