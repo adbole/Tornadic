@@ -1,3 +1,5 @@
+import { useRef } from "react";
+
 import { useModal } from "Contexts/ModalContext";
 import { useWeather } from "Contexts/Weather";
 
@@ -15,34 +17,36 @@ const Now = () => {
     const now = weather.getNow();
 
     const { showModal } = useModal();
+    const background = useRef("clear-day");
+
+    document.body.classList.remove(background.current);
 
     //Determine what background should be applied
-    let background;
     switch(now.conditionInfo.type) {
         case WeatherConditionType.OVERCAST:
-            background = `overcast-${weather.isDay(weather.forecast.nowIndex) ? "day" : "night"}`;
+            background.current = `overcast-${weather.isDay(weather.forecast.nowIndex) ? "day" : "night"}`;
             break;
         case WeatherConditionType.RAIN: 
         case WeatherConditionType.RAIN_SHOWERS:
-            background = "rain";
+            background.current = "rain";
             break;
         case WeatherConditionType.THUNDERSTORMS:
         case WeatherConditionType.THRUNDERSTORMS_HAIL:
-            background = "thunderstorms";
+            background.current = "thunderstorms";
             break;
         case WeatherConditionType.SNOW:
         case WeatherConditionType.SNOW_GRAINS:
         case WeatherConditionType.SNOW_SHOWERS:
-            background = "snow";
+            background.current = "snow";
             break;
         default:
-            background = `clear-${weather.isDay(weather.forecast.nowIndex) ? "day" : "night"}`;
+            background.current = `clear-${weather.isDay(weather.forecast.nowIndex) ? "day" : "night"}`;
     }
 
-    document.body.classList.add(background);
+    document.body.classList.add(background.current);
 
     return (
-        <Widget id="now" size={WidgetSize.LARGE} className={background} onClick={() => showModal(<Chart showView={ChartViews.Temperature}/>)}>
+        <Widget id="now" size={WidgetSize.LARGE} className={background.current} onClick={() => showModal(<Chart showView={ChartViews.Temperature}/>)}>
             <p>{now.location}</p>
     
             <h1>{now.temperature}</h1>
