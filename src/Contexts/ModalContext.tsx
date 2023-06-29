@@ -5,7 +5,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-import { useNullableState } from "Hooks";
+import { useAnimation, useNullableState } from "Hooks";
+import { Stage } from "Hooks/useAnimation";
 
 import { throwError } from "ts/Helpers";
 
@@ -30,10 +31,10 @@ const ModalContextProvider = ({ children }: { children: React.ReactNode }) => {
 export default ModalContextProvider;
 
 export const ModalTitle = (props: React.HTMLAttributes<HTMLHeadingElement>) => {
-    const { children, className, ...excess } = props;
+    const { children, className = "", ...excess } = props;
 
     return (
-        <h1 className={className ? "modal-title " + className : "modal-title"} {...excess}>{children}</h1>
+        <h1 className={"modal-title " + className} {...excess}>{children}</h1>
     );
 };
 
@@ -49,39 +50,31 @@ export const ModalContent = ({ children }: { children: React.ReactNode }) => (
 export const Modal = (props: React.HTMLAttributes<HTMLDialogElement>) => {
     const { hideModal } = useModal();
 
+    const [open, close, stage, shouldMount] = useAnimation(false, 1000);
+
     const dialogRef = React.useRef<HTMLDialogElement>(null);
     const { children, ...excess } = props;
 
     React.useEffect(() => {
-        if(!dialogRef.current) return;
+        dialogRef.current?.showModal();
+        open();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
-        dialogRef.current.showModal();
-        dialogRef.current.classList.add("enter-active");
-        document.body.classList.add("hide-overflow");
-    }, [dialogRef]);
-
-    function onClick(e: React.MouseEvent<HTMLDialogElement, MouseEvent>) {
-        /*
-            Target will be the element where the event propagated from. 
-            Therefore, since the dialog is covered in targets that aren't itself
-            we can say that if the dialog is the target then we must've clicked the backdrop
-            as it has no other target elements on it.
-        */
-        if(e.target !== dialogRef.current) return;
-
-        dialogRef.current.classList.remove("enter-active");
-        dialogRef.current.classList.add("leave", "leave-active");
-        document.body.classList.remove("hide-overflow");
-
-        dialogRef.current.addEventListener("transitionend", (e) => {
-            //Prevent closing early if our transition wasn't the one that ended
-            if(e.target !== e.currentTarget) return;
-            (e.currentTarget as HTMLDialogElement).close();
-        });
-    }
+    React.useEffect(() => {
+        if(!shouldMount && stage === Stage.LEAVE) 
+            dialogRef.current?.close();
+            
+    }, [shouldMount, stage]);
 
     return (
-        <dialog className="modal" ref={dialogRef} onClick={onClick} onClose={hideModal} {...excess}>
+        <dialog 
+            className={`modal ${stage === Stage.ENTER ? "enter" : ""}`} 
+            ref={dialogRef} 
+            onClick={(e) => e.target === dialogRef.current && close()} 
+            onClose={hideModal}
+            {...excess}
+        >
             {children}
         </dialog>
     );

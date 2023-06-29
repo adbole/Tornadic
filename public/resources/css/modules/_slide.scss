@@ -3,17 +3,7 @@
     flex-direction: row;
     overflow: hidden;
 
-    //max-height is used to ensure compatibiltiy with automatically sized content with overflow scrolling.
-    transition: max-height 0.75s ease;
-
-    >div {
-        min-width: 100%;
-        transition: margin 1s ease;
-    }
-
-    >.slide-out {
-        margin-left: -100%;
-    }
+    >div { min-width: 100%; }
 
     //DO NOT REMOVE
     //FIXES A BUG WITH ANIMATION ON SAFARI WHERE .slide-out 

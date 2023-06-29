@@ -1,6 +1,7 @@
 import React from "react";
 
-import { useNullableState } from "Hooks";
+import { useAnimation, useNullableState } from "Hooks";
+import { Stage } from "Hooks/useAnimation";
 
 import { throwError } from "ts/Helpers";
 
@@ -13,45 +14,45 @@ export const useSlide = () => React.useContext(Context) ?? throwError("Please us
 
 const SlideContextProvider = ({ children }: { children: React.ReactNode }) => {
     const [secondaryContent, slideTo, unsetSecondaryContent] = useNullableState<React.ReactNode>();
+    const [doSlide, reset, stage, shouldMount] = useAnimation(false, 1000);
 
-    const wrapperDiv = React.useRef<HTMLDivElement>(null);
     const primaryDiv = React.useRef<HTMLDivElement>(null);
     const originalHeight = React.useRef<number>();
 
     React.useEffect(() => {
-        if(!wrapperDiv.current || !primaryDiv.current) return;
+        if(!primaryDiv.current) return;
 
         //Get the original and set the original clientHeight.
         originalHeight.current = primaryDiv.current.clientHeight;
-        wrapperDiv.current.style.maxHeight = originalHeight.current + "px";
     }, []);
 
-    //Transition to new height when secondary content is available
     React.useEffect(() => {
-        if(!secondaryContent || !wrapperDiv.current) return;
+        if(secondaryContent)
+            doSlide();
+    }, [secondaryContent, doSlide]);
 
-        //Animate to 100vh, use wrapper around SelectContext to prestrict max-height further
-        wrapperDiv.current.style.maxHeight = "100vh";
-    }, [secondaryContent]);
-
-    //Handles return transition
-    const reset = () => {
-        if(!wrapperDiv.current || !primaryDiv.current || !originalHeight.current) return;
-        
-        primaryDiv.current.classList.remove("slide-out");
-        wrapperDiv.current.style.maxHeight = originalHeight.current + "px";
-        
-        primaryDiv.current.addEventListener("transitionend", (e) => {
-            //Prevent setting null if our event didn't fire
-            if(e.target !== e.currentTarget) return;
+    React.useEffect(() => {
+        if(!shouldMount && Stage.LEAVE)
             unsetSecondaryContent();
-        }, { once: true });
-    };
+    }, [shouldMount, unsetSecondaryContent]);
 
     return (
-        <div ref={wrapperDiv} className="slidable">
+        <div 
+            className="slidable"
+            style={{
+                transition: "0.75s ease",
+                maxHeight: stage === Stage.ENTER ? "100vh" : (originalHeight.current + "px")
+            }}
+        >
             <Context.Provider value={{ slideTo, reset }}>
-                <div ref={primaryDiv}  className={secondaryContent ? "slide-out" : ""}>
+                <div 
+                    ref={primaryDiv}  
+                    className={secondaryContent ? "slide-out" : ""}
+                    style={{
+                        transition: "1s ease",
+                        marginLeft: stage === Stage.ENTER ? "-100%" : "initial"
+                    }}
+                >
                     {children}
                 </div>
                 {secondaryContent  && 

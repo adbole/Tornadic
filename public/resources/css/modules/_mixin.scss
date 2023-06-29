@@ -1,21 +1,13 @@
 //do-transition allows easy definition of simple transitions.
+//see useAnimation hook and Modal for examples on using classes
 @mixin do-transition($transition-property, $from, $to, $duration, $pseudo:"") {
     &#{$pseudo} {
+        transition: #{$transition-property} #{$duration} ease;
         #{$transition-property}: #{$from};
     }
 
-    &.enter-active#{$pseudo} {
+    &.enter#{$pseudo} {
         #{$transition-property}: #{$to};
-        transition: #{$transition-property} #{$duration} ease;
-    }
-
-    &.leave#{$pseudo} {
-        #{$transition-property}: #{$to};
-    }
-
-    &.leave-active#{$pseudo} {
-        #{$transition-property}: #{$from};
-        transition: #{$transition-property} #{$duration} ease;
     }
 }
 
