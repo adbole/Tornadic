@@ -167,6 +167,12 @@ p, h1 {
         .widget:not(.widget-large) { min-height: 150px; }
     }
 
+    #now:not(.skeleton) {
+        backdrop-filter: none;
+        box-shadow: none;
+        background: none;
+    }
+
     #message-screen > svg { width: 300px }
 
     dialog, dialog#chart {
