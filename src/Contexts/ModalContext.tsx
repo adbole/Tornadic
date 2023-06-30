@@ -62,8 +62,13 @@ export const Modal = (props: React.HTMLAttributes<HTMLDialogElement>) => {
     }, []);
 
     React.useEffect(() => {
-        if(!shouldMount && stage === Stage.LEAVE) 
+        if(Stage.ENTER)
+            document.body.classList.add("hide-overflow");
+
+        if(!shouldMount && stage === Stage.LEAVE) {
+            document.body.classList.remove("hide-overflow");
             dialogRef.current?.close();
+        }
             
     }, [shouldMount, stage]);
 
