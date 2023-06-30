@@ -1,4 +1,4 @@
-import { NWSAlert } from "Contexts/Weather/index.types";
+import { NWSAlert } from "Contexts/WeatherContext/index.types";
 
 import * as TimeConversion from "ts/TimeConversion";
 

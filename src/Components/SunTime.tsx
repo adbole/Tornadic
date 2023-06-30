@@ -1,4 +1,4 @@
-import { useWeather } from "Contexts/Weather";
+import { useWeather } from "Contexts/WeatherContext";
 
 import { Widget, WidgetSize } from "Components/SimpleComponents";
 import { Sunrise, Sunset } from "svgs/widget";

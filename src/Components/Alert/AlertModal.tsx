@@ -2,7 +2,7 @@ import React from "react";
 
 import { Modal, ModalContent, ModalTitle } from "Contexts/ModalContext";
 import SlideContextProvider, { useSlide } from "Contexts/SlideContext";
-import { NWSAlert } from "Contexts/Weather/index.types";
+import { NWSAlert } from "Contexts/WeatherContext/index.types";
 
 import { Widget } from "Components/SimpleComponents";
 

@@ -1,7 +1,7 @@
 import { useRef } from "react";
 
 import { useModal } from "Contexts/ModalContext";
-import { useWeather } from "Contexts/Weather";
+import { useWeather } from "Contexts/WeatherContext";
 
 import Chart, { ChartViews } from "Components/Chart";
 import { Widget, WidgetSize } from "Components/SimpleComponents";

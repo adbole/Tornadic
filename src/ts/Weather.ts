@@ -1,10 +1,10 @@
 /**
- * The WeatherData class takes forecast, airquality, point, and alert data to provide access to said data along with helpful methods to act on the data
+ * The Weather class takes forecast, airquality, point, and alert data to provide access to said data along with helpful methods to act on the data
  */
 
 import { ReactNode } from "react";
 
-import { AirQuality, Forecast, GridPoint, NWSAlert } from "Contexts/Weather/index.types";
+import { AirQuality, Forecast, GridPoint, NWSAlert } from "Contexts/WeatherContext/index.types";
 
 import * as TimeConversion from "ts/TimeConversion";
 
@@ -43,7 +43,7 @@ export type DayInfo = Readonly<{
  * The WeatherData class takes forecast, airquality, point, and alert data to provide access to said data along with helpful methods to act on the data.
  * This class is automatically initialized by WeatherContext and is used as the context throughout the application.
  */
-export class WeatherData {
+export default class Weather {
     readonly forecast: Readonly<Forecast>;
     readonly airQuality: Readonly<AirQuality>;
     readonly point: Readonly<GridPoint>;

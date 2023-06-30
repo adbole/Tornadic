@@ -5,8 +5,8 @@
 import React from "react";
 
 import { useModal } from "Contexts/ModalContext";
-import { useWeather } from "Contexts/Weather";
-import { HourlyProperties } from "Contexts/Weather/index.types";
+import { useWeather } from "Contexts/WeatherContext";
+import { HourlyProperties } from "Contexts/WeatherContext/index.types";
 
 import Chart, { ChartViews } from "Components/Chart";
 import HazardLevel, { HazardType } from "Components/HazardLevel";

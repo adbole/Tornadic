@@ -1,7 +1,7 @@
 //Components
 //Contexts
 import ModalContext from "Contexts/ModalContext";
-import WeatherContext from "Contexts/Weather";
+import WeatherContext from "Contexts/WeatherContext";
 
 import Alert from "Components/Alert";
 import Daily from "Components/Daily";

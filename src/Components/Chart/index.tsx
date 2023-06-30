@@ -2,8 +2,8 @@ import React from "react";
 import { Area, Bar, CartesianGrid, Line, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis, YAxisProps } from "recharts";
 
 import { Modal, ModalContent, ModalTitle } from "Contexts/ModalContext";
-import { useWeather } from "Contexts/Weather";
-import { Forecast } from "Contexts/Weather/index.types";
+import { useWeather } from "Contexts/WeatherContext";
+import { Forecast } from "Contexts/WeatherContext/index.types";
 
 import { UV_MAX_VALUES } from "ts/Constants";
 import { nameof, toHSL } from "ts/Helpers";

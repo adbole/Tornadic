@@ -14,7 +14,7 @@ import { Lungs } from "svgs/widget";
 
 import { UV_MAX_VALUES } from "ts/Constants";
 import { Normalize } from "ts/Helpers";
-import { HazardInfo } from "ts/WeatherData";
+import { HazardInfo } from "ts/Weather";
 
 export enum HazardType {
     AirQuality,

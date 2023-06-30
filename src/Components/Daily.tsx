@@ -1,12 +1,12 @@
 import { useModal } from "Contexts/ModalContext";
-import { useWeather } from "Contexts/Weather";
+import { useWeather } from "Contexts/WeatherContext";
 
 import Chart, { ChartViews } from "Components/Chart";
 import { Widget, WidgetSize } from "Components/SimpleComponents";
 import { Calendar } from "svgs/widget";
 
 import { Normalize } from "ts/Helpers";
-import { DayInfo, WeatherData } from "ts/WeatherData";
+import Weather, { DayInfo } from "ts/Weather";
 
 /**
  * A helper component for Daily to display the individual days of the week
@@ -24,7 +24,7 @@ const Day = ({ dayInfo, style, onClick }: {
         <td><p>{dayInfo.day}</p></td>
         <td className={"condition"}>      
             <dayInfo.conditionInfo.icon/>
-            {WeatherData.hasChanceOfRain(dayInfo) && <span>{dayInfo.precipitation_probability}%</span>}
+            {Weather.hasChanceOfRain(dayInfo) && <span>{dayInfo.precipitation_probability}%</span>}
         </td>
         <td>
             <div className='temp-range'>

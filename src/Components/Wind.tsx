@@ -1,5 +1,5 @@
 import { useModal } from "Contexts/ModalContext";
-import { useWeather } from "Contexts/Weather";
+import { useWeather } from "Contexts/WeatherContext";
 
 import Chart, { ChartViews } from "Components/Chart";
 import { Widget } from "Components/SimpleComponents";
