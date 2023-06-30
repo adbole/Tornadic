@@ -1,25 +1,11 @@
-import { ReactComponent as Drizzle } from "./cloud-drizzle-fill.svg";
-import { ReactComponent as Fog } from "./cloud-fog-fill.svg";
-import { ReactComponent as Lightning } from "./cloud-lightning-rain-fill.svg";
-import { ReactComponent as CloudMoon } from "./cloud-moon-fill.svg";
-import { ReactComponent as Rain } from "./cloud-rain-fill.svg";
-import { ReactComponent as Cloud } from "./cloud-single-fill.svg";
-import { ReactComponent as CloudSun } from "./cloud-sun-fill.svg";
-import { ReactComponent as Clouds } from "./clouds-fill.svg";
-import { ReactComponent as Moon } from "./moon-fill.svg";
-import { ReactComponent as Snow } from "./snow.svg";
-import { ReactComponent as Sun } from "./sun-fill.svg";
-
-export {
-    Cloud,
-    CloudMoon,
-    Clouds,
-    CloudSun,
-    Drizzle,
-    Fog,
-    Lightning,
-    Moon,
-    Rain,
-    Snow,
-    Sun,
-};
+export { ReactComponent as Drizzle } from "./cloud-drizzle-fill.svg";
+export { ReactComponent as Fog } from "./cloud-fog-fill.svg";
+export { ReactComponent as Lightning } from "./cloud-lightning-rain-fill.svg";
+export { ReactComponent as CloudMoon } from "./cloud-moon-fill.svg";
+export { ReactComponent as Rain } from "./cloud-rain-fill.svg";
+export { ReactComponent as Cloud } from "./cloud-single-fill.svg";
+export { ReactComponent as CloudSun } from "./cloud-sun-fill.svg";
+export { ReactComponent as Clouds } from "./clouds-fill.svg";
+export { ReactComponent as Moon } from "./moon-fill.svg";
+export { ReactComponent as Snow } from "./snow.svg";
+export { ReactComponent as Sun } from "./sun-fill.svg";
