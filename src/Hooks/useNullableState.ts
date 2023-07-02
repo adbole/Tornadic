@@ -1,5 +1,6 @@
 import React from "react";
 
+
 export default function useNullableState<T>(): [T | null, (value: NonNullable<T>) => void, () => void] {
     const [state, setState] = React.useState<T | null>(null);
 

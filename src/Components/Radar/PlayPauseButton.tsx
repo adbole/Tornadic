@@ -4,6 +4,7 @@ import { useBooleanState } from "Hooks";
 
 import { Pause, Play } from "svgs/radar";
 
+
 const PlayPauseButton = ({ play, pause }: { play: VoidFunction, pause: () => boolean }) => {
     const [isPlaying, setIsPlayingTrue, setIsPlayingFalse] = useBooleanState(false);
 

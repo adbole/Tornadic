@@ -12,6 +12,7 @@ import Home from "./Home";
 import Locate from "./Locate";
 import RainViewer from "./RainViewer";
 
+
 interface IDictionary {
     [indiex: string]: HTMLDivElement
 }

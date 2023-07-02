@@ -6,6 +6,7 @@ import { UV_MAX_VALUES } from "ts/Constants";
 
 import { ChartViews, DataPoint } from ".";
 
+
 function getUnit(data: DataPoint, defaultUnit: React.ReactNode) {
     const { property, primaryKey } = data;
 

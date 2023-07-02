@@ -13,9 +13,6 @@
         "object-shorthand": "error",
         "object-curly-newline": ["error", { "multiline": true }],
         "@typescript-eslint/object-curly-spacing": ["error", "always"],
-        "simple-import-sort/exports": "error",
-        "simple-import-sort/imports": "error",
-        "no-duplicate-imports": "error",
         "prefer-const": "error",
         "keyword-spacing": ["error", { "overrides": {
             "if": { "after": false },
@@ -23,6 +20,12 @@
             "for": { "after": false}
         } }],
 
+        "import/newline-after-import": ["error", { "count": 2 }],
+            
+        "simple-import-sort/exports": "error",
+        "simple-import-sort/imports": "error",
+        "no-duplicate-imports": "error",
+        
         "react/jsx-closing-bracket-location": ["error", "tag-aligned"],
         "react/destructuring-assignment": "error"
     },

@@ -6,7 +6,8 @@ import { Widget, WidgetSize } from "Components/SimpleComponents";
 import { Calendar } from "svgs/widget";
 
 import { Normalize } from "ts/Helpers";
-import Weather, { DayInfo } from "ts/Weather";
+import { DayInfo } from "ts/Weather";
+
 
 /**
  * A helper component for Daily to display the individual days of the week
@@ -24,7 +25,7 @@ const Day = ({ dayInfo, style, onClick }: {
         <td><p>{dayInfo.day}</p></td>
         <td className={"condition"}>      
             <dayInfo.conditionInfo.icon/>
-            {Weather.hasChanceOfRain(dayInfo) && <span>{dayInfo.precipitation_probability}%</span>}
+            {dayInfo.has_chance_of_rain && <span>{dayInfo.precipitation_probability}%</span>}
         </td>
         <td>
             <div className='temp-range'>
@@ -43,23 +44,13 @@ const Day = ({ dayInfo, style, onClick }: {
  * @returns The Daily widget
  */
 const Daily = () => {
-    const weather = useWeather();
-    const { forecast: { daily } } = weather;
+    const { weather } = useWeather();
     const { showModal } = useModal();
 
-    //Determine the weeks low and high
-    let low_week = daily.temperature_2m_min[0];
-    let high_week = daily.temperature_2m_max[0];
+    const dailyValues = Array.from(weather.getDailyValues());
 
-    for(let i = 1; i < daily.time.length; ++i) {
-        if(daily.temperature_2m_min[i] < low_week) {
-            low_week = daily.temperature_2m_min[i];
-        }
-
-        if(daily.temperature_2m_max[i] > high_week) {
-            high_week = daily.temperature_2m_max[i];
-        }
-    }
+    const low_week = Math.min(...dailyValues.flatMap(day => day.temperature_low));
+    const high_week = Math.max(...dailyValues.flatMap(day => day.temperature_high));
 
     const calculateDualRangeCoverStyle = (min: number, max: number) => {
         min = Math.max(0, min);
@@ -79,7 +70,7 @@ const Daily = () => {
             <table>
                 <tbody>
                     {
-                        Array.from(weather.getDailyValues()).map((day, index) => (
+                        dailyValues.map((day, index) => (
                             <Day 
                                 key={index} dayInfo={day} 
                                 style={calculateDualRangeCoverStyle(day.temperature_low, day.temperature_high)} 

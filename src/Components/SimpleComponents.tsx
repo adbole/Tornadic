@@ -6,7 +6,7 @@ import React from "react";
 
 import { useModal } from "Contexts/ModalContext";
 import { useWeather } from "Contexts/WeatherContext";
-import { HourlyProperties } from "Contexts/WeatherContext/index.types";
+import { Forecast } from "Contexts/WeatherContext/index.types";
 
 import Chart, { ChartViews } from "Components/Chart";
 import HazardLevel, { HazardType } from "Components/HazardLevel";
@@ -55,19 +55,18 @@ type ChartViewKey = keyof typeof ChartViews;
 export const SimpleInfoWidget = ({ icon, title, property }: {
     icon: React.ReactNode,
     title: string,
-    property: keyof HourlyProperties<any>
+    property: keyof Omit<Forecast["hourly"], "time">
 }) => {
-    const { forecast } = useWeather();
+    const { weather } = useWeather();
     const { showModal } = useModal();
 
-    //Because ChartViews' values map to a HourlyProperties property, then a property of HourlyProperties can be mapped to a key of ChartViews (if it exists on ChartViews)
     const chartView = ChartViews[Object.keys(ChartViews).find((k) => ChartViews[k as ChartViewKey] === property) as ChartViewKey];
 
     return (
         <Widget className="basic-info" isTemplate onClick={() => showModal(<Chart showView={chartView}/>)}>
             {icon}
             <h1 className='widget-title'>{title}</h1>
-            <p>{forecast.hourly[property][forecast.nowIndex].toFixed(0) + forecast.hourly_units[property]}</p>
+            <p>{weather.getForecast(property).toFixed(0) + weather.getForecastUnit(property)}</p>
         </Widget>
     );
 };
@@ -85,10 +84,10 @@ export const DayValues = () => {
 };
 
 export const AirUV = () => {
-    const { forecast, airQuality: { hourly: aqHourly } } = useWeather();
-
-    const AQ = Math.round(aqHourly.us_aqi[forecast.nowIndex]);
-    const UV = Math.round(forecast.hourly.uv_index[forecast.nowIndex]);
+    const { weather } = useWeather();
+    
+    const AQ = Math.round(weather.getForecast("us_aqi"));
+    const UV = Math.round(weather.getForecast("uv_index"));
 
     return (
         <>

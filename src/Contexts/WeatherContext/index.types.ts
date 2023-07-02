@@ -21,7 +21,7 @@ export type Forecast = {
 }
 
 //Helper type to ensure properties are consistent across hourly_units and hourly
-export type HourlyProperties<T extends number[] | string> = {
+type HourlyProperties<T extends number[] | string> = {
     temperature_2m: T
     apparent_temperature: T,
     relativehumidity_2m: T,
@@ -39,7 +39,7 @@ export type HourlyProperties<T extends number[] | string> = {
 }
 
 //Helper type to ensure properties are consistent across daily_units and daily
-export type DailyProperties<T extends number[] | string, Q extends string[] | string> = {
+type DailyProperties<T extends number[] | string, Q extends string[] | string> = {
     temperature_2m_min: T,
     temperature_2m_max: T,
     weathercode: T,
@@ -67,28 +67,6 @@ export type GridPoint = Readonly<{
             }
         }
         county: string
-    }
-}>
-
-export type NWSAlert = Readonly<{
-    geometry: {
-        coordinates: number[][][]
-    }
-    properties: {
-        areaDesc: string
-        sent: string
-        effective: string
-        expires: string
-        ends: string
-        severity: string
-        certantiy: string
-        urgency: string
-        event: string
-        senderName: string
-        headline: string
-        description: string
-        instruction: string
-        response: string
     }
 }>
 

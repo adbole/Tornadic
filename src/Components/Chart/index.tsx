@@ -3,11 +3,11 @@ import { Area, Bar, CartesianGrid, Line, ReferenceLine, ResponsiveContainer, Too
 
 import { Modal, ModalContent, ModalTitle } from "Contexts/ModalContext";
 import { useWeather } from "Contexts/WeatherContext";
-import { Forecast } from "Contexts/WeatherContext/index.types";
 
 import { UV_MAX_VALUES } from "ts/Constants";
 import { nameof, toHSL } from "ts/Helpers";
 import * as TimeConversion from "ts/TimeConversion";
+import Weather from "ts/Weather";
 
 import { ChartDisplay, CustomTooltip } from "./Components";
 
@@ -31,14 +31,14 @@ export type DataPoint = {
 }
 
 //Gets the data for the given day and property
-function getData(forecast: Readonly<Forecast>, property: ChartViews, day: number) {
+function getData(weather: Weather, property: ChartViews, day: number) {
     const data: DataPoint[] = [];
 
     for(let i = 24 * (day); i < 24 * (day + 1); ++i) {
         data.push({
             property,
-            name: TimeConversion.getTimeFormatted(forecast.hourly.time[i], TimeConversion.TimeFormat.Hour),
-            primaryKey: forecast.hourly[property][i],
+            name: TimeConversion.getTimeFormatted(weather.getForecast("time", i), TimeConversion.TimeFormat.Hour),
+            primaryKey: weather.getForecast(property, i),
             secondaryKey: getSecondaryKey(i)
         });
     }
@@ -49,9 +49,9 @@ function getData(forecast: Readonly<Forecast>, property: ChartViews, day: number
     function getSecondaryKey(i: number) {
         switch(property) {
             case ChartViews.Temperature:
-                return forecast.hourly.apparent_temperature[i];
+                return weather.getForecast("apparent_temperature", i);
             case ChartViews.Windspeed:
-                return forecast.hourly.windgusts_10m[i];
+                return weather.getForecast("windgusts_10m", i);
             default:
                 return null;
         }
@@ -79,7 +79,7 @@ function getMinMax([min, max]: [number, number], property: ChartViews): [number,
 function getDataVisual(unit: string, view: ChartViews, dataPoints: DataPoint[]) {
     switch(view) {
         case ChartViews.Precipitation:
-            return <Bar dataKey={nameof<DataPoint>("primaryKey")} fill={"#0078ef"} />;
+            return <Bar dataKey={nameof<DataPoint>("primaryKey")} fill={"#0078ef"} unit={unit}/>;
         case ChartViews.Temperature: {
             const dataValues = dataPoints.flatMap(point => [point.primaryKey, (point.secondaryKey as number) ?? 0]);
             const minMax = getMinMax([Math.min(...dataValues), Math.max(...dataValues)], view);
@@ -126,11 +126,11 @@ function getDataVisual(unit: string, view: ChartViews, dataPoints: DataPoint[]) 
 }
 
 const Chart = ({ showView, showDay = 0 }: { showView: ChartViews, showDay?: number }) => {
-    const { forecast } = useWeather();
+    const { weather } = useWeather();
     const [view, setView] = React.useState(showView);
     const [day, setDay] = React.useState(showDay);
 
-    const chartData = React.useMemo(() => getData(forecast, view, day), [forecast, view, day]);
+    const chartData = React.useMemo(() => getData(weather, view, day), [weather, view, day]);
 
     const timeRef = React.useRef<HTMLSpanElement>(null);
     const selectRef = React.useRef<HTMLSelectElement>(null);
@@ -177,8 +177,8 @@ const Chart = ({ showView, showDay = 0 }: { showView: ChartViews, showDay?: numb
             <ModalContent>
                 <div className="day-controls">
                     {
-                        forecast.hourly.time.filter((_, i) =>  i % 24 === 0).map((time, i) => (
-                            <div key={i} className="toggle-button" onClick={() => setDay(i)}>
+                        weather.getAllDays("time").map((time, i) => (
+                            <div key={time} className="toggle-button" onClick={() => setDay(i)}>
                                 <input type="radio" name="chart-radio" id={i.toString()} defaultChecked={i === day}/>
                                 <label htmlFor={i.toString()}>{TimeConversion.getTimeFormatted(time, TimeConversion.TimeFormat.Weekday)}</label>
                             </div>
@@ -186,22 +186,22 @@ const Chart = ({ showView, showDay = 0 }: { showView: ChartViews, showDay?: numb
                     }
                 </div>
 
-                <p>{TimeConversion.getTimeFormatted(forecast.hourly.time[day * 24], TimeConversion.TimeFormat.Date)}<span ref={timeRef}></span></p>
+                <p>{TimeConversion.getTimeFormatted(weather.getForecast("time", day * 24), TimeConversion.TimeFormat.Date)}<span ref={timeRef}></span></p>
 
                 <ResponsiveContainer width={"100%"} height="100%">
                     <ChartDisplay property={view} data={chartData} margin={{ top: 0, left: 0, right: 0, bottom: 0 }} onMouseMove={onMouseMove} onMouseLeave={onMouseLeave}>
-                        {getDataVisual(forecast.hourly_units[view], view, chartData)}
+                        {getDataVisual(weather.getForecastUnit(view), view, chartData)}
                         <CartesianGrid stroke="#ffffff19"/>
                         <XAxis dataKey="name" interval={5} textAnchor="start"/>
                         {
                             view === ChartViews.Temperature || view === ChartViews.Dewpoint || view === ChartViews.Humidity
-                                ? <YAxis {...yAxisProps} unit={forecast.hourly_units[view]}/>
+                                ? <YAxis {...yAxisProps} unit={weather.getForecastUnit(view)}/>
                                 : <YAxis {...yAxisProps} tickFormatter={(value: number) => (Math.round(value * 10) / 10).toString()}/>
                         }
                         
                         {/* @ts-ignore */}
                         <Tooltip wrapperStyle={{ outline: "none" }} position={{ x: "auto", y: 10 }} content={<CustomTooltip/>}/>
-                        {day === 0 && <ReferenceLine x={TimeConversion.getTimeFormatted(forecast.hourly.time[forecast.nowIndex], TimeConversion.TimeFormat.Hour)}/>}
+                        {day === 0 && <ReferenceLine x={TimeConversion.getTimeFormatted(weather.getForecast("time"), TimeConversion.TimeFormat.Hour)}/>}
                     </ChartDisplay>
                 </ResponsiveContainer>
             </ModalContent>

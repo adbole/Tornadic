@@ -4,6 +4,7 @@ import { useBooleanState } from "Hooks";
 
 import { CircleSlashes } from "../../svgs/radar";
 
+
 const Opacity = ({ value, setOpacity }: { value: number, setOpacity: (x: number) => void }) => {
     const [hover, setHoverTrue, setHoverFalse] = useBooleanState(false);
 

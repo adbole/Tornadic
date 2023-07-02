@@ -6,7 +6,7 @@ import { Widget } from "Components/SimpleComponents";
 import { Clock } from "svgs/widget";
 
 import * as TimeConversion from "ts/TimeConversion";
-import Weather, { HourInfo } from "ts/Weather";
+import { HourInfo } from "ts/Weather";
 
 /**
  * A helper component for the Hourly component to display the individual hours
@@ -16,7 +16,7 @@ const Hour = ({ hourInfo } : { hourInfo: HourInfo }) => (
         <p>{TimeConversion.getTimeFormatted(hourInfo.time, TimeConversion.TimeFormat.Hour)}</p>
         <div>
             <hourInfo.conditionInfo.icon/>
-            {Weather.hasChanceOfRain(hourInfo) && <span>{hourInfo.precipitation_probability}%</span>}
+            {hourInfo.has_chance_of_rain && <span>{hourInfo.precipitation_probability}%</span>}
         </div>
         <p>{hourInfo.temperature}°</p>
     </li>
@@ -36,7 +36,7 @@ const DaySeperator = ({ day }: { day: string }) => (
  * @returns The Hourly widget
  */
 const Hourly = () => {
-    const weather = useWeather();
+    const { weather } = useWeather();
 
     let isDown = false;
     let startX: number;

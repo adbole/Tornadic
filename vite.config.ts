@@ -5,6 +5,7 @@ import { VitePWA } from "vite-plugin-pwa";
 import svgr from "vite-plugin-svgr";
 import tsConfigPaths from "vite-tsconfig-paths";
 
+
 export default defineConfig(() => {
     return {
         build: { outDir: "build" },

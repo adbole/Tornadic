@@ -24,17 +24,20 @@ const HelperWidget = ({ isSunrise, time, nextTime }: { isSunrise: boolean,  time
  * @returns The SunTime widget
  */
 const SunTime = () => {
-    const { forecast: { daily } } = useWeather();
+    const { weather } = useWeather();
+    const sunrise = (x: number) => weather.getDay("sunrise", x);
+    const sunset = (x: number) => weather.getDay("sunset", x);
+
     const currentDate = new Date();
 
-    if(currentDate < new Date(daily.sunrise[0])) {
-        return <HelperWidget isSunrise={true} time={daily.sunrise[0]} nextTime={daily.sunset[0]} />;
+    if(currentDate < new Date(sunrise(0))) {
+        return <HelperWidget isSunrise={true} time={sunrise(0)} nextTime={sunset(0)} />;
     }
-    else if(currentDate < new Date(daily.sunset[0])) {
-        return <HelperWidget isSunrise={false} time={daily.sunset[0]} nextTime={daily.sunrise[1]}/>;
+    else if(currentDate < new Date(sunset(0))) {
+        return <HelperWidget isSunrise={false} time={sunset(0)} nextTime={sunrise(1)}/>;
     }
     else {
-        return <HelperWidget isSunrise={true} time={daily.sunrise[1]} nextTime={daily.sunset[1]} />;
+        return <HelperWidget isSunrise={true} time={sunrise(1)} nextTime={sunset(1)} />;
     }
 };
 

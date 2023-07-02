@@ -2,11 +2,13 @@ import React from "react";
 
 import { Modal, ModalContent, ModalTitle } from "Contexts/ModalContext";
 import SlideContextProvider, { useSlide } from "Contexts/SlideContext";
-import { NWSAlert } from "Contexts/WeatherContext/index.types";
 
 import { Widget } from "Components/SimpleComponents";
 
-import * as AlertHelpers from "./Common";
+import NWSAlert from "ts/NWSAlert";
+
+import { AlertInformationDisplay } from "./Common";
+
 
 export const AlertSelectionModal = ({ alerts }: { alerts: NWSAlert[] }) => {
     //Memoize the component to prevent unnecessary operations
@@ -17,13 +19,12 @@ export const AlertSelectionModal = ({ alerts }: { alerts: NWSAlert[] }) => {
                     {alerts.length} Weather Alerts
                 </ModalTitle>
                 <ModalContent>
-                    {alerts.map((alert, index) => <AlertDisplaySelectionWrapper key={index} alert={alert}/>)}
+                    {alerts.map((alert) => <AlertDisplaySelectionWrapper key={alert.get("id")} alert={alert}/>)}
                 </ModalContent>
             </SlideContextProvider>
         </Modal>
     ), [alerts]);
     
-
     return memoizedComponent;
 };
 
@@ -34,10 +35,8 @@ const AlertDisplaySelectionWrapper = ({ alert }: { alert: NWSAlert }) => {
     const onClickHandler = () => slideTo(<AlertModalBody alert={alert} onClick={reset}/>);
     
     return (
-        <Widget className={AlertHelpers.getAlertCSSClass(alert)} onClick={onClickHandler}>
-            <h2>{alert.properties.event}</h2>
-            <p><em>Issued:</em> {AlertHelpers.convertTime(alert.properties.sent)}</p>
-            <p><em>Until:</em> {AlertHelpers.convertTime(alert.properties.ends ?? alert.properties.expires)}</p>
+        <Widget className={alert.getAlertCSS()} onClick={onClickHandler}>
+            <AlertInformationDisplay alert={alert}/>
         </Widget>
     );
 };
@@ -49,7 +48,7 @@ export const AlertModal = (props: { alert: NWSAlert } & React.DialogHTMLAttribut
     const { alert, ...excess } = props;
     
     return (
-        <Modal id="alert-modal" {...excess}>
+        <Modal {...excess}>
             <AlertModalBody alert={alert}/>
         </Modal>
     );
@@ -58,23 +57,23 @@ export const AlertModal = (props: { alert: NWSAlert } & React.DialogHTMLAttribut
 
 const AlertModalBody = ({ alert, onClick }: { alert: NWSAlert, onClick?: (e: React.MouseEvent<HTMLHeadingElement>) => void }) => (
     <>
-        <ModalTitle className={AlertHelpers.getAlertCSSClass(alert)} onClick={onClick}>{alert.properties.event}</ModalTitle>
+        <ModalTitle className={alert.getAlertCSS()} onClick={onClick}>{alert.get("event")}</ModalTitle>
         <ModalContent>
-            <p><em>Issuing Office:</em> {alert.properties.senderName}</p>
-            <p><em>Issued:</em> {AlertHelpers.convertTime(alert.properties.sent)}</p>
-            <p><em>Effective:</em> {AlertHelpers.convertTime(alert.properties.effective)}</p>
-            <p><em>Ends:</em> {AlertHelpers.convertTime(alert.properties.ends ?? alert.properties.expires)}</p>
+            <p><em>Issuing Office:</em> {alert.get("senderName")}</p>
+            <p><em>Issued:</em> {alert.get("sent")}</p>
+            <p><em>Effective:</em> {alert.get("effective")}</p>
+            <p><em>Ends:</em> {alert.get("ends") ?? alert.get("expires")}</p>
             <hr/>
             {
-                alert.properties.instruction && 
+                alert.get("instruction") && 
                 <>
                     <h3>Instructions</h3>
-                    <p>{alert.properties.instruction}</p>
+                    <p>{alert.get("instruction")}</p>
                     <hr/>
                 </>
             }
             {
-                alert.properties.description.split("*").map((string, index) => {
+                alert.get("description").split("*").map((string, index) => {
                     if(!string.length) return <React.Fragment key={index}/>;
 
                     return <p key={index}>* {string}</p>;
@@ -82,7 +81,7 @@ const AlertModalBody = ({ alert, onClick }: { alert: NWSAlert, onClick?: (e: Rea
             }
             <hr/>
             <h3>Affected Areas</h3>
-            <p>{alert.properties.areaDesc}</p>
+            <p>{alert.get("areaDesc")}</p>
         </ModalContent>
     </>
 );

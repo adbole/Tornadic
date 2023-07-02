@@ -1,5 +1,6 @@
 import * as Conditions from "svgs/conditions";
 
+
 export enum WeatherConditionType {
     CLEAR = "Clear",
     MOSTLY_CLEAR = "Mostly Clear",

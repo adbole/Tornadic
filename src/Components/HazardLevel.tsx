@@ -3,7 +3,7 @@
  * Simply input the index into WeatherHelper to get the needed information to populate the view
  */
 
-import React from "react";
+import React, { ReactNode } from "react";
 
 import { useModal } from "Contexts/ModalContext";
 
@@ -14,7 +14,18 @@ import { Lungs } from "svgs/widget";
 
 import { UV_MAX_VALUES } from "ts/Constants";
 import { Normalize } from "ts/Helpers";
-import { HazardInfo } from "ts/Weather";
+
+
+export type HazardInfo = Readonly<{
+    id: string, //Used to distinguish the different gradient requirements in CSS
+    title: string,
+    titleIcon: ReactNode,
+    value: number,
+    min: number,
+    max: number,
+    message: string
+}>
+
 
 export enum HazardType {
     AirQuality,

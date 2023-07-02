@@ -13,7 +13,7 @@ import { WeatherConditionType } from "ts/WeatherCondition";
  * @returns The Now widget
  */
 const Now = () => {
-    const weather = useWeather();
+    const { weather } = useWeather();
     const now = weather.getNow();
 
     const { showModal } = useModal();
@@ -24,7 +24,7 @@ const Now = () => {
     //Determine what background should be applied
     switch(now.conditionInfo.type) {
         case WeatherConditionType.OVERCAST:
-            background.current = `overcast-${weather.isDay(weather.forecast.nowIndex) ? "day" : "night"}`;
+            background.current = `overcast-${weather.isDay() ? "day" : "night"}`;
             break;
         case WeatherConditionType.RAIN: 
         case WeatherConditionType.RAIN_SHOWERS:
@@ -40,7 +40,7 @@ const Now = () => {
             background.current = "snow";
             break;
         default:
-            background.current = `clear-${weather.isDay(weather.forecast.nowIndex) ? "day" : "night"}`;
+            background.current = `clear-${weather.isDay() ? "day" : "night"}`;
     }
 
     document.body.classList.add(background.current);

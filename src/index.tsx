@@ -8,6 +8,7 @@ import MessageScreen from "Components/MessageScreen";
 import { ExclamationTriangle, WifiOff } from "svgs";
 import { Cursor } from "svgs/radar";
 
+
 const Index = () => {
     const [online, setOnlineTrue, setOnlineFalse] = useBooleanState(navigator.onLine);
 

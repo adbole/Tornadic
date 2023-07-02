@@ -4,15 +4,14 @@ import { LatLngExpression } from "leaflet";
 import { useModal } from "Contexts/ModalContext";
 import { useWeather } from "Contexts/WeatherContext";
 
-import { AlertModal } from "../Alert/AlertModal";
-import { getAlertCSSClass } from "../Alert/Common";
+import { AlertModal } from "Components/Alert/AlertModal";
 
 /**
  * Converts the coords given by the NWSAlert to an array of LatLngExpressions to be used by a polygon.
  * @param coords The coords to be converted
  * @returns The new coords to be used by a polygon
  */
-function ConvertToLatLng(coords: number[][][]): LatLngExpression[] {
+function convertToLatLng(coords: number[][][]): LatLngExpression[] {
     return coords[0].map<LatLngExpression>(latlng => ({
         lat: latlng[1],
         lng: latlng[0]
@@ -30,19 +29,19 @@ const AlertPolygons = () => {
 
     return (
         <>{
-            alerts.filter(alert => alert.geometry !== null).map((alert, index) => {
+            alerts.filter(alert => alert.getCoords()).map(alert => {
                 const onClick = () => {
                     //Don't show modal if the radar isn't zoomed
                     if(!map.dragging.enabled()) return;
 
-                    showModal(<AlertModal alert={alerts[index]}/>);
+                    showModal(<AlertModal alert={alert}/>);
                 };
 
                 return (
                     <Polygon 
-                        className={getAlertCSSClass(alert)} 
-                        key={index} 
-                        positions={ConvertToLatLng(alert.geometry.coordinates)} 
+                        className={alert.getAlertCSS()} 
+                        key={alert.get("id")} 
+                        positions={convertToLatLng(alert.getCoords()!)} 
                         eventHandlers={{ click: onClick }}
                     />
                 );

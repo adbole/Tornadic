@@ -11,13 +11,18 @@ import MessageScreen from "Components/MessageScreen";
 import Skeleton from "Components/Skeleton";
 import { ExclamationTriangle } from "svgs";
 
-import { fetchData, fetchDataAndHeaders, FetchResponse } from "ts/Fetch";
+import { fetchData, fetchDataAndHeaders } from "ts/Fetch";
 import { throwError } from "ts/Helpers";
+import NWSAlert from "ts/NWSAlert";
 import Weather from "ts/Weather";
 
 import * as WeatherTypes from "./index.types";
 
-const WeatherContext = React.createContext<Weather | null>(null);
+
+const WeatherContext = React.createContext<{
+    weather: Weather,
+    alerts: NWSAlert[]
+}>({} as any);
 export const useWeather = () => React.useContext(WeatherContext) ?? throwError("Please use useWeather inside a WeatherContext provider");
 
 const TEMP_UNIT = "fahrenheit";
@@ -33,11 +38,11 @@ async function getURLs(): Promise<WeatherTypes.EndpointURLs> {
     const forecastURL = new URL("https://api.open-meteo.com/v1/gfs?timezone=auto&current_weather=true");
 
     //Type Array<keyof T> provides compile-time checking to ensure array values match a property on T
-    const hourly_params: Array<keyof WeatherTypes.HourlyProperties<any>> = [
+    const hourly_params: Array<keyof WeatherTypes.Forecast["hourly"]> = [
         "temperature_2m", "apparent_temperature", "precipitation", "weathercode", "relativehumidity_2m", "dewpoint_2m",
         "visibility", "windspeed_10m", "winddirection_10m", "surface_pressure", "precipitation_probability", "windgusts_10m", "uv_index", "is_day"
     ];
-    const daily_params: Array<keyof WeatherTypes.DailyProperties<any, any>> = [
+    const daily_params: Array<keyof WeatherTypes.Forecast["daily"]> = [
         "temperature_2m_min", "temperature_2m_max", "weathercode", "sunrise", "sunset", "precipitation_probability_max"
     ];
 
@@ -67,7 +72,8 @@ async function getURLs(): Promise<WeatherTypes.EndpointURLs> {
  */
 async function getAlertData(from: string | WeatherTypes.GridPoint): Promise<{
     point: WeatherTypes.GridPoint,
-    alerts: NonNullable<FetchResponse<{ features: WeatherTypes.NWSAlert[] }>>
+    alerts: NWSAlert[],
+    expiresAfter: number
 } | null> {
     let point;
 
@@ -82,11 +88,21 @@ async function getAlertData(from: string | WeatherTypes.GridPoint): Promise<{
 
     //Extract the county from the county url given by the point
     const county = point.properties.county.substring(lastIndex);
-    const alerts = await fetchDataAndHeaders<{ features: WeatherTypes.NWSAlert[] }>(`https://api.weather.gov/alerts/active/zone/${county}`, "National Weather Service Alert Endpoint");
+    const apiResponse = await fetchDataAndHeaders<{ features: NWSAlert[] }>(`https://api.weather.gov/alerts/active/zone/${county}`, "National Weather Service Alert Endpoint");
+
+    const alerts = apiResponse.data.features.map(alert => new NWSAlert(alert));
+
+    //Determine when the alert will expire
+    const expiresHeader = new Date(apiResponse.headers.get("expires")!);
+    
+    //5s buffer added to ensure a request isn't made so soon that the same expires 
+    //header is retreived again causing mutliple requests per refresh.
+    const expiresAfter = (expiresHeader.getTime() - new Date().getTime()) + 5000;
 
     return {
         point,
-        alerts
+        alerts,
+        expiresAfter
     };
 }
 
@@ -129,7 +145,9 @@ function smartTimeout(fn: () => void, ms: number) {
 const WeatherContextProvider = ({ children }: { children: ReactNode }) => {
     const [urls, setURLs] = React.useState<WeatherTypes.EndpointURLs>();
     const [error, setError, unsetError] = useNullableState<string>();
+
     const [weather, setWeather] = useNullableState<Weather>();
+    const [alerts, setAlerts] = useNullableState<NWSAlert[]>();
 
     //null here will indicate a refresh is needed as a stored value indicates a timer is running
     const [refresh, setRefresh, unsetRefresh] = useNullableState<NodeJS.Timeout>();
@@ -139,17 +157,6 @@ const WeatherContextProvider = ({ children }: { children: ReactNode }) => {
     React.useMemo(() => getURLs().then(urls => setURLs(urls)), []);
 
     React.useEffect(() => {
-        function configureAlertRefresh(headers: Headers) {
-            //Determine when the alert will expire
-            const expires = new Date(headers.get("expires")!);
-            
-            //5s buffer added to ensure a request isn't made so soon that the same expires 
-            //header is retreived again causing mutliple requests per refresh.
-            const remainingTime = (expires.getTime() - new Date().getTime()) + 5000;
-
-            setAlertRefresh(smartTimeout(unsetAlertRefresh, remainingTime));
-        }
-
         async function getData() {    
             if(!urls) return;
 
@@ -172,24 +179,25 @@ const WeatherContextProvider = ({ children }: { children: ReactNode }) => {
                 //Determine when the next hour is
                 const ms = 3.6e6 - new Date().getTime() % 3.6e6;
                 setRefresh(smartTimeout(unsetRefresh, ms));
-                configureAlertRefresh(alertResponse.alerts.headers);
+                setAlertRefresh(smartTimeout(unsetAlertRefresh, alertResponse.expiresAfter));
 
                 //Convert data to desired formats
                 configureData(forecast);
-                setWeather(new Weather(forecast, airquality, alertResponse.point, alertResponse.alerts.data.features));
+                setWeather(new Weather(forecast, airquality, alertResponse.point));
+                setAlerts(alertResponse.alerts);
             }
             else if(!alertRefresh && weather) {
                 const alertResponse = await getAlertData(weather.point).catch(e => setError(e));
 
                 if(!alertResponse) return;
 
-                configureAlertRefresh(alertResponse.alerts.headers);
-                setWeather(new Weather(weather.forecast, weather.airQuality, alertResponse.point, alertResponse.alerts.data.features));
+                setAlertRefresh(smartTimeout(unsetAlertRefresh, alertResponse.expiresAfter));
+                setAlerts(alertResponse.alerts);
             }
         }
 
         getData();
-    }, [urls, refresh, alertRefresh, weather, setAlertRefresh, unsetAlertRefresh, setRefresh, unsetRefresh, setWeather, setError]);
+    }, [urls, refresh, alertRefresh, weather, setAlertRefresh, unsetAlertRefresh, setRefresh, unsetRefresh, setWeather, setError, setAlerts]);
 
     if(error) {
         return (
@@ -205,9 +213,11 @@ const WeatherContextProvider = ({ children }: { children: ReactNode }) => {
     }
 
     return (
-        <WeatherContext.Provider value={weather}>
-            {weather ? children : <Skeleton />}
-        </WeatherContext.Provider>
+        weather && alerts ? 
+            <WeatherContext.Provider value={{ weather, alerts }}>
+                {children}
+            </WeatherContext.Provider> 
+            : <Skeleton />
     );
 };
 

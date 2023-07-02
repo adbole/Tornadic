@@ -5,6 +5,7 @@ import L from "leaflet";
 
 import { Cursor, LocationDot } from "../../svgs/radar";
 
+
 const Current_Location_Icon = L.divIcon({
     html: ReactDOMServer.renderToString(<LocationDot/>),
     className:"current-location",

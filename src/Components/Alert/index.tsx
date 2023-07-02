@@ -4,7 +4,8 @@ import { useWeather } from "Contexts/WeatherContext";
 import { Widget, WidgetSize } from "Components/SimpleComponents";
 
 import { AlertModal, AlertSelectionModal } from "./AlertModal";
-import * as AlertHelpers from "./Common";
+import { AlertInformationDisplay } from "./Common";
+
 
 const Alert = () => {
     const { alerts }  = useWeather();
@@ -14,17 +15,14 @@ const Alert = () => {
     if(!alerts.length) return <></>;
     
     //Determine which alert should be shown.
-    const alertToShow = alerts.reduce((highest, next) => 
-        AlertHelpers.determineAlertPriority(next) < AlertHelpers.determineAlertPriority(highest) ? next : highest, alerts[0]);
+    const alertToShow = alerts.reduce((highest, next) => next.priority < highest.priority ? next : highest, alerts[0]);
 
     const onClickHandler = () => modals.showModal(alerts.length > 1 ? <AlertSelectionModal alerts={alerts}/> : <AlertModal alert={alerts[0]}/>);
 
     return (
-        <Widget id="alert" isTemplate size={WidgetSize.WIDE} className={AlertHelpers.getAlertCSSClass(alertToShow)} onClick={onClickHandler}>
+        <Widget id="alert" isTemplate size={WidgetSize.WIDE} className={alertToShow.getAlertCSS()} onClick={onClickHandler}>
             <div>
-                <h2>{alertToShow.properties.event}</h2>
-                <p><em>Issued:</em> {AlertHelpers.convertTime(alertToShow.properties.sent)}</p>
-                <p><em>Until:</em> {AlertHelpers.convertTime(alertToShow.properties.ends ?? alertToShow.properties.expires)}</p>
+                <AlertInformationDisplay alert={alertToShow}/>
             </div>
 
             {alerts.length > 1 && <p className='excess-alerts'>+{alerts.length - 1} more alert(s)</p>}

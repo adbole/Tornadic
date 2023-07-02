@@ -10,6 +10,7 @@ import { Stage } from "Hooks/useAnimation";
 
 import { throwError } from "ts/Helpers";
 
+
 const Context = React.createContext<Readonly<{
     showModal: (value: NonNullable<React.ReactNode>) => void
     hideModal: () => void
