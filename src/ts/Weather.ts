@@ -139,8 +139,15 @@ export default class Weather {
         return this.forecast.daily[prop][day];
     }
 
-    getAllForecast<K extends keyof Forecast["hourly"]>(prop: K): Forecast["hourly"][K] {
-        return this.forecast.hourly[prop];
+    getAllForecast<K extends keyof CombinedHourly>(prop: K, hour: number = this.nowIndex): CombinedHourly[K] {
+        if(prop in this.forecast.hourly) {
+            const key = prop as unknown as keyof Forecast["hourly"];
+            return this.forecast.hourly[key] as CombinedHourly[K];
+        }
+        else {
+            const key = prop as keyof AirQuality["hourly"];
+            return this.airQuality.hourly[key] as CombinedHourly[K];
+        }
     }
 
     getAllDays<K extends keyof Forecast["daily"]>(prop: K, day: number = 0): Forecast["daily"][K] {
