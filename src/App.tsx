@@ -5,13 +5,15 @@ import WeatherContext from "Contexts/WeatherContext";
 
 import Alert from "Components/Alert";
 import Daily from "Components/Daily";
+import HazardLevel from "Components/HazardLevel";
 import Hourly from "Components/Hourly";
 import Now from "Components/Now";
 import Pressure from "Components/Pressure";
 import Radar from "Components/Radar";
-import { AirUV, DayValues } from "Components/SimpleComponents";
+import { SimpleInfoWidget } from "Components/SimpleComponents";
 import SunTime from "Components/SunTime";
 import Wind from "Components/Wind";
+import * as WidgetIcons from "svgs/widget";
 
 
 const App = () => (
@@ -25,8 +27,13 @@ const App = () => (
                 <Alert/>
                 <Hourly/>
 
-                <DayValues/>
-                <AirUV/>
+                <SimpleInfoWidget icon={<WidgetIcons.Droplet />} title="Precipitation" property={"precipitation"}/>
+                <SimpleInfoWidget icon={<WidgetIcons.Thermometer />} title="Dewpoint" property={"dewpoint_2m"}/>
+                <SimpleInfoWidget icon={<WidgetIcons.Moisture />} title="Humidity" property={"relativehumidity_2m"}/>
+                <SimpleInfoWidget icon={<WidgetIcons.Eye />} title="Visibility" property={"visibility"}/>
+                <HazardLevel hazard={"us_aqi"} />
+                <HazardLevel hazard={"uv_index"} />
+                
                 <Wind/>
                 <Pressure/>
                 <SunTime/>

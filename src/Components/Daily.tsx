@@ -1,7 +1,7 @@
 import { useModal } from "Contexts/ModalContext";
 import { useWeather } from "Contexts/WeatherContext";
 
-import Chart, { ChartViews } from "Components/Chart";
+import Chart from "Components/Chart";
 import { Widget, WidgetSize } from "Components/SimpleComponents";
 import { Calendar } from "svgs/widget";
 
@@ -74,7 +74,7 @@ const Daily = () => {
                             <Day 
                                 key={index} dayInfo={day} 
                                 style={calculateDualRangeCoverStyle(day.temperature_low, day.temperature_high)} 
-                                onClick={() => showModal(<Chart showView={ChartViews.Temperature} showDay={index}/>)}
+                                onClick={() => showModal(<Chart showView={"temperature_2m"} showDay={index}/>)}
                             />
                         ))
                     }

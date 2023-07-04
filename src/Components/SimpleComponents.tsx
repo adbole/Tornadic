@@ -6,11 +6,8 @@ import React from "react";
 
 import { useModal } from "Contexts/ModalContext";
 import { useWeather } from "Contexts/WeatherContext";
-import { Forecast } from "Contexts/WeatherContext/index.types";
 
 import Chart, { ChartViews } from "Components/Chart";
-import HazardLevel, { HazardType } from "Components/HazardLevel";
-import * as WidgetIcons from "svgs/widget";
 
 // #region Widget
 export enum WidgetSize {
@@ -50,20 +47,17 @@ export const Widget = React.forwardRef<HTMLDivElement, WidgetProps & React.HTMLA
 // #endregion Widget
 
 // #region SimpleInfoWidget
-type ChartViewKey = keyof typeof ChartViews;
 
 export const SimpleInfoWidget = ({ icon, title, property }: {
     icon: React.ReactNode,
     title: string,
-    property: keyof Omit<Forecast["hourly"], "time">
+    property: ChartViews
 }) => {
     const { weather } = useWeather();
     const { showModal } = useModal();
 
-    const chartView = ChartViews[Object.keys(ChartViews).find((k) => ChartViews[k as ChartViewKey] === property) as ChartViewKey];
-
     return (
-        <Widget className="basic-info" isTemplate onClick={() => showModal(<Chart showView={chartView}/>)}>
+        <Widget className="basic-info" isTemplate onClick={() => showModal(<Chart showView={property}/>)}>
             {icon}
             <h1 className='widget-title'>{title}</h1>
             <p>{weather.getForecast(property).toFixed(0) + weather.getForecastUnit(property)}</p>
@@ -71,28 +65,3 @@ export const SimpleInfoWidget = ({ icon, title, property }: {
     );
 };
 // #endregion SimpleInfoWidget
-
-export const DayValues = () => {
-    return (
-        <>
-            <SimpleInfoWidget icon={<WidgetIcons.Droplet />} title="Precipitation" property={"precipitation"}/>
-            <SimpleInfoWidget icon={<WidgetIcons.Thermometer />} title="Dewpoint" property={"dewpoint_2m"}/>
-            <SimpleInfoWidget icon={<WidgetIcons.Moisture />} title="Humidity" property={"relativehumidity_2m"}/>
-            <SimpleInfoWidget icon={<WidgetIcons.Eye />} title="Visibility" property={"visibility"}/>
-        </>
-    );
-};
-
-export const AirUV = () => {
-    const { weather } = useWeather();
-    
-    const AQ = Math.round(weather.getForecast("us_aqi"));
-    const UV = Math.round(weather.getForecast("uv_index"));
-
-    return (
-        <>
-            <HazardLevel hazard={HazardType.AirQuality} hazardValue={AQ} />
-            <HazardLevel hazard={HazardType.UV} hazardValue={UV} />
-        </>
-    );
-};

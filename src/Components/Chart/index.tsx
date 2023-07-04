@@ -1,27 +1,42 @@
 import React from "react";
-import { Area, Bar, CartesianGrid, Line, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis, YAxisProps } from "recharts";
+import { CartesianGrid, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis, YAxisProps } from "recharts";
 
 import { Modal, ModalContent, ModalTitle } from "Contexts/ModalContext";
 import { useWeather } from "Contexts/WeatherContext";
 
-import { UV_MAX_VALUES } from "ts/Constants";
-import { nameof, toHSL } from "ts/Helpers";
 import * as TimeConversion from "ts/TimeConversion";
-import Weather from "ts/Weather";
+import Weather, { CombinedHourly } from "ts/Weather";
 
-import { ChartDisplay, CustomTooltip } from "./Components";
+import ChartDisplay from "./ChartDisplay";
+import CustomTooltip from "./CustomTooltip";
+import getDataVisual from "./getDataVisual";
 
-//Properties denoted here represent values supported for displaying by a Chart
-export enum ChartViews {
-    Temperature = "temperature_2m",
-    Humidity = "relativehumidity_2m",
-    Precipitation = "precipitation",
-    Dewpoint = "dewpoint_2m",
-    Visibility = "visibility",
-    Windspeed = "windspeed_10m",
-    Pressure = "surface_pressure",
-    UV_Index = "uv_index"
-}
+
+export type ChartViews = keyof Pick<CombinedHourly, 
+| "temperature_2m"
+| "relativehumidity_2m"
+| "precipitation"
+| "dewpoint_2m"
+| "visibility"
+| "windspeed_10m"
+| "surface_pressure"
+| "us_aqi"
+| "uv_index"
+>
+
+const CHART_VIEWS_TITLES: {
+    readonly [x: string]: ChartViews
+} = {
+    Temperature: "temperature_2m",
+    Humidity: "relativehumidity_2m",
+    Precipitation: "precipitation",
+    Dewpoint: "dewpoint_2m",
+    Visibility: "visibility",
+    Windspeed: "windspeed_10m",
+    Pressure: "surface_pressure",
+    Air_Quality: "us_aqi",
+    UV_Index: "uv_index"
+} as const;
 
 export type DataPoint = {
     property: ChartViews,
@@ -48,9 +63,9 @@ function getData(weather: Weather, property: ChartViews, day: number) {
     //Some properties have secondary values
     function getSecondaryKey(i: number) {
         switch(property) {
-            case ChartViews.Temperature:
+            case "temperature_2m":
                 return weather.getForecast("apparent_temperature", i);
-            case ChartViews.Windspeed:
+            case "windspeed_10m":
                 return weather.getForecast("windgusts_10m", i);
             default:
                 return null;
@@ -60,68 +75,19 @@ function getData(weather: Weather, property: ChartViews, day: number) {
 
 function getMinMax([min, max]: [number, number], property: ChartViews): [number, number] {
     switch(property) {
-        case ChartViews.Pressure:
+        case "surface_pressure":
             return [min - 0.3, max + 0.3];
-        case ChartViews.Precipitation:
+        case "precipitation":
             return [0, Math.max(0.5, max + 0.25)];
-        case ChartViews.Humidity:
+        case "relativehumidity_2m":
             return [0, 100];
-        case ChartViews.UV_Index:
+        case "uv_index":
             return [0, Math.max(11, max)];
         default:
             return [
-                Math.floor((min * 0.95) / 10) * 10,
-                Math.ceil((max * 1.10) / 10) * 10
+                Math.floor(min / 10) * 10,
+                Math.ceil(max / 10) * 10 + 10
             ];
-    }
-}
-
-function getDataVisual(unit: string, view: ChartViews, dataPoints: DataPoint[]) {
-    switch(view) {
-        case ChartViews.Precipitation:
-            return <Bar dataKey={nameof<DataPoint>("primaryKey")} fill={"#0078ef"} unit={unit}/>;
-        case ChartViews.Temperature: {
-            const dataValues = dataPoints.flatMap(point => [point.primaryKey, (point.secondaryKey as number) ?? 0]);
-            const minMax = getMinMax([Math.min(...dataValues), Math.max(...dataValues)], view);
-
-            return (
-                <>
-                    <defs>
-                        <linearGradient id="tempGradient" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="0%" stopColor={toHSL(Math.min(120, minMax[1]))}/>
-                            <stop offset="100%" stopColor={toHSL(Math.max(0, minMax[0]))}/>
-                        </linearGradient>
-                    </defs>
-                    <Area type="monotone" dataKey={nameof<DataPoint>("primaryKey")} stroke="#ffffff00" fillOpacity={0.75} fill="url(#tempGradient)" unit={unit}/>
-                    <Area type="monotone" dataKey={nameof<DataPoint>("secondaryKey")} stroke="#fff" fillOpacity={0}/>
-                </>
-            );
-        }
-        case ChartViews.UV_Index: {
-            const maxUV = Math.max(...dataPoints.flatMap(point => point.primaryKey));
-
-            return (
-                <>
-                    <defs>
-                        <linearGradient id="tempGradient" x1="0" y1="0" x2="0" y2="1">
-                            {maxUV >= UV_MAX_VALUES.EXTREME && <stop offset="0%" stopColor="#FF00D6"/>}
-                            {maxUV > UV_MAX_VALUES.HIGH && <stop offset="25%" stopColor="#FF2204"/>}
-                            {maxUV > UV_MAX_VALUES.MODERATE && <stop offset="50%" stopColor="#FF9431"/>}
-                            {maxUV > UV_MAX_VALUES.LOW && <stop offset="75%" stopColor="#FFF501"/>}
-                            <stop offset="100%" stopColor="#00FF66"/>
-                        </linearGradient>
-                    </defs>
-                    <Area type="monotone" dataKey={nameof<DataPoint>("primaryKey")} stroke="#ffffff00" fillOpacity={0.75} fill="url(#tempGradient)"/>
-                </>
-            );
-        }
-        default:
-            return (
-                <>
-                    <Line type="monotone" dataKey={nameof<DataPoint>("primaryKey")} stroke="#2668f7" unit={unit}/>
-                    {dataPoints[0].secondaryKey != null && <Line type="monotone" dataKey={nameof<DataPoint>("secondaryKey")} stroke="#2eff7d"/>}
-                </>
-            );
     }
 }
 
@@ -140,8 +106,7 @@ const Chart = ({ showView, showDay = 0 }: { showView: ChartViews, showDay?: numb
         if(!selectRef.current) return;
 
         const canvasContext = document.createElement("canvas").getContext("2d")!;
-        //16px is default font-size and select is within a h1 getting 2rem font-size, therefore 32px is used here.
-        canvasContext.font = '32px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif';
+        canvasContext.font = getComputedStyle(selectRef.current).font;
 
         //Incase textContent is null Temperature is default since its the largest option
         const width = canvasContext.measureText(selectRef.current.children[selectRef.current.selectedIndex].textContent ?? "Temperature").width;
@@ -168,8 +133,8 @@ const Chart = ({ showView, showDay = 0 }: { showView: ChartViews, showDay?: numb
             <ModalTitle>
                 <select ref={selectRef} className="clear" title="Current Chart" onChange={(e) => setView(e.currentTarget.value as ChartViews)} value={view}>
                     {
-                        Object.keys(ChartViews).map(key => (
-                            <option key={key} value={ChartViews[key as keyof typeof ChartViews]}>{key.replace("_", " ")}</option>
+                        Object.keys(CHART_VIEWS_TITLES).map(key => (
+                            <option key={key} value={CHART_VIEWS_TITLES[key]}>{key.replace("_", " ")}</option>
                         ))
                     }
                 </select>
@@ -194,7 +159,7 @@ const Chart = ({ showView, showDay = 0 }: { showView: ChartViews, showDay?: numb
                         <CartesianGrid stroke="#ffffff19"/>
                         <XAxis dataKey="name" interval={5} textAnchor="start"/>
                         {
-                            view === ChartViews.Temperature || view === ChartViews.Dewpoint || view === ChartViews.Humidity
+                            view === CHART_VIEWS_TITLES.Temperature || view === CHART_VIEWS_TITLES.Dewpoint || view === CHART_VIEWS_TITLES.Humidity
                                 ? <YAxis {...yAxisProps} unit={weather.getForecastUnit(view)}/>
                                 : <YAxis {...yAxisProps} tickFormatter={(value: number) => (Math.round(value * 10) / 10).toString()}/>
                         }

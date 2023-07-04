@@ -6,95 +6,53 @@
 import React, { ReactNode } from "react";
 
 import { useModal } from "Contexts/ModalContext";
+import { useWeather } from "Contexts/WeatherContext";
 
-import Chart, { ChartViews } from "Components/Chart";
+import Chart from "Components/Chart";
 import { Widget } from "Components/SimpleComponents";
 import { Sun } from "svgs/conditions";
 import { Lungs } from "svgs/widget";
 
-import { UV_MAX_VALUES } from "ts/Constants";
-import { Normalize } from "ts/Helpers";
+import { get_aq, get_uv, Normalize } from "ts/Helpers";
+import { CombinedHourly } from "ts/Weather";
 
 
 export type HazardInfo = Readonly<{
     id: string, //Used to distinguish the different gradient requirements in CSS
     title: string,
     titleIcon: ReactNode,
-    value: number,
     min: number,
     max: number,
     message: string
 }>
 
 
-export enum HazardType {
-    AirQuality,
-    UV
-}
-
-enum AQLevels {
-    GOOD = "Good",
-    MODERATE = "Moderate",
-    UNHEALTHY_SENS = "Unhealthy*",
-    UNHEALTHY = "Unhealthy",
-    VERY_UNHEALTHY = "Very Unhealthy",
-    HAZARDOUS = "Hazardous"
-}
-
-enum UVLevels {
-    LOW = "Low",
-    MODERATE = "Moderate",
-    HIGH = "High",
-    VERY_HIGH = "Very High",
-    EXTREME = "Extreme"
-}
-
-function getAQInfo(aq: number): HazardInfo {
-    return {
-        id: "AQ",
-        title: "Air Quality",
-        titleIcon: <Lungs />,
-        value: aq,
-        min: 0,
-        max: 500,
-        message: getMessage()
-    };
-
-    function getMessage() {
-        if(aq <= 50) return AQLevels.GOOD; 
-        else if(aq <= 100) return AQLevels.MODERATE; 
-        else if(aq <= 150) return AQLevels.UNHEALTHY_SENS; 
-        else if(aq <= 200) return AQLevels.UNHEALTHY; 
-        else return AQLevels.VERY_UNHEALTHY; 
-    }
-}
-
-function getUVInfo(uv: number): HazardInfo {
-    return {
-        id: "UV",
-        title: "UV Index",
-        titleIcon: <Sun />,
-        value: uv,
-        min: 0,
-        max: 11,
-        message: getMessage()
-    };
-
-    function getMessage() {
-        if(uv <= UV_MAX_VALUES.LOW) return UVLevels.LOW; 
-        else if(uv <= UV_MAX_VALUES.MODERATE) return UVLevels.MODERATE;
-        else if(uv <= UV_MAX_VALUES.HIGH) return UVLevels.HIGH;
-        else if(uv <= UV_MAX_VALUES.VERY_HIGH) return UVLevels.VERY_HIGH;
-        else return UVLevels.EXTREME; 
-    }
-}
+type HazardType = keyof Pick<CombinedHourly, "us_aqi" | "uv_index">;
 
 function getHazardProps(hazard: HazardType, hazardValue: number) {
-    if(hazard === HazardType.AirQuality)
+    if(hazard === "us_aqi")
         return getAQInfo(hazardValue);
     else
         return getUVInfo(hazardValue);
 }
+
+const getAQInfo = (aq: number): HazardInfo => ({
+    id: "AQ",
+    title: "Air Quality",
+    titleIcon: <Lungs />,
+    min: 0,
+    max: 500,
+    message: get_aq(aq)
+});
+
+const getUVInfo = (uv: number): HazardInfo => ({
+    id: "UV",
+    title: "UV Index",
+    titleIcon: <Sun />,
+    min: 0,
+    max: 11,
+    message: get_uv(uv)
+});
 
 const Meter = ({ rotation }: { rotation: number }) => {
     const id = React.useId();
@@ -125,20 +83,22 @@ const Meter = ({ rotation }: { rotation: number }) => {
  * Takes the information on a given hazard such as AQ or UV Index and displays it using a radial level indicator.
  * @returns The HazardLevel widget displaying the information on a given hazard
  */
-export const HazardLevel = ({ hazard, hazardValue }: { hazard: HazardType, hazardValue: number }) => {
+export const HazardLevel = ({ hazard }: { hazard: HazardType }) => {
     //Extracts everything but value, min, and max which are spread on the input
-    const { id, title, titleIcon, message, value, min, max } = getHazardProps(hazard, hazardValue);
+    const { weather } = useWeather();
     const { showModal } = useModal();
 
-    const rotation = 20 + (320 * Normalize.Decimal(value, min, max));
-    const onClick = hazard === HazardType.UV ? (() => showModal(<Chart showView={ChartViews.UV_Index}/>)) : undefined;
+    const hazardValue = weather.getForecast(hazard);
+    const { id, title, titleIcon, message, min, max } = getHazardProps(hazard, hazardValue);
+
+    const rotation = 20 + (320 * Normalize.Decimal(hazardValue, min, max));
 
     return (
-        <Widget className={"level-info"} id={id} widgetTitle={title} widgetIcon={titleIcon} onClick={onClick}>
+        <Widget className={"level-info"} id={id} widgetTitle={title} widgetIcon={titleIcon} onClick={() => showModal(<Chart showView={hazard}/>)}>
             <div>
                 <Meter rotation={rotation} />
                 <div>
-                    <p>{value}</p>
+                    <p>{hazardValue}</p>
                     <p className='level-message'>{message}</p>
                 </div>
             </div>

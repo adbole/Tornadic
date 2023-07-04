@@ -1,4 +1,4 @@
-//Provides methods to normalize a value between to values to be between 0 and 1
+//Provides methods to normalize a value between to values to be between 0 and 1\w+:
 export class Normalize {
     //Normalizes a value to be between 0 and 1 given it and the minimum and maximum values possible
     static Decimal(x: number, min: number, max: number) {
@@ -9,6 +9,25 @@ export class Normalize {
     static Percent(x: number, min: number, max: number) {
         return Normalize.Decimal(x, min, max) * 100;
     }
+}
+
+export type AQLevel =  "Good" | "Moderate" | "Unhealthy*" | "Unhealthy" | "Very Unhealthy" | "Hazardous"
+export function get_aq(aq: number): AQLevel{
+    if(aq <= 50) return "Good"; 
+    else if(aq <= 100) return "Moderate"; 
+    else if(aq <= 150) return "Unhealthy*"; //Unhealthy for Sensitive Individuals
+    else if(aq <= 200) return "Unhealthy"; 
+    else if(aq <= 300) return "Very Unhealthy"; 
+    else return "Hazardous";
+}
+
+export type UVLevel = "Low" | "Moderate" | "High" | "Very High" | "Extreme"
+export function get_uv(uv: number): UVLevel {
+    if(uv <= 2) return "Low"; 
+    else if(uv <= 5) return "Moderate";
+    else if(uv <= 7) return "High";
+    else if(uv <= 10) return "Very High";
+    else return "Extreme"; 
 }
 
 //Converts the given Fahrenheit temperature to a hsl color

@@ -1,7 +1,7 @@
 import { useModal } from "Contexts/ModalContext";
 import { useWeather } from "Contexts/WeatherContext";
 
-import Chart, { ChartViews } from "Components/Chart";
+import Chart from "Components/Chart";
 import { Widget } from "Components/SimpleComponents";
 import { Down, Meter, Up } from "svgs/widget";
 
@@ -29,7 +29,7 @@ const Pressure = () => {
     const { showModal } = useModal();
 
     return (
-        <Widget id="pressure" widgetIcon={<Meter/>} widgetTitle={"Air Pressure"} onClick={() => showModal(<Chart showView={ChartViews.Pressure}/>)}>
+        <Widget id="pressure" widgetIcon={<Meter/>} widgetTitle={"Air Pressure"} onClick={() => showModal(<Chart showView={"surface_pressure"}/>)}>
             <div>
                 { getTrendIcon(weather) }
                 <p className="value">{weather.getForecast("surface_pressure").toFixed(2)}</p>
