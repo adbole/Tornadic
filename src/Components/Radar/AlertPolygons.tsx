@@ -4,7 +4,7 @@ import { LatLngExpression } from "leaflet";
 import { useModal } from "Contexts/ModalContext";
 import { useWeather } from "Contexts/WeatherContext";
 
-import { AlertModal } from "Components/Alert/AlertModal";
+import AlertModal from "Components/Alert/AlertModal";
 
 /**
  * Converts the coords given by the NWSAlert to an array of LatLngExpressions to be used by a polygon.
@@ -34,7 +34,7 @@ const AlertPolygons = () => {
                     //Don't show modal if the radar isn't zoomed
                     if(!map.dragging.enabled()) return;
 
-                    showModal(<AlertModal alert={alert}/>);
+                    showModal(<AlertModal alerts={[alert]}/>);
                 };
 
                 return (

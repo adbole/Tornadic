@@ -3,7 +3,7 @@ import { useWeather } from "Contexts/WeatherContext";
 
 import { Widget, WidgetSize } from "Components/SimpleComponents";
 
-import { AlertModal, AlertSelectionModal } from "./AlertModal";
+import AlertModal from "./AlertModal";
 import { AlertInformationDisplay } from "./Common";
 
 
@@ -17,10 +17,14 @@ const Alert = () => {
     //Determine which alert should be shown.
     const alertToShow = alerts.reduce((highest, next) => next.priority < highest.priority ? next : highest, alerts[0]);
 
-    const onClickHandler = () => modals.showModal(alerts.length > 1 ? <AlertSelectionModal alerts={alerts}/> : <AlertModal alert={alerts[0]}/>);
-
     return (
-        <Widget id="alert" isTemplate size={WidgetSize.WIDE} className={alertToShow.getAlertCSS()} onClick={onClickHandler}>
+        <Widget 
+            id="alert" 
+            isTemplate 
+            size={WidgetSize.WIDE} 
+            className={alertToShow.getAlertCSS()} 
+            onClick={() => modals.showModal(<AlertModal alerts={alerts}/>)}
+        >
             <div>
                 <AlertInformationDisplay alert={alertToShow}/>
             </div>

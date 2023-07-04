@@ -10,24 +10,32 @@ import NWSAlert from "ts/NWSAlert";
 import { AlertInformationDisplay } from "./Common";
 
 
-export const AlertSelectionModal = ({ alerts }: { alerts: NWSAlert[] }) => {
-    //Memoize the component to prevent unnecessary operations
-    const memoizedComponent = React.useMemo(() => (
-        <Modal id="alert-list-modal">
-            <SlideContextProvider>
-                <ModalTitle>
-                    {alerts.length} Weather Alerts
-                </ModalTitle>
-                <ModalContent>
-                    {alerts.map((alert) => <AlertDisplaySelectionWrapper key={alert.get("id")} alert={alert}/>)}
-                </ModalContent>
-            </SlideContextProvider>
-        </Modal>
-    ), [alerts]);
-    
-    return memoizedComponent;
+/**
+ * @returns An alert modal showing a single alert if alerts.length = 1 otherwise shows a list
+ */
+const AlertModal = ({ alerts }: { alerts: NWSAlert[] }) => {
+    if(alerts.length > 1) {
+        return (
+            <Modal id="alert-list-modal">
+                <SlideContextProvider>
+                    <ModalTitle>
+                        {alerts.length} Weather Alerts
+                    </ModalTitle>
+                    <ModalContent>
+                        {alerts.map((alert) => <AlertDisplaySelectionWrapper key={alert.get("id")} alert={alert}/>)}
+                    </ModalContent>
+                </SlideContextProvider>
+            </Modal>
+        );
+    }
+    else {
+        return (
+            <Modal>
+                <AlertModalBody alert={alerts[0]}/>
+            </Modal>
+        );
+    }
 };
-
 
 const AlertDisplaySelectionWrapper = ({ alert }: { alert: NWSAlert }) => {
     const { slideTo, reset } = useSlide();
@@ -40,20 +48,6 @@ const AlertDisplaySelectionWrapper = ({ alert }: { alert: NWSAlert }) => {
         </Widget>
     );
 };
-
-/**
- * Display the given NWSAlert as a modal to get more in depth information from.
- */
-export const AlertModal = (props: { alert: NWSAlert } & React.DialogHTMLAttributes<HTMLDialogElement>) => {
-    const { alert, ...excess } = props;
-    
-    return (
-        <Modal {...excess}>
-            <AlertModalBody alert={alert}/>
-        </Modal>
-    );
-};
-
 
 const AlertModalBody = ({ alert, onClick }: { alert: NWSAlert, onClick?: (e: React.MouseEvent<HTMLHeadingElement>) => void }) => (
     <>
@@ -85,3 +79,5 @@ const AlertModalBody = ({ alert, onClick }: { alert: NWSAlert, onClick?: (e: Rea
         </ModalContent>
     </>
 );
+
+export default AlertModal;
