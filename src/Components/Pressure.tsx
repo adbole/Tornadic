@@ -2,7 +2,7 @@ import { useModal } from "Contexts/ModalContext";
 import { useWeather } from "Contexts/WeatherContext";
 
 import Chart from "Components/Chart";
-import { Widget } from "Components/SimpleComponents";
+import Widget from "Components/Widget";
 import { Down, Meter, Up } from "svgs/widget";
 
 import Weather from "ts/Weather";

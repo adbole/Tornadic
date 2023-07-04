@@ -3,7 +3,7 @@ import React from "react";
 import { Modal, ModalContent, ModalTitle } from "Contexts/ModalContext";
 import SlideContextProvider, { useSlide } from "Contexts/SlideContext";
 
-import { Widget } from "Components/SimpleComponents";
+import Widget from "Components/Widget";
 
 import NWSAlert from "ts/NWSAlert";
 

@@ -10,8 +10,8 @@ import Hourly from "Components/Hourly";
 import Now from "Components/Now";
 import Pressure from "Components/Pressure";
 import Radar from "Components/Radar";
-import { SimpleInfoWidget } from "Components/SimpleComponents";
 import SunTime from "Components/SunTime";
+import SimpleInfoWidget from "Components/Widget.SimpleInfo";
 import Wind from "Components/Wind";
 import * as WidgetIcons from "svgs/widget";
 

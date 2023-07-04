@@ -1,7 +1,7 @@
 import { useModal } from "Contexts/ModalContext";
 import { useWeather } from "Contexts/WeatherContext";
 
-import { Widget, WidgetSize } from "Components/SimpleComponents";
+import Widget from "Components/Widget";
 
 import AlertModal from "./AlertModal";
 import { AlertInformationDisplay } from "./Common";
@@ -21,7 +21,7 @@ const Alert = () => {
         <Widget 
             id="alert" 
             isTemplate 
-            size={WidgetSize.WIDE} 
+            size={"widget-wide"} 
             className={alertToShow.getAlertCSS()} 
             onClick={() => modals.showModal(<AlertModal alerts={alerts}/>)}
         >

@@ -2,7 +2,7 @@ import { useModal } from "Contexts/ModalContext";
 import { useWeather } from "Contexts/WeatherContext";
 
 import Chart from "Components/Chart";
-import { Widget } from "Components/SimpleComponents";
+import Widget from "Components/Widget";
 import { Wind as WindIcon } from "svgs/widget";
 
 

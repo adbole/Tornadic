@@ -1,15 +1,15 @@
-import { Widget, WidgetSize } from "Components/SimpleComponents";
+import Widget, { WidgetSize } from "Components/Widget";
 
 
-const SkeletonWidget = ({ id = undefined, size = WidgetSize.NORMAL }: { id?: string, size?: WidgetSize }) => 
+const SkeletonWidget = ({ id = undefined, size }: { id?: string, size?: WidgetSize }) => 
     <Widget className="skeleton" id={id} size={size} children={null}/>;
 
 const Skeleton = () => (
     <>
-        <SkeletonWidget id="now" size={WidgetSize.LARGE}/>
+        <SkeletonWidget id="now" size={"widget-large"}/>
         <SkeletonWidget id="hourly"/>
-        <SkeletonWidget id="daily" size={WidgetSize.LARGE}/>
-        <SkeletonWidget id="radar" size={WidgetSize.LARGE}/>
+        <SkeletonWidget id="daily" size={"widget-large"}/>
+        <SkeletonWidget id="radar" size={"widget-large"}/>
         <SkeletonWidget/>
         <SkeletonWidget/>
         <SkeletonWidget/>
@@ -18,7 +18,7 @@ const Skeleton = () => (
         <SkeletonWidget/>
         <SkeletonWidget/>
         <SkeletonWidget/>
-        <SkeletonWidget size={WidgetSize.WIDE}/>
+        <SkeletonWidget size={"widget-wide"}/>
     </>
 );
 

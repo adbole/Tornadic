@@ -9,7 +9,7 @@ import { useModal } from "Contexts/ModalContext";
 import { useWeather } from "Contexts/WeatherContext";
 
 import Chart from "Components/Chart";
-import { Widget } from "Components/SimpleComponents";
+import Widget from "Components/Widget";
 import { Sun } from "svgs/conditions";
 import { Lungs } from "svgs/widget";
 

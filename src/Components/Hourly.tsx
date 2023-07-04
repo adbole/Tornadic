@@ -2,7 +2,7 @@ import React from "react";
 
 import { useWeather } from "Contexts/WeatherContext";
 
-import { Widget } from "Components/SimpleComponents";
+import Widget from "Components/Widget";
 import { Clock } from "svgs/widget";
 
 import * as TimeConversion from "ts/TimeConversion";

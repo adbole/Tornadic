@@ -2,9 +2,8 @@ import React from "react";
 import { AttributionControl, MapContainer, TileLayer, ZoomControl } from "react-leaflet";
 import L from "leaflet";
 
+import Widget from "Components/Widget";
 import { Map } from "svgs/widget";
-
-import { Widget, WidgetSize } from "../SimpleComponents";
 
 import AlertPolygons from "./AlertPolygons";
 import ControlPortal, { Position } from "./ControlPortal";
@@ -48,7 +47,7 @@ const Radar = () => {
     };
 
     return (
-        <Widget id="radar" size={WidgetSize.LARGE} widgetTitle="Radar" widgetIcon={<Map/>}>
+        <Widget id="radar" size={"widget-large"} widgetTitle="Radar" widgetIcon={<Map/>}>
             <MapContainer center={defaultCent} zoom={10} zoomControl={false} attributionControl={false} scrollWheelZoom={false} dragging={false}> 
                 <TileLayer attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors | <a href="https://www.rainviewer.com/api.html">RainViewer</a>' url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"/>
 

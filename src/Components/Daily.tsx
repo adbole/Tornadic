@@ -2,7 +2,7 @@ import { useModal } from "Contexts/ModalContext";
 import { useWeather } from "Contexts/WeatherContext";
 
 import Chart from "Components/Chart";
-import { Widget, WidgetSize } from "Components/SimpleComponents";
+import Widget from "Components/Widget";
 import { Calendar } from "svgs/widget";
 
 import { Normalize } from "ts/Helpers";
@@ -66,7 +66,7 @@ const Daily = () => {
     };
 
     return (
-        <Widget id="daily" size={WidgetSize.LARGE} widgetTitle="7-Day Forecast" widgetIcon={<Calendar/>}>
+        <Widget id="daily" size={"widget-large"} widgetTitle="7-Day Forecast" widgetIcon={<Calendar/>}>
             <table>
                 <tbody>
                     {
