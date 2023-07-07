@@ -1,11 +1,12 @@
 import { useModal } from "Contexts/ModalContext";
+import { useSettings } from "Contexts/SettingsContext";
 import { useWeather } from "Contexts/WeatherContext";
 
 import Chart from "Components/Chart";
 import Widget from "Components/Widget";
 import { Calendar } from "svgs/widget";
 
-import { Normalize } from "ts/Helpers";
+import { Normalize, toHSL } from "ts/Helpers";
 import { DayInfo } from "ts/Weather";
 
 
@@ -46,6 +47,7 @@ const Day = ({ dayInfo, style, onClick }: {
 const Daily = () => {
     const { weather } = useWeather();
     const { showModal } = useModal();
+    const { settings } = useSettings();
 
     const dailyValues = Array.from(weather.getDailyValues());
 
@@ -55,13 +57,11 @@ const Daily = () => {
     const calculateDualRangeCoverStyle = (min: number, max: number) => {
         min = Math.max(0, min);
         max = Math.min(120, max);
-
-        const ToHSL = (x: number) => `hsl(${250 * ((120-x)/120)}deg, 100%, 50%)`;
         
         return {
             left: Normalize.Percent(min, low_week, high_week) + "%",
             right: Math.max(0, 100 - Normalize.Percent(max, low_week, high_week)) + "%",
-            backgroundImage: `linear-gradient(90deg, ${ToHSL(min)} 0%, ${ToHSL(max)} 100%)`
+            backgroundImage: `linear-gradient(90deg, ${toHSL(min, settings.tempUnit)} 0%, ${toHSL(max, settings.tempUnit)} 100%)`
         };
     };
 

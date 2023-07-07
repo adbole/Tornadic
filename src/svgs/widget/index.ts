@@ -4,6 +4,7 @@ export { ReactComponent as Calendar } from "./calendar-fill.svg";
 export { ReactComponent as Clock } from "./clock-fill.svg";
 export { ReactComponent as Droplet } from "./droplet-fill.svg";
 export { ReactComponent as Eye } from "./eye-fill.svg";
+export { ReactComponent as Gear } from "./gear-wide-connected.svg";
 export { ReactComponent as Lungs } from "./lungs-fill.svg";
 export { ReactComponent as Map } from "./map-fill.svg";
 export { ReactComponent as Meter } from "./meter.svg";

@@ -2,7 +2,11 @@ import React from "react";
 import { CartesianGrid, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis, YAxisProps } from "recharts";
 
 import { Modal, ModalContent, ModalTitle } from "Contexts/ModalContext";
+import { useSettings } from "Contexts/SettingsContext";
 import { useWeather } from "Contexts/WeatherContext";
+
+import { InputGroup } from "Components/Input";
+import ToggleButton from "Components/Input/ToggleButton";
 
 import * as TimeConversion from "ts/TimeConversion";
 import Weather, { CombinedHourly } from "ts/Weather";
@@ -96,6 +100,8 @@ const Chart = ({ showView, showDay = 0 }: { showView: ChartViews, showDay?: numb
     const [view, setView] = React.useState(showView);
     const [day, setDay] = React.useState(showDay);
 
+    const { settings } = useSettings();
+
     const chartData = React.useMemo(() => getData(weather, view, day), [weather, view, day]);
 
     const timeRef = React.useRef<HTMLSpanElement>(null);
@@ -140,22 +146,25 @@ const Chart = ({ showView, showDay = 0 }: { showView: ChartViews, showDay?: numb
                 </select>
             </ModalTitle>
             <ModalContent>
-                <div className="day-controls">
+                <InputGroup isUniform hasGap>
                     {
                         weather.getAllDays("time").map((time, i) => (
-                            <div key={time} className="toggle-button" onClick={() => setDay(i)}>
-                                <input type="radio" name="chart-radio" id={i.toString()} defaultChecked={i === day}/>
-                                <label htmlFor={i.toString()}>{TimeConversion.getTimeFormatted(time, TimeConversion.TimeFormat.Weekday)}</label>
-                            </div>
+                            <ToggleButton 
+                                key={time}
+                                name="chart-radio"
+                                label={TimeConversion.getTimeFormatted(time, TimeConversion.TimeFormat.Weekday)} 
+                                onClick={() => setDay(i)} 
+                                defaultChecked={i === day}
+                            />
                         ))
                     }
-                </div>
+                </InputGroup>
 
                 <p>{TimeConversion.getTimeFormatted(weather.getForecast("time", day * 24), TimeConversion.TimeFormat.Date)}<span ref={timeRef}></span></p>
 
                 <ResponsiveContainer width={"100%"} height="100%">
                     <ChartDisplay property={view} data={chartData} margin={{ top: 0, left: 0, right: 0, bottom: 0 }} onMouseMove={onMouseMove} onMouseLeave={onMouseLeave}>
-                        {getDataVisual(weather.getForecastUnit(view), view, chartData)}
+                        {getDataVisual(weather.getForecastUnit(view), view, chartData, settings)}
                         <CartesianGrid stroke="#ffffff19"/>
                         <XAxis dataKey="name" interval={5} textAnchor="start"/>
                         {

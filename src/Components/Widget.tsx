@@ -30,4 +30,4 @@ const Widget = React.forwardRef<HTMLDivElement, WidgetProps & React.HTMLAttribut
     );
 });
 
-export default Widget;
+export default React.memo(Widget);

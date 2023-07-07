@@ -1,3 +1,5 @@
+import { UserSettings } from "Contexts/SettingsContext";
+
 //Provides methods to normalize a value between to values to be between 0 and 1\w+:
 export class Normalize {
     //Normalizes a value to be between 0 and 1 given it and the minimum and maximum values possible
@@ -31,7 +33,12 @@ export function get_uv(uv: number): UVLevel {
 }
 
 //Converts the given Fahrenheit temperature to a hsl color
-export const toHSL = (temp: number) => `hsl(${250 * ((120-temp)/120)}deg, 100%, 50%)`;
+export function toHSL(temp: number, unit: UserSettings["tempUnit"]) {
+    const bound = unit === "fahrenheit" ? 120 : 45;
+    const clampedValue = Math.max(Math.min(temp, bound), 0);
+
+    return `hsl(${250 * ((bound - clampedValue) / bound)}deg, 100%, 50%)`;
+}
 
 //Throws an error. For use in expressions where throw isn't allowed.
 export const throwError = (msg: string) => { throw new Error(msg); };

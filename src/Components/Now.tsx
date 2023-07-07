@@ -5,8 +5,11 @@ import { useWeather } from "Contexts/WeatherContext";
 
 import Chart from "Components/Chart";
 import Widget from "Components/Widget";
+import { Gear } from "svgs/widget";
 
 import { WeatherConditionType } from "ts/WeatherCondition";
+
+import SettingsModal from "./SettingsModal";
 
 /**
  * Displays the current location name, temperature, condition, and feels like temperature along with having a gradient to match the condition
@@ -47,6 +50,8 @@ const Now = () => {
 
     return (
         <Widget id="now" size={"widget-large"} className={background.current} onClick={() => showModal(<Chart showView={"temperature_2m"}/>)}>
+            <button className="settings-btn" type="button" onClick={(e) => {showModal(<SettingsModal/>); e.stopPropagation(); }}><Gear/></button>
+
             <p>{now.location}</p>
     
             <h1>{now.temperature}</h1>

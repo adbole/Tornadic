@@ -7,10 +7,13 @@ import React, { ReactNode } from "react";
 
 import { useNullableState } from "Hooks";
 
+import { UserSettings, useSettings } from "Contexts/SettingsContext";
+
 import MessageScreen from "Components/MessageScreen";
 import Skeleton from "Components/Skeleton";
 import { ExclamationTriangle } from "svgs";
 
+import configureForecast from "ts/DataConfiguration";
 import { fetchData, fetchDataAndHeaders } from "ts/Fetch";
 import { throwError } from "ts/Helpers";
 import NWSAlert from "ts/NWSAlert";
@@ -25,11 +28,7 @@ const WeatherContext = React.createContext<{
 }>({} as any);
 export const useWeather = () => React.useContext(WeatherContext) ?? throwError("Please use useWeather inside a WeatherContext provider");
 
-const TEMP_UNIT = "fahrenheit";
-const WIND_UNIT = "mph";
-const PRECIP_UNIT = "inch";
-
-async function getURLs(): Promise<WeatherTypes.EndpointURLs> {
+async function getURLs(settings: UserSettings): Promise<WeatherTypes.EndpointURLs> {
     const pos: GeolocationPosition = await new Promise((resolve, reject) => navigator.geolocation.getCurrentPosition(resolve, reject));
     
     const [latitude, longitude] = [pos.coords.latitude, pos.coords.longitude];
@@ -48,9 +47,9 @@ async function getURLs(): Promise<WeatherTypes.EndpointURLs> {
 
     forecastURL.searchParams.set("latitude", latitude.toString());
     forecastURL.searchParams.set("longitude", longitude.toString());
-    forecastURL.searchParams.set("temperature_unit", TEMP_UNIT);
-    forecastURL.searchParams.set("windspeed_unit", WIND_UNIT);
-    forecastURL.searchParams.set("precipitation_unit", PRECIP_UNIT);
+    forecastURL.searchParams.set("temperature_unit", settings.tempUnit);
+    forecastURL.searchParams.set("windspeed_unit", settings.windspeed);
+    forecastURL.searchParams.set("precipitation_unit", settings.precipitation);
 
     hourly_params.forEach(param => forecastURL.searchParams.append("hourly", param));
     daily_params.forEach(param => forecastURL.searchParams.append("daily", param));
@@ -106,31 +105,6 @@ async function getAlertData(from: string | WeatherTypes.GridPoint): Promise<{
     };
 }
 
-//Configure the forecast data adding and chaning values to be more friendly later on
-function configureData(forecastData: WeatherTypes.Forecast) {
-    //All data point arrays have the same length, so one loop is sufficient
-    for(let i = 0; i < forecastData.hourly.time.length; ++i) {
-        //Get the current hour's index for the forecast data
-        if(forecastData.hourly.time[i] === forecastData.current_weather.time) {
-            forecastData.nowIndex = i;
-        }
-
-        //Convert units
-        forecastData.hourly.surface_pressure[i] /= 33.864;
-        forecastData.hourly.visibility[i] /= 5280;
-    }
-
-    const units = forecastData.hourly_units;
-
-    units.surface_pressure = "inHG";
-    units.visibility = "mi";
-    units.precipitation = "\"";
-
-    //Other data points have units that are inconsistent with app unit style
-    units.apparent_temperature = units.temperature_2m = units.dewpoint_2m = "°";
-    units.windspeed_10m = units.windgusts_10m = "mph";
-}
-
 function smartTimeout(fn: () => void, ms: number) {
     return setTimeout(() => {
         if(document.visibilityState === "hidden") {
@@ -143,10 +117,12 @@ function smartTimeout(fn: () => void, ms: number) {
 }
 
 const WeatherContextProvider = ({ children }: { children: ReactNode }) => {
+    const { settings } = useSettings();
+
     const [urls, setURLs] = React.useState<WeatherTypes.EndpointURLs>();
     const [error, setError, unsetError] = useNullableState<string>();
 
-    const [weather, setWeather] = useNullableState<Weather>();
+    const [weather, setWeather, unsetWeather] = useNullableState<Weather>();
     const [alerts, setAlerts] = useNullableState<NWSAlert[]>();
 
     //null here will indicate a refresh is needed as a stored value indicates a timer is running
@@ -154,14 +130,18 @@ const WeatherContextProvider = ({ children }: { children: ReactNode }) => {
     const [alertRefresh, setAlertRefresh, unsetAlertRefresh] = useNullableState<NodeJS.Timeout>();
 
     //Setup the urls for all future requests
-    React.useMemo(() => getURLs().then(urls => setURLs(urls)), []);
+    React.useMemo(() => getURLs(settings).then(urls => setURLs(urls)), [settings]);
+
+    React.useEffect(() => {
+        unsetWeather();
+    }, [settings, unsetWeather]);
 
     React.useEffect(() => {
         async function getData() {    
             if(!urls) return;
 
             //Perform a full refresh on all data
-            if(!refresh) { 
+            if(!refresh || !weather) { 
                 if(alertRefresh) {
                     clearTimeout(alertRefresh);
                     unsetAlertRefresh();
@@ -182,7 +162,7 @@ const WeatherContextProvider = ({ children }: { children: ReactNode }) => {
                 setAlertRefresh(smartTimeout(unsetAlertRefresh, alertResponse.expiresAfter));
 
                 //Convert data to desired formats
-                configureData(forecast);
+                configureForecast(forecast, settings);
                 setWeather(new Weather(forecast, airquality, alertResponse.point));
                 setAlerts(alertResponse.alerts);
             }
@@ -197,7 +177,7 @@ const WeatherContextProvider = ({ children }: { children: ReactNode }) => {
         }
 
         getData();
-    }, [urls, refresh, alertRefresh, weather, setAlertRefresh, unsetAlertRefresh, setRefresh, unsetRefresh, setWeather, setError, setAlerts]);
+    }, [urls, refresh, settings, alertRefresh, weather, setAlertRefresh, unsetAlertRefresh, setRefresh, unsetRefresh, setWeather, setError, setAlerts]);
 
     if(error) {
         return (

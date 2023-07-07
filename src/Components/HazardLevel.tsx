@@ -88,7 +88,7 @@ export const HazardLevel = ({ hazard }: { hazard: HazardType }) => {
     const { weather } = useWeather();
     const { showModal } = useModal();
 
-    const hazardValue = weather.getForecast(hazard);
+    const hazardValue = Math.round(weather.getForecast(hazard));
     const { id, title, titleIcon, message, min, max } = getHazardProps(hazard, hazardValue);
 
     const rotation = 20 + (320 * Normalize.Decimal(hazardValue, min, max));

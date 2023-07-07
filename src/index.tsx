@@ -3,6 +3,8 @@ import ReactDOM from "react-dom/client";
 
 import { useBooleanState, useNullableState } from "Hooks";
 
+import SettingsContext from "Contexts/SettingsContext";
+
 import App from "App";
 import MessageScreen from "Components/MessageScreen";
 import { ExclamationTriangle, WifiOff } from "svgs";
@@ -52,7 +54,11 @@ const Index = () => {
             );
         }
         else {
-            return <App/>;
+            return (
+                <SettingsContext>
+                    <App/>
+                </SettingsContext>
+            );
         }
     }
     else {

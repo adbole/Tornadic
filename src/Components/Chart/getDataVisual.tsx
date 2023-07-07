@@ -1,11 +1,13 @@
 import { Area, Bar, Line } from "recharts";
 
+import { UserSettings } from "Contexts/SettingsContext";
+
 import { get_aq, get_uv, nameof, toHSL } from "ts/Helpers";
 
 import { ChartViews, DataPoint } from ".";
 
 
-export default function getDataVisual(unit: string, view: ChartViews, dataPoints: DataPoint[]) {
+export default function getDataVisual(unit: string, view: ChartViews, dataPoints: DataPoint[], settings: UserSettings) {
     switch(view) {
         case "precipitation":
             return <Bar dataKey={nameof<DataPoint>("primaryKey")} fill={"#0078ef"} unit={unit}/>;
@@ -18,8 +20,8 @@ export default function getDataVisual(unit: string, view: ChartViews, dataPoints
                 <>
                     <defs>
                         <linearGradient id="tempGradient" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="0%" stopColor={toHSL(Math.min(120, max))}/>
-                            <stop offset="100%" stopColor={toHSL(Math.max(0, min))}/>
+                            <stop offset="0%" stopColor={toHSL(max, settings.tempUnit)}/>
+                            <stop offset="100%" stopColor={toHSL(min, settings.tempUnit)}/>
                         </linearGradient>
                     </defs>
                     <Area type="monotone" dataKey={nameof<DataPoint>("primaryKey")} stroke="#ffffff00" fillOpacity={0.75} fill="url(#tempGradient)" unit={unit}/>
