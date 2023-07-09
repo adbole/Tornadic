@@ -13,9 +13,9 @@
 
 .drag-scroll {
     cursor: grab;
-
-    &.active { cursor: grabbing; }
-    &:not(.active)::-webkit-scrollbar-thumb { background-color: transparent !important; }
+    
+    &.drag-active { cursor: grabbing; }
+    &:not(.drag-active)::-webkit-scrollbar-thumb { background-color: transparent !important; }
 }
 
 #hourly {

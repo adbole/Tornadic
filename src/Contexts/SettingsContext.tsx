@@ -1,7 +1,6 @@
 import React from "react";
 
-import { useBooleanState } from "Hooks";
-import useLocalStorage from "Hooks/useLocalStorage";
+import { useBooleanState, useLocalStorage } from "Hooks";
 
 import { throwError } from "ts/Helpers";
 

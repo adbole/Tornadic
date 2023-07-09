@@ -1,7 +1,11 @@
 import React from "react";
 
+import { useDragScroll } from "Hooks";
+
+import { useModal } from "Contexts/ModalContext";
 import { useWeather } from "Contexts/WeatherContext";
 
+import Chart from "Components/Chart";
 import Widget from "Components/Widget";
 import { Clock } from "svgs/widget";
 
@@ -37,38 +41,14 @@ const DaySeperator = ({ day }: { day: string }) => (
  */
 const Hourly = () => {
     const { weather } = useWeather();
+    const { showModal } = useModal();
+    const listRef = React.useRef<HTMLOListElement | null>(null);
 
-    let isDown = false;
-    let startX: number;
-    let scrollLeft: number;
-
-    function SetIsDown(value: boolean, list: HTMLOListElement) {
-        isDown = value;
-        
-        list.classList.toggle("active", isDown);
-    }
-
-    function mouseDown(e: React.MouseEvent<HTMLOListElement>) {
-        SetIsDown(true, e.currentTarget);
-        startX = e.pageX;
-
-        scrollLeft = e.currentTarget.scrollLeft;
-    }
-
-    function mouseMove(e: React.MouseEvent<HTMLOListElement>) {
-        if(!isDown) return;
-        e.preventDefault();
-        
-        const x = e.pageX;
-        const change = (x - startX);
-        e.currentTarget.scrollLeft = scrollLeft - change;
-    }
-    
-    function mouseExit(e: React.MouseEvent<HTMLOListElement>) { SetIsDown(false, e.currentTarget); }
+    useDragScroll(listRef);
 
     return (
-        <Widget id="hourly" widgetTitle="Hourly Forecast" widgetIcon={<Clock/>}>
-            <ol className="flex-list drag-scroll" onMouseDown={mouseDown} onMouseLeave={mouseExit} onMouseUp={mouseExit} onMouseMove={mouseMove}>
+        <Widget id="hourly" widgetTitle="Hourly Forecast" widgetIcon={<Clock/>} onClick={() => showModal(<Chart showView="temperature_2m"/>)}>
+            <ol ref={listRef} className="flex-list drag-scroll">
                 {
                     Array.from(weather.getFutureValues()).map((forecast, index) => {
                         const time = new Date(forecast.time);

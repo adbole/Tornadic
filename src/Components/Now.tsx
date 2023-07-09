@@ -17,9 +17,9 @@ import SettingsModal from "./SettingsModal";
  */
 const Now = () => {
     const { weather } = useWeather();
-    const now = weather.getNow();
-
     const { showModal } = useModal();
+
+    const now = weather.getNow();
     const background = useRef("clear-day");
 
     document.body.classList.remove(background.current);
@@ -49,8 +49,8 @@ const Now = () => {
     document.body.classList.add(background.current);
 
     return (
-        <Widget id="now" size={"widget-large"} className={background.current} onClick={() => showModal(<Chart showView={"temperature_2m"}/>)}>
-            <button className="settings-btn" type="button" onClick={(e) => {showModal(<SettingsModal/>); e.stopPropagation(); }}><Gear/></button>
+        <Widget id="now" size={"widget-large"} className={background.current}>
+            <button className="settings-btn" type="button" onClick={() => showModal(<SettingsModal/>) }><Gear/></button>
 
             <p>{now.location}</p>
     
