@@ -8,7 +8,7 @@ import { useWeather } from "Contexts/WeatherContext";
 import { InputGroup } from "Components/Input";
 import ToggleButton from "Components/Input/ToggleButton";
 
-import * as TimeConversion from "ts/TimeConversion";
+import getTimeFormatted from "ts/TimeConversion";
 import Weather, { CombinedHourly } from "ts/Weather";
 
 import ChartDisplay from "./ChartDisplay";
@@ -56,7 +56,7 @@ function getData(weather: Weather, property: ChartViews, day: number) {
     for(let i = 24 * (day); i < 24 * (day + 1); ++i) {
         data.push({
             property,
-            name: TimeConversion.getTimeFormatted(weather.getForecast("time", i), TimeConversion.TimeFormat.Hour),
+            name: getTimeFormatted(weather.getForecast("time", i), "hour"),
             primaryKey: weather.getForecast(property, i),
             secondaryKey: getSecondaryKey(i)
         });
@@ -152,7 +152,7 @@ const Chart = ({ showView, showDay = 0 }: { showView: ChartViews, showDay?: numb
                             <ToggleButton 
                                 key={time}
                                 name="chart-radio"
-                                label={TimeConversion.getTimeFormatted(time, TimeConversion.TimeFormat.Weekday)} 
+                                label={getTimeFormatted(time, "weekday")} 
                                 onClick={() => setDay(i)} 
                                 defaultChecked={i === day}
                             />
@@ -160,7 +160,7 @@ const Chart = ({ showView, showDay = 0 }: { showView: ChartViews, showDay?: numb
                     }
                 </InputGroup>
 
-                <p>{TimeConversion.getTimeFormatted(weather.getForecast("time", day * 24), TimeConversion.TimeFormat.Date)}<span ref={timeRef}></span></p>
+                <p>{getTimeFormatted(weather.getForecast("time", day * 24), "date")}<span ref={timeRef}></span></p>
 
                 <ResponsiveContainer width={"100%"} height="100%">
                     <ChartDisplay property={view} data={chartData} margin={{ top: 0, left: 0, right: 0, bottom: 0 }} onMouseMove={onMouseMove} onMouseLeave={onMouseLeave}>
@@ -175,7 +175,7 @@ const Chart = ({ showView, showDay = 0 }: { showView: ChartViews, showDay?: numb
                         
                         {/* @ts-ignore */}
                         <Tooltip wrapperStyle={{ outline: "none" }} position={{ x: "auto", y: 10 }} content={<CustomTooltip/>}/>
-                        {day === 0 && <ReferenceLine x={TimeConversion.getTimeFormatted(weather.getForecast("time"), TimeConversion.TimeFormat.Hour)}/>}
+                        {day === 0 && <ReferenceLine x={getTimeFormatted(weather.getForecast("time"), "hour")}/>}
                     </ChartDisplay>
                 </ResponsiveContainer>
             </ModalContent>

@@ -9,7 +9,7 @@ import Chart from "Components/Chart";
 import Widget from "Components/Widget";
 import { Clock } from "svgs/widget";
 
-import * as TimeConversion from "ts/TimeConversion";
+import getTimeFormatted from "ts/TimeConversion";
 import { HourInfo } from "ts/Weather";
 
 /**
@@ -17,7 +17,7 @@ import { HourInfo } from "ts/Weather";
  */
 const Hour = ({ hourInfo } : { hourInfo: HourInfo }) => (
     <li>
-        <p>{TimeConversion.getTimeFormatted(hourInfo.time, TimeConversion.TimeFormat.Hour)}</p>
+        <p>{getTimeFormatted(hourInfo.time, "hour")}</p>
         <div>
             <hourInfo.conditionInfo.icon/>
             {hourInfo.has_chance_of_rain && <span>{hourInfo.precipitation_probability}%</span>}
@@ -57,7 +57,7 @@ const Hourly = () => {
                         if(time.getHours() === 0) {
                             return (
                                 <React.Fragment key={index}>
-                                    <DaySeperator day={TimeConversion.getTimeFormatted(time, TimeConversion.TimeFormat.Weekday)}/>
+                                    <DaySeperator day={getTimeFormatted(time, "weekday")}/>
                                     <Hour hourInfo={forecast}/>
                                 </React.Fragment>
                             );

@@ -3,7 +3,7 @@ import { useWeather } from "Contexts/WeatherContext";
 import Widget from "Components/Widget";
 import { Sunrise, Sunset } from "svgs/widget";
 
-import * as TimeConversion from "ts/TimeConversion";
+import getTimeFormatted from "ts/TimeConversion";
 
 /**
  * A helper component for SunTime to display when the sunrise/sunset will ocurr along with what comes next.
@@ -12,8 +12,8 @@ const HelperWidget = ({ isSunrise, time, nextTime }: { isSunrise: boolean,  time
     <Widget id="suntime" isTemplate size={"widget-wide"}>
         <div>
             <p>{isSunrise ? "Sunrise" : "Sunset"}</p>
-            <h1>{TimeConversion.getTimeFormatted(time, TimeConversion.TimeFormat.HourMinute)}</h1>
-            <p>{isSunrise ? "Sunset" : "Sunrise"} {TimeConversion.getTimeFormatted(nextTime, TimeConversion.TimeFormat.HourMinute)}</p>
+            <h1>{getTimeFormatted(time, "hourMinute")}</h1>
+            <p>{isSunrise ? "Sunset" : "Sunrise"} {getTimeFormatted(nextTime, "hourMinute")}</p>
         </div>
         {isSunrise ? <Sunrise /> : <Sunset />}
     </Widget>

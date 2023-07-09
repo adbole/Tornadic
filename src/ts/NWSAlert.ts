@@ -1,4 +1,4 @@
-import * as TimeConversion from "ts/TimeConversion";
+import getTimeFormatted from "ts/TimeConversion";
 
 
 enum AlertType {
@@ -47,11 +47,11 @@ export default class NWSAlert {
     get<K extends keyof Properties>(prop: K): Properties[K] {
         if(prop === "sent" || prop === "effective" || prop === "expires" || prop === "ends") {
             if(!this.properties[prop]) {
-                //Dont' convert something that is null
+                //Don't convert something that is null
                 return this.properties[prop];
             }
                 
-            return TimeConversion.getTimeFormatted(this.properties[prop], TimeConversion.TimeFormat.DateTime);
+            return getTimeFormatted(this.properties[prop], "dateTime");
         }
 
         return this.properties[prop];

@@ -5,7 +5,7 @@ import L from "leaflet";
 import { useBooleanState } from "Hooks";
 
 import { fetchData } from "ts/Fetch";
-import * as TimeConversion from "ts/TimeConversion";
+import getTimeFormatted from "ts/TimeConversion";
 
 import ControlPortal, { Position } from "./ControlPortal";
 import Opacity from "./Opacity";
@@ -17,7 +17,7 @@ function mod(x: number, div: number) {
 }
 
 function getTimeDisplay(time: number) {
-    return `${Date.now() > time * 1000 ? "Past" : "Forecast"}: ${TimeConversion.getTimeFormatted(time * 1000, TimeConversion.TimeFormat.HourMinute)}`;
+    return `${Date.now() > time * 1000 ? "Past" : "Forecast"}: ${getTimeFormatted(time * 1000, "hourMinute")}`;
 }
 
 namespace RadarTypes {

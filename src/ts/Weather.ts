@@ -4,7 +4,7 @@
 
 import { AirQuality, Forecast, GridPoint } from "Contexts/WeatherContext/index.types";
 
-import * as TimeConversion from "ts/TimeConversion";
+import getTimeFormatted from "ts/TimeConversion";
 
 import WeatherCondition, { WeatherConditionType } from "./WeatherCondition";
 
@@ -104,7 +104,7 @@ export default class Weather {
             const precipitation_probability = this.getDay("precipitation_probability_max", i);
 
             yield {
-                day: i === 0 ? "Now" : TimeConversion.getTimeFormatted(this.getDay("time", i), TimeConversion.TimeFormat.Weekday),
+                day: i === 0 ? "Now" : getTimeFormatted(this.getDay("time", i), "weekday"),
                 conditionInfo,
                 temperature_low: Math.round(this.getDay("temperature_2m_min", i)),
                 temperature_high: Math.round(this.getDay("temperature_2m_max", i)),

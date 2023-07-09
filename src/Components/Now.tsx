@@ -3,7 +3,6 @@ import { useRef } from "react";
 import { useModal } from "Contexts/ModalContext";
 import { useWeather } from "Contexts/WeatherContext";
 
-import Chart from "Components/Chart";
 import Widget from "Components/Widget";
 import { Gear } from "svgs/widget";
 
