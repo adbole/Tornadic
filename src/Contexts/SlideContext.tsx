@@ -33,9 +33,9 @@ const SlideContextProvider = ({ children }: { children: React.ReactNode }) => {
     }, [secondaryContent, doSlide]);
 
     React.useEffect(() => {
-        if(!shouldMount && Stage.LEAVE)
+        if(!shouldMount && stage === Stage.LEAVE)
             unsetSecondaryContent();
-    }, [shouldMount, unsetSecondaryContent]);
+    }, [shouldMount, unsetSecondaryContent, stage]);
 
     return (
         <div 
