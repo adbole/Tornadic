@@ -9,13 +9,15 @@ export type UserSettings = {
     tempUnit: "fahrenheit" | "celsius"
     windspeed: "kmh" | "mph" | "kn"
     precipitation: "mm" | "inch"
+    user_location: [number, number] | undefined
 }
 
 const Context = React.createContext<{
     settings: UserSettings,
-    setSetting: <K extends keyof UserSettings>(setting: K, value: UserSettings[K]) => void
+    queueSetting: <K extends keyof UserSettings>(setting: K, value: UserSettings[K]) => void
     requiresSave: boolean,
-    saveSettings: () => void
+    saveSettings: () => void,
+    quickSaveSetting: <K extends keyof UserSettings>(setting: K, value: UserSettings[K]) => void
 }>({} as any);
 
 export const useSettings = () => React.useContext(Context) ?? throwError("Please use useSettings in a SettingsContext provider");
@@ -24,7 +26,8 @@ const UserSettingsProvider = ({ children } : { children: React.ReactNode }) => {
     const [settings, setSettings] = useLocalStorage("userSettings", {
         tempUnit: "fahrenheit",
         windspeed: "mph",
-        precipitation: "inch"
+        precipitation: "inch",
+        user_location: undefined
     });
 
     const [requiresSave, setRequiresSaveTrue, setRequiresSaveFalse] = useBooleanState(false);
@@ -35,7 +38,7 @@ const UserSettingsProvider = ({ children } : { children: React.ReactNode }) => {
         else setRequiresSaveFalse();
     }, [queue, setRequiresSaveFalse, setRequiresSaveTrue]);
 
-    const setSetting = React.useCallback(<K extends keyof UserSettings, >(setting: K, value: UserSettings[K]) => {
+    const queueSetting = React.useCallback(<K extends keyof UserSettings, >(setting: K, value: UserSettings[K]) => {
         if(settings[setting] !== value) {
             setQueue(oldValue => ({
                 ...oldValue,
@@ -60,8 +63,15 @@ const UserSettingsProvider = ({ children } : { children: React.ReactNode }) => {
         }
     };
 
+    const quickSaveSetting = <K extends keyof UserSettings>(setting: K, value: UserSettings[K]) => {
+        setSettings(old => ({
+            ...old,
+            [setting]: value
+        }));
+    };
+
     return (
-        <Context.Provider value={{ settings, setSetting, requiresSave, saveSettings }}>
+        <Context.Provider value={{ settings, queueSetting, requiresSave, saveSettings, quickSaveSetting }}>
             {children}
         </Context.Provider>
     );

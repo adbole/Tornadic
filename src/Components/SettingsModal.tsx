@@ -1,11 +1,13 @@
 import { Modal, ModalContent, ModalTitle } from "Contexts/ModalContext";
 import { useSettings } from "Contexts/SettingsContext";
 
+import { TornadicFull } from "svgs/icon";
+
 import { Button, InputGroup, ToggleButton } from "./Input";
 
 
 const SettingsModal = () => {
-    const { settings, setSetting, requiresSave, saveSettings }  = useSettings();
+    const { settings, queueSetting, requiresSave, saveSettings }  = useSettings();
 
     return (
         <Modal>
@@ -18,13 +20,13 @@ const SettingsModal = () => {
                     <ToggleButton 
                         name="tempUnit" 
                         label="Fahrenheit" 
-                        onClick={() => setSetting("tempUnit", "fahrenheit")}
+                        onClick={() => queueSetting("tempUnit", "fahrenheit")}
                         defaultChecked={settings.tempUnit === "fahrenheit"}
                     />
                     <ToggleButton 
                         name="tempUnit" 
                         label="Celsius" 
-                        onClick={() => setSetting("tempUnit", "celsius")}
+                        onClick={() => queueSetting("tempUnit", "celsius")}
                         defaultChecked={settings.tempUnit === "celsius"}
                     />
                 </InputGroup>
@@ -34,13 +36,13 @@ const SettingsModal = () => {
                     <ToggleButton 
                         name="precipUnit" 
                         label="Inches" 
-                        onClick={() => setSetting("precipitation", "inch")}
+                        onClick={() => queueSetting("precipitation", "inch")}
                         defaultChecked={settings.precipitation === "inch"}
                     />
                     <ToggleButton 
                         name="precipUnit" 
                         label="Milimeters" 
-                        onClick={() => setSetting("precipitation", "mm")}
+                        onClick={() => queueSetting("precipitation", "mm")}
                         defaultChecked={settings.precipitation === "mm"}
                     />
                 </InputGroup>
@@ -50,24 +52,28 @@ const SettingsModal = () => {
                     <ToggleButton 
                         name="windUnit" 
                         label="mph" 
-                        onClick={() => setSetting("windspeed", "mph")}
+                        onClick={() => queueSetting("windspeed", "mph")}
                         defaultChecked={settings.windspeed === "mph"}
                     />
                     <ToggleButton 
                         name="windUnit" 
                         label="Km/h" 
-                        onClick={() => setSetting("windspeed", "kmh")}
+                        onClick={() => queueSetting("windspeed", "kmh")}
                         defaultChecked={settings.windspeed === "kmh"}
                     />
                     <ToggleButton 
                         name="windUnit" 
                         label="Knots" 
-                        onClick={() => setSetting("windspeed", "kn")}
+                        onClick={() => queueSetting("windspeed", "kn")}
                         defaultChecked={settings.windspeed === "kn"}
                     />
                 </InputGroup>
 
                 <Button disabled={!requiresSave} onClick={saveSettings}>Save</Button>
+
+                <div id="about">
+                    <TornadicFull />
+                </div>
             </ModalContent>
         </Modal>
     );

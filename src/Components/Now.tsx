@@ -8,6 +8,7 @@ import { Gear } from "svgs/widget";
 
 import { WeatherConditionType } from "ts/WeatherCondition";
 
+import LocationModal from "./LocationModal";
 import SettingsModal from "./SettingsModal";
 
 /**
@@ -51,7 +52,7 @@ const Now = () => {
         <Widget id="now" size={"widget-large"} className={background.current}>
             <button className="settings-btn" type="button" onClick={() => showModal(<SettingsModal/>) }><Gear/></button>
 
-            <p>{now.location}</p>
+            <p onClick={() => showModal(<LocationModal/>)}>{now.location}</p>
     
             <h1>{now.temperature}</h1>
     

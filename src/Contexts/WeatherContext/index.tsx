@@ -29,9 +29,7 @@ const WeatherContext = React.createContext<{
 export const useWeather = () => React.useContext(WeatherContext) ?? throwError("Please use useWeather inside a WeatherContext provider");
 
 async function getURLs(settings: UserSettings): Promise<WeatherTypes.EndpointURLs> {
-    const pos: GeolocationPosition = await new Promise((resolve, reject) => navigator.geolocation.getCurrentPosition(resolve, reject));
-    
-    const [latitude, longitude] = [pos.coords.latitude, pos.coords.longitude];
+    const [latitude, longitude] = settings.user_location!;
 
     //NOTE: Precipitation unit of in affects the unit of visibility to become ft
     const forecastURL = new URL("https://api.open-meteo.com/v1/gfs?timezone=auto&current_weather=true");
@@ -142,10 +140,8 @@ const WeatherContextProvider = ({ children }: { children: ReactNode }) => {
 
             //Perform a full refresh on all data
             if(!refresh || !weather) { 
-                if(alertRefresh) {
-                    clearTimeout(alertRefresh);
-                    unsetAlertRefresh();
-                }
+                if(refresh) clearTimeout(refresh);
+                if(alertRefresh) clearTimeout(alertRefresh);
 
                 //Await all the requests to finish
                 const [forecast, airquality, alertResponse] = await Promise.all([
