@@ -18,6 +18,9 @@ const Context = React.createContext<Readonly<{
 
 export const useModal = () => React.useContext(Context) ?? throwError("Please use useModal inside a ModalContext provider");
 
+/**
+ * @deprecated ModalContextProvider will be removed in favor of modal handling itself
+ */
 const ModalContextProvider = ({ children }: { children: React.ReactNode }) => {
     const [modal, showModal, hideModal] = useNullableState<React.ReactNode>();
 
