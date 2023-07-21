@@ -24,6 +24,7 @@ const SearchModal = <T, >({ children, onGetResults, onSelect }: Props<T>) => {
 
     React.useEffect(() => {
         if(!query) return;
+
         setIsLoadingTrue();
         onGetResults(query).then(results => {
             setResults(results);
@@ -56,11 +57,15 @@ const SearchModal = <T, >({ children, onGetResults, onSelect }: Props<T>) => {
                         </ul>
                     ) : (
                         results && (
-                            <ul className="search-results">
-                                {
-                                    results?.map(result => <li key={result.key} onClick={() => onSelect(result.payload)}>{result.label}</li>)
-                                }
-                            </ul>
+                            results.length ? (
+                                <ul className="search-results">
+                                    {
+                                        results?.map(result => <li key={result.key} onClick={() => onSelect(result.payload)}>{result.label}</li>)
+                                    }
+                                </ul>
+                            ) : (
+                                <span className="search-results">No Results Found</span>
+                            )
                         )
                     )
                 }
