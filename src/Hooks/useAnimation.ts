@@ -7,11 +7,7 @@ type RequestId = {
     id?: number
 }
 
-export enum Stage {
-    IDLE,
-    ENTER,
-    LEAVE
-}
+type Stage = "idle" | "enter" | "leave"
 
 export default function useAnimation(defaultState: boolean, timeout: number): [() => void, () => void, Stage, boolean] {
     const isReady = React.useRef(false);
@@ -19,7 +15,7 @@ export default function useAnimation(defaultState: boolean, timeout: number): [(
 
     const [state, setStateTrue, setStateFalse] = useBooleanState(defaultState);
 
-    const [stage, setStage] = React.useState(state ? Stage.ENTER : Stage.IDLE);
+    const [stage, setStage] = React.useState<Stage>(state ? "enter" : "idle");
     const [shouldMount, setShouldMountTrue, setShouldMountFalse] = useBooleanState(state);
 
     React.useEffect(() => {
@@ -32,13 +28,13 @@ export default function useAnimation(defaultState: boolean, timeout: number): [(
         }
 
         if(state) {
-            setStage(Stage.IDLE);
+            setStage("idle");
             setShouldMountTrue();
 
-            requestTimeoutAnimationFrame(() => setStage(Stage.ENTER));
+            requestTimeoutAnimationFrame(() => setStage("enter"));
         }
         else {
-            setStage(Stage.LEAVE);
+            setStage("leave");
             requestTimeoutAnimationFrame(setShouldMountFalse, timeout);
         }
 

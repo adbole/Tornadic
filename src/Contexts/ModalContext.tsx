@@ -6,7 +6,6 @@ import React from "react";
 import ReactDOM from "react-dom";
 
 import { useAnimation, useNullableState } from "Hooks";
-import { Stage } from "Hooks/useAnimation";
 
 import { throwError } from "ts/Helpers";
 
@@ -66,10 +65,10 @@ export const Modal = (props: React.HTMLAttributes<HTMLDialogElement>) => {
     }, []);
 
     React.useEffect(() => {
-        if(Stage.ENTER)
+        if(stage === "enter")
             document.body.classList.add("hide-overflow");
 
-        if(!shouldMount && stage === Stage.LEAVE) {
+        if(!shouldMount && stage === "leave") {
             document.body.classList.remove("hide-overflow");
             dialogRef.current?.close();
         }
@@ -78,7 +77,7 @@ export const Modal = (props: React.HTMLAttributes<HTMLDialogElement>) => {
 
     return (
         <dialog 
-            className={`modal ${stage === Stage.ENTER ? "enter" : ""}`} 
+            className={`modal ${stage}`} 
             ref={dialogRef} 
             onClick={(e) => e.target === dialogRef.current && close()} 
             onClose={hideModal}

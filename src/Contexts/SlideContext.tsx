@@ -1,7 +1,6 @@
 import React from "react";
 
 import { useAnimation, useNullableState } from "Hooks";
-import { Stage } from "Hooks/useAnimation";
 
 import { throwError } from "ts/Helpers";
 
@@ -33,7 +32,7 @@ const SlideContextProvider = ({ children }: { children: React.ReactNode }) => {
     }, [secondaryContent, doSlide]);
 
     React.useEffect(() => {
-        if(!shouldMount && stage === Stage.LEAVE)
+        if(!shouldMount && stage === "leave")
             unsetSecondaryContent();
     }, [shouldMount, unsetSecondaryContent, stage]);
 
@@ -42,7 +41,7 @@ const SlideContextProvider = ({ children }: { children: React.ReactNode }) => {
             className="slidable"
             style={{
                 transition: "0.75s ease",
-                maxHeight: stage === Stage.ENTER ? "100vh" : (originalHeight.current + "px")
+                maxHeight: stage === "enter" ? "100vh" : (originalHeight.current + "px")
             }}
         >
             <Context.Provider value={{ slideTo, reset }}>
@@ -51,7 +50,7 @@ const SlideContextProvider = ({ children }: { children: React.ReactNode }) => {
                     className={secondaryContent ? "slide-out" : ""}
                     style={{
                         transition: "1s ease",
-                        marginLeft: stage === Stage.ENTER ? "-100%" : "initial"
+                        marginLeft: stage === "enter" ? "-100%" : "initial"
                     }}
                 >
                     {children}
