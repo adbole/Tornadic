@@ -1,7 +1,11 @@
-.input-group {
+@use "mixin";
+
+.input-group, .search-bar {
     display: grid;
     grid-auto-flow: column;
     margin: 5px 0px;
+
+    >* { margin: 0px; }
 
     &.gap { gap: 5px; }
     &:not(.gap) {
@@ -20,6 +24,17 @@
     &.uniform { grid-auto-columns: 1fr; }
 }
 
+.search-bar {
+    display: flex;
+    >.search-input {
+        flex: 1;
+    }
+}
+
+.search-results {
+    text-align: left;
+}
+
 button {
     background: transparent;
     border: white solid 1px;
@@ -27,21 +42,10 @@ button {
     font-size: inherit;
 
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
-
     margin: 5px 0px;
-
     color: inherit;
 
-    transition: filter .3s ease;
-
-    &:hover, &:focus {
-        cursor: pointer;
-        filter: brightness(70%);
-    }
-
-    &:active, &:disabled {
-        filter: brightness(50%);
-    }
+    @include mixin.interactable;
 
     &.primary {
         background-color: var(--primary);
@@ -66,7 +70,7 @@ div.toggle-button {
 
         transition: background-color .3s ease;
 
-        &:hover { filter: brightness(110%); }
+        @include mixin.interactable;
     }
 
     input:checked + label {
@@ -119,6 +123,51 @@ select.clear {
             &::after {
                 left: 70%;
             }
+        }
+    }
+}
+
+.search-bar {
+    position: relative;
+
+    input {
+        border-radius: var(--input-border-radius);
+        background-color: var(--secondary);
+
+        border: none;
+        outline: none;
+        color: white;
+
+        font-size: inherit;
+        padding: 5px;
+    }
+}
+
+.search-results {
+    display: flex;
+    flex-direction: column;
+    padding: 0px;
+    list-style: none;
+    gap: 5px;
+
+    border-radius: var(--input-border-radius);
+    background-color: var(--secondary);
+    padding: 5px;
+}
+
+.text-loader {
+    display: block;
+    height: 1.5rem;
+
+    border-radius: 5px;
+
+    background: linear-gradient(135deg, transparent 40%, #f5f5f51a 50%, transparent 60%);
+    background-size: 200% 100%;
+    animation: 1.5s shine linear infinite;
+
+    @keyframes shine {
+        to {
+            background-position-x: -200%;
         }
     }
 }

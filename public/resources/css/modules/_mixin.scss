@@ -23,6 +23,19 @@
     color: white;
 }
 
+@mixin interactable {
+    transition: filter .3s ease;
+    filter: brightness(100%);
+    
+    &:hover, &:focus {
+        cursor: pointer;
+    }
+
+    &:active, &:disabled {
+        filter: brightness(70%);
+    }
+}
+
 //Used by leaflet
 $dark-back-hov: rgba(0, 0, 0, 0.6);
 $dark-a: #00b7ff;
