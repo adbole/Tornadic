@@ -1,4 +1,5 @@
-import { useModal } from "Contexts/ModalContext";
+import { useBooleanState } from "Hooks";
+
 import { useWeather } from "Contexts/WeatherContext";
 
 import Chart from "Components/Chart";
@@ -26,16 +27,19 @@ function getTrendIcon(weather: Weather) {
 
 const Pressure = () => {
     const { weather } = useWeather();
-    const { showModal } = useModal();
+    const [modalOpen, showModal, hideModal] = useBooleanState(false);
 
     return (
-        <Widget id="pressure" widgetIcon={<Meter/>} widgetTitle={"Air Pressure"} onClick={() => showModal(<Chart showView={"surface_pressure"}/>)}>
-            <div>
-                { getTrendIcon(weather) }
-                <p className="value">{weather.getForecast("surface_pressure").toFixed(2)}</p>
-                <p>{weather.getForecastUnit("surface_pressure")}</p>
-            </div>
-        </Widget>
+        <>
+            <Widget id="pressure" widgetIcon={<Meter/>} widgetTitle={"Air Pressure"} onClick={showModal}>
+                <div>
+                    { getTrendIcon(weather) }
+                    <p className="value">{weather.getForecast("surface_pressure").toFixed(2)}</p>
+                    <p>{weather.getForecastUnit("surface_pressure")}</p>
+                </div>
+            </Widget>
+            <Chart showView={"surface_pressure"} isOpen={modalOpen} onClose={hideModal}/>
+        </>
     );
 };
 

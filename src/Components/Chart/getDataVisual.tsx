@@ -1,6 +1,6 @@
 import { Area, Bar, Line } from "recharts";
 
-import { UserSettings } from "Contexts/SettingsContext";
+import { UserSettings } from "Contexts/SettingsContext/index.types";
 
 import { get_aq, get_uv, nameof, toHSL } from "ts/Helpers";
 

@@ -7,7 +7,8 @@ import React, { ReactNode } from "react";
 
 import { useNullableState } from "Hooks";
 
-import { UserSettings, useSettings } from "Contexts/SettingsContext";
+import { useSettings } from "Contexts/SettingsContext/index";
+import { UserSettings } from "Contexts/SettingsContext/index.types";
 
 import MessageScreen from "Components/MessageScreen";
 import Skeleton from "Components/Skeleton";

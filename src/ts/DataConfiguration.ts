@@ -1,4 +1,4 @@
-import { UserSettings } from "Contexts/SettingsContext";
+import { UserSettings } from "Contexts/SettingsContext/index.types";
 import { Forecast } from "Contexts/WeatherContext/index.types";
 
 

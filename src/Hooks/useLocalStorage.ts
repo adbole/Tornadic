@@ -1,6 +1,6 @@
 import React from "react";
 
-import { UserSettings } from "Contexts/SettingsContext";
+import { UserSettings } from "Contexts/SettingsContext/index.types";
 // type KeysAndTypes = {"temperatureUnit" | "windspeedUnit" | "precipitationUnit" | "preferredLocation"
 
 

@@ -1,8 +1,8 @@
 import React from "react";
 
-import { Modal, ModalContent, ModalTitle } from "Contexts/ModalContext";
 import SlideContextProvider, { useSlide } from "Contexts/SlideContext";
 
+import Modal, { ModalContent, ModalProps, ModalTitle } from "Components/Modals/Modal";
 import Widget from "Components/Widget";
 
 import NWSAlert from "ts/NWSAlert";
@@ -13,10 +13,10 @@ import { AlertInformationDisplay } from "./Common";
 /**
  * @returns An alert modal showing a single alert if alerts.length = 1 otherwise shows a list
  */
-const AlertModal = ({ alerts }: { alerts: NWSAlert[] }) => {
+const AlertModal = ({ alerts, ...modalProps }: { alerts: NWSAlert[] } & ModalProps) => {
     if(alerts.length > 1) {
         return (
-            <Modal id="alert-list-modal">
+            <Modal id="alert-list-modal" {...modalProps}>
                 <SlideContextProvider>
                     <ModalTitle>
                         {alerts.length} Weather Alerts
@@ -30,7 +30,7 @@ const AlertModal = ({ alerts }: { alerts: NWSAlert[] }) => {
     }
     else {
         return (
-            <Modal>
+            <Modal {...modalProps}>
                 <AlertModalBody alert={alerts[0]}/>
             </Modal>
         );

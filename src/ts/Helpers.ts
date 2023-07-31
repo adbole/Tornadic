@@ -1,4 +1,4 @@
-import { UserSettings } from "Contexts/SettingsContext";
+import { UserSettings } from "Contexts/SettingsContext/index.types";
 
 //Provides methods to normalize a value between to values to be between 0 and 1\w+:
 export class Normalize {

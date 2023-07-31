@@ -1,12 +1,12 @@
 import React from "react";
 import { CartesianGrid, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis, YAxisProps } from "recharts";
 
-import { Modal, ModalContent, ModalTitle } from "Contexts/ModalContext";
 import { useSettings } from "Contexts/SettingsContext";
 import { useWeather } from "Contexts/WeatherContext";
 
 import { InputGroup } from "Components/Input";
 import ToggleButton from "Components/Input/ToggleButton";
+import Modal, { ModalContent, ModalProps, ModalTitle } from "Components/Modals/Modal";
 
 import getTimeFormatted from "ts/TimeConversion";
 import Weather, { CombinedHourly } from "ts/Weather";
@@ -95,7 +95,7 @@ function getMinMax([min, max]: [number, number], property: ChartViews): [number,
     }
 }
 
-const Chart = ({ showView, showDay = 0 }: { showView: ChartViews, showDay?: number }) => {
+const Chart = ({ showView, showDay = 0, ...modalProps }: { showView: ChartViews, showDay?: number } & ModalProps) => {
     const { weather } = useWeather();
     const [view, setView] = React.useState(showView);
     const [day, setDay] = React.useState(showDay);
@@ -135,7 +135,7 @@ const Chart = ({ showView, showDay = 0 }: { showView: ChartViews, showDay?: numb
     };
 
     return (
-        <Modal id="chart">
+        <Modal id="chart" {...modalProps}>
             <ModalTitle>
                 <select ref={selectRef} className="clear" title="Current Chart" onChange={(e) => setView(e.currentTarget.value as ChartViews)} value={view}>
                     {

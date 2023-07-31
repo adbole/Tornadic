@@ -5,7 +5,8 @@
 
 import React, { ReactNode } from "react";
 
-import { useModal } from "Contexts/ModalContext";
+import { useBooleanState } from "Hooks";
+
 import { useWeather } from "Contexts/WeatherContext";
 
 import Chart from "Components/Chart";
@@ -84,9 +85,8 @@ const Meter = ({ rotation }: { rotation: number }) => {
  * @returns The HazardLevel widget displaying the information on a given hazard
  */
 export const HazardLevel = ({ hazard }: { hazard: HazardType }) => {
-    //Extracts everything but value, min, and max which are spread on the input
     const { weather } = useWeather();
-    const { showModal } = useModal();
+    const [modalOpen, showModal, hideModal] = useBooleanState(false);
 
     const hazardValue = Math.round(weather.getForecast(hazard));
     const { id, title, titleIcon, message, min, max } = getHazardProps(hazard, hazardValue);
@@ -94,15 +94,18 @@ export const HazardLevel = ({ hazard }: { hazard: HazardType }) => {
     const rotation = 20 + (320 * Normalize.Decimal(hazardValue, min, max));
 
     return (
-        <Widget className={"level-info"} id={id} widgetTitle={title} widgetIcon={titleIcon} onClick={() => showModal(<Chart showView={hazard}/>)}>
-            <div>
-                <Meter rotation={rotation} />
+        <>
+            <Widget className={"level-info"} id={id} widgetTitle={title} widgetIcon={titleIcon} onClick={showModal}>
                 <div>
-                    <p>{hazardValue}</p>
-                    <p className='level-message'>{message}</p>
+                    <Meter rotation={rotation} />
+                    <div>
+                        <p>{hazardValue}</p>
+                        <p className='level-message'>{message}</p>
+                    </div>
                 </div>
-            </div>
-        </Widget>
+            </Widget>
+            <Chart showView={hazard} isOpen={modalOpen} onClose={hideModal}/>
+        </>
     );
 };
 

@@ -1,4 +1,7 @@
-import { useModal } from "Contexts/ModalContext";
+import { useRef } from "react";
+
+import { useBooleanState } from "Hooks";
+
 import { useSettings } from "Contexts/SettingsContext";
 import { useWeather } from "Contexts/WeatherContext";
 
@@ -46,8 +49,10 @@ const Day = ({ dayInfo, style, onClick }: {
  */
 const Daily = () => {
     const { weather } = useWeather();
-    const { showModal } = useModal();
     const { settings } = useSettings();
+
+    const [chartOpen, showChart, hideChart] = useBooleanState(false);
+    const chartDay = useRef(0);
 
     const dailyValues = Array.from(weather.getDailyValues());
 
@@ -66,21 +71,27 @@ const Daily = () => {
     };
 
     return (
-        <Widget id="daily" size={"widget-large"} widgetTitle="7-Day Forecast" widgetIcon={<Calendar/>}>
-            <table>
-                <tbody>
-                    {
-                        dailyValues.map((day, index) => (
-                            <Day 
-                                key={index} dayInfo={day} 
-                                style={calculateDualRangeCoverStyle(day.temperature_low, day.temperature_high)} 
-                                onClick={() => showModal(<Chart showView={"temperature_2m"} showDay={index}/>)}
-                            />
-                        ))
-                    }
-                </tbody>
-            </table>
-        </Widget>
+        <>
+            <Widget id="daily" size={"widget-large"} widgetTitle="7-Day Forecast" widgetIcon={<Calendar/>}>
+                <table>
+                    <tbody>
+                        {
+                            dailyValues.map((day, index) => (
+                                <Day 
+                                    key={index} dayInfo={day} 
+                                    style={calculateDualRangeCoverStyle(day.temperature_low, day.temperature_high)} 
+                                    onClick={() => {
+                                        chartDay.current = index;
+                                        showChart();
+                                    }}
+                                />
+                            ))
+                        }
+                    </tbody>
+                </table>
+            </Widget>
+            <Chart showView={"temperature_2m"} showDay={chartDay.current} isOpen={chartOpen} onClose={hideChart}/>
+        </>
     );
 };
 

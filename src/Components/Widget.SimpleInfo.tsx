@@ -1,6 +1,7 @@
 import React from "react";
 
-import { useModal } from "Contexts/ModalContext";
+import { useBooleanState } from "Hooks";
+
 import { useWeather } from "Contexts/WeatherContext";
 
 import Chart, { ChartViews } from "Components/Chart";
@@ -14,14 +15,17 @@ const SimpleInfoWidget = ({ icon, title, property }: {
     property: ChartViews
 }) => {
     const { weather } = useWeather();
-    const { showModal } = useModal();
+    const [modalOpen, showModal, hideModal] = useBooleanState(false);
 
     return (
-        <Widget className="basic-info" isTemplate onClick={() => showModal(<Chart showView={property}/>)}>
-            {icon}
-            <h1 className='widget-title'>{title}</h1>
-            <p>{weather.getForecast(property).toFixed(0) + weather.getForecastUnit(property)}</p>
-        </Widget>
+        <>
+            <Widget className="basic-info" isTemplate onClick={showModal}>
+                {icon}
+                <h1 className='widget-title'>{title}</h1>
+                <p>{weather.getForecast(property).toFixed(0) + weather.getForecastUnit(property)}</p>
+            </Widget>
+            <Chart showView={property} isOpen={modalOpen} onClose={hideModal}/>
+        </>
     );
 };
 

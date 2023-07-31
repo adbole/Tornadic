@@ -1,8 +1,7 @@
 import React from "react";
 
-import { useDragScroll } from "Hooks";
+import { useBooleanState, useDragScroll } from "Hooks";
 
-import { useModal } from "Contexts/ModalContext";
 import { useWeather } from "Contexts/WeatherContext";
 
 import Chart from "Components/Chart";
@@ -41,36 +40,39 @@ const DaySeperator = ({ day }: { day: string }) => (
  */
 const Hourly = () => {
     const { weather } = useWeather();
-    const { showModal } = useModal();
+    const [modalOpen, showModal, hideModal] = useBooleanState(false);
     const listRef = React.useRef<HTMLOListElement | null>(null);
 
     useDragScroll(listRef);
 
     return (
-        <Widget id="hourly" widgetTitle="Hourly Forecast" widgetIcon={<Clock/>} onClick={() => showModal(<Chart showView="temperature_2m"/>)}>
-            <ol ref={listRef} className="flex-list drag-scroll">
-                {
-                    Array.from(weather.getFutureValues()).map((forecast, index) => {
-                        const time = new Date(forecast.time);
+        <>
+            <Widget id="hourly" widgetTitle="Hourly Forecast" widgetIcon={<Clock/>} onClick={showModal}>
+                <ol ref={listRef} className="flex-list drag-scroll">
+                    {
+                        Array.from(weather.getFutureValues()).map((forecast, index) => {
+                            const time = new Date(forecast.time);
 
-                        //To indicate a new day, add a day seperator
-                        if(time.getHours() === 0) {
-                            return (
-                                <React.Fragment key={index}>
-                                    <DaySeperator day={getTimeFormatted(time, "weekday")}/>
-                                    <Hour hourInfo={forecast}/>
-                                </React.Fragment>
-                            );
-                        }
-                        else {
-                            return (
-                                <Hour key={index} hourInfo={forecast}/>
-                            );
-                        }
-                    })
-                }
-            </ol>
-        </Widget>
+                            //To indicate a new day, add a day seperator
+                            if(time.getHours() === 0) {
+                                return (
+                                    <React.Fragment key={index}>
+                                        <DaySeperator day={getTimeFormatted(time, "weekday")}/>
+                                        <Hour hourInfo={forecast}/>
+                                    </React.Fragment>
+                                );
+                            }
+                            else {
+                                return (
+                                    <Hour key={index} hourInfo={forecast}/>
+                                );
+                            }
+                        })
+                    }
+                </ol>
+            </Widget>
+            <Chart showView="temperature_2m" isOpen={modalOpen} onClose={hideModal}/>
+        </>
     );
 };
 
