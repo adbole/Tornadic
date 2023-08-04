@@ -48,10 +48,11 @@ export default function Modal({
             document.body.classList.add("hide-overflow");
         }
         else if(!shouldMount && stage === "leave") {
-            document.body.classList.remove("hide-overflow");
             onClose();
         }
             
+        //Unmount should remove css
+        return () => document.body.classList.remove("hide-overflow");
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [shouldMount, stage]);
 
