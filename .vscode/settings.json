@@ -12,5 +12,13 @@
         }
     },
     "terminal.integrated.defaultProfile.windows": "node",
-    "eslint.validate": ["typescriptreact"]
+    "eslint.validate": ["typescriptreact"],
+    "material-icon-theme.folders.associations": {
+        "Components": "react-components",
+        "css": "sass",
+        "modules": "sass",
+    },
+    "material-icon-theme.files.associations": {
+        "*.types.ts": "typescript-def"
+    }
 }
