@@ -16,7 +16,7 @@ import AlertModal from "Components/Alert/AlertModal";
 function convertToLatLng(coords: number[][][]): LatLngExpression[] {
     return coords[0].map<LatLngExpression>(latlng => ({
         lat: latlng[1],
-        lng: latlng[0]
+        lng: latlng[0],
     }));
 }
 
@@ -24,7 +24,7 @@ function convertToLatLng(coords: number[][][]): LatLngExpression[] {
  * Returns a mapping of polygons for every alert there is in the current WeatherData
  * @returns Polygons representing every alert in the current WeatherData
  */
-const AlertPolygons = () => {
+export default function AlertPolygons() {
     const { alerts } = useWeather();
     const map = useMap();
 
@@ -33,33 +33,27 @@ const AlertPolygons = () => {
 
     return (
         <>
-            {
-                alerts.filter(alert => alert.getCoords()).map(alert => {
+            {alerts
+                .filter(alert => alert.getCoords())
+                .map(alert => {
                     const onClick = () => {
                         //Don't show modal if the radar isn't zoomed
-                        if(!map.dragging.enabled()) return;
+                        if (!map.dragging.enabled()) return;
 
                         alertToShow.current = alert;
                         showModal();
                     };
 
                     return (
-                        <Polygon 
-                            className={alert.getAlertCSS()} 
-                            key={alert.get("id")} 
-                            positions={convertToLatLng(alert.getCoords()!)} 
+                        <Polygon
+                            className={alert.getAlertCSS()}
+                            key={alert.get("id")}
+                            positions={convertToLatLng(alert.getCoords()!)}
                             eventHandlers={{ click: onClick }}
                         />
                     );
-                })
-            }
-            <AlertModal 
-                alerts={[alertToShow.current]} 
-                isOpen={modalOpen}
-                onClose={hideModal}
-            />
+                })}
+            <AlertModal alerts={[alertToShow.current]} isOpen={modalOpen} onClose={hideModal} />
         </>
     );
-};
-
-export default AlertPolygons;
+}

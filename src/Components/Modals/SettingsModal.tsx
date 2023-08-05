@@ -12,47 +12,47 @@ import { Button, InputGroup, ToggleButton } from "../Input";
 import Modal, { ModalContent, ModalProps, ModalTitle } from "./Modal";
 
 
-const SettingsModal = ({ ...modalProps }: ModalProps) => {
+export default function SettingsModal({ ...modalProps }: ModalProps) {
     const { settings, setSettings } = useSettings();
 
     const [requiresSave, setRequiresSaveTrue, setRequiresSaveFalse] = useBooleanState(false);
     const [queue, setQueue] = React.useState<UserSettings>({} as any);
 
     React.useEffect(() => {
-        if(Object.keys(queue).length > 0) setRequiresSaveTrue();
+        if (Object.keys(queue).length > 0) setRequiresSaveTrue();
         else setRequiresSaveFalse();
     }, [queue, setRequiresSaveFalse, setRequiresSaveTrue]);
 
-    const queueSetting = React.useCallback(<K extends keyof UserSettings, >(setting: K, value: UserSettings[K]) => {
-        if(settings[setting] !== value) {
-            setQueue(oldValue => ({
-                ...oldValue,
-                [setting]: value
-            }));
-        }
-        else {
-            setQueue(oldValue => {
-                const { [setting]: _, ...rest } = oldValue;
+    const queueSetting = React.useCallback(
+        <K extends keyof UserSettings>(setting: K, value: UserSettings[K]) => {
+            if (settings[setting] !== value) {
+                setQueue(oldValue => ({
+                    ...oldValue,
+                    [setting]: value,
+                }));
+            } else {
+                setQueue(oldValue => {
+                    const { [setting]: _, ...rest } = oldValue;
 
-                return rest as UserSettings;
-            });
-        }
-    }, [settings]);
+                    return rest as UserSettings;
+                });
+            }
+        },
+        [settings]
+    );
 
     const saveSettings = () => {
-        if(requiresSave) {
+        if (requiresSave) {
             setSettings({
                 ...settings,
-                ...queue
+                ...queue,
             });
         }
     };
 
     return (
         <Modal {...modalProps}>
-            <ModalTitle>
-                Settings
-            </ModalTitle>
+            <ModalTitle>Settings</ModalTitle>
             <ModalContent>
                 <h3>Temperature Unit</h3>
                 <InputGroup isUniform>
@@ -108,7 +108,9 @@ const SettingsModal = ({ ...modalProps }: ModalProps) => {
                     />
                 </InputGroup>
 
-                <Button disabled={!requiresSave} onClick={saveSettings}>Save</Button>
+                <Button disabled={!requiresSave} onClick={saveSettings}>
+                    Save
+                </Button>
 
                 <div id="about">
                     <TornadicFull />
@@ -116,6 +118,4 @@ const SettingsModal = ({ ...modalProps }: ModalProps) => {
             </ModalContent>
         </Modal>
     );
-};
-
-export default SettingsModal;
+}

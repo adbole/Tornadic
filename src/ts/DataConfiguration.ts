@@ -6,9 +6,9 @@ export default function configureForecast(forecast: Forecast, settings: UserSett
     const visibilityDivisor = settings.precipitation === "inch" ? 5280 : 1000;
 
     //All data point arrays have the same length, so one loop is sufficient
-    for(let i = 0; i < forecast.hourly.time.length; ++i) {
+    for (let i = 0; i < forecast.hourly.time.length; ++i) {
         //Get the current hour's index for the forecast data
-        if(forecast.hourly.time[i] === forecast.current_weather.time) {
+        if (forecast.hourly.time[i] === forecast.current_weather.time) {
             forecast.nowIndex = i;
         }
 
@@ -21,7 +21,7 @@ export default function configureForecast(forecast: Forecast, settings: UserSett
 
     units.surface_pressure = "inHG";
     units.visibility = settings.precipitation === "inch" ? "mi" : "km";
-    units.precipitation = settings.precipitation === "inch" ? "\"" : "mm";
+    units.precipitation = settings.precipitation === "inch" ? '"' : "mm";
 
     //Other data points have units that are inconsistent with app unit style
     units.apparent_temperature = units.temperature_2m = units.dewpoint_2m = "°";

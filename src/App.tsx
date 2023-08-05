@@ -22,13 +22,13 @@ import { Cursor } from "svgs/radar";
 import * as WidgetIcons from "svgs/widget";
 
 
-const LocationRequest = () => {
+function LocationRequest() {
     const [modalOpen, showModal, hideModal] = useBooleanState(false);
 
     return (
         <>
             <MessageScreen>
-                <Cursor/>
+                <Cursor />
                 <p>Tornadic requires you to provide a location in order to work properly.</p>
                 <div>
                     <Button onClick={showModal}>Provide Location</Button>
@@ -36,53 +36,69 @@ const LocationRequest = () => {
             </MessageScreen>
             <Modal isOpen={modalOpen} onClose={hideModal}>
                 <ModalContent>
-                    <LocationInput/>
+                    <LocationInput />
                 </ModalContent>
             </Modal>
         </>
     );
-};
+}
 
-const App = () => {
+function App() {
     const online = useOnlineOffline();
-    const { settings: { user_location } } = useSettings();
+    const { settings: { user_location }, } = useSettings();
 
-    if(!online) {
+    if (!online) {
         return (
             <MessageScreen>
-                <WifiOff/>
+                <WifiOff />
                 <p>Tornadic requires an internet connection to function properly</p>
             </MessageScreen>
         );
     }
 
-    if(!user_location) {
+    if (!user_location) {
         return <LocationRequest />;
     }
 
     return (
         <>
             <WeatherContext>
-                <Now/>
-                <Daily/>
-                <Radar/>
-    
-                <Alert/>
-                <Hourly/>
-    
-                <SimpleInfoWidget icon={<WidgetIcons.Droplet />} title="Precipitation" property={"precipitation"}/>
-                <SimpleInfoWidget icon={<WidgetIcons.Thermometer />} title="Dewpoint" property={"dewpoint_2m"}/>
-                <SimpleInfoWidget icon={<WidgetIcons.Moisture />} title="Humidity" property={"relativehumidity_2m"}/>
-                <SimpleInfoWidget icon={<WidgetIcons.Eye />} title="Visibility" property={"visibility"}/>
+                <Now />
+                <Daily />
+                <Radar />
+
+                <Alert />
+                <Hourly />
+
+                <SimpleInfoWidget
+                    icon={<WidgetIcons.Droplet />}
+                    title="Precipitation"
+                    property={"precipitation"}
+                />
+                <SimpleInfoWidget
+                    icon={<WidgetIcons.Thermometer />}
+                    title="Dewpoint"
+                    property={"dewpoint_2m"}
+                />
+                <SimpleInfoWidget
+                    icon={<WidgetIcons.Moisture />}
+                    title="Humidity"
+                    property={"relativehumidity_2m"}
+                />
+                <SimpleInfoWidget
+                    icon={<WidgetIcons.Eye />}
+                    title="Visibility"
+                    property={"visibility"}
+                />
                 <HazardLevel hazard={"us_aqi"} />
                 <HazardLevel hazard={"uv_index"} />
-                    
-                <Wind/>
-                <Pressure/>
-                <SunTime/>
+
+                <Wind />
+                <Pressure />
+                <SunTime />
             </WeatherContext>
         </>
     );
-};
+}
 
 export default App;

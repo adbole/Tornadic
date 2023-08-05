@@ -5,17 +5,17 @@ import { ChartViews } from ".";
 
 
 type ChartDisplayProps = {
-    children: React.ReactNode,
-    property: ChartViews
-} & CategoricalChartProps
+    children: React.ReactNode;
+    property: ChartViews;
+} & CategoricalChartProps;
 
 //Provides the proper chart to display based on the HourlyProperty passed
-const ChartDisplay = (props: ChartDisplayProps) => {
+export default function ChartDisplay(props: ChartDisplayProps) {
     const { children, property, ...excess } = props;
 
     let ChosenChart = BarChart;
 
-    switch(property) {
+    switch (property) {
         case "precipitation":
             ChosenChart = BarChart;
             break;
@@ -28,11 +28,5 @@ const ChartDisplay = (props: ChartDisplayProps) => {
             ChosenChart = LineChart;
     }
 
-    return (
-        <ChosenChart {...excess}>
-            {children}
-        </ChosenChart>
-    );
-};
-
-export default ChartDisplay;
+    return <ChosenChart {...excess}>{children}</ChosenChart>;
+}

@@ -1,10 +1,16 @@
 import NWSAlert from "ts/NWSAlert";
 
 
-export const AlertInformationDisplay = ({ alert }: { alert: NWSAlert }) => (
-    <>
-        <h2>{alert.get("event")}</h2>
-        <p><em>Issued:</em> {alert.get("sent")}</p>
-        <p><em>Until:</em> {alert.get("ends") ?? alert.get("expires")}</p>
-    </>
-);
+export function AlertInformationDisplay({ alert }: { alert: NWSAlert }) {
+    return (
+        <>
+            <h2>{alert.get("event")}</h2>
+            <p>
+                <em>Issued:</em> {alert.get("sent")}
+            </p>
+            <p>
+                <em>Until:</em> {alert.get("ends") ?? alert.get("expires")}
+            </p>
+        </>
+    );
+}

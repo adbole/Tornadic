@@ -4,12 +4,15 @@ import useBooleanState from "./useBooleanState";
 
 
 type RequestId = {
-    id?: number
-}
+    id?: number;
+};
 
-type Stage = "idle" | "enter" | "leave"
+type Stage = "idle" | "enter" | "leave";
 
-export default function useAnimation(defaultState: boolean, timeout: number): [() => void, () => void, Stage, boolean] {
+export default function useAnimation(
+    defaultState: boolean,
+    timeout: number
+): [() => void, () => void, Stage, boolean] {
     const isReady = React.useRef(false);
     const requestId = React.useRef<RequestId>({});
 
@@ -22,18 +25,17 @@ export default function useAnimation(defaultState: boolean, timeout: number): [(
         cancelTimeoutAnimationFrame(requestId.current);
 
         //Animations should only fire after first renders
-        if(!isReady.current) {
+        if (!isReady.current) {
             isReady.current = true;
             return;
         }
 
-        if(state) {
+        if (state) {
             setStage("idle");
             setShouldMountTrue();
 
             requestTimeoutAnimationFrame(() => setStage("enter"));
-        }
-        else {
+        } else {
             setStage("leave");
             requestTimeoutAnimationFrame(setShouldMountFalse, timeout);
         }
@@ -42,7 +44,7 @@ export default function useAnimation(defaultState: boolean, timeout: number): [(
         return () => cancelTimeoutAnimationFrame(requestId.current);
     }, [setShouldMountFalse, setShouldMountTrue, state, timeout]);
 
-    return [ setStateTrue, setStateFalse, stage, shouldMount ];
+    return [setStateTrue, setStateFalse, stage, shouldMount];
 }
 
 function requestTimeoutAnimationFrame(callback: () => void, timeout: number = 0) {
@@ -50,13 +52,11 @@ function requestTimeoutAnimationFrame(callback: () => void, timeout: number = 0)
     const requestId: RequestId = {};
 
     const call = () => {
-        requestId.id = requestAnimationFrame((now) => {
+        requestId.id = requestAnimationFrame(now => {
             const elapsed = now - startTime;
 
-            if(elapsed >= timeout) 
-                callback();
-            else
-                call();
+            if (elapsed >= timeout) callback();
+            else call();
         });
     };
 
@@ -65,5 +65,5 @@ function requestTimeoutAnimationFrame(callback: () => void, timeout: number = 0)
 }
 
 function cancelTimeoutAnimationFrame(requestId: RequestId) {
-    if(requestId.id) cancelAnimationFrame(requestId.id);
+    if (requestId.id) cancelAnimationFrame(requestId.id);
 }

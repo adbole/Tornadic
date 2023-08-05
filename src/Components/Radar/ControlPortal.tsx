@@ -18,11 +18,11 @@ export enum Position {
 }
 
 type ControlPortalProps = {
-    position: Position,
-    children: React.ReactNode
-}
+    position: Position;
+    children: React.ReactNode;
+};
 
-const ControlPortal = ({ position, children }: ControlPortalProps) => {
+export default function ControlPortal({ position, children }: ControlPortalProps) {
     const [portalRoot, setPortalRoot] = useNullableState<Element>();
 
     React.useEffect(() => {
@@ -32,9 +32,5 @@ const ControlPortal = ({ position, children }: ControlPortalProps) => {
         setPortalRoot(root);
     }, [position, setPortalRoot]);
 
-    return portalRoot 
-        ? ReactDOM.createPortal(children, portalRoot)
-        : null;
-};
-
-export default ControlPortal;
+    return portalRoot ? ReactDOM.createPortal(children, portalRoot) : null;
+}

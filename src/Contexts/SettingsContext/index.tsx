@@ -8,25 +8,20 @@ import { UserSettings } from "./index.types";
 
 
 const Context = React.createContext<{
-    settings: UserSettings,
-    setSettings: (value: UserSettings) => void
+    settings: UserSettings;
+    setSettings: (value: UserSettings) => void;
 }>({} as any);
 
-export const useSettings = () => React.useContext(Context) ?? throwError("Please use useSettings in a SettingsContext provider");
+export const useSettings = () =>
+    React.useContext(Context) ?? throwError("Please use useSettings in a SettingsContext provider");
 
-const UserSettingsProvider = ({ children } : { children: React.ReactNode }) => {
+export default function UserSettingsProvider({ children }: { children: React.ReactNode }) {
     const [settings, setSettings] = useLocalStorage("userSettings", {
         tempUnit: "fahrenheit",
         windspeed: "mph",
         precipitation: "inch",
-        user_location: undefined
+        user_location: undefined,
     });
 
-    return (
-        <Context.Provider value={{ settings, setSettings }}>
-            {children}
-        </Context.Provider>
-    );
-};
-
-export default UserSettingsProvider;
+    return <Context.Provider value={{ settings, setSettings }}>{children}</Context.Provider>;
+}

@@ -7,17 +7,17 @@ import { Cursor, LocationDot } from "../../svgs/radar";
 
 
 const Current_Location_Icon = L.divIcon({
-    html: ReactDOMServer.renderToString(<LocationDot/>),
-    className:"current-location",
+    html: ReactDOMServer.renderToString(<LocationDot />),
+    className: "current-location",
     iconSize: [20, 20],
-    iconAnchor: [10, 20]
+    iconAnchor: [10, 20],
 });
 
 /**
  * Automatically gets the user's current location in a leaflet map along with returning a button to return the user's current location
  * @returns A button that can return to the user's location at any given time
  */
-const Locate = () => {
+export default function Locate() {
     const map = useMap();
     const currMarker = React.useRef<L.Marker>();
     const LocateUser = React.useCallback(() => map.locate({ setView: true, maxZoom: 10 }), [map]);
@@ -26,8 +26,8 @@ const Locate = () => {
     React.useEffect(() => {
         LocateUser();
 
-        map.on("locationfound", (e) => {
-            if(!currMarker.current) {
+        map.on("locationfound", e => {
+            if (!currMarker.current) {
                 currMarker.current = L.marker(e.latlng, { icon: Current_Location_Icon }).addTo(map);
             }
 
@@ -36,7 +36,13 @@ const Locate = () => {
         });
     }, [LocateUser, map]);
 
-    return <button type="button" className="leaflet-custom-control leaflet-control" onClick={() => LocateUser()}><Cursor /></button>;
-};
-
-export default Locate;
+    return (
+        <button
+            type="button"
+            className="leaflet-custom-control leaflet-control"
+            onClick={() => LocateUser()}
+        >
+            <Cursor />
+        </button>
+    );
+}

@@ -6,13 +6,14 @@ import { throwError } from "ts/Helpers";
 
 
 const Context = React.createContext<Readonly<{
-    slideTo: (value: NonNullable<React.ReactNode>) => void
-    reset: () => void
+    slideTo: (value: NonNullable<React.ReactNode>) => void;
+    reset: () => void;
 }> | null>(null);
 
-export const useSlide = () => React.useContext(Context) ?? throwError("Please use useSlide inside a SlideContext provider");
+export const useSlide = () =>
+    React.useContext(Context) ?? throwError("Please use useSlide inside a SlideContext provider");
 
-const SlideContextProvider = ({ children }: { children: React.ReactNode }) => {
+function SlideContextProvider({ children }: { children: React.ReactNode }) {
     const [secondaryContent, slideTo, unsetSecondaryContent] = useNullableState<React.ReactNode>();
     const [doSlide, reset, stage, shouldMount] = useAnimation(false, 1000);
 
@@ -20,49 +21,43 @@ const SlideContextProvider = ({ children }: { children: React.ReactNode }) => {
     const originalHeight = React.useRef<number>();
 
     React.useEffect(() => {
-        if(!primaryDiv.current) return;
+        if (!primaryDiv.current) return;
 
         //Get the original and set the original clientHeight.
         originalHeight.current = primaryDiv.current.clientHeight;
     }, []);
 
     React.useEffect(() => {
-        if(secondaryContent)
-            doSlide();
+        if (secondaryContent) doSlide();
     }, [secondaryContent, doSlide]);
 
     React.useEffect(() => {
-        if(!shouldMount && stage === "leave")
-            unsetSecondaryContent();
+        if (!shouldMount && stage === "leave") unsetSecondaryContent();
     }, [shouldMount, unsetSecondaryContent, stage]);
 
     return (
-        <div 
+        <div
             className="slidable"
             style={{
                 transition: "0.75s ease",
-                maxHeight: stage === "enter" ? "100vh" : (originalHeight.current + "px")
+                maxHeight: stage === "enter" ? "100vh" : originalHeight.current + "px",
             }}
         >
             <Context.Provider value={{ slideTo, reset }}>
-                <div 
-                    ref={primaryDiv}  
+                <div
+                    ref={primaryDiv}
                     className={secondaryContent ? "slide-out" : ""}
                     style={{
                         transition: "1s ease",
-                        marginLeft: stage === "enter" ? "-100%" : "initial"
+                        marginLeft: stage === "enter" ? "-100%" : "initial",
                     }}
                 >
                     {children}
                 </div>
-                {secondaryContent  && 
-                    <div className="slide-in">
-                        {secondaryContent}
-                    </div>
-                }
+                {secondaryContent && <div className="slide-in">{secondaryContent}</div>}
             </Context.Provider>
         </div>
     );
-};
+}
 
 export default SlideContextProvider;

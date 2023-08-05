@@ -9,11 +9,15 @@ import Chart, { ChartViews } from "Components/Chart";
 import Widget from "./Widget";
 
 
-const SimpleInfoWidget = ({ icon, title, property }: {
-    icon: React.ReactNode,
-    title: string,
-    property: ChartViews
-}) => {
+export default function SimpleInfoWidget({
+    icon,
+    title,
+    property,
+}: {
+    icon: React.ReactNode;
+    title: string;
+    property: ChartViews;
+}) {
     const { weather } = useWeather();
     const [modalOpen, showModal, hideModal] = useBooleanState(false);
 
@@ -21,12 +25,12 @@ const SimpleInfoWidget = ({ icon, title, property }: {
         <>
             <Widget className="basic-info" isTemplate onClick={showModal}>
                 {icon}
-                <h1 className='widget-title'>{title}</h1>
-                <p>{weather.getForecast(property).toFixed(0) + weather.getForecastUnit(property)}</p>
+                <h1 className="widget-title">{title}</h1>
+                <p>
+                    {weather.getForecast(property).toFixed(0) + weather.getForecastUnit(property)}
+                </p>
             </Widget>
-            <Chart showView={property} isOpen={modalOpen} onClose={hideModal}/>
+            <Chart showView={property} isOpen={modalOpen} onClose={hideModal} />
         </>
     );
-};
-
-export default SimpleInfoWidget;
+}

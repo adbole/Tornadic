@@ -2,23 +2,16 @@
     "plugins": ["simple-import-sort"],
     "extends": [
         "eslint:recommended",
-        "react-app"
+        "react-app",
+        "prettier"
     ],
     "rules": {
-        "@typescript-eslint/indent": ["error", 4, { "SwitchCase": 1 }],
-        "quotes": ["error", "double", { "avoidEscape": true }],
-        "comma-spacing": "error",
-        "semi": ["error", "always"],
         "eqeqeq": "error",
         "object-shorthand": "error",
         "object-curly-newline": ["error", { "multiline": true }],
         "@typescript-eslint/object-curly-spacing": ["error", "always"],
         "prefer-const": "error",
-        "keyword-spacing": ["error", { "overrides": {
-            "if": { "after": false },
-            "switch": { "after": false },
-            "for": { "after": false}
-        } }],
+        "no-else-return": "error",
 
         "import/newline-after-import": ["error", { "count": 2 }],
             
@@ -26,7 +19,9 @@
         "simple-import-sort/imports": "error",
         "no-duplicate-imports": "error",
         
-        "react/jsx-closing-bracket-location": ["error", "tag-aligned"],
+        "react/function-component-definition": "error",
+        "react/self-closing-comp": "error",
+        "react/jsx-first-prop-new-line": [2, "multiline"],
         "react/destructuring-assignment": "error"
     },
     "overrides": [

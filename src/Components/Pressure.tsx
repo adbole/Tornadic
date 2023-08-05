@@ -11,36 +11,34 @@ import Weather from "ts/Weather";
 
 function getTrendIcon(weather: Weather) {
     const surface = (x: number) => weather.getForecast("surface_pressure", x);
-    const total = (surface(weather.nowIndex + 1) - surface(weather.nowIndex));
+    const total = surface(weather.nowIndex + 1) - surface(weather.nowIndex);
 
     //Changes greater than +- 0.02 are considered non-equal
-    if(total > 0.02) {
-        return <Up/>;
-    }
-    else if(total < -0.02) {
-        return <Down/>;
-    }
-    else {
-        return <p className="equal">=</p>;
-    }
+    if (total > 0.02) return <Up />;
+    else if (total < -0.02) return <Down />;
+
+    return <p className="equal">=</p>;
 }
 
-const Pressure = () => {
+export default function Pressure() {
     const { weather } = useWeather();
     const [modalOpen, showModal, hideModal] = useBooleanState(false);
 
     return (
         <>
-            <Widget id="pressure" widgetIcon={<Meter/>} widgetTitle={"Air Pressure"} onClick={showModal}>
+            <Widget
+                id="pressure"
+                widgetIcon={<Meter />}
+                widgetTitle={"Air Pressure"}
+                onClick={showModal}
+            >
                 <div>
-                    { getTrendIcon(weather) }
+                    {getTrendIcon(weather)}
                     <p className="value">{weather.getForecast("surface_pressure").toFixed(2)}</p>
                     <p>{weather.getForecastUnit("surface_pressure")}</p>
                 </div>
             </Widget>
-            <Chart showView={"surface_pressure"} isOpen={modalOpen} onClose={hideModal}/>
+            <Chart showView={"surface_pressure"} isOpen={modalOpen} onClose={hideModal} />
         </>
     );
-};
-
-export default Pressure;
+}

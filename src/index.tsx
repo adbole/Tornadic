@@ -6,11 +6,13 @@ import SettingsContext from "Contexts/SettingsContext";
 import App from "App";
 
 
-const Index = () => (
-    <SettingsContext>
-        <App/>
-    </SettingsContext>
-);
+function Index() {
+    return (
+        <SettingsContext>
+            <App />
+        </SettingsContext>
+    );
+}
 
 const root = ReactDOM.createRoot(document.getElementById("root")!);
 root.render(<Index />);

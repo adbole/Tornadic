@@ -14,31 +14,35 @@ import { HourInfo } from "ts/Weather";
 /**
  * A helper component for the Hourly component to display the individual hours
  */
-const Hour = ({ hourInfo } : { hourInfo: HourInfo }) => (
-    <li>
-        <p>{getTimeFormatted(hourInfo.time, "hour")}</p>
-        <div>
-            <hourInfo.conditionInfo.icon/>
-            {hourInfo.has_chance_of_rain && <span>{hourInfo.precipitation_probability}%</span>}
-        </div>
-        <p>{hourInfo.temperature}°</p>
-    </li>
-);
+function Hour({ hourInfo }: { hourInfo: HourInfo }) {
+    return (
+        <li>
+            <p>{getTimeFormatted(hourInfo.time, "hour")}</p>
+            <div>
+                <hourInfo.conditionInfo.icon />
+                {hourInfo.has_chance_of_rain && <span>{hourInfo.precipitation_probability}%</span>}
+            </div>
+            <p>{hourInfo.temperature}°</p>
+        </li>
+    );
+}
 
 /**
  * A helper component for the Hourly component to display a seperator to indicate when a new day starts.
  */
-const DaySeperator = ({ day }: { day: string }) => (
-    <li className="seperator">
-        <p>{day}</p>
-    </li>
-);
+function DaySeperator({ day }: { day: string }) {
+    return (
+        <li className="seperator">
+            <p>{day}</p>
+        </li>
+    );
+}
 
 /**
  * Displays the next 48hrs of weather data in a horizontally-scrollable list
  * @returns The Hourly widget
  */
-const Hourly = () => {
+export default function Hourly() {
     const { weather } = useWeather();
     const [modalOpen, showModal, hideModal] = useBooleanState(false);
     const listRef = React.useRef<HTMLOListElement | null>(null);
@@ -47,33 +51,30 @@ const Hourly = () => {
 
     return (
         <>
-            <Widget id="hourly" widgetTitle="Hourly Forecast" widgetIcon={<Clock/>} onClick={showModal}>
+            <Widget
+                id="hourly"
+                widgetTitle="Hourly Forecast"
+                widgetIcon={<Clock />}
+                onClick={showModal}
+            >
                 <ol ref={listRef} className="flex-list drag-scroll">
-                    {
-                        Array.from(weather.getFutureValues()).map((forecast, index) => {
-                            const time = new Date(forecast.time);
+                    {Array.from(weather.getFutureValues()).map((forecast, index) => {
+                        const time = new Date(forecast.time);
 
-                            //To indicate a new day, add a day seperator
-                            if(time.getHours() === 0) {
-                                return (
-                                    <React.Fragment key={index}>
-                                        <DaySeperator day={getTimeFormatted(time, "weekday")}/>
-                                        <Hour hourInfo={forecast}/>
-                                    </React.Fragment>
-                                );
-                            }
-                            else {
-                                return (
-                                    <Hour key={index} hourInfo={forecast}/>
-                                );
-                            }
-                        })
-                    }
+                        //To indicate a new day, add a day seperator
+                        if (time.getHours() === 0) {
+                            return (
+                                <React.Fragment key={index}>
+                                    <DaySeperator day={getTimeFormatted(time, "weekday")} />
+                                    <Hour hourInfo={forecast} />
+                                </React.Fragment>
+                            );
+                        }
+                        return <Hour key={index} hourInfo={forecast} />;
+                    })}
                 </ol>
             </Widget>
-            <Chart showView="temperature_2m" isOpen={modalOpen} onClose={hideModal}/>
+            <Chart showView="temperature_2m" isOpen={modalOpen} onClose={hideModal} />
         </>
     );
-};
-
-export default Hourly;
+}

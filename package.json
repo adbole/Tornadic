@@ -24,7 +24,11 @@
         "start": "vite",
         "build": "vite build",
         "serve": "vite preview",
-        "lint": "eslint --fix --ext .ts,.tsx ."
+        "lint": "eslint --fix --ext .ts,.tsx .",
+        "lint:check": "eslint --ext .ts,.tsx .",
+        "prettier": "prettier src -w",
+        "prettier:check": "prettier src --check",
+        "format": "npm run prettier && npm run lint"
     },
     "eslintConfig": {
         "extends": [
@@ -47,8 +51,10 @@
     "devDependencies": {
         "@vitejs/plugin-react": "^4.0.0",
         "eslint": "^8.42.0",
+        "eslint-config-prettier": "^8.10.0",
         "eslint-config-react-app": "^7.0.1",
         "eslint-plugin-simple-import-sort": "^10.0.0",
+        "prettier": "^3.0.1",
         "vite": "^4.3.9",
         "vite-plugin-eslint": "^1.8.1",
         "vite-plugin-pwa": "^0.16.0",

@@ -6,7 +6,6 @@ import useBooleanState from "./useBooleanState";
 export default function useOnlineOffline() {
     const [online, setOnlineTrue, setOnlineFalse] = useBooleanState(navigator.onLine);
 
-
     React.useEffect(() => {
         window.addEventListener("online", setOnlineTrue);
         window.addEventListener("offline", setOnlineFalse);
