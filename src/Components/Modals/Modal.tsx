@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-import { useAnimation } from "Hooks";
+import { useAnimation, useSameClick } from "Hooks";
 
 
 export function ModalTitle(props: React.HTMLAttributes<HTMLHeadingElement>) {
@@ -52,13 +52,19 @@ export default function Modal({ isOpen, children, onClose, ...excess }: ModalPro
         return () => document.body.classList.remove("hide-overflow");
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [shouldMount, stage]);
+    
+    useSameClick(dialogRef, (e: MouseEvent) => {
+        const target = e.target as HTMLElement
+
+        if(target === dialogRef.current) 
+            closeModal()
+    })
 
     return shouldMount
         ? ReactDOM.createPortal(
               <dialog
                   className={`modal ${stage}`}
                   ref={dialogRef}
-                  onClick={e => e.target === dialogRef.current && closeModal()}
                   {...excess}
               >
                   {children}
