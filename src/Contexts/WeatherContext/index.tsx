@@ -5,17 +5,14 @@
 
 import React, { ReactNode } from "react";
 
-import { useNullableState } from "Hooks";
-
-import { useSettings } from "Contexts/SettingsContext/index";
-import { UserSettings } from "Contexts/SettingsContext/index.types";
+import { useNullableState, useReadLocalStorage } from "Hooks";
 
 import MessageScreen from "Components/MessageScreen";
 import Skeleton from "Components/Skeleton";
 import { ExclamationTriangle } from "svgs";
 
-import configureForecast from "ts/DataConfiguration";
 import { fetchData, fetchDataAndHeaders } from "ts/Fetch";
+import { UserSettings } from "ts/global.types";
 import { throwError } from "ts/Helpers";
 import NWSAlert from "ts/NWSAlert";
 import Weather from "ts/Weather";
@@ -142,7 +139,7 @@ function smartTimeout(fn: () => void, ms: number) {
 }
 
 function WeatherContextProvider({ children }: { children: ReactNode }) {
-    const { settings } = useSettings();
+    const settings = useReadLocalStorage("userSettings")!
 
     const [urls, setURLs] = React.useState<WeatherTypes.EndpointURLs>();
     const [error, setError, unsetError] = useNullableState<string>();
@@ -191,8 +188,7 @@ function WeatherContextProvider({ children }: { children: ReactNode }) {
                 setAlertRefresh(smartTimeout(unsetAlertRefresh, alertResponse.expiresAfter));
 
                 //Convert data to desired formats
-                configureForecast(forecast, settings);
-                setWeather(new Weather(forecast, airquality, alertResponse.point));
+                setWeather(new Weather(forecast, airquality, alertResponse.point, settings));
                 setAlerts(alertResponse.alerts);
             } else if (!alertRefresh && weather) {
                 const alertResponse = await getAlertData(weather.point).catch(e => setError(e));

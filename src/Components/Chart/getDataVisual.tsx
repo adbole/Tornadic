@@ -1,8 +1,7 @@
 /* eslint-disable no-fallthrough */
 import { Area, Bar, Line } from "recharts";
 
-import { UserSettings } from "Contexts/SettingsContext/index.types";
-
+import { UserSettings } from "ts/global.types";
 import { get_aq, get_uv, nameof, toHSL } from "ts/Helpers";
 
 import { ChartViews, DataPoint } from ".";

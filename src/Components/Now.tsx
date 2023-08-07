@@ -9,9 +9,9 @@ import { Gear } from "svgs/widget";
 
 import { WeatherConditionType } from "ts/WeatherCondition";
 
-import LocationInput from "./Input/LocationInput";
 import Modal, { ModalContent } from "./Modals/Modal";
 import SettingsModal from "./Modals/SettingsModal";
+import { LocationInput } from "./Input";
 
 /**
  * Displays the current location name, temperature, condition, and feels like temperature along with having a gradient to match the condition

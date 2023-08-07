@@ -1,8 +1,7 @@
 import { useRef } from "react";
 
-import { useBooleanState } from "Hooks";
+import { useBooleanState, useReadLocalStorage } from "Hooks";
 
-import { useSettings } from "Contexts/SettingsContext";
 import { useWeather } from "Contexts/WeatherContext";
 
 import Chart from "Components/Chart";
@@ -56,7 +55,7 @@ function Day({
  */
 export default function Daily() {
     const { weather } = useWeather();
-    const { settings } = useSettings();
+    const { tempUnit } = useReadLocalStorage("userSettings")!
 
     const [chartOpen, showChart, hideChart] = useBooleanState(false);
     const chartDay = useRef(0);
@@ -70,8 +69,8 @@ export default function Daily() {
         min = Math.max(0, min);
         max = Math.min(120, max);
 
-        const minHSL = toHSL(min, settings.tempUnit);
-        const maxHSL = toHSL(max, settings.tempUnit);
+        const minHSL = toHSL(min, tempUnit);
+        const maxHSL = toHSL(max, tempUnit);
 
         return {
             left: Normalize.Percent(min, low_week, high_week) + "%",

@@ -1,8 +1,9 @@
-import { useSettings } from "Contexts/SettingsContext";
+import { useLocalStorage } from "Hooks";
 
 import { Cursor } from "svgs/radar";
 
 import { fetchData } from "ts/Fetch";
+import { USER_SETTINGS_DEFAULT } from "ts/LocalStorageDefaults";
 
 import SearchInput from "./SearchInput";
 import { Button } from ".";
@@ -33,7 +34,7 @@ async function getQueryResults(query: string) {
 }
 
 export default function LocationInput() {
-    const { settings, setSettings } = useSettings();
+    const [settings, setSettings] = useLocalStorage("userSettings", USER_SETTINGS_DEFAULT);
 
     const setUserLocation = (user_location: [number, number]) =>
         setSettings({

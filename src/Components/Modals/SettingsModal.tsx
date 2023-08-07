@@ -1,11 +1,11 @@
 import React from "react";
 
-import { useBooleanState } from "Hooks";
-
-import { useSettings } from "Contexts/SettingsContext";
-import { UserSettings } from "Contexts/SettingsContext/index.types";
+import { useBooleanState, useLocalStorage } from "Hooks";
 
 import { TornadicFull } from "svgs/icon";
+
+import { UserSettings } from "ts/global.types";
+import { USER_SETTINGS_DEFAULT } from "ts/LocalStorageDefaults";
 
 import { Button, InputGroup, ToggleButton } from "../Input";
 
@@ -13,7 +13,7 @@ import Modal, { ModalContent, ModalProps, ModalTitle } from "./Modal";
 
 
 export default function SettingsModal({ ...modalProps }: ModalProps) {
-    const { settings, setSettings } = useSettings();
+    const [settings, setSettings] = useLocalStorage("userSettings", USER_SETTINGS_DEFAULT);
 
     const [requiresSave, setRequiresSaveTrue, setRequiresSaveFalse] = useBooleanState(false);
     const [queue, setQueue] = React.useState<UserSettings>({} as any);

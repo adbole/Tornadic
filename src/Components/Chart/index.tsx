@@ -9,7 +9,8 @@ import {
     YAxisProps,
 } from "recharts";
 
-import { useSettings } from "Contexts/SettingsContext";
+import { useReadLocalStorage } from "Hooks";
+
 import { useWeather } from "Contexts/WeatherContext";
 
 import { InputGroup } from "Components/Input";
@@ -112,7 +113,7 @@ export default function Chart({
 
     const radioId = React.useId();
 
-    const { settings } = useSettings();
+    const settings = useReadLocalStorage("userSettings")!
 
     const chartData = React.useMemo(() => getData(weather, view, day), [weather, view, day]);
 
