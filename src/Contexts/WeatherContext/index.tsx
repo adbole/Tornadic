@@ -3,7 +3,8 @@
  * open-meteo is used for general weather information while NWS is used to get the location name and alerts.
  */
 
-import React, { ReactNode } from "react";
+import type { ReactNode } from "react";
+import React from "react";
 
 import { useNullableState, useReadLocalStorage } from "Hooks";
 
@@ -12,12 +13,11 @@ import Skeleton from "Components/Skeleton";
 import { ExclamationTriangle } from "svgs";
 
 import { fetchData, fetchDataAndHeaders } from "ts/Fetch";
-import { UserSettings } from "ts/global.types";
 import { throwError } from "ts/Helpers";
 import NWSAlert from "ts/NWSAlert";
 import Weather from "ts/Weather";
 
-import * as WeatherTypes from "./index.types";
+import type * as WeatherTypes from "./index.types";
 
 
 const WeatherContext = React.createContext<{
@@ -93,15 +93,12 @@ async function getAlertData(from: string | WeatherTypes.GridPoint): Promise<{
 } | null> {
     let point;
 
-    //If we are given a string then we must hit the point endpoint
     if (typeof from === "string") {
         point = await fetchData<WeatherTypes.GridPoint>(
             from,
             "National Weather Service API Point Endpoint"
         );
-    }
-    //If we aren't given a string then we use exisiting point data
-    else point = from;
+    } else point = from;
 
     const lastIndex = point.properties.county.lastIndexOf("/") + 1;
 
@@ -139,7 +136,7 @@ function smartTimeout(fn: () => void, ms: number) {
 }
 
 function WeatherContextProvider({ children }: { children: ReactNode }) {
-    const settings = useReadLocalStorage("userSettings")!
+    const settings = useReadLocalStorage("userSettings")!;
 
     const [urls, setURLs] = React.useState<WeatherTypes.EndpointURLs>();
     const [error, setError, unsetError] = useNullableState<string>();

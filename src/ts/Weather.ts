@@ -2,12 +2,12 @@
  * The Weather class takes forecast, airquality, point, and alert data to provide access to said data along with helpful methods to act on the data
  */
 
-import { AirQuality, Forecast, GridPoint } from "Contexts/WeatherContext/index.types";
+import type { AirQuality, Forecast, GridPoint } from "Contexts/WeatherContext/index.types";
 
 import getTimeFormatted from "ts/TimeConversion";
 
-import { UserSettings } from "./global.types";
-import WeatherCondition, { WeatherConditionType } from "./WeatherCondition";
+import type { WeatherConditionType } from "./WeatherCondition";
+import WeatherCondition from "./WeatherCondition";
 
 //#region Enum and type definitions
 
@@ -35,7 +35,7 @@ export type DayInfo = Readonly<{
 export type CombinedHourly = Forecast["hourly"] & Omit<AirQuality["hourly"], "time">;
 
 /**
- * The WeatherData class takes forecast, airquality, point, and alert data to provide access to
+ * The WeatherData class takes forecast, airquality and point data to provide access to
  * said data along with helpful methods to act on the data.
  * This class is automatically initialized by WeatherContext and is used as the context throughout the application.
  */
@@ -69,11 +69,6 @@ export default class Weather {
 
         //All data point arrays have the same length, so one loop is sufficient
         for (let i = 0; i < forecast.hourly.time.length; ++i) {
-            //Get the current hour's index for the forecast data
-            if (forecast.hourly.time[i] === forecast.current_weather.time) {
-                forecast.nowIndex = i;
-            }
-
             //Convert units
             forecast.hourly.surface_pressure[i] /= 33.864;
             forecast.hourly.visibility[i] /= visibilityDivisor;
@@ -98,7 +93,7 @@ export default class Weather {
 
     /**
      * Open-Meteo provides some data through current_weather, but it is incomplete. This method
-     * will take other data using forecast.nowIndex and combine it to provide a better Now.
+     * will take other data using nowIndex and combine it to provide a better Now.
      */
     getNow(): {
         readonly location: string;
@@ -206,10 +201,10 @@ export default class Weather {
 
     private static hasChanceOfRain(condition: WeatherConditionType, precip_prop: number) {
         switch (condition) {
-            case WeatherConditionType.CLEAR:
-            case WeatherConditionType.MOSTLY_CLEAR:
-            case WeatherConditionType.PARTLY_CLOUDY:
-            case WeatherConditionType.OVERCAST:
+            case "Clear":
+            case "Mostly Clear":
+            case "Partly Cloudy":
+            case "Overcast":
                 return false;
             default:
                 return precip_prop >= 10;

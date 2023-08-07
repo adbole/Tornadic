@@ -3,7 +3,8 @@
  * Simply input the index into WeatherHelper to get the needed information to populate the view
  */
 
-import React, { ReactNode } from "react";
+import type { ReactNode } from "react";
+import React from "react";
 
 import { useBooleanState } from "Hooks";
 
@@ -15,7 +16,7 @@ import { Sun } from "svgs/conditions";
 import { Lungs } from "svgs/widget";
 
 import { get_aq, get_uv, Normalize } from "ts/Helpers";
-import { CombinedHourly } from "ts/Weather";
+import type { CombinedHourly } from "ts/Weather";
 
 
 export type HazardInfo = Readonly<{

@@ -2,10 +2,11 @@ import React from "react";
 
 import SlideContextProvider, { useSlide } from "Contexts/SlideContext";
 
-import Modal, { ModalContent, ModalProps, ModalTitle } from "Components/Modals/Modal";
+import type { ModalProps } from "Components/Modals/Modal";
+import Modal, { ModalContent, ModalTitle } from "Components/Modals/Modal";
 import Widget from "Components/Widget";
 
-import NWSAlert from "ts/NWSAlert";
+import type NWSAlert from "ts/NWSAlert";
 
 import { AlertInformationDisplay } from "./Common";
 

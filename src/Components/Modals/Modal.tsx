@@ -52,21 +52,16 @@ export default function Modal({ isOpen, children, onClose, ...excess }: ModalPro
         return () => document.body.classList.remove("hide-overflow");
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [shouldMount, stage]);
-    
-    useSameClick(dialogRef, (e: MouseEvent) => {
-        const target = e.target as HTMLElement
 
-        if(target === dialogRef.current) 
-            closeModal()
-    })
+    useSameClick(dialogRef, (e: MouseEvent) => {
+        const target = e.target as HTMLElement;
+
+        if (target === dialogRef.current) closeModal();
+    });
 
     return shouldMount
         ? ReactDOM.createPortal(
-              <dialog
-                  className={`modal ${stage}`}
-                  ref={dialogRef}
-                  {...excess}
-              >
+              <dialog className={`modal ${stage}`} ref={dialogRef} {...excess}>
                   {children}
               </dialog>,
               document.body

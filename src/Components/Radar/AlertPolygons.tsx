@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { Polygon, useMap } from "react-leaflet";
-import { LatLngExpression } from "leaflet";
+import type { LatLngExpression } from "leaflet";
 
 import { useBooleanState } from "Hooks";
 

@@ -9,7 +9,7 @@ import Widget from "Components/Widget";
 import { Calendar } from "svgs/widget";
 
 import { Normalize, toHSL } from "ts/Helpers";
-import { DayInfo } from "ts/Weather";
+import type { DayInfo } from "ts/Weather";
 
 /**
  * A helper component for Daily to display the individual days of the week
@@ -55,7 +55,7 @@ function Day({
  */
 export default function Daily() {
     const { weather } = useWeather();
-    const { tempUnit } = useReadLocalStorage("userSettings")!
+    const { tempUnit } = useReadLocalStorage("userSettings")!;
 
     const [chartOpen, showChart, hideChart] = useBooleanState(false);
     const chartDay = useRef(0);

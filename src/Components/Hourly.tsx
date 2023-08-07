@@ -9,7 +9,7 @@ import Widget from "Components/Widget";
 import { Clock } from "svgs/widget";
 
 import getTimeFormatted from "ts/TimeConversion";
-import { HourInfo } from "ts/Weather";
+import type { HourInfo } from "ts/Weather";
 
 /**
  * A helper component for the Hourly component to display the individual hours

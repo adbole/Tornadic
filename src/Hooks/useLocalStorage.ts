@@ -1,13 +1,13 @@
 import React from "react";
 
 
-const LOCAL_STORAGE_EVENT = "localStorage"
+const LOCAL_STORAGE_EVENT = "localStorage";
 
 declare global {
     interface KeysAndTypes {}
 
     interface WindowEventMap {
-        [LOCAL_STORAGE_EVENT]: CustomEvent
+        [LOCAL_STORAGE_EVENT]: CustomEvent;
     }
 }
 
@@ -37,7 +37,7 @@ export default function useLocalStorage<K extends keyof KeysAndTypes>(
                 window.localStorage.setItem(key, JSON.stringify(newValue));
                 setStoredValue(newValue);
 
-                window.dispatchEvent(new Event(LOCAL_STORAGE_EVENT))
+                window.dispatchEvent(new Event(LOCAL_STORAGE_EVENT));
             } catch {
                 console.error(`Failed to set ${key} in localstorage`);
             }
@@ -46,24 +46,23 @@ export default function useLocalStorage<K extends keyof KeysAndTypes>(
     );
 
     React.useEffect(() => {
-        setStoredValue(read())
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+        setStoredValue(read());
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const onStorage = React.useCallback(
         (event: StorageEvent | CustomEvent) => {
-            if(event instanceof StorageEvent && event.key !== key)
-                return;
+            if (event instanceof StorageEvent && event.key !== key) return;
 
-            setStoredValue(read())
+            setStoredValue(read());
         },
         [key, read]
-    )
+    );
 
     React.useEffect(() => {
         window.addEventListener("storage", onStorage);
         window.addEventListener(LOCAL_STORAGE_EVENT, onStorage);
-    }, [onStorage])
+    }, [onStorage]);
 
     return [storedValue, setValue];
 }

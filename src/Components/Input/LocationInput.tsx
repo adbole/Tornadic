@@ -5,8 +5,8 @@ import { Cursor } from "svgs/radar";
 import { fetchData } from "ts/Fetch";
 import { USER_SETTINGS_DEFAULT } from "ts/LocalStorageDefaults";
 
+import Button from "./Button";
 import SearchInput from "./SearchInput";
-import { Button } from ".";
 
 
 type QueryResult = {

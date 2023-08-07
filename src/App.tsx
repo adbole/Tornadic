@@ -2,19 +2,23 @@ import { useBooleanState, useLocalStorage, useOnlineOffline } from "Hooks";
 
 import WeatherContext from "Contexts/WeatherContext";
 
-import Alert from "Components/Alert";
-import Daily from "Components/Daily";
-import HazardLevel from "Components/HazardLevel";
-import Hourly from "Components/Hourly";
-import { Button, LocationInput } from "Components/Input";
-import MessageScreen from "Components/MessageScreen";
-import Modal, { ModalContent } from "Components/Modals/Modal";
-import Now from "Components/Now";
-import Pressure from "Components/Pressure";
-import Radar from "Components/Radar";
-import SunTime from "Components/SunTime";
-import SimpleInfoWidget from "Components/Widget.SimpleInfo";
-import Wind from "Components/Wind";
+import {
+    Alert,
+    Button,
+    Daily,
+    HazardLevel,
+    Hourly,
+    LocationInput,
+    MessageScreen,
+    Modal,
+    ModalContent,
+    Now,
+    Pressure,
+    Radar,
+    SimpleInfoWidget,
+    SunTime,
+    Wind,
+} from "Components";
 import { WifiOff } from "svgs";
 import { Cursor } from "svgs/radar";
 import * as WidgetIcons from "svgs/widget";
@@ -45,7 +49,7 @@ function LocationRequest() {
 
 function App() {
     const online = useOnlineOffline();
-    const [{ user_location }] = useLocalStorage("userSettings", USER_SETTINGS_DEFAULT)
+    const [{ user_location }] = useLocalStorage("userSettings", USER_SETTINGS_DEFAULT);
 
     if (!online) {
         return (

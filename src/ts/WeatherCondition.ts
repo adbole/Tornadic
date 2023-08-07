@@ -1,31 +1,25 @@
 import * as Conditions from "svgs/conditions";
 
 
-export enum WeatherConditionType {
-    CLEAR = "Clear",
-    MOSTLY_CLEAR = "Mostly Clear",
-    PARTLY_CLOUDY = "Partly Cloudy",
-    OVERCAST = "Overcast",
-    FOGGY = "Foggy",
-    DRIZZLE = "Drizzle",
-    FREEZING_DRIZZLE = "Freezing Drizzle",
-    RAIN = "Rain",
-    FREEZING_RAIN = "Freezing Rain",
-    SNOW = "Snow",
-    SNOW_GRAINS = "Snow Grains",
-    RAIN_SHOWERS = "Rain Showers",
-    SNOW_SHOWERS = "Snow Showers",
-    THUNDERSTORMS = "Thunderstorms",
-    THRUNDERSTORMS_HAIL = "Thunderstorms and Hail",
-}
+export type WeatherConditionType =
+    | "Clear"
+    | "Mostly Clear"
+    | "Partly Cloudy"
+    | "Overcast"
+    | "Foggy"
+    | "Drizzle"
+    | "Freezing Drizzle"
+    | "Rain"
+    | "Freezing Rain"
+    | "Snow"
+    | "Snow Grains"
+    | "Rain Showers"
+    | "Snow Showers"
+    | "Thunderstorms"
+    | "Thunderstorms and Hail";
 
 //Different Intesities a WMO code can have.
-export enum Intesity {
-    LIGHT = "Light",
-    MODERATE = "Moderate",
-    HEAVY = "Heavy",
-    NONE = "",
-}
+type Intesity = "Light" | "Moderate" | "Heavy" | "";
 
 /**
  * Converts a WMO code into three parts to be rendered, the message (type), intesity (if applicable), and the icon.
@@ -45,55 +39,55 @@ export default class WeatherCondition {
         this.icon = this.getIcon(isDay);
     }
 
-    private getCondition() {
+    private getCondition(): WeatherConditionType {
         switch (this.weathercode) {
             case 1:
-                return WeatherConditionType.MOSTLY_CLEAR;
+                return "Mostly Clear";
             case 2:
-                return WeatherConditionType.PARTLY_CLOUDY;
+                return "Partly Cloudy";
             case 3:
-                return WeatherConditionType.OVERCAST;
+                return "Overcast";
             case 45:
             case 48:
-                return WeatherConditionType.FOGGY;
+                return "Foggy";
             case 51:
             case 53:
             case 55:
-                return WeatherConditionType.DRIZZLE;
+                return "Drizzle";
             case 56:
             case 57:
-                return WeatherConditionType.FREEZING_DRIZZLE;
+                return "Freezing Drizzle";
             case 61:
             case 63:
             case 65:
-                return WeatherConditionType.RAIN;
+                return "Rain";
             case 66:
             case 67:
-                return WeatherConditionType.FREEZING_RAIN;
+                return "Freezing Rain";
             case 71:
             case 73:
             case 75:
-                return WeatherConditionType.SNOW;
+                return "Snow";
             case 77:
-                return WeatherConditionType.SNOW_GRAINS;
+                return "Snow Grains";
             case 80:
             case 81:
             case 82:
-                return WeatherConditionType.RAIN_SHOWERS;
+                return "Rain Showers";
             case 85:
             case 86:
-                return WeatherConditionType.SNOW_SHOWERS;
+                return "Snow Showers";
             case 95:
-                return WeatherConditionType.THUNDERSTORMS;
+                return "Thunderstorms";
             case 96:
             case 99:
-                return WeatherConditionType.THRUNDERSTORMS_HAIL;
+                return "Thunderstorms and Hail";
             default:
-                return WeatherConditionType.CLEAR;
+                return "Clear";
         }
     }
 
-    private getIntensity() {
+    private getIntensity(): Intesity {
         if (this.weathercode >= 51 && this.weathercode <= 75) {
             //open-meteo's translation of WMO codes has a pattern where the last digit
             //can represent their correlating intesity. This only exists for codes 51 to 75
@@ -102,31 +96,31 @@ export default class WeatherCondition {
             switch (intesity) {
                 case 1:
                 case 6:
-                    return Intesity.LIGHT;
+                    return "Light";
                 case 3:
-                    return Intesity.MODERATE;
+                    return "Moderate";
                 case 5:
                 case 7:
-                    return Intesity.HEAVY;
+                    return "Heavy";
                 default:
-                    return Intesity.NONE;
+                    return "";
             }
         } else if (this.weathercode >= 80 && this.weathercode <= 86) {
             switch (this.weathercode) {
                 case 80:
                 case 85:
-                    return Intesity.LIGHT;
+                    return "Light";
                 case 81:
-                    return Intesity.MODERATE;
+                    return "Moderate";
                 case 82:
                 case 86:
-                    return Intesity.HEAVY;
+                    return "Heavy";
                 default:
-                    return Intesity.NONE;
+                    return "";
             }
         }
 
-        return Intesity.NONE;
+        return "";
     }
 
     private getIcon(isDay: boolean): React.ComponentType {

@@ -4,9 +4,9 @@ import { useBooleanState } from "Hooks";
 
 import { useWeather } from "Contexts/WeatherContext";
 
-import Chart, { ChartViews } from "Components/Chart";
-
-import Widget from "./Widget";
+import type { ChartViews } from "Components/Chart";
+import Chart from "Components/Chart";
+import Widget from "Components/Widget";
 
 
 export default function SimpleInfoWidget({

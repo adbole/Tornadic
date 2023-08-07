@@ -1,5 +1,8 @@
 {
-    "plugins": ["simple-import-sort"],
+    "plugins": [
+        "import",
+        "simple-import-sort"
+    ],
     "extends": [
         "eslint:recommended",
         "react-app",
@@ -13,11 +16,14 @@
         "prefer-const": "error",
         "no-else-return": "error",
 
+        "import/no-cycle": ["error"],
         "import/newline-after-import": ["error", { "count": 2 }],
+        "import/no-duplicates": "error",
+        "import/consistent-type-specifier-style": ["error", "prefer-top-level"],
+        "@typescript-eslint/consistent-type-imports": ["error"],
             
         "simple-import-sort/exports": "error",
         "simple-import-sort/imports": "error",
-        "no-duplicate-imports": "error",
         
         "react/function-component-definition": "error",
         "react/self-closing-comp": "error",
@@ -48,5 +54,13 @@
                 ]
             }
         }
-    ]
+    ],
+    "settings": {
+        "import/resolver": {
+            "typescript": true
+        },
+        "import/parsers": {
+            "@typescript-eslint/parser": [".ts", ".tsx"]
+        }
+    }
 }

@@ -4,13 +4,11 @@ import { useBooleanState } from "Hooks";
 
 import { useWeather } from "Contexts/WeatherContext";
 
+import Modal, { ModalContent } from "Components/Modals/Modal";
+import SettingsModal from "Components/Modals/SettingsModal";
 import Widget from "Components/Widget";
 import { Gear } from "svgs/widget";
 
-import { WeatherConditionType } from "ts/WeatherCondition";
-
-import Modal, { ModalContent } from "./Modals/Modal";
-import SettingsModal from "./Modals/SettingsModal";
 import { LocationInput } from "./Input";
 
 /**
@@ -32,20 +30,20 @@ export default function Now() {
 
     //Determine what background should be applied
     switch (now.conditionInfo.type) {
-        case WeatherConditionType.OVERCAST:
+        case "Overcast":
             background.current = `overcast-${weather.isDay() ? "day" : "night"}`;
             break;
-        case WeatherConditionType.RAIN:
-        case WeatherConditionType.RAIN_SHOWERS:
+        case "Rain":
+        case "Rain Showers":
             background.current = "rain";
             break;
-        case WeatherConditionType.THUNDERSTORMS:
-        case WeatherConditionType.THRUNDERSTORMS_HAIL:
+        case "Thunderstorms":
+        case "Thunderstorms and Hail":
             background.current = "thunderstorms";
             break;
-        case WeatherConditionType.SNOW:
-        case WeatherConditionType.SNOW_GRAINS:
-        case WeatherConditionType.SNOW_SHOWERS:
+        case "Snow":
+        case "Snow Grains":
+        case "Snow Showers":
             background.current = "snow";
             break;
         default:

@@ -2,7 +2,7 @@ import React from "react";
 
 import { useBooleanState } from "Hooks";
 
-import { CircleSlashes } from "../../svgs/radar";
+import { CircleSlashes } from "svgs/radar";
 
 
 export default function Opacity({

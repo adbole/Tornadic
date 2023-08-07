@@ -6,7 +6,7 @@ import Chart from "Components/Chart";
 import Widget from "Components/Widget";
 import { Down, Meter, Up } from "svgs/widget";
 
-import Weather from "ts/Weather";
+import type Weather from "ts/Weather";
 
 
 function getTrendIcon(weather: Weather) {

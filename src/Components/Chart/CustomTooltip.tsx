@@ -1,9 +1,9 @@
-import { TooltipProps } from "recharts";
-import { NameType } from "recharts/types/component/DefaultTooltipContent";
+import type { TooltipProps } from "recharts";
+import type { NameType } from "recharts/types/component/DefaultTooltipContent";
 
 import { get_aq, get_uv } from "ts/Helpers";
 
-import { ChartViews, DataPoint } from ".";
+import type { ChartViews, DataPoint } from ".";
 
 
 function getUnit(data: DataPoint, defaultUnit: React.ReactNode) {

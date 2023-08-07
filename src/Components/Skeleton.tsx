@@ -1,4 +1,5 @@
-import Widget, { WidgetSize } from "Components/Widget";
+import type { WidgetSize } from "Components/Widget";
+import Widget from "Components/Widget";
 
 
 function SkeletonWidget({ id = undefined, size }: { id?: string; size?: WidgetSize }) {

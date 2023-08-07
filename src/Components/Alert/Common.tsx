@@ -1,4 +1,4 @@
-import NWSAlert from "ts/NWSAlert";
+import type NWSAlert from "ts/NWSAlert";
 
 
 export function AlertInformationDisplay({ alert }: { alert: NWSAlert }) {

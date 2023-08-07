@@ -1,24 +1,25 @@
 import React from "react";
+import type { YAxisProps } from "recharts";
 import {
     CartesianGrid,
     ReferenceLine,
     ResponsiveContainer,
     Tooltip,
     XAxis,
-    YAxis,
-    YAxisProps,
+    YAxis
 } from "recharts";
 
 import { useReadLocalStorage } from "Hooks";
 
 import { useWeather } from "Contexts/WeatherContext";
 
-import { InputGroup } from "Components/Input";
-import ToggleButton from "Components/Input/ToggleButton";
-import Modal, { ModalContent, ModalProps, ModalTitle } from "Components/Modals/Modal";
+import { InputGroup, ToggleButton } from "Components/Input";
+import type { ModalProps } from "Components/Modals/Modal";
+import Modal, { ModalContent, ModalTitle } from "Components/Modals/Modal";
 
 import getTimeFormatted from "ts/TimeConversion";
-import Weather, { CombinedHourly } from "ts/Weather";
+import type Weather from "ts/Weather";
+import type { CombinedHourly } from "ts/Weather";
 
 import ChartDisplay from "./ChartDisplay";
 import CustomTooltip from "./CustomTooltip";
@@ -113,7 +114,7 @@ export default function Chart({
 
     const radioId = React.useId();
 
-    const settings = useReadLocalStorage("userSettings")!
+    const settings = useReadLocalStorage("userSettings")!;
 
     const chartData = React.useMemo(() => getData(weather, view, day), [weather, view, day]);
 

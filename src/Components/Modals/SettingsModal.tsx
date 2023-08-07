@@ -2,14 +2,12 @@ import React from "react";
 
 import { useBooleanState, useLocalStorage } from "Hooks";
 
+import { Button, InputGroup, ToggleButton } from "Components/Input";
+import type { ModalProps } from "Components/Modals/Modal";
+import Modal, { ModalContent, ModalTitle } from "Components/Modals/Modal";
 import { TornadicFull } from "svgs/icon";
 
-import { UserSettings } from "ts/global.types";
 import { USER_SETTINGS_DEFAULT } from "ts/LocalStorageDefaults";
-
-import { Button, InputGroup, ToggleButton } from "../Input";
-
-import Modal, { ModalContent, ModalProps, ModalTitle } from "./Modal";
 
 
 export default function SettingsModal({ ...modalProps }: ModalProps) {

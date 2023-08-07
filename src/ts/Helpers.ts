@@ -1,5 +1,3 @@
-import { UserSettings } from "./global.types";
-
 //Provides methods to normalize a value between to values to be between 0 and 1\w+:
 export class Normalize {
     //Normalizes a value to be between 0 and 1 given it and the minimum and maximum values possible

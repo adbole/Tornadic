@@ -1,10 +1,9 @@
 /* eslint-disable no-fallthrough */
 import { Area, Bar, Line } from "recharts";
 
-import { UserSettings } from "ts/global.types";
 import { get_aq, get_uv, nameof, toHSL } from "ts/Helpers";
 
-import { ChartViews, DataPoint } from ".";
+import type { ChartViews, DataPoint } from ".";
 
 
 function* getUVGradient(value: number) {
