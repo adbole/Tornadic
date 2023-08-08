@@ -23,7 +23,7 @@ function SlideContextProvider({ children }: { children: React.ReactNode }) {
     React.useEffect(() => {
         if (!primaryDiv.current) return;
 
-        //Get the original and set the original clientHeight.
+        //Get the original clientHeight.
         originalHeight.current = primaryDiv.current.clientHeight;
     }, []);
 
@@ -32,8 +32,16 @@ function SlideContextProvider({ children }: { children: React.ReactNode }) {
     }, [secondaryContent, doSlide]);
 
     React.useEffect(() => {
-        if (!shouldMount && stage === "leave") unsetSecondaryContent();
-    }, [shouldMount, unsetSecondaryContent, stage]);
+        if (!shouldMount) unsetSecondaryContent();
+    }, [shouldMount, unsetSecondaryContent]);
+
+    const value = React.useMemo(
+        () => ({
+            slideTo,
+            reset,
+        }),
+        [slideTo, reset]
+    );
 
     return (
         <div
@@ -43,7 +51,7 @@ function SlideContextProvider({ children }: { children: React.ReactNode }) {
                 maxHeight: stage === "enter" ? "100vh" : originalHeight.current + "px",
             }}
         >
-            <Context.Provider value={{ slideTo, reset }}>
+            <Context.Provider value={value}>
                 <div
                     ref={primaryDiv}
                     className={secondaryContent ? "slide-out" : ""}

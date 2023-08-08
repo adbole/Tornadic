@@ -113,7 +113,7 @@ export default class Weather {
      * Gets 48 hours of future values
      */
     *getFutureValues(): Generator<HourInfo> {
-        for (let i = this.forecast.nowIndex + 1; i < this.forecast.nowIndex + 49; ++i) {
+        for (let i = this.nowIndex + 1; i < this.nowIndex + 49; ++i) {
             const conditionInfo = new WeatherCondition(
                 this.getForecast("weathercode", i),
                 this.isDay(i)

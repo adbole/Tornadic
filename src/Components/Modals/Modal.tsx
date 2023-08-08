@@ -44,14 +44,13 @@ export default function Modal({ isOpen, children, onClose, ...excess }: ModalPro
         if (shouldMount) {
             dialogRef.current?.showModal();
             document.body.classList.add("hide-overflow");
-        } else if (!shouldMount && stage === "leave") {
+        } else {
             onClose();
         }
 
         //Unmount should remove css
         return () => document.body.classList.remove("hide-overflow");
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [shouldMount, stage]);
+    }, [onClose, shouldMount]);
 
     useSameClick(dialogRef, (e: MouseEvent) => {
         const target = e.target as HTMLElement;

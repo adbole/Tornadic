@@ -58,7 +58,7 @@ export default function Hourly() {
                 onClick={showModal}
             >
                 <ol ref={listRef} className="flex-list drag-scroll">
-                    {Array.from(weather.getFutureValues()).map((forecast, index) => {
+                    {[...weather.getFutureValues()].map((forecast, index) => {
                         const time = new Date(forecast.time);
 
                         //To indicate a new day, add a day seperator

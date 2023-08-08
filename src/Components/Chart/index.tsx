@@ -1,13 +1,6 @@
 import React from "react";
 import type { YAxisProps } from "recharts";
-import {
-    CartesianGrid,
-    ReferenceLine,
-    ResponsiveContainer,
-    Tooltip,
-    XAxis,
-    YAxis
-} from "recharts";
+import { CartesianGrid, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 
 import { useReadLocalStorage } from "Hooks";
 

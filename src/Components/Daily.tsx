@@ -60,7 +60,7 @@ export default function Daily() {
     const [chartOpen, showChart, hideChart] = useBooleanState(false);
     const chartDay = useRef(0);
 
-    const dailyValues = Array.from(weather.getDailyValues());
+    const dailyValues = [...weather.getDailyValues()];
 
     const low_week = Math.min(...dailyValues.flatMap(day => day.temperature_low));
     const high_week = Math.max(...dailyValues.flatMap(day => day.temperature_high));

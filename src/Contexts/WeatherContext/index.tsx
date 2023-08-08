@@ -213,6 +213,15 @@ function WeatherContextProvider({ children }: { children: ReactNode }) {
         setAlerts,
     ]);
 
+    const value = React.useMemo(() => {
+        if (!weather || !alerts) return null;
+
+        return {
+            weather,
+            alerts,
+        };
+    }, [weather, alerts]);
+
     if (error) {
         return (
             <MessageScreen>
@@ -221,7 +230,7 @@ function WeatherContextProvider({ children }: { children: ReactNode }) {
                 <p>{error}</p>
 
                 {/* When there is an error, but data exists, allow the user to dismiss the error message */}
-                {weather && (
+                {value?.weather && (
                     <button type="button" onClick={unsetError}>
                         Dismiss (A refresh is required to get new data)
                     </button>
@@ -230,8 +239,8 @@ function WeatherContextProvider({ children }: { children: ReactNode }) {
         );
     }
 
-    return weather && alerts ? (
-        <WeatherContext.Provider value={{ weather, alerts }}>{children}</WeatherContext.Provider>
+    return value ? (
+        <WeatherContext.Provider value={value}>{children}</WeatherContext.Provider>
     ) : (
         <Skeleton />
     );

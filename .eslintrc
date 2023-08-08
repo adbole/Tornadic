@@ -28,7 +28,8 @@
         "react/function-component-definition": "error",
         "react/self-closing-comp": "error",
         "react/jsx-first-prop-new-line": [2, "multiline"],
-        "react/destructuring-assignment": "error"
+        "react/destructuring-assignment": "error",
+        "react/jsx-no-constructed-context-values": "error"
     },
     "overrides": [
         {
