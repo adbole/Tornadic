@@ -28,7 +28,8 @@ export default function useReadLocalStorage<K extends keyof KeysAndTypes>(
     const onStorage = React.useCallback(
         (event: StorageEvent | CustomEvent) => {
             if (event instanceof StorageEvent && event.key !== key) return;
-
+            else if (event instanceof CustomEvent && event.detail !== key) return;
+            
             setStoredValue(read());
         },
         [key, read]
@@ -37,6 +38,11 @@ export default function useReadLocalStorage<K extends keyof KeysAndTypes>(
     React.useEffect(() => {
         window.addEventListener("storage", onStorage);
         window.addEventListener("localStorage", onStorage);
+
+        return () => {
+            window.removeEventListener("storage", onStorage);
+            window.removeEventListener("localStorage", onStorage);
+        }
     }, [onStorage]);
 
     return storedValue;
