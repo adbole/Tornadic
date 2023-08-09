@@ -6,7 +6,7 @@
 import type { ReactNode } from "react";
 import React from "react";
 
-import { useNullableState, useReadLocalStorage } from "Hooks";
+import { useAPIUrls, useNullableState, useReadLocalStorage } from "Hooks";
 
 import MessageScreen from "Components/MessageScreen";
 import Skeleton from "Components/Skeleton";
@@ -27,59 +27,6 @@ const WeatherContext = React.createContext<{
 export const useWeather = () =>
     React.useContext(WeatherContext) ??
     throwError("Please use useWeather inside a WeatherContext provider");
-
-async function getURLs(settings: UserSettings): Promise<WeatherTypes.EndpointURLs> {
-    const [latitude, longitude] = settings.user_location!;
-
-    //NOTE: Precipitation unit of in affects the unit of visibility to become ft
-    const forecastURL = new URL(
-        "https://api.open-meteo.com/v1/gfs?timezone=auto&current_weather=true"
-    );
-
-    //Type Array<keyof T> provides compile-time checking to ensure array values match a property on T
-    const hourly_params: Array<keyof WeatherTypes.Forecast["hourly"]> = [
-        "temperature_2m",
-        "apparent_temperature",
-        "precipitation",
-        "weathercode",
-        "relativehumidity_2m",
-        "dewpoint_2m",
-        "visibility",
-        "windspeed_10m",
-        "winddirection_10m",
-        "surface_pressure",
-        "precipitation_probability",
-        "windgusts_10m",
-        "uv_index",
-        "is_day",
-    ];
-    const daily_params: Array<keyof WeatherTypes.Forecast["daily"]> = [
-        "temperature_2m_min",
-        "temperature_2m_max",
-        "weathercode",
-        "sunrise",
-        "sunset",
-        "precipitation_probability_max",
-    ];
-
-    forecastURL.searchParams.set("latitude", latitude.toString());
-    forecastURL.searchParams.set("longitude", longitude.toString());
-    forecastURL.searchParams.set("temperature_unit", settings.tempUnit);
-    forecastURL.searchParams.set("windspeed_unit", settings.windspeed);
-    forecastURL.searchParams.set("precipitation_unit", settings.precipitation);
-
-    hourly_params.forEach(param => forecastURL.searchParams.append("hourly", param));
-    daily_params.forEach(param => forecastURL.searchParams.append("daily", param));
-
-    const airQualityURL = `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${latitude}&longitude=${longitude}&hourly=us_aqi&timezone=auto`;
-    const pointURL = `https://api.weather.gov/points/${latitude},${longitude}`;
-
-    return {
-        forecastURL,
-        airQualityURL,
-        pointURL,
-    };
-}
 
 /**
  * Gets alert data from the NWS. from will determine how this data is gathered and wheather to get old or new point data before getting alerts
@@ -136,9 +83,9 @@ function smartTimeout(fn: () => void, ms: number) {
 }
 
 function WeatherContextProvider({ children }: { children: ReactNode }) {
-    const settings = useReadLocalStorage("userSettings")!;
+    const settings = useReadLocalStorage("userSettings");
 
-    const [urls, setURLs] = React.useState<WeatherTypes.EndpointURLs>();
+    const urls = useAPIUrls();
     const [error, setError, unsetError] = useNullableState<string>();
 
     const [weather, setWeather, unsetWeather] = useNullableState<Weather>();
@@ -148,8 +95,10 @@ function WeatherContextProvider({ children }: { children: ReactNode }) {
     const [refresh, setRefresh, unsetRefresh] = useNullableState<NodeJS.Timeout>();
     const [alertRefresh, setAlertRefresh, unsetAlertRefresh] = useNullableState<NodeJS.Timeout>();
 
-    //Setup the urls for all future requests
-    React.useMemo(() => getURLs(settings).then(urls => setURLs(urls)), [settings]);
+    React.useEffect(() => {
+        if(urls)
+            unsetWeather()
+    }, [urls, unsetWeather])
 
     React.useEffect(() => {
         unsetWeather();
@@ -185,7 +134,7 @@ function WeatherContextProvider({ children }: { children: ReactNode }) {
                 setAlertRefresh(smartTimeout(unsetAlertRefresh, alertResponse.expiresAfter));
 
                 //Convert data to desired formats
-                setWeather(new Weather(forecast, airquality, alertResponse.point, settings));
+                setWeather(new Weather(forecast, airquality, alertResponse.point, settings!));
                 setAlerts(alertResponse.alerts);
             } else if (!alertRefresh && weather) {
                 const alertResponse = await getAlertData(weather.point).catch(e => setError(e));

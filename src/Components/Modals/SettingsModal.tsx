@@ -7,11 +7,9 @@ import type { ModalProps } from "Components/Modals/Modal";
 import Modal, { ModalContent, ModalTitle } from "Components/Modals/Modal";
 import { TornadicFull } from "svgs/icon";
 
-import { USER_SETTINGS_DEFAULT } from "ts/LocalStorageDefaults";
-
 
 export default function SettingsModal({ ...modalProps }: ModalProps) {
-    const [settings, setSettings] = useLocalStorage("userSettings", USER_SETTINGS_DEFAULT);
+    const [settings, setSettings] = useLocalStorage("userSettings");
 
     const [requiresSave, setRequiresSaveTrue, setRequiresSaveFalse] = useBooleanState(false);
     const [queue, setQueue] = React.useState<UserSettings>({} as any);

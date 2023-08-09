@@ -1,4 +1,6 @@
-import { useBooleanState, useLocalStorage, useOnlineOffline } from "Hooks";
+import React from "react";
+
+import { useBooleanState, useLocalStorage, useOnlineOffline, usePermission, useReadLocalStorage } from "Hooks";
 
 import WeatherContext from "Contexts/WeatherContext";
 
@@ -22,8 +24,6 @@ import {
 import { WifiOff } from "svgs";
 import { Cursor } from "svgs/radar";
 import * as WidgetIcons from "svgs/widget";
-
-import { USER_SETTINGS_DEFAULT } from "ts/LocalStorageDefaults";
 
 
 function LocationRequest() {
@@ -49,7 +49,16 @@ function LocationRequest() {
 
 function App() {
     const online = useOnlineOffline();
-    const [{ user_location }] = useLocalStorage("userSettings", USER_SETTINGS_DEFAULT);
+
+    const locationPermission = usePermission("geolocation")
+    const user_location = useReadLocalStorage("userLocation")
+
+    const [settings, setSettings] = useLocalStorage("userSettings");
+
+    React.useEffect(() => {
+        setSettings(settings) // Save Defaults
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     if (!online) {
         return (
@@ -60,7 +69,7 @@ function App() {
         );
     }
 
-    if (!user_location) {
+    if (!user_location || user_location.useCurrent && locationPermission === "denied") {
         return <LocationRequest />;
     }
 
