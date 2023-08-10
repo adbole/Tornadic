@@ -18,30 +18,24 @@ export default function useUserLocation() {
     const [status, setStatus] = React.useState<status>("loading");
 
     React.useEffect(() => {
-        setStatus("loading")
+        setStatus("loading");
 
         if (userLocation === null) {
             setStatus("no_storage");
         } else if (userLocation.useCurrent) {
-            navigator.geolocation.getCurrentPosition(({ coords: { latitude, longitude } }) =>
-                {
-                    setStatus("OK")
-                    setPosition({
-                        latitude,
-                        longitude,
-                    })
-                }
-            );
+            navigator.geolocation.getCurrentPosition(({ coords: { latitude, longitude } }) => {
+                setStatus("OK");
+                setPosition({
+                    latitude,
+                    longitude,
+                });
+            });
+        } else {
+            if (!userLocation.coords) setStatus("no_value");
+            else setStatus("OK");
+            setPosition(userLocation.coords);
         }
-        else {
-            if(!userLocation.coords)
-                setStatus("no_value")
-            else
-                setStatus("OK")
-                setPosition(userLocation.coords)
-        }
-    }, [userLocation])
+    }, [userLocation]);
 
-
-    return { ...position, status }
+    return { ...position, status };
 }

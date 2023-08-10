@@ -1,6 +1,12 @@
 import React from "react";
 
-import { useBooleanState, useLocalStorage, useOnlineOffline, usePermission, useReadLocalStorage } from "Hooks";
+import {
+    useBooleanState,
+    useLocalStorage,
+    useOnlineOffline,
+    usePermission,
+    useReadLocalStorage,
+} from "Hooks";
 
 import WeatherContext from "Contexts/WeatherContext";
 
@@ -50,15 +56,15 @@ function LocationRequest() {
 function App() {
     const online = useOnlineOffline();
 
-    const locationPermission = usePermission("geolocation")
-    const user_location = useReadLocalStorage("userLocation")
+    const locationPermission = usePermission("geolocation");
+    const user_location = useReadLocalStorage("userLocation");
 
     const [settings, setSettings] = useLocalStorage("userSettings");
 
     React.useEffect(() => {
-        setSettings(settings) // Save Defaults
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+        setSettings(settings); // Save Defaults
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     if (!online) {
         return (
@@ -69,7 +75,7 @@ function App() {
         );
     }
 
-    if (!user_location || user_location.useCurrent && locationPermission === "denied") {
+    if (!user_location || (user_location.useCurrent && locationPermission === "denied")) {
         return <LocationRequest />;
     }
 

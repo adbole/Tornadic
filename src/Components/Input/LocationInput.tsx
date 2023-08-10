@@ -34,7 +34,7 @@ async function getQueryResults(query: string) {
 
 export default function LocationInput() {
     const [, setUserLocation] = useLocalStorage("userLocation");
-    const locationPermission = usePermission("geolocation")
+    const locationPermission = usePermission("geolocation");
 
     return (
         <SearchInput<QueryResult>
@@ -43,23 +43,17 @@ export default function LocationInput() {
                 setUserLocation({
                     coords: {
                         latitude,
-                        longitude
+                        longitude,
                     },
-                    useCurrent: false
+                    useCurrent: false,
                 })
             }
         >
-            {
-                locationPermission !== "denied" && (
-                    <Button
-                        onClick={() =>
-                            setUserLocation({ useCurrent: true })
-                        }
-                    >
-                        <Cursor />
-                    </Button>
-                )
-            }
+            {locationPermission !== "denied" && (
+                <Button onClick={() => setUserLocation({ useCurrent: true })}>
+                    <Cursor />
+                </Button>
+            )}
         </SearchInput>
     );
 }

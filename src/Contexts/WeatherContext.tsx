@@ -25,14 +25,8 @@ export const useWeather = () =>
     React.useContext(WeatherContext) ??
     throwError("Please use useWeather inside a WeatherContext provider");
 
-
 function WeatherContextProvider({ children }: { children: ReactNode }) {
-    const {
-        weather,
-        alerts, 
-        error,
-        getData
-    } = useOpenMeteo()
+    const { weather, alerts, error, getData } = useOpenMeteo();
 
     const value = React.useMemo(() => {
         if (!weather || !alerts) return null;

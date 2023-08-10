@@ -1,4 +1,4 @@
-import React from "react"
+import React from "react";
 
 import { fetchData, fetchDataAndHeaders } from "ts/Fetch";
 import NWSAlert from "ts/NWSAlert";
@@ -21,10 +21,7 @@ async function getAlertData(from: string | GridPoint): Promise<{
     let point;
 
     if (typeof from === "string") {
-        point = await fetchData<GridPoint>(
-            from,
-            "National Weather Service API Point Endpoint"
-        );
+        point = await fetchData<GridPoint>(from, "National Weather Service API Point Endpoint");
     } else point = from;
 
     const lastIndex = point.properties.county.lastIndexOf("/") + 1;
@@ -63,10 +60,10 @@ function smartTimeout(fn: () => void, ms: number) {
 }
 
 export default function useOpenMeteo(): {
-    weather: Weather | null,
-    alerts: NWSAlert[] | null,
-    error: string | null,
-    getData: () => Promise<void>
+    weather: Weather | null;
+    alerts: NWSAlert[] | null;
+    error: string | null;
+    getData: () => Promise<void>;
 } {
     const settings = useReadLocalStorage("userSettings");
     const urls = useAPIUrls();
@@ -81,9 +78,8 @@ export default function useOpenMeteo(): {
     const [alertRefresh, setAlertRefresh, unsetAlertRefresh] = useNullableState<NodeJS.Timeout>();
 
     React.useEffect(() => {
-        if(urls)
-            unsetWeather()
-    }, [urls, unsetWeather])
+        if (urls) unsetWeather();
+    }, [urls, unsetWeather]);
 
     React.useEffect(() => {
         unsetWeather();
@@ -94,20 +90,18 @@ export default function useOpenMeteo(): {
 
         //Perform a full refresh on all data
         if (!refresh || !weather) {
-            unsetError()
+            unsetError();
             if (refresh) clearTimeout(refresh);
             if (alertRefresh) clearTimeout(alertRefresh);
 
             //Await all the requests to finish
             const [forecast, airquality, alertResponse] = await Promise.all([
-                fetchData<Forecast>(
-                    urls.forecastURL,
-                    "Open-Meteo Weather Forecast"
-                ).catch(e => setError(e)),
-                fetchData<AirQuality>(
-                    urls.airQualityURL,
-                    "Open-Meteo Air Quality"
-                ).catch(e => setError(e)),
+                fetchData<Forecast>(urls.forecastURL, "Open-Meteo Weather Forecast").catch(e =>
+                    setError(e)
+                ),
+                fetchData<AirQuality>(urls.airQualityURL, "Open-Meteo Air Quality").catch(e =>
+                    setError(e)
+                ),
                 getAlertData(weather?.point ?? urls.pointURL).catch(e => setError(e)),
             ]);
 
@@ -129,8 +123,8 @@ export default function useOpenMeteo(): {
             setAlertRefresh(smartTimeout(unsetAlertRefresh, alertResponse.expiresAfter));
             setAlerts(alertResponse.alerts);
         }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [alertRefresh, refresh, settings,urls, weather])
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [alertRefresh, refresh, settings, urls, weather]);
 
     React.useEffect(() => {
         getData();
@@ -140,6 +134,6 @@ export default function useOpenMeteo(): {
         weather,
         alerts,
         error,
-        getData
-    }
+        getData,
+    };
 }

@@ -6,7 +6,7 @@ import DEFAULTS from "./useLocalStorage.config";
 const LOCAL_STORAGE_EVENT = "localStorage";
 
 declare global {
-    interface StorageKeysAndTypes { }
+    interface StorageKeysAndTypes {}
 
     interface WindowEventMap {
         [LOCAL_STORAGE_EVENT]: CustomEvent;
@@ -19,7 +19,7 @@ export default function useLocalStorage<K extends keyof StorageKeysAndTypes>(
     key: K,
     defaultValueOverride?: StorageKeysAndTypes[K]
 ): [StorageKeysAndTypes[K], SetValue<StorageKeysAndTypes[K]>] {
-    const defaultValue = defaultValueOverride || DEFAULTS[key]
+    const defaultValue = defaultValueOverride || DEFAULTS[key];
 
     const read = React.useCallback((): StorageKeysAndTypes[K] => {
         try {
@@ -71,7 +71,7 @@ export default function useLocalStorage<K extends keyof StorageKeysAndTypes>(
         return () => {
             window.removeEventListener("storage", onStorage);
             window.removeEventListener(LOCAL_STORAGE_EVENT, onStorage);
-        }
+        };
     }, [onStorage]);
 
     return [storedValue, setValue];

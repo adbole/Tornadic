@@ -1,7 +1,7 @@
 declare global {
     interface StorageKeysAndTypes {
         userSettings: UserSettings;
-        userLocation: UserLocation
+        userLocation: UserLocation;
     }
 
     type UserSettings = {
@@ -12,11 +12,11 @@ declare global {
 
     type UserLocation = {
         coords?: {
-            latitude: number,
-            longitude: number
-        }
-        useCurrent: boolean
-    }
+            latitude: number;
+            longitude: number;
+        };
+        useCurrent: boolean;
+    };
 }
 
 type LocalStorageDefaults = {

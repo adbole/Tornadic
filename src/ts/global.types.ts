@@ -1,4 +1,4 @@
-export {}
+export {};
 
 //Helper type to ensure properties are consistent across hourly_units and hourly
 type HourlyProperties<T extends number[] | string> = {
@@ -27,7 +27,6 @@ type DailyProperties<T extends number[] | string, Q extends string[] | string> =
     sunset: Q;
     precipitation_probability_max: T;
 };
-    
 
 declare global {
     type Forecast = {
@@ -50,7 +49,6 @@ declare global {
         daily: { time: string[] } & DailyProperties<number[], string[]>;
         nowIndex: number; //Indicates the index where the value for now occurs in all hourly data arrays
     };
-    
 
     //Airquality and forecast data are connected in that the current index for forecast will correlate to the
     //correct UV index and AQI for that hour.
@@ -60,7 +58,7 @@ declare global {
             us_aqi: number[];
         };
     }>;
-    
+
     //Point and Alert data from NWS
     type GridPoint = Readonly<{
         properties: {
@@ -73,11 +71,10 @@ declare global {
             county: string;
         };
     }>;
-    
+
     type EndpointURLs = Readonly<{
         forecastURL: URL;
         airQualityURL: string;
         pointURL: string;
     }>;
 }
-

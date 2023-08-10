@@ -5,14 +5,13 @@ import useUserLocation from "./useUserLocation";
 
 
 export default function useAPIUrls(): EndpointURLs | undefined {
-    const [urls, setUrls] = React.useState<EndpointURLs>()
-    const userSettings = useReadLocalStorage("userSettings")
-    const { latitude, longitude, status } = useUserLocation()
+    const [urls, setUrls] = React.useState<EndpointURLs>();
+    const userSettings = useReadLocalStorage("userSettings");
+    const { latitude, longitude, status } = useUserLocation();
 
     React.useEffect(() => {
-        if(status !== "OK" || !userSettings)
-            return;
-    
+        if (status !== "OK" || !userSettings) return;
+
         //NOTE: Precipitation unit of in affects the unit of visibility to become ft
         const forecastURL = new URL(
             "https://api.open-meteo.com/v1/gfs?timezone=auto&current_weather=true"
@@ -56,15 +55,12 @@ export default function useAPIUrls(): EndpointURLs | undefined {
         const airQualityURL = `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${latitude}&longitude=${longitude}&hourly=us_aqi&timezone=auto`;
         const pointURL = `https://api.weather.gov/points/${latitude},${longitude}`;
 
-        setUrls (
-            {
-                forecastURL,
-                airQualityURL,
-                pointURL,
-            }
-        );
+        setUrls({
+            forecastURL,
+            airQualityURL,
+            pointURL,
+        });
+    }, [userSettings, latitude, longitude, status]);
 
-    }, [userSettings, latitude, longitude, status])
-
-    return urls
+    return urls;
 }
