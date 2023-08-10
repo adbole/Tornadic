@@ -1,5 +1,5 @@
 declare global {
-    interface KeysAndTypes {
+    interface StorageKeysAndTypes {
         userSettings: UserSettings;
         userLocation: UserLocation
     }
@@ -20,7 +20,7 @@ declare global {
 }
 
 type LocalStorageDefaults = {
-    [K in keyof KeysAndTypes]: KeysAndTypes[K];
+    [K in keyof StorageKeysAndTypes]: StorageKeysAndTypes[K];
 };
 
 const DEFAULTS: LocalStorageDefaults = {

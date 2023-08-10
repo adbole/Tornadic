@@ -2,10 +2,10 @@ import React from "react";
 
 
 type NullableKeysAndTypes = {
-    [K in keyof KeysAndTypes]: KeysAndTypes[K] | null;
+    [K in keyof StorageKeysAndTypes]: StorageKeysAndTypes[K] | null;
 };
 
-export default function useReadLocalStorage<K extends keyof KeysAndTypes>(
+export default function useReadLocalStorage<K extends keyof StorageKeysAndTypes>(
     key: K
 ): NullableKeysAndTypes[K] {
     const read = React.useCallback((): NullableKeysAndTypes[K] => {

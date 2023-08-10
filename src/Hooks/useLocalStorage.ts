@@ -6,7 +6,7 @@ import DEFAULTS from "./useLocalStorage.config";
 const LOCAL_STORAGE_EVENT = "localStorage";
 
 declare global {
-    interface KeysAndTypes { }
+    interface StorageKeysAndTypes { }
 
     interface WindowEventMap {
         [LOCAL_STORAGE_EVENT]: CustomEvent;
@@ -15,13 +15,13 @@ declare global {
 
 type SetValue<T> = React.Dispatch<React.SetStateAction<T>>;
 
-export default function useLocalStorage<K extends keyof KeysAndTypes>(
+export default function useLocalStorage<K extends keyof StorageKeysAndTypes>(
     key: K,
-    defaultValueOverride?: KeysAndTypes[K]
-): [KeysAndTypes[K], SetValue<KeysAndTypes[K]>] {
+    defaultValueOverride?: StorageKeysAndTypes[K]
+): [StorageKeysAndTypes[K], SetValue<StorageKeysAndTypes[K]>] {
     const defaultValue = defaultValueOverride || DEFAULTS[key]
 
-    const read = React.useCallback((): KeysAndTypes[K] => {
+    const read = React.useCallback((): StorageKeysAndTypes[K] => {
         try {
             const value = window.localStorage.getItem(key);
             return value ? JSON.parse(value) : defaultValue;
@@ -31,9 +31,9 @@ export default function useLocalStorage<K extends keyof KeysAndTypes>(
         }
     }, [key, defaultValue]);
 
-    const [storedValue, setStoredValue] = React.useState<KeysAndTypes[K]>(read);
+    const [storedValue, setStoredValue] = React.useState<StorageKeysAndTypes[K]>(read);
 
-    const setValue: SetValue<KeysAndTypes[K]> = React.useCallback(
+    const setValue: SetValue<StorageKeysAndTypes[K]> = React.useCallback(
         value => {
             try {
                 const newValue = value instanceof Function ? value(storedValue) : value;
