@@ -1,7 +1,5 @@
 import React from "react";
 
-import type { EndpointURLs,Forecast } from "Contexts/WeatherContext/index.types";
-
 import useReadLocalStorage from "./useReadLocalStorage";
 import useUserLocation from "./useUserLocation";
 

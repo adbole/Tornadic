@@ -2,8 +2,6 @@
  * The Weather class takes forecast, airquality, point, and alert data to provide access to said data along with helpful methods to act on the data
  */
 
-import type { AirQuality, Forecast, GridPoint } from "Contexts/WeatherContext/index.types";
-
 import getTimeFormatted from "ts/TimeConversion";
 
 import type { WeatherConditionType } from "./WeatherCondition";
