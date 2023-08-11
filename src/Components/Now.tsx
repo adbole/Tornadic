@@ -26,29 +26,8 @@ export default function Now() {
 
     document.body.classList.remove(background.current);
 
+    background.current = now.conditionInfo.background
     React.useEffect(() => () => document.body.classList.remove(background.current), [background]);
-
-    //Determine what background should be applied
-    switch (now.conditionInfo.type) {
-        case "Overcast":
-            background.current = `overcast-${weather.isDay() ? "day" : "night"}`;
-            break;
-        case "Rain":
-        case "Rain Showers":
-            background.current = "rain";
-            break;
-        case "Thunderstorms":
-        case "Thunderstorms and Hail":
-            background.current = "thunderstorms";
-            break;
-        case "Snow":
-        case "Snow Grains":
-        case "Snow Showers":
-            background.current = "snow";
-            break;
-        default:
-            background.current = `clear-${weather.isDay() ? "day" : "night"}`;
-    }
 
     document.body.classList.add(background.current);
 

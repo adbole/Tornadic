@@ -101,7 +101,7 @@ export default class Weather {
     } {
         return {
             location: this.point.properties.relativeLocation.properties.city,
-            conditionInfo: new WeatherCondition(this.forecast.current_weather.weathercode, true),
+            conditionInfo: new WeatherCondition(this.forecast.current_weather.weathercode, this.isDay()),
             temperature: this.forecast.current_weather.temperature.toFixed(0),
             feelsLike: this.getForecast("apparent_temperature").toFixed(0),
         };

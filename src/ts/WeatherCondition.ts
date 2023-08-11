@@ -31,12 +31,14 @@ export default class WeatherCondition {
     readonly type: WeatherConditionType;
     readonly intensity: Intesity;
     readonly icon: React.ComponentType;
+    readonly background: string
 
     constructor(weathercode: number, isDay: boolean) {
         this.weathercode = weathercode;
         this.type = this.getCondition();
         this.intensity = this.getIntensity();
         this.icon = this.getIcon(isDay);
+        this.background = this.getBackground(isDay)
     }
 
     private getCondition(): WeatherConditionType {
@@ -141,5 +143,24 @@ export default class WeatherCondition {
         const filteredCode =
             this.weathercode >= 9 ? Math.trunc(this.weathercode / 10) : this.weathercode;
         return icons[filteredCode];
+    }
+
+    private getBackground(isDay: boolean) {
+        switch (this.type) {
+            case "Overcast":
+                return `overcast-${isDay ? "day" : "night"}`;
+            case "Rain":
+            case "Rain Showers":
+                return "rain";
+            case "Thunderstorms":
+            case "Thunderstorms and Hail":
+                return "thunderstorms";
+            case "Snow":
+            case "Snow Grains":
+            case "Snow Showers":
+                return "snow";
+            default:
+                return `clear-${isDay ? "day" : "night"}`;
+        }
     }
 }
