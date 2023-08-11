@@ -1,8 +1,9 @@
+@use "mixin";
+
 #pressure > div {
-    display: flex;
+    @include mixin.center-flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    gap: 5px;
 
     >svg {
         width: 2rem;

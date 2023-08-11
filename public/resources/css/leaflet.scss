@@ -260,8 +260,7 @@
 .leaflet-fade-anim {
     .leaflet-popup {
         opacity: 0;
-        -webkit-transition: opacity 0.2s linear;
-        -moz-transition: opacity 0.2s linear;
+        
         transition: opacity 0.2s linear;
     }
 
@@ -555,16 +554,15 @@ svg.leaflet-image-layer.leaflet-interactive path {
 .leaflet-popup {
     position: absolute;
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
 }
 
 .leaflet-popup-content-wrapper {
     padding: 1px;
     text-align: left;
     border-radius: 12px;
-    background: white;
-    color: #333;
-    box-shadow: 0 3px 14px rgba(0, 0, 0, 0.4);
+    @include mixin.dark-back-blur;
+    box-shadow: 0 0 14px 7px rgba(0,0,0,.4);
 }
 
 .leaflet-popup-content {
@@ -591,20 +589,7 @@ svg.leaflet-image-layer.leaflet-interactive path {
     pointer-events: none;
 }
 
-.leaflet-popup-tip {
-    width: 17px;
-    height: 17px;
-    padding: 1px;
-    margin: -10px auto 0;
-    pointer-events: auto;
-    -webkit-transform: rotate(45deg);
-    -moz-transform: rotate(45deg);
-    -ms-transform: rotate(45deg);
-    transform: rotate(45deg);
-    background: white;
-    color: #333;
-    box-shadow: 0 3px 14px rgba(0, 0, 0, 0.4);
-}
+
 
 .leaflet-popup-scrolled {
     overflow: auto;

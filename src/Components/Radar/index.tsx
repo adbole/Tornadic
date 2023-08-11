@@ -9,6 +9,7 @@ import AlertPolygons from "./AlertPolygons";
 import ControlPortal, { Position } from "./ControlPortal";
 import Home from "./Home";
 import Locate from "./Locate";
+import Peek from "./Peek";
 import RainViewer from "./RainViewer";
 
 
@@ -80,6 +81,7 @@ export default function Radar() {
                     <Locate />
                 </ControlPortal>
                 <RainViewer />
+                <Peek />
             </MapContainer>
         </Widget>
     );

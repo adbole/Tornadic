@@ -3,7 +3,7 @@
 
 $alertTypes: ("warning": #C31700, "watch": #FFF501, "advisory": #FF9431, "statement": #8F00FF, "none": gray);
 
-#alert {
+.alert {
     display: grid;
     grid-template-columns: 100%;
     grid-template-rows: 1fr;

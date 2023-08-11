@@ -1,15 +1,13 @@
 import { useBooleanState } from "Hooks";
 
-import { useWeather } from "Contexts/WeatherContext";
+import AlertModal from "Components/Alert/AlertModal";
+import { AlertInformationDisplay } from "Components/Alert/Common";
 
-import Widget from "Components/Widget";
-
-import AlertModal from "./AlertModal";
-import { AlertInformationDisplay } from "./Common";
+import { usePeekWeather } from "./PeekContext";
 
 
 export default function Alert() {
-    const { alerts } = useWeather();
+    const { alerts } = usePeekWeather()
     const [modalOpen, showModal, hideModal] = useBooleanState(false);
 
     //If no alerts are active then don't display this component.
@@ -23,12 +21,7 @@ export default function Alert() {
 
     return (
         <>
-            <Widget
-                isTemplate
-                size={"widget-wide"}
-                className={`alert ${alertToShow.getAlertCSS()}`}
-                onClick={showModal}
-            >
+            <div className={`peek-alert ${alertToShow.getAlertCSS()}`} onClick={showModal}>
                 <div>
                     <AlertInformationDisplay alert={alertToShow} />
                 </div>
@@ -36,7 +29,7 @@ export default function Alert() {
                 {alerts.length > 1 && (
                     <p className="excess-alerts">+{alerts.length - 1} more alert(s)</p>
                 )}
-            </Widget>
+            </div>
             <AlertModal alerts={alerts} isOpen={modalOpen} onClose={hideModal} />
         </>
     );

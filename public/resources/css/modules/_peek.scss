@@ -1,0 +1,59 @@
+@use "mixin";
+
+#peek {
+    --peek-padding: 20px;
+
+    .modal-content {
+        padding: 0px
+    }
+}
+
+.peek-now {
+    @include mixin.center-flex;
+    flex-direction: column;
+    gap: 10px;
+
+    font-size: 1.5rem;
+
+    padding: var(--peek-padding);
+
+    h1 {
+        position: relative;
+        font-size: 6rem;
+        font-weight: 200;
+
+        &::after {
+            position: absolute;
+            content: '°';
+        }
+    }
+}
+
+.peek-alert {
+    padding: var(--peek-padding);
+}
+
+.peek-items {
+    padding: var(--peek-padding);
+
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: auto;
+    gap: 10px;
+}
+
+.peek-item {
+    display: flex;
+    gap: 5px;
+
+    svg {
+        width: 2rem;
+    }
+
+    >div {
+        p:first-of-type {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+    }
+}
