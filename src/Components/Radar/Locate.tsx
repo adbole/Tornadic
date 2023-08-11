@@ -3,6 +3,8 @@ import ReactDOMServer from "react-dom/server";
 import { useMap } from "react-leaflet";
 import L from "leaflet";
 
+import { useLocalStorage, useUserLocation } from "Hooks";
+
 import { Cursor, LocationDot } from "svgs/radar";
 
 
@@ -20,27 +22,31 @@ const Current_Location_Icon = L.divIcon({
 export default function Locate() {
     const map = useMap();
     const currMarker = React.useRef<L.Marker>();
-    const LocateUser = React.useCallback(() => map.locate({ setView: true, maxZoom: 10 }), [map]);
 
-    //Get the user's location on first load along with adding a marker at said location and on every subsequent find.
+    const [, setUserLocation] = useLocalStorage("userLocation");
+    const { latitude: lat, longitude: lng, status } = useUserLocation();
+
     React.useEffect(() => {
-        LocateUser();
+        if (!(lat && lng) || status !== "OK") return;
 
-        map.on("locationfound", e => {
-            if (!currMarker.current) {
-                currMarker.current = L.marker(e.latlng, { icon: Current_Location_Icon }).addTo(map);
-            }
+        const coords = {
+            lat,
+            lng,
+        };
 
-            //Set the marker position
-            currMarker.current.setLatLng(e.latlng);
-        });
-    }, [LocateUser, map]);
+        if (!currMarker.current) {
+            currMarker.current = L.marker(coords, { icon: Current_Location_Icon }).addTo(map);
+        }
+
+        map.panTo(coords);
+        currMarker.current.setLatLng(coords);
+    }, [lat, lng, map, status]);
 
     return (
         <button
             type="button"
             className="leaflet-custom-control leaflet-control"
-            onClick={() => LocateUser()}
+            onClick={() => setUserLocation({ useCurrent: true })}
         >
             <Cursor />
         </button>
