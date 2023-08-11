@@ -10,12 +10,12 @@ import React from "react";
 import useReadLocalStorage from "./useReadLocalStorage";
 
 
-type status = "no_storage" | "no_value" | "nav_not_supported" | "denied" | "loading" | "OK";
+type Status = "no_storage" | "no_value" | "nav_not_supported" | "denied" | "loading" | "OK";
 
 export default function useUserLocation() {
     const userLocation = useReadLocalStorage("userLocation");
     const [position, setPosition] = React.useState<UserLocation["coords"]>();
-    const [status, setStatus] = React.useState<status>("loading");
+    const [status, setStatus] = React.useState<Status>("loading");
 
     React.useEffect(() => {
         setStatus("loading");
@@ -23,6 +23,11 @@ export default function useUserLocation() {
         if (userLocation === null) {
             setStatus("no_storage");
         } else if (userLocation.useCurrent) {
+            if(!navigator.geolocation) {
+                setStatus("nav_not_supported");
+                return;
+            }
+
             navigator.geolocation.getCurrentPosition(({ coords: { latitude, longitude } }) => {
                 setStatus("OK");
                 setPosition({

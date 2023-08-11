@@ -6,7 +6,7 @@
 import type { ReactNode } from "react";
 import React from "react";
 
-import { useOpenMeteo } from "Hooks";
+import { useOpenMeteo, useUserLocation } from "Hooks";
 
 import MessageScreen from "Components/MessageScreen";
 import Skeleton from "Components/Skeleton";
@@ -26,7 +26,8 @@ export const useWeather = () =>
     throwError("Please use useWeather inside a WeatherContext provider");
 
 function WeatherContextProvider({ children }: { children: ReactNode }) {
-    const { weather, alerts, error, getData } = useOpenMeteo();
+    const { latitude, longitude, status } = useUserLocation()
+    const { weather, alerts, error, getData } = useOpenMeteo(latitude, longitude);
 
     const value = React.useMemo(() => {
         if (!weather || !alerts) return null;
@@ -55,6 +56,9 @@ function WeatherContextProvider({ children }: { children: ReactNode }) {
         );
     }
 
+    //TODO: Once toast are added. Add another error message here
+    // if status !== OK
+    
     return value ? (
         <WeatherContext.Provider value={value}>{children}</WeatherContext.Provider>
     ) : (

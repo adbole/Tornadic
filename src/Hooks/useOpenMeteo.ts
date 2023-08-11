@@ -4,9 +4,64 @@ import { fetchData, fetchDataAndHeaders } from "ts/Fetch";
 import NWSAlert from "ts/NWSAlert";
 import Weather from "ts/Weather";
 
-import useAPIUrls from "./useAPIUrls";
 import useNullableState from "./useNullableState";
 import useReadLocalStorage from "./useReadLocalStorage";
+
+
+function getUrls(
+    latitude: number,
+    longitude: number,
+    userSettings: UserSettings
+): EndpointURLs {
+    //NOTE: Precipitation unit of in affects the unit of visibility to become ft
+    const forecastURL = new URL(
+        "https://api.open-meteo.com/v1/gfs?timezone=auto&current_weather=true"
+    );
+
+    //Type Array<keyof T> provides compile-time checking to ensure array values match a property on T
+    const hourly_params: Array<keyof Forecast["hourly"]> = [
+        "temperature_2m",
+        "apparent_temperature",
+        "precipitation",
+        "weathercode",
+        "relativehumidity_2m",
+        "dewpoint_2m",
+        "visibility",
+        "windspeed_10m",
+        "winddirection_10m",
+        "surface_pressure",
+        "precipitation_probability",
+        "windgusts_10m",
+        "uv_index",
+        "is_day",
+    ];
+    const daily_params: Array<keyof Forecast["daily"]> = [
+        "temperature_2m_min",
+        "temperature_2m_max",
+        "weathercode",
+        "sunrise",
+        "sunset",
+        "precipitation_probability_max",
+    ];
+
+    forecastURL.searchParams.set("latitude", latitude.toString());
+    forecastURL.searchParams.set("longitude", longitude.toString());
+    forecastURL.searchParams.set("temperature_unit", userSettings.tempUnit);
+    forecastURL.searchParams.set("windspeed_unit", userSettings.windspeed);
+    forecastURL.searchParams.set("precipitation_unit", userSettings.precipitation);
+
+    hourly_params.forEach(param => forecastURL.searchParams.append("hourly", param));
+    daily_params.forEach(param => forecastURL.searchParams.append("daily", param));
+
+    const airQualityURL = `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${latitude}&longitude=${longitude}&hourly=us_aqi&timezone=auto`;
+    const pointURL = `https://api.weather.gov/points/${latitude},${longitude}`;
+
+    return {
+        forecastURL,
+        airQualityURL,
+        pointURL,
+    };
+}
 
 /**
  * Gets alert data from the NWS. from will determine how this data is gathered and wheather to get old or new point data before getting alerts
@@ -59,14 +114,17 @@ function smartTimeout(fn: () => void, ms: number) {
     }, ms);
 }
 
-export default function useOpenMeteo(): {
+export default function useOpenMeteo(
+    latitude?: number,
+    longitude?: number
+): {
     weather: Weather | null;
     alerts: NWSAlert[] | null;
     error: string | null;
     getData: () => Promise<void>;
 } {
     const settings = useReadLocalStorage("userSettings");
-    const urls = useAPIUrls();
+    const [urls, setUrls] = React.useState<EndpointURLs>()
 
     const [error, setError, unsetError] = useNullableState<string>();
 
@@ -76,6 +134,11 @@ export default function useOpenMeteo(): {
     //null here will indicate a refresh is needed as a stored value indicates a timer is running
     const [refresh, setRefresh, unsetRefresh] = useNullableState<NodeJS.Timeout>();
     const [alertRefresh, setAlertRefresh, unsetAlertRefresh] = useNullableState<NodeJS.Timeout>();
+
+    React.useEffect(() => {
+        if(latitude && longitude && settings)
+            setUrls(getUrls(latitude, longitude, settings))
+    }, [latitude, longitude, settings])
 
     React.useEffect(() => {
         if (urls) unsetWeather();
