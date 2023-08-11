@@ -23,7 +23,7 @@ export type ModalProps = {
     onClose: VoidFunction;
 } & Omit<
     React.DialogHTMLAttributes<HTMLDialogElement>,
-    "onClick" | "open" | "className" | "onClose"
+    "onClick" | "open" | "className" | "onClose" | "onCancel"
 >;
 
 /**
@@ -48,7 +48,6 @@ export default function Modal({ isOpen, children, onClose, ...excess }: ModalPro
             onClose();
         }
 
-        //Unmount should remove css
         return () => document.body.classList.remove("hide-overflow");
     }, [onClose, shouldMount]);
 
@@ -60,10 +59,18 @@ export default function Modal({ isOpen, children, onClose, ...excess }: ModalPro
 
     return shouldMount
         ? ReactDOM.createPortal(
-              <dialog className={`modal ${stage}`} ref={dialogRef} {...excess}>
-                  {children}
-              </dialog>,
-              document.body
-          )
+            <dialog
+                className={`modal ${stage}`}
+                ref={dialogRef}
+                {...excess}
+                onCancel={e => {
+                    e.preventDefault();
+                    closeModal();
+                }}
+            >
+                {children}
+            </dialog>,
+            document.body
+        )
         : null;
 }
