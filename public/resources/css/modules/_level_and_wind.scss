@@ -3,7 +3,7 @@
 $levelGradients: ("AQ": conic-gradient(from 0.5turn at 50% 50%, #00FF66 36deg, #FFF501 90deg, #FF9431 144deg, #FF2204 198deg, #8400FF 252deg, #6D0000 306deg),
                   "UV": conic-gradient(from 0.5turn at 50% 50%, #00FF66 36deg, #FFF501 100.8deg, #FF9431 165.6deg, #FF2204 230.4deg, #FF00D6 292.2deg));
 
-.level-info, #wind {
+.level-info, .wind {
     //Div that wraps the svg and inner div to provide better alignment control
     >div {
         position: relative;
@@ -46,7 +46,7 @@ $levelGradients: ("AQ": conic-gradient(from 0.5turn at 50% 50%, #00FF66 36deg, #
     }
 
     @each $id, $gradient in $levelGradients {
-        &##{$id} > div > svg .gradient { 
+        &.#{$id} > div > svg .gradient { 
             background-image: $gradient;
         }
     }

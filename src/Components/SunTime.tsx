@@ -18,7 +18,7 @@ function HelperWidget({
     nextTime: string;
 }) {
     return (
-        <Widget id="suntime" isTemplate size={"widget-wide"}>
+        <Widget className="suntime" isTemplate size={"widget-wide"}>
             <div>
                 <p>{isSunrise ? "Sunrise" : "Sunset"}</p>
                 <h1>{getTimeFormatted(time, "hourMinute")}</h1>

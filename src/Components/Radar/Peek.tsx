@@ -2,7 +2,7 @@ import React from "react";
 import { Popup, useMap } from "react-leaflet";
 import type L from "leaflet";
 
-import { useBooleanState } from "Hooks";
+import { useBooleanState, useNullableState } from "Hooks";
 
 import { Button } from "Components/Input";
 import PeekModal from "Components/Modals/Peek";
@@ -13,8 +13,8 @@ import PeekModal from "Components/Modals/Peek";
  */
 export default function Peek() {
     const map = useMap();
-    const [position, setPosition] = React.useState<L.LatLng | undefined>()
-    const [latlng, setLatLng] = React.useState<L.LatLng | undefined>()
+    const [position, setPosition] = useNullableState<L.LatLng>()
+    const [latlng, setLatLng] = useNullableState<L.LatLng>()
     const [modalOpen, showModal, hideModal] = useBooleanState(false)
 
     React.useEffect(() => {
@@ -38,7 +38,10 @@ export default function Peek() {
         <>
             <Popup position={position} closeOnClick closeOnEscapeKey>
                 <Button
-                    onClick={() => {
+                    onClick={(e) => {
+                        e.stopPropagation()
+                        map.closePopup()
+                        
                         setLatLng(position)
                         showModal()
                     }}

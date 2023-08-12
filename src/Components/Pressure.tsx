@@ -27,7 +27,7 @@ export default function Pressure() {
     return (
         <>
             <Widget
-                id="pressure"
+                className="pressure"
                 widgetIcon={<Meter />}
                 widgetTitle={"Air Pressure"}
                 onClick={showModal}

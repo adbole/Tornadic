@@ -82,7 +82,7 @@ export default function Daily() {
     return (
         <>
             <Widget
-                id="daily"
+                className="daily"
                 size={"widget-large"}
                 widgetTitle="7-Day Forecast"
                 widgetIcon={<Calendar />}

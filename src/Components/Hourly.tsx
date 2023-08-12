@@ -52,7 +52,7 @@ export default function Hourly() {
     return (
         <>
             <Widget
-                id="hourly"
+                className="hourly"
                 widgetTitle="Hourly Forecast"
                 widgetIcon={<Clock />}
                 onClick={showModal}

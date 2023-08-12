@@ -1,5 +1,4 @@
 export { default as Alert } from "./Alert";
-export { default as AlertModal } from "./Alert/AlertModal";
 export { default as Chart } from "./Chart";
 export { default as Daily } from "./Daily";
 export { default as HazardLevel } from "./HazardLevel";
@@ -8,7 +7,6 @@ export * from "./Input";
 export { default as MessageScreen } from "./MessageScreen";
 export { default as Modal } from "./Modals/Modal";
 export * from "./Modals/Modal";
-export { default as SettingsModal } from "./Modals/SettingsModal";
 export { default as Now } from "./Now";
 export { default as Pressure } from "./Pressure";
 export { default as Radar } from "./Radar";

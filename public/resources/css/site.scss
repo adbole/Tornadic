@@ -117,21 +117,21 @@ p, h1 {
         "d d . . r r"
         "d d . . r r";
     
-        #hourly { grid-column: span 2; }
-        .alert + #hourly { grid-column: span 2; }
+        .hourly { grid-column: span 2; }
+        .alert + .hourly { grid-column: span 2; }
+    
+        > .now {  grid-area: n; }
+        > .daily {  grid-area: d; }
+        > #radar { grid-area: r; }
     }
-
-    #now {  grid-area: n; }
-    #daily {  grid-area: d; }
-    #radar { grid-area: r; }
 }
 
 @media screen and (min-width: 1400px) {
     #root {
         grid-template-columns: repeat(8, 1fr);
 
-        #hourly { grid-column: span 6; }
-        .alert + #hourly { grid-column: span 4; }
+        .hourly { grid-column: span 6; }
+        .alert + .hourly { grid-column: span 4; }
 
         grid-template-areas: 
         "n n . . . . . ." 
@@ -147,13 +147,13 @@ p, h1 {
         grid-template-columns: repeat(4, 1fr);
         grid-template-areas: none;
 
-        #now { order: 1; }
+        .now { order: 1; }
 
-        .alert, #hourly { order: 2; }
-        #daily, #radar { order: 3; }
+        .alert, .hourly { order: 2; }
+        .daily, #radar { order: 3; }
         >* { order: 4; }
 
-        #hourly { grid-column: span 2; }
+        .hourly { grid-column: span 2; }
     }
 
     dialog#chart {
@@ -169,7 +169,7 @@ p, h1 {
         .widget:not(.widget-large) { min-height: 150px; }
     }
 
-    #now:not(.skeleton) {
+    .now:not(.skeleton) {
         backdrop-filter: none;
         box-shadow: none;
         background: none;

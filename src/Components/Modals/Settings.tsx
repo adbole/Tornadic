@@ -8,7 +8,7 @@ import Modal, { ModalContent, ModalTitle } from "Components/Modals/Modal";
 import { TornadicFull } from "svgs/icon";
 
 
-export default function SettingsModal({ ...modalProps }: ModalProps) {
+export default function Settings({ ...modalProps }: ModalProps) {
     const [settings, setSettings] = useLocalStorage("userSettings");
 
     const [requiresSave, setRequiresSaveTrue, setRequiresSaveFalse] = useBooleanState(false);

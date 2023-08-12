@@ -104,8 +104,7 @@ export default function HazardLevel({ hazard }: { hazard: HazardType }) {
     return (
         <>
             <Widget
-                className={"level-info"}
-                id={id}
+                className={`level-info ${id}`}
                 widgetTitle={title}
                 widgetIcon={titleIcon}
                 onClick={showModal}

@@ -1,6 +1,6 @@
 @use "mixin";
 
-#pressure > div {
+.pressure > div {
     @include mixin.center-flex;
     flex-direction: column;
     gap: 5px;
