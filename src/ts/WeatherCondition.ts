@@ -31,14 +31,14 @@ export default class WeatherCondition {
     readonly type: WeatherConditionType;
     readonly intensity: Intesity;
     readonly icon: React.ComponentType;
-    readonly background: string
+    readonly background: string;
 
     constructor(weathercode: number, isDay: boolean) {
         this.weathercode = weathercode;
         this.type = this.getCondition();
         this.intensity = this.getIntensity();
         this.icon = this.getIcon(isDay);
-        this.background = this.getBackground(isDay)
+        this.background = this.getBackground(isDay);
     }
 
     private getCondition(): WeatherConditionType {

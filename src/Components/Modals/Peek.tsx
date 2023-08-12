@@ -28,31 +28,32 @@ export default function Peek({
     return (
         <Modal id="peek" {...modalProps}>
             <ModalContent>
-                <WeatherContext 
-                    latitude={latitude} 
+                <WeatherContext
+                    latitude={latitude}
                     longitude={longitude}
-                    skeletonRender={
-                        () => (
-                            <>
-                                <SkeletonWidget size="widget-large" />
-                                <SkeletonWidget size="widget-wide" />
-                                {
-                                    Array.from({ length: 6 }, (_, i) => <SkeletonWidget key={i}/>)
-                                }
-                            </>
-                        )
-                    }
-                    fallbackRender={
-                        (getData) => (
-                            <>
-                                <ExclamationTriangle />
-                                <p>Unable to get weater data</p>
-                                <Button onClick={getData}>Try Again</Button>
-                            </>
-                        )
-                    }
+                    skeletonRender={() => (
+                        <>
+                            <SkeletonWidget className="now" size="widget-large" />
+                            <SkeletonWidget className="alert" size="widget-wide" />
+
+                            {Array.from({ length: 4 }, (_, i) => (
+                                <SkeletonWidget key={i} />
+                            ))}
+                            
+                            {Array.from({ length: 4 }, (_, i) => (
+                                <SkeletonWidget className="wind" key={i} />
+                            ))}
+                        </>
+                    )}
+                    fallbackRender={getData => (
+                        <>
+                            <ExclamationTriangle />
+                            <p>Unable to get weater data</p>
+                            <Button onClick={getData}>Try Again</Button>
+                        </>
+                    )}
                 >
-                    <Now displayOnly/>
+                    <Now displayOnly />
                     <Alert />
                     <SimpleInfoWidget
                         icon={<Droplet />}
@@ -69,14 +70,10 @@ export default function Peek({
                         title="Humidity"
                         property="relativehumidity_2m"
                     />
-                    <SimpleInfoWidget
-                        icon={<Eye />}
-                        title="Visibility"
-                        property="visibility"
-                    />
+                    <SimpleInfoWidget icon={<Eye />} title="Visibility" property="visibility" />
 
-                    <HazardLevel hazard="us_aqi"/>
-                    <HazardLevel hazard="uv_index"/>
+                    <HazardLevel hazard="us_aqi" />
+                    <HazardLevel hazard="uv_index" />
 
                     <Wind />
                     <Pressure />

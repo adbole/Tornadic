@@ -8,11 +8,7 @@ import useNullableState from "./useNullableState";
 import useReadLocalStorage from "./useReadLocalStorage";
 
 
-function getUrls(
-    latitude: number,
-    longitude: number,
-    userSettings: UserSettings
-): EndpointURLs {
+function getUrls(latitude: number, longitude: number, userSettings: UserSettings): EndpointURLs {
     //NOTE: Precipitation unit of in affects the unit of visibility to become ft
     const forecastURL = new URL(
         "https://api.open-meteo.com/v1/gfs?timezone=auto&current_weather=true"
@@ -124,7 +120,7 @@ export default function useOpenMeteo(
     getData: () => Promise<void>;
 } {
     const settings = useReadLocalStorage("userSettings");
-    const [urls, setUrls] = React.useState<EndpointURLs>()
+    const [urls, setUrls] = React.useState<EndpointURLs>();
 
     const [error, setError, unsetError] = useNullableState<string>();
 
@@ -136,9 +132,8 @@ export default function useOpenMeteo(
     const [alertRefresh, setAlertRefresh, unsetAlertRefresh] = useNullableState<NodeJS.Timeout>();
 
     React.useEffect(() => {
-        if(latitude && longitude && settings)
-            setUrls(getUrls(latitude, longitude, settings))
-    }, [latitude, longitude, settings])
+        if (latitude && longitude && settings) setUrls(getUrls(latitude, longitude, settings));
+    }, [latitude, longitude, settings]);
 
     React.useEffect(() => {
         if (urls) unsetWeather();

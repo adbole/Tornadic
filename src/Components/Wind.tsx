@@ -43,7 +43,12 @@ export default function Wind() {
 
     return (
         <>
-            <Widget className="wind" widgetTitle="Wind" widgetIcon={<WindIcon />} onClick={showModal}>
+            <Widget
+                className="wind"
+                widgetTitle="Wind"
+                widgetIcon={<WindIcon />}
+                onClick={showModal}
+            >
                 <div>
                     <svg viewBox="0 0 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg">
                         <path

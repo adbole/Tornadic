@@ -59,18 +59,18 @@ export default function Modal({ isOpen, children, onClose, ...excess }: ModalPro
 
     return shouldMount
         ? ReactDOM.createPortal(
-            <dialog
-                className={`modal ${stage}`}
-                ref={dialogRef}
-                {...excess}
-                onCancel={e => {
-                    e.preventDefault();
-                    closeModal();
-                }}
-            >
-                {children}
-            </dialog>,
-            document.body
-        )
+              <dialog
+                  className={`modal ${stage}`}
+                  ref={dialogRef}
+                  {...excess}
+                  onCancel={e => {
+                      e.preventDefault();
+                      closeModal();
+                  }}
+              >
+                  {children}
+              </dialog>,
+              document.body
+          )
         : null;
 }

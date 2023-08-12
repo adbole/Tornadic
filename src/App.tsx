@@ -1,11 +1,6 @@
 import React from "react";
 
-import {
-    useBooleanState,
-    useLocalStorage,
-    useOnlineOffline,
-    useUserLocation,
-} from "Hooks";
+import { useBooleanState, useLocalStorage, useOnlineOffline, useUserLocation } from "Hooks";
 
 import WeatherContext from "Contexts/WeatherContext";
 
@@ -60,15 +55,17 @@ function Skeleton() {
             <SkeletonWidget className="hourly" />
             <SkeletonWidget className="daily" size={"widget-large"} />
             <SkeletonWidget id="radar" size={"widget-large"} />
-            { Array.from({ length: 8 }, (_, i) => <SkeletonWidget key={i}/>) }
+            {Array.from({ length: 8 }, (_, i) => (
+                <SkeletonWidget key={i} />
+            ))}
             <SkeletonWidget size={"widget-wide"} />
         </>
-    )
+    );
 }
 
 function App() {
     const online = useOnlineOffline();
-    const { latitude, longitude, status } = useUserLocation()
+    const { latitude, longitude, status } = useUserLocation();
     const [settings, setSettings] = useLocalStorage("userSettings");
 
     React.useEffect(() => {
@@ -89,27 +86,24 @@ function App() {
         return <LocationRequest />;
     }
 
-    if(status === "getting_current") {
+    if (status === "getting_current") {
         return (
             <MessageScreen>
                 <Spinner />
                 <p>Getting Your Location</p>
             </MessageScreen>
-        )
+        );
     }
 
-    if(!latitude || !longitude)
-        return null;
+    if (!latitude || !longitude) return null;
 
     return (
         <>
             <WeatherContext
                 latitude={latitude}
                 longitude={longitude}
-                skeletonRender={() => (
-                    <Skeleton />
-                )}
-                fallbackRender={(getData) => (
+                skeletonRender={() => <Skeleton />}
+                fallbackRender={getData => (
                     <MessageScreen>
                         <ExclamationTriangle />
                         <p>Unable to get weather data</p>

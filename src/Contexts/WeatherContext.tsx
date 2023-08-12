@@ -22,18 +22,18 @@ export const useWeather = () =>
     React.useContext(WeatherContext) ??
     throwError("Please use useWeather inside a WeatherContext provider");
 
-function WeatherContextProvider({ 
+function WeatherContextProvider({
     latitude,
     longitude,
     skeletonRender,
     fallbackRender,
-    children 
-}: { 
-    latitude?: number,
-    longitude?: number,
-    skeletonRender: () => JSX.Element,
-    fallbackRender: (getData: VoidFunction) => JSX.Element
-    children: React.ReactNode
+    children,
+}: {
+    latitude?: number;
+    longitude?: number;
+    skeletonRender: () => JSX.Element;
+    fallbackRender: (getData: VoidFunction) => JSX.Element;
+    children: React.ReactNode;
 }) {
     const { weather, alerts, error, getData } = useOpenMeteo(latitude, longitude);
 
@@ -47,9 +47,9 @@ function WeatherContextProvider({
     }, [weather, alerts]);
 
     if (error && !value) {
-        return fallbackRender(getData)
+        return fallbackRender(getData);
     }
-    
+
     return value ? (
         <>
             <WeatherContext.Provider value={value}>{children}</WeatherContext.Provider>
@@ -57,7 +57,7 @@ function WeatherContextProvider({
                 isOpen={error !== null}
                 action={{
                     content: "Try Again",
-                    onClick: getData
+                    onClick: getData,
                 }}
             >
                 <p>Couldn't get weather data</p>
