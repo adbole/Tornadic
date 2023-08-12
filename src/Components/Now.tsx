@@ -24,18 +24,17 @@ export default function Now({ displayOnly }: { displayOnly?: boolean }) {
     const now = weather.getNow();
     const background = React.useRef("clear-day");
 
-    document.body.classList.remove(background.current);
-
-    background.current = now.conditionInfo.background;
-    React.useEffect(() => {
-        if(displayOnly)
-            return () => undefined
-
-        return () => document.body.classList.remove(background.current)
-    }, [background, displayOnly]);
-
-    if(!displayOnly)
+    if (!displayOnly) {
+        document.body.classList.remove(background.current);
+        background.current = now.conditionInfo.background;
         document.body.classList.add(background.current);
+    }
+
+    React.useEffect(() => {
+        if (displayOnly) return;
+
+        return () => document.body.classList.remove(background.current);
+    }, [background, displayOnly]);
 
     return (
         <>
@@ -46,7 +45,9 @@ export default function Now({ displayOnly }: { displayOnly?: boolean }) {
                     </button>
                 )}
 
-                <p onClick={() => (displayOnly ? undefined : showLocationModal())}>{now.location}</p>
+                <p onClick={() => (displayOnly ? undefined : showLocationModal())}>
+                    {now.location}
+                </p>
 
                 <h1>{now.temperature}</h1>
 
