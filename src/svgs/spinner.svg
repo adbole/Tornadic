@@ -1,0 +1,31 @@
+<svg stroke="currentcolor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <g style="transform-origin: center;">
+        <animateTransform 
+            attributeName="transform"
+            attributeType="XML"
+            type="rotate"
+            from="0 0 0"
+            to="360 0 0"
+            dur="2s"
+            repeatCount="indefinite"
+        />
+
+        <circle cx="12" cy="12" r="9.5" fill="none" stroke-width="3" stroke-linecap="round">
+            <animate 
+                attributeName="stroke-dasharray"
+                values="0 150; 42 150; 42 150"
+                keyTimes="0; 0.475; 1" 
+                dur="1.5s" 
+                repeatCount="indefinite"
+            />
+
+            <animate 
+                attributeName="stroke-dashoffset"
+                values="0; -16; -59"
+                keyTimes="0; 0.475; 1" 
+                dur="1.5s" 
+                repeatCount="indefinite"
+            />
+        </circle>
+    </g>
+</svg>

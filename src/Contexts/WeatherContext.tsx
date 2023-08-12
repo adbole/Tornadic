@@ -3,14 +3,11 @@
  * open-meteo is used for general weather information while NWS is used to get the location name and alerts.
  */
 
-import type { ReactNode } from "react";
 import React from "react";
 
-import { useOpenMeteo, useUserLocation } from "Hooks";
+import { useOpenMeteo } from "Hooks";
 
-import MessageScreen from "Components/MessageScreen";
-import Skeleton from "Components/Skeleton";
-import { ExclamationTriangle } from "svgs";
+import Toast from "Components/Toast";
 
 import { throwError } from "ts/Helpers";
 import type NWSAlert from "ts/NWSAlert";
@@ -25,8 +22,19 @@ export const useWeather = () =>
     React.useContext(WeatherContext) ??
     throwError("Please use useWeather inside a WeatherContext provider");
 
-function WeatherContextProvider({ children }: { children: ReactNode }) {
-    const { latitude, longitude, status } = useUserLocation()
+function WeatherContextProvider({ 
+    latitude,
+    longitude,
+    skeletonRender,
+    fallbackRender,
+    children 
+}: { 
+    latitude?: number,
+    longitude?: number,
+    skeletonRender: () => JSX.Element,
+    fallbackRender: (getData: VoidFunction) => JSX.Element
+    children: React.ReactNode
+}) {
     const { weather, alerts, error, getData } = useOpenMeteo(latitude, longitude);
 
     const value = React.useMemo(() => {
@@ -38,31 +46,25 @@ function WeatherContextProvider({ children }: { children: ReactNode }) {
         };
     }, [weather, alerts]);
 
-    //TODO: Replace message screen with toast and a retry button
-    if (error) {
-        return (
-            <MessageScreen>
-                <ExclamationTriangle />
-                <p>An error occured when requesting from the following source: </p>
-                <p>{(error as unknown as Error).message}</p>
-
-                {/* When there is an error, but data exists, allow the user to dismiss the error message */}
-                {weather && (
-                    <button type="button" onClick={getData}>
-                        Retry
-                    </button>
-                )}
-            </MessageScreen>
-        );
+    if (error && !value) {
+        return fallbackRender(getData)
     }
-
-    //TODO: Once toast are added. Add another error message here
-    // if status !== OK
     
     return value ? (
-        <WeatherContext.Provider value={value}>{children}</WeatherContext.Provider>
+        <>
+            <WeatherContext.Provider value={value}>{children}</WeatherContext.Provider>
+            <Toast
+                isOpen={error !== null}
+                action={{
+                    content: "Try Again",
+                    onClick: getData
+                }}
+            >
+                <p>Couldn't get weather data</p>
+            </Toast>
+        </>
     ) : (
-        <Skeleton />
+        skeletonRender()
     );
 }
 

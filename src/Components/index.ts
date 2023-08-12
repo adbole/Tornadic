@@ -13,7 +13,7 @@ export { default as Now } from "./Now";
 export { default as Pressure } from "./Pressure";
 export { default as Radar } from "./Radar";
 export { default as SimpleInfoWidget } from "./SimpleInfoWidget";
-export { default as Skeleton } from "./Skeleton";
+export { default as SkeletonWidget } from "./SkeletonWidget";
 export { default as SunTime } from "./SunTime";
 export { default as Widget } from "./Widget";
 export { default as Wind } from "./Wind";

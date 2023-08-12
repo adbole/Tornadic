@@ -4,8 +4,7 @@ import {
     useBooleanState,
     useLocalStorage,
     useOnlineOffline,
-    usePermission,
-    useReadLocalStorage,
+    useUserLocation,
 } from "Hooks";
 
 import WeatherContext from "Contexts/WeatherContext";
@@ -24,10 +23,11 @@ import {
     Pressure,
     Radar,
     SimpleInfoWidget,
+    SkeletonWidget,
     SunTime,
     Wind,
 } from "Components";
-import { WifiOff } from "svgs";
+import { ExclamationTriangle, Spinner, WifiOff } from "svgs";
 import { Cursor } from "svgs/radar";
 import * as WidgetIcons from "svgs/widget";
 
@@ -53,12 +53,22 @@ function LocationRequest() {
     );
 }
 
+function Skeleton() {
+    return (
+        <>
+            <SkeletonWidget className="now" size={"widget-large"} />
+            <SkeletonWidget className="hourly" />
+            <SkeletonWidget className="daily" size={"widget-large"} />
+            <SkeletonWidget id="radar" size={"widget-large"} />
+            { Array.from({ length: 8 }, (_, i) => <SkeletonWidget key={i}/>) }
+            <SkeletonWidget size={"widget-wide"} />
+        </>
+    )
+}
+
 function App() {
     const online = useOnlineOffline();
-
-    const locationPermission = usePermission("geolocation");
-    const user_location = useReadLocalStorage("userLocation");
-
+    const { latitude, longitude, status } = useUserLocation()
     const [settings, setSettings] = useLocalStorage("userSettings");
 
     React.useEffect(() => {
@@ -75,13 +85,38 @@ function App() {
         );
     }
 
-    if (!user_location || (user_location.useCurrent && locationPermission === "denied")) {
+    if (status !== "getting_current" && status !== "OK") {
         return <LocationRequest />;
     }
 
+    if(status === "getting_current") {
+        return (
+            <MessageScreen>
+                <Spinner />
+                <p>Getting Your Location</p>
+            </MessageScreen>
+        )
+    }
+
+    if(!latitude || !longitude)
+        return null;
+
     return (
         <>
-            <WeatherContext>
+            <WeatherContext
+                latitude={latitude}
+                longitude={longitude}
+                skeletonRender={() => (
+                    <Skeleton />
+                )}
+                fallbackRender={(getData) => (
+                    <MessageScreen>
+                        <ExclamationTriangle />
+                        <p>Unable to get weather data</p>
+                        <Button onClick={getData}>Try Again</Button>
+                    </MessageScreen>
+                )}
+            >
                 <Now />
                 <Daily />
                 <Radar />

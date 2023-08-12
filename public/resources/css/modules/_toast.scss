@@ -1,0 +1,19 @@
+#toast-root {
+    position: fixed;
+    bottom: 0px;
+    height: fit-content;
+    max-width: 100vw;
+    padding: 10px;
+}
+
+.toast  {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    
+    background-color: var(--widget-back);
+
+    border-radius: var(--border-radius);
+    padding: 5px 10px;
+}

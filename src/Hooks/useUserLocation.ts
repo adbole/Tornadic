@@ -10,7 +10,14 @@ import React from "react";
 import useReadLocalStorage from "./useReadLocalStorage";
 
 
-type Status = "no_storage" | "no_value" | "nav_not_supported" | "denied" | "loading" | "OK";
+type Status =
+    | "no_storage"
+    | "no_value"
+    | "nav_not_supported"
+    | "denied"
+    | "loading"
+    | "OK"
+    | "getting_current";
 
 export default function useUserLocation() {
     const userLocation = useReadLocalStorage("userLocation");
@@ -23,18 +30,22 @@ export default function useUserLocation() {
         if (userLocation === null) {
             setStatus("no_storage");
         } else if (userLocation.useCurrent) {
-            if(!navigator.geolocation) {
+            if (!navigator.geolocation) {
                 setStatus("nav_not_supported");
                 return;
             }
 
-            navigator.geolocation.getCurrentPosition(({ coords: { latitude, longitude } }) => {
-                setStatus("OK");
-                setPosition({
-                    latitude,
-                    longitude,
-                });
-            });
+            setStatus("getting_current");
+            navigator.geolocation.getCurrentPosition(
+                ({ coords: { latitude, longitude } }) => {
+                    setStatus("OK");
+                    setPosition({
+                        latitude,
+                        longitude,
+                    });
+                },
+                () => setStatus("denied")
+            );
         } else {
             if (!userLocation.coords) setStatus("no_value");
             else setStatus("OK");
