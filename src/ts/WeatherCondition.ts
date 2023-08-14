@@ -31,7 +31,7 @@ export default class WeatherCondition {
     readonly type: WeatherConditionType;
     readonly intensity: Intesity;
     readonly icon: React.ComponentType;
-    readonly background: string;
+    readonly background: [string, string];
 
     constructor(weathercode: number, isDay: boolean) {
         this.weathercode = weathercode;
@@ -145,22 +145,22 @@ export default class WeatherCondition {
         return icons[filteredCode];
     }
 
-    private getBackground(isDay: boolean) {
+    private getBackground(isDay: boolean): [string, string] {
         switch (this.type) {
             case "Overcast":
-                return `overcast-${isDay ? "day" : "night"}`;
+                return isDay ? ["#acb7bd", "#73bae1"] : ["#2d3438", "#31378a"];
             case "Rain":
             case "Rain Showers":
-                return "rain";
+                return ["#0f1c50", "#8da3bd"];
             case "Thunderstorms":
             case "Thunderstorms and Hail":
-                return "thunderstorms";
+                return ["#4f5158", "#8da3bd"];
             case "Snow":
             case "Snow Grains":
             case "Snow Showers":
-                return "snow";
+                return ["#797c87", "acb7bd"];
             default:
-                return `clear-${isDay ? "day" : "night"}`;
+                return isDay ? ["#52a4da", "#73bae1"] : ["#050f33", "#31378a"];
         }
     }
 }

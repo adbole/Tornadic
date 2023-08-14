@@ -1,4 +1,6 @@
 import React from "react";
+import { Global } from "@emotion/react";
+import styled from "@emotion/styled";
 
 import { useBooleanState } from "Hooks";
 
@@ -11,6 +13,38 @@ import { Gear } from "svgs/widget";
 
 import { LocationInput } from "./Input";
 
+
+const NowWidget = styled(Widget)<{
+    background: [string, string];
+}>(({ background }) => ({
+    alignItems: "center",
+    gap: "10px",
+    fontSize: "1.5rem",
+    background: `linear-gradient(to bottom, ${background[0]}, ${background[1]})`,
+}));
+
+const SettingsButton = styled.button({
+    position: "absolute",
+    left: "10px",
+    top: "10px",
+    margin: "0px",
+    padding: "0px",
+    border: "none",
+    boxShadow: "none",
+    svg: { width: "1.5rem" },
+});
+
+const Temperature = styled.h1({
+    position: "relative",
+    fontSize: "6rem",
+    fontWeight: "200",
+
+    "&::after": {
+        position: "absolute",
+        content: "'°'",
+    },
+});
+
 /**
  * Displays the current location name, temperature, condition, and feels like temperature along with having a gradient to match the condition
  * @returns The Now widget
@@ -22,34 +56,27 @@ export default function Now({ displayOnly }: { displayOnly?: boolean }) {
     const [settingsOpen, showSettings, hideSettings] = useBooleanState(false);
 
     const now = weather.getNow();
-    const background = React.useRef("clear-day");
-
-    if (!displayOnly) {
-        document.body.classList.remove(background.current);
-        background.current = now.conditionInfo.background;
-        document.body.classList.add(background.current);
-    }
-
-    React.useEffect(() => {
-        if (displayOnly) return;
-
-        return () => document.body.classList.remove(background.current);
-    }, [background, displayOnly]);
+    const background = now.conditionInfo.background;
 
     return (
         <>
-            <Widget size={"widget-large"} className={`now ${background.current}`} isTemplate>
+            {!displayOnly && (
+                <Global
+                    styles={{ "body": { background: `linear-gradient(to bottom, ${background[0]}, ${background[1]})`, } }}
+                />
+            )}
+            <NowWidget size={"widget-large"} isTemplate background={now.conditionInfo.background}>
                 {!displayOnly && (
-                    <button className="settings-btn" type="button" onClick={() => showSettings()}>
+                    <SettingsButton type="button" onClick={() => showSettings()}>
                         <Gear />
-                    </button>
+                    </SettingsButton>
                 )}
 
                 <p onClick={() => (displayOnly ? undefined : showLocationModal())}>
                     {now.location}
                 </p>
 
-                <h1>{now.temperature}</h1>
+                <Temperature>{now.temperature}</Temperature>
 
                 <p>
                     {now.conditionInfo.intensity} {now.conditionInfo.type}
@@ -57,7 +84,7 @@ export default function Now({ displayOnly }: { displayOnly?: boolean }) {
                 <p>
                     Feels like <span>{now.feelsLike}</span>°
                 </p>
-            </Widget>
+            </NowWidget>
             <Settings isOpen={settingsOpen} onClose={hideSettings} />
             <Modal isOpen={locationModalIsOpen} onClose={hideLocationModal}>
                 <ModalContent>
