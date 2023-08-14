@@ -38,7 +38,7 @@ export default function Now({ displayOnly }: { displayOnly?: boolean }) {
 
     return (
         <>
-            <Widget size={"widget-large"} className={`now ${background.current}`}>
+            <Widget size={"widget-large"} className={`now ${background.current}`} isTemplate>
                 {!displayOnly && (
                     <button className="settings-btn" type="button" onClick={() => showSettings()}>
                         <Gear />

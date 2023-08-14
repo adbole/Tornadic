@@ -10,7 +10,7 @@ export default defineConfig(() => {
     return {
         build: { outDir: "build" },
         plugins: [
-            react(), 
+            react({ jsxImportSource: "@emotion/react" }), 
             svgr(), 
             tsConfigPaths(),
             eslint(),

@@ -1,31 +1,34 @@
-/**
- * Some hazards like AQ and UV have indexes that can be easily represented using the HazardLevelView
- * Simply input the index into WeatherHelper to get the needed information to populate the view
- */
-
 import type { ReactNode } from "react";
 import React from "react";
+import styled from "@emotion/styled";
 
 import { useBooleanState } from "Hooks";
 
 import { useWeather } from "Contexts/WeatherContext";
 
 import Chart from "Components/Chart";
-import Widget from "Components/Widget";
 import { Sun } from "svgs/conditions";
 import { Lungs } from "svgs/widget";
 
 import { get_aq, get_uv, Normalize } from "ts/Helpers";
 import type { CombinedHourly } from "ts/Weather";
 
+import GaugeWidget from "./GagueWidget";
 
-export type HazardInfo = Readonly<{
-    id: string; //Used to distinguish the different gradient requirements in CSS
+
+const Gradient = styled.div<{ gradient: string }>(({ gradient }) => ({
+    width: "100%",
+    height: "100%",
+    background: gradient,
+}));
+
+type HazardInfo = Readonly<{
     title: string;
     titleIcon: ReactNode;
     min: number;
     max: number;
     message: string;
+    gradient: string;
 }>;
 
 type HazardType = keyof Pick<CombinedHourly, "us_aqi" | "uv_index">;
@@ -35,25 +38,29 @@ function getHazardProps(hazard: HazardType, hazardValue: number) {
     return getUVInfo(hazardValue);
 }
 
-const getAQInfo = (aq: number): HazardInfo => ({
-    id: "AQ",
-    title: "Air Quality",
-    titleIcon: <Lungs />,
-    min: 0,
-    max: 500,
-    message: get_aq(aq),
-});
+function getAQInfo(aq: number): HazardInfo {
+    return ({
+        title: "Air Quality",
+        titleIcon: <Lungs />,
+        min: 0,
+        max: 500,
+        message: get_aq(aq),
+        gradient: "conic-gradient(from 0.5turn at 50% 50%, #00FF66 36deg, #FFF501 90deg, #FF9431 144deg, #FF2204 198deg, #8400FF 252deg, #6D0000 306deg)",
+    });
+}
 
-const getUVInfo = (uv: number): HazardInfo => ({
-    id: "UV",
-    title: "UV Index",
-    titleIcon: <Sun />,
-    min: 0,
-    max: 11,
-    message: get_uv(uv),
-});
+function getUVInfo(uv: number): HazardInfo {
+    return ({
+        title: "UV Index",
+        titleIcon: <Sun />,
+        min: 0,
+        max: 11,
+        message: get_uv(uv),
+        gradient: "conic-gradient(from 0.5turn at 50% 50%, #00FF66 36deg, #FFF501 100.8deg, #FF9431 165.6deg, #FF2204 230.4deg, #FF00D6 292.2deg)",
+    });
+}
 
-function Meter({ rotation }: { rotation: number }) {
+function Meter({ rotation, gradient }: { rotation: number; gradient: string }) {
     const id = React.useId();
     const clipID = id + "clip";
     const maskID = id + "mask";
@@ -68,7 +75,12 @@ function Meter({ rotation }: { rotation: number }) {
             </clipPath>
             <mask id={maskID}>
                 <rect fill="white" x="0" y="0" width="100px" height="100px" />
-                <g className="origin-center" style={{ transform: `rotate(${rotation}deg)` }}>
+                <g
+                    style={{
+                        transformOrigin: "center",
+                        transform: `rotate(${rotation}deg)`
+                    }}
+                >
                     <ellipse fill="black" cx="50%" cy="97" rx="6" ry="6" />
                     <ellipse fill="white" cx="50%" cy="97" rx="3" ry="3" />
                 </g>
@@ -82,14 +94,14 @@ function Meter({ rotation }: { rotation: number }) {
                 clipPath={`url(#${clipID})`}
                 mask={`url(#${maskID})`}
             >
-                <div className="gradient" />
+                <Gradient gradient={gradient} />
             </foreignObject>
         </svg>
     );
 }
 
 /**
- * Takes the information on a given hazard such as AQ or UV Index and displays it using a radial level indicator.
+ * Takes the information on a given hazard and displays it using a gague.
  * @returns The HazardLevel widget displaying the information on a given hazard
  */
 export default function HazardLevel({ hazard }: { hazard: HazardType }) {
@@ -97,26 +109,21 @@ export default function HazardLevel({ hazard }: { hazard: HazardType }) {
     const [modalOpen, showModal, hideModal] = useBooleanState(false);
 
     const hazardValue = Math.round(weather.getForecast(hazard));
-    const { id, title, titleIcon, message, min, max } = getHazardProps(hazard, hazardValue);
+    const { title, titleIcon, message, min, max, gradient } = getHazardProps(hazard, hazardValue);
 
     const rotation = 20 + 320 * Normalize.Decimal(hazardValue, min, max);
 
     return (
         <>
-            <Widget
-                className={`level-info ${id}`}
+            <GaugeWidget
                 widgetTitle={title}
                 widgetIcon={titleIcon}
                 onClick={showModal}
+                gague={<Meter rotation={rotation} gradient={gradient} />}
             >
-                <div>
-                    <Meter rotation={rotation} />
-                    <div>
-                        <p>{hazardValue}</p>
-                        <p className="level-message">{message}</p>
-                    </div>
-                </div>
-            </Widget>
+                <p>{hazardValue}</p>
+                <p className="level-message">{message}</p>
+            </GaugeWidget>
             <Chart showView={hazard} isOpen={modalOpen} onClose={hideModal} />
         </>
     );

@@ -1,11 +1,48 @@
 import React from "react";
-
-import { cleanClass } from "ts/Helpers";
+import styled from "@emotion/styled"
 
 // #region Widget
-export type WidgetSize = "widget-large" | "widget-wide";
+export type WidgetSize = "widget-large" | "widget-wide" | "";
 
-type WidgetProps = {
+
+const Section = styled.section<{
+    size: WidgetSize,
+    isTemplate?: boolean
+}>(({
+    size,
+    isTemplate
+}) => ([
+    {
+        display: "flex",
+        justifyContent: "center",
+        flexDirection: "column",
+        position: "relative",
+        padding: "10px",
+        overflow: "hidden",
+    
+        borderRadius: "var(--border-radius)",
+        backdropFilter: "saturate(130%)",
+        boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.25)",
+
+        ".widget-title": {
+            display: "flex",
+            flexDirection: "row",
+            gap: "5px",
+
+            fontSize: "1rem",
+            marginBottom: "10px"
+        }
+    },
+    size === "widget-large" && {
+        minHeight: "300px",
+        gridColumn: "span 2",
+        gridRow: "span 2"
+    },
+    size === "widget-wide" && { gridColumn: "span 2" },
+    !isTemplate && { "> :not(.widget-title)": {  flex: 1 }  }
+]))
+
+export type WidgetProps = {
     size?: WidgetSize;
     children: React.ReactNode;
     widgetTitle?: string;
@@ -13,16 +50,16 @@ type WidgetProps = {
     //Normal Widgets have a style rule that causes all child elements (excluding the title) to get flex: 1
     //so they take up as much space as possible. This flag will determine if the template class is added to prevent it
     isTemplate?: boolean;
-};
+} & React.HTMLAttributes<HTMLDivElement>;
 
 /**
  * The base of all widgets in the Tornadic application. Everything is a widget and it all starts here.
  * This component will display a simple rectangle box in the root's grid, but can be expanded and customized to fit any need.
  */
-export default React.forwardRef<HTMLDivElement, WidgetProps & React.HTMLAttributes<HTMLDivElement>>(
+export default React.forwardRef<HTMLDivElement, WidgetProps>(
     (props, ref) => {
         const {
-            className = "",
+            className,
             children,
             size = "",
             widgetTitle,
@@ -32,11 +69,11 @@ export default React.forwardRef<HTMLDivElement, WidgetProps & React.HTMLAttribut
         } = props;
 
         return (
-            <section
-                className={cleanClass(
-                    `widget ${size} ${isTemplate ? "template" : ""} ${className}`
-                )}
+            <Section
+                size={size}
+                isTemplate={isTemplate}
                 ref={ref}
+                className={className}
                 {...excess}
             >
                 {widgetTitle && widgetIcon && (
@@ -45,7 +82,7 @@ export default React.forwardRef<HTMLDivElement, WidgetProps & React.HTMLAttribut
                     </h1>
                 )}
                 {children}
-            </section>
+            </Section>
         );
     }
 );

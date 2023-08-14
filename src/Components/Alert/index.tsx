@@ -1,19 +1,56 @@
+import styled from "@emotion/styled";
+
 import { useBooleanState } from "Hooks";
 
 import { useWeather } from "Contexts/WeatherContext";
 
 import Widget from "Components/Widget";
 
+import { alertColors, center_flex } from "ts/StyleMixins";
+
 import AlertModal from "./AlertModal";
 import { AlertInformationDisplay } from "./Common";
 
+
+const AlertWidget = styled(Widget)<{
+    type: keyof typeof alertColors
+}>(({ type }) => ([
+    {
+        display: "grid",
+        gridTemplateColumns: "100%",
+        gridTemplateRows: "1fr",
+        padding: "0px",
+        "> *": {
+            paddingLeft: "10px",
+            paddingRight: "10px",
+    
+            "&:first-of-type": { paddingTop: "10px" },
+            "&:last-of-type": { paddingBottom: "10px" }
+        }
+    },
+    {
+        backgroundColor: alertColors[type].background,
+        color: alertColors[type].foreground
+    }
+]))
+
+const AlertInformation = styled.div({ 
+    display: "flex",
+    justifyContent: "center",
+    flexDirection: "column"
+})
+
+const ExcessAlerts = styled.p({
+    paddingTop: "10px",
+    background: "rgba(0, 0, 0, 0.3)"
+})
 
 export default function Alert() {
     const { alerts } = useWeather();
     const [modalOpen, showModal, hideModal] = useBooleanState(false);
 
     //If no alerts are active then don't display this component.
-    if (!alerts.length) return <></>;
+    if (!alerts.length) return null;
 
     //Determine which alert should be shown.
     const alertToShow = alerts.reduce(
@@ -23,20 +60,20 @@ export default function Alert() {
 
     return (
         <>
-            <Widget
+            <AlertWidget
+                type={alertToShow.getAlertCSS() as any}
                 isTemplate
                 size={"widget-wide"}
-                className={`alert ${alertToShow.getAlertCSS()}`}
                 onClick={showModal}
             >
-                <div>
+                <AlertInformation>
                     <AlertInformationDisplay alert={alertToShow} />
-                </div>
+                </AlertInformation>
 
                 {alerts.length > 1 && (
-                    <p className="excess-alerts">+{alerts.length - 1} more alert(s)</p>
+                    <ExcessAlerts>+{alerts.length - 1} more alert(s)</ExcessAlerts>
                 )}
-            </Widget>
+            </AlertWidget>
             <AlertModal alerts={alerts} isOpen={modalOpen} onClose={hideModal} />
         </>
     );

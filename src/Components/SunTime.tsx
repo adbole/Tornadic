@@ -1,9 +1,22 @@
+import styled from "@emotion/styled";
+
 import { useWeather } from "Contexts/WeatherContext";
 
 import Widget from "Components/Widget";
 import { Sunrise, Sunset } from "svgs/widget";
 
+import { center_flex } from "ts/StyleMixins";
 import getTimeFormatted from "ts/TimeConversion";
+
+
+const SunTimeWidget = styled(Widget)([
+    center_flex,
+    {
+        flexDirection: "row",
+        justifyContent: "space-evenly",
+        "> svg": { width: "5rem" }
+    }
+])
 
 /**
  * A helper component for SunTime to display when the sunrise/sunset will ocurr along with what comes next.
@@ -18,7 +31,7 @@ function HelperWidget({
     nextTime: string;
 }) {
     return (
-        <Widget className="suntime" isTemplate size={"widget-wide"}>
+        <SunTimeWidget isTemplate size={"widget-wide"}>
             <div>
                 <p>{isSunrise ? "Sunrise" : "Sunset"}</p>
                 <h1>{getTimeFormatted(time, "hourMinute")}</h1>
@@ -27,7 +40,7 @@ function HelperWidget({
                 </p>
             </div>
             {isSunrise ? <Sunrise /> : <Sunset />}
-        </Widget>
+        </SunTimeWidget>
     );
 }
 

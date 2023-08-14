@@ -3,8 +3,9 @@ import { useBooleanState } from "Hooks";
 import { useWeather } from "Contexts/WeatherContext";
 
 import Chart from "Components/Chart";
-import Widget from "Components/Widget";
 import { Wind as WindIcon } from "svgs/widget";
+
+import GaugeWidget from "./GagueWidget";
 
 /**
  * Generates an array of SVG rects to be added to the Wind component's SVG to help indicate 45 degree increments
@@ -20,8 +21,10 @@ function generateAngledStamps() {
         rects.push(
             <rect
                 key={i}
-                className="origin-center"
-                style={{ transform: `rotate(${angle * i}deg)` }}
+                style={{ 
+                    transformOrigin: "center",
+                    transform: `rotate(${angle * i}deg)` 
+                }}
                 width="1.5"
                 height="5"
                 x="49.25"
@@ -43,13 +46,11 @@ export default function Wind() {
 
     return (
         <>
-            <Widget
-                className="wind"
+            <GaugeWidget
                 widgetTitle="Wind"
                 widgetIcon={<WindIcon />}
                 onClick={showModal}
-            >
-                <div>
+                gague={
                     <svg viewBox="0 0 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg">
                         <path
                             fill="#fff"
@@ -74,13 +75,11 @@ export default function Wind() {
                             <path fill="#fff" d="m50-4.105e-6 -3.0908 6.2527h6.1817z" />
                         </g>
                     </svg>
-
-                    <div>
-                        <p>{weather.getForecast("windspeed_10m").toFixed(0)}</p>
-                        <p>{weather.getForecastUnit("windspeed_10m")}</p>
-                    </div>
-                </div>
-            </Widget>
+                }
+            >
+                <p>{weather.getForecast("windspeed_10m").toFixed(0)}</p>
+                <p>{weather.getForecastUnit("windspeed_10m")}</p>
+            </GaugeWidget>
             <Chart showView={"windspeed_10m"} isOpen={modalOpen} onClose={hideModal} />
         </>
     );

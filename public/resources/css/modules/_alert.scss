@@ -3,38 +3,6 @@
 
 $alertTypes: ("warning": #C31700, "watch": #FFF501, "advisory": #FF9431, "statement": #8F00FF, "none": gray);
 
-.alert {
-    display: grid;
-    grid-template-columns: 100%;
-    grid-template-rows: 1fr;
-    padding: 0px;
-
-    > * {
-        padding-left: 10px;
-        padding-right: 10px;
-
-        &:first-child {
-            padding-top: 10px;
-        }
-
-        &:last-child {
-            padding-bottom: 10px;
-        }
-    }
-    
-
-    >div {
-        display: flex;
-        justify-content: center;
-        flex-direction: column;
-    }
-
-    > .excess-alerts {
-        padding-top: 10px;
-        background: rgba(0, 0, 0, 0.3);
-    }
-}
-
 #alert-list-modal {
     >.slidable>div {
         display: flex;

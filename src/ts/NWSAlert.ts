@@ -65,7 +65,7 @@ export default class NWSAlert {
     }
 
     getAlertCSS() {
-        return "alert-" + AlertType[this.getAlertType()].toLowerCase();
+        return AlertType[this.getAlertType()].toLowerCase();
     }
 
     getNamePriority(): number {
