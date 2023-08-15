@@ -1,5 +1,5 @@
 import React from "react";
-import { Global } from "@emotion/react";
+import { css,Global } from "@emotion/react";
 import styled from "@emotion/styled";
 
 import { useBooleanState } from "Hooks";
@@ -14,14 +14,19 @@ import { Gear } from "svgs/widget";
 import { LocationInput } from "./Input";
 
 
-const NowWidget = styled(Widget)<{
-    background: [string, string];
-}>(({ background }) => ({
+const NowStyle = css({
     alignItems: "center",
     gap: "10px",
     fontSize: "1.5rem",
-    background: `linear-gradient(to bottom, ${background[0]}, ${background[1]})`,
-}));
+    padding: "60px 0px",
+})
+
+const NowWidget = styled(Widget)<{
+    background: [string, string];
+}>(({ background }) => ([
+    NowStyle,
+    { background: `linear-gradient(to bottom, ${background[0]}, ${background[1]})` }
+]));
 
 const SettingsButton = styled.button({
     position: "absolute",
@@ -49,7 +54,7 @@ const Temperature = styled.h1({
  * Displays the current location name, temperature, condition, and feels like temperature along with having a gradient to match the condition
  * @returns The Now widget
  */
-function Now({ displayOnly }: { displayOnly?: boolean }) {
+function Now({ displayOnly, className }: { displayOnly?: boolean } & ClassNameProp) {
     const { weather } = useWeather();
 
     const [locationModalIsOpen, showLocationModal, hideLocationModal] = useBooleanState(false);
@@ -65,7 +70,7 @@ function Now({ displayOnly }: { displayOnly?: boolean }) {
                     styles={{ body: { background: `linear-gradient(to bottom, ${background[0]}, ${background[1]})`, }, }}
                 />
             )}
-            <NowWidget size={"widget-large"} isTemplate background={now.conditionInfo.background}>
+            <NowWidget className={className} size={"widget-large"} isTemplate background={now.conditionInfo.background}>
                 {!displayOnly && (
                     <SettingsButton type="button" onClick={() => showSettings()}>
                         <Gear />
@@ -95,6 +100,6 @@ function Now({ displayOnly }: { displayOnly?: boolean }) {
     );
 }
 
-Now.Style = NowWidget;
+Now.Style = NowStyle;
 
 export default Now;

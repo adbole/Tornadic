@@ -1,3 +1,4 @@
+import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 
 import { useBooleanState } from "Hooks";
@@ -12,22 +13,24 @@ import AlertModal from "./AlertModal";
 import { AlertInformationDisplay } from "./Common";
 
 
+const AlertBase = css({
+    display: "grid",
+    gridTemplateColumns: "100%",
+    gridTemplateRows: "1fr",
+    padding: "0px",
+    "> *": {
+        paddingLeft: "10px",
+        paddingRight: "10px",
+
+        "&:first-of-type": { paddingTop: "10px" },
+        "&:last-of-type": { paddingBottom: "10px" },
+    },
+})
+
 const AlertWidget = styled(Widget)<{
     type: keyof typeof alertColors;
 }>(({ type }) => [
-    {
-        display: "grid",
-        gridTemplateColumns: "100%",
-        gridTemplateRows: "1fr",
-        padding: "0px",
-        "> *": {
-            paddingLeft: "10px",
-            paddingRight: "10px",
-
-            "&:first-of-type": { paddingTop: "10px" },
-            "&:last-of-type": { paddingBottom: "10px" },
-        },
-    },
+    AlertBase,
     {
         backgroundColor: alertColors[type].background,
         color: alertColors[type].foreground,
@@ -45,7 +48,7 @@ const ExcessAlerts = styled.p({
     background: "rgba(0, 0, 0, 0.3)",
 });
 
-function Alert() {
+function Alert({ className }: ClassNameProp) {
     const { alerts } = useWeather();
     const [modalOpen, showModal, hideModal] = useBooleanState(false);
 
@@ -61,6 +64,7 @@ function Alert() {
     return (
         <>
             <AlertWidget
+                className={className}
                 type={alertToShow.getAlertCSS() as any}
                 isTemplate
                 size={"widget-wide"}
@@ -79,6 +83,6 @@ function Alert() {
     );
 }
 
-Alert.Style = AlertWidget;
+Alert.Style = AlertBase;
 
 export default Alert;

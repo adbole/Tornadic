@@ -29,6 +29,10 @@ type DailyProperties<T extends number[] | string, Q extends string[] | string> =
 };
 
 declare global {
+    type ClassNameProp = {
+        className?: string
+    }
+
     type Forecast = {
         readonly latitude: number;
         readonly longitude: number;

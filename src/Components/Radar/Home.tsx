@@ -1,9 +1,15 @@
 import React from "react";
 import { useMap } from "react-leaflet";
+import { css,Global } from "@emotion/react";
 
 import { useBooleanState } from "Hooks";
 
 import { Grid } from "svgs/radar";
+
+// const default = css({
+//     cursor: "pointer",
+//     ".leaflet-control": { display: "none" }
+// })
 
 /**
  * Provides the zooming functionality for the Radar component
@@ -14,7 +20,7 @@ export default function Home() {
     const [isZoomed, setIsZoomedTrue, setIsZoomedFalse] = useBooleanState(false);
 
     const map = useMap();
-    const container = map.getContainer();
+    const containerId = React.useId()
 
     const zoom = React.useCallback(
         () => !isZoomed && setIsZoomedTrue(),
@@ -26,22 +32,44 @@ export default function Home() {
     };
 
     React.useEffect(() => {
+        const container = map.getContainer()
+
+        container.style.position = ""
         container.addEventListener("click", zoom);
         return () => container.removeEventListener("click", zoom);
-    }, [container, zoom]);
+    }, [map, zoom, containerId]);
 
     React.useEffect(() => {
-        container.classList.toggle("zoom-radar", isZoomed);
+        map.getContainer().classList.toggle("zoom-radar", isZoomed);
         document.body.classList.toggle("zoom-radar", isZoomed);
 
         map.invalidateSize();
         isZoomed ? map.dragging.enable() : map.dragging.disable();
         isZoomed ? map.scrollWheelZoom.enable() : map.scrollWheelZoom.disable();
-    }, [isZoomed, map, container]);
+    }, [isZoomed, map]);
 
     return (
-        <button type="button" className="leaflet-custom-control leaflet-control" onClick={unZoom}>
-            <Grid />
-        </button>
+        <>
+            <Global
+                styles={{
+                    ".leaflet-container": [
+                        isZoomed && {
+                            zIndex: "var(--on-top)",
+                            inset: 0,
+                            position: "fixed",
+                        },
+                        !isZoomed && {
+                            position: "relative",
+                            cursor: "pointer",
+                            borderRadius: "var(--border-radius)",
+                            ".leaflet-control-container": { display: "none" }
+                        }
+                    ]
+                }}
+            />
+            <button type="button" className="leaflet-custom-control leaflet-control" onClick={unZoom}>
+                <Grid />
+            </button>
+        </>
     );
 }

@@ -1,9 +1,12 @@
 import React from "react";
 import { AttributionControl, MapContainer, TileLayer, ZoomControl } from "react-leaflet";
+import styled from "@emotion/styled";
 import L from "leaflet";
 
 import Widget from "Components/Widget";
 import { Map } from "svgs/widget";
+
+import { darkBackBlur } from "ts/StyleMixins";
 
 import AlertPolygons from "./AlertPolygons";
 import ControlPortal, { Position } from "./ControlPortal";
@@ -13,13 +16,46 @@ import Peek from "./Peek";
 import RainViewer from "./RainViewer";
 
 
-interface IDictionary {
+const RadarWidget = styled(Widget)({
+    backdropFilter: "none",
+    ".leaflet-center": {
+        left: 0,
+        right: 0,
+
+        display: "flex",
+        justifyContent: "center",
+    },
+    ".leaflet-control": [
+        darkBackBlur,
+        {
+            borderRadius: "var(--border-radius)",
+            overflow: "hidden",
+        },
+    ],
+
+    ".leaflet-custom-control, .leaflet-control-toggle": [
+        darkBackBlur,
+        {
+            color: "white !important",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            minWidth: "2rem",
+            minHeight: "2rem",
+            border: "none",
+
+            "> svg": { width: "1.25rem", },
+        },
+    ],
+});
+
+type Dictionary = {
     [indiex: string]: HTMLDivElement;
-}
+};
 
 L.Map.include({
     _initControlPos() {
-        const corners = (this._controlCorners = {} as IDictionary);
+        const corners = (this._controlCorners = {} as Dictionary);
         const l = "leaflet-";
         const container = (this._controlContainer = L.DomUtil.create(
             "div",
@@ -52,7 +88,7 @@ export default function Radar() {
     };
 
     return (
-        <Widget id="radar" size={"widget-large"} widgetTitle="Radar" widgetIcon={<Map />}>
+        <RadarWidget size={"widget-large"} widgetTitle="Radar" widgetIcon={<Map />}>
             <MapContainer
                 center={defaultCent}
                 zoom={10}
@@ -83,6 +119,6 @@ export default function Radar() {
                 <RainViewer />
                 <Peek />
             </MapContainer>
-        </Widget>
+        </RadarWidget>
     );
 }

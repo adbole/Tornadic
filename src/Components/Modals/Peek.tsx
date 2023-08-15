@@ -20,12 +20,15 @@ import type { ModalProps } from "./Modal";
 import Modal, { ModalContent } from "./Modal";
 
 
+const NowSkeleton = styled(SkeletonWidget)(Now.Style)
+const AlertSkeleton = styled(SkeletonWidget)(Alert.Style)
+
 const PeekContent = styled(ModalContent)({
     padding: 0,
 
     display: "grid",
     gridTemplateColumns: "repeat(4, 1fr)",
-    gridAutoRows: "auto",
+    gridAutoRows: "1fr",
 
     [`${WidgetStyle}`]: {
         backdropFilter: "none",
@@ -33,12 +36,12 @@ const PeekContent = styled(ModalContent)({
         minHeight: "150px",
     },
 
-    [`${Now.Style}, ${Alert.Style}`]: {
+    ".now, .alert": {
         gridColumn: "span 4",
         borderRadius: 0,
     },
 
-    [`${WidgetStyle}:nth-of-type(n+ 7)`]: { gridColumn: "span 2" },
+    [`${WidgetStyle}:nth-last-of-type(-n + 4)`]: { gridColumn: "span 2" },
 });
 
 export default function Peek({
@@ -57,8 +60,8 @@ export default function Peek({
                     longitude={longitude}
                     skeletonRender={() => (
                         <>
-                            <SkeletonWidget className="now" size="widget-large" />
-                            <SkeletonWidget className="alert" size="widget-wide" />
+                            <NowSkeleton className="now" size="widget-large"/>
+                            <AlertSkeleton className="alert" />
 
                             {Array.from({ length: 4 }, (_, i) => (
                                 <SkeletonWidget key={i} />
@@ -77,8 +80,8 @@ export default function Peek({
                         </>
                     )}
                 >
-                    <Now displayOnly />
-                    <Alert />
+                    <Now className="now" displayOnly />
+                    <Alert className="alert"/>
                     <SimpleInfoWidget
                         icon={<Droplet />}
                         title="Precipitation"

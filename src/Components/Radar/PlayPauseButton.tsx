@@ -1,8 +1,20 @@
 import React from "react";
+import styled from "@emotion/styled";
 
 import { useBooleanState } from "Hooks";
 
 import { Pause, Play } from "svgs/radar";
+
+
+const Button = styled.button({
+    padding: 0,
+    border: "none",
+    background: "none",
+    "svg": {
+        width: "1.5rem",
+        height: "1.5rem"
+    }
+})
 
 
 export default function PlayPauseButton({
@@ -18,18 +30,16 @@ export default function PlayPauseButton({
         e.stopPropagation();
 
         if (pause()) {
-            //We are now paused, set isPlaying accordingly
             setIsPlayingFalse();
         } else {
-            // Pause() returns false when it isn't possible to pause, therefore we should begin playing
             setIsPlayingTrue();
             play();
         }
     }
 
     return (
-        <div className="play-pause" onClick={onClick}>
+        <Button type="button" onClick={onClick}>
             {isPlaying ? <Pause /> : <Play />}
-        </div>
+        </Button>
     );
 }

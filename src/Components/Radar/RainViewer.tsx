@@ -1,15 +1,73 @@
 import React from "react";
 import { useMap } from "react-leaflet";
+import styled from "@emotion/styled";
 import L from "leaflet";
 
 import { useBooleanState } from "Hooks";
 
 import { fetchData } from "ts/Fetch";
+import { darkBackBlur } from "ts/StyleMixins";
 import getTimeFormatted from "ts/TimeConversion";
 
 import ControlPortal, { Position } from "./ControlPortal";
 import Opacity from "./Opacity";
 import PlayPauseButtom from "./PlayPauseButton";
+
+
+const Playback = styled.div([
+    {
+        display: "grid",
+        gridTemplateColumns: "auto 1fr",
+    
+        maxWidth: "900px",
+        width: "100%",
+        height: "fit-content",
+        padding: "10px"
+    }
+])
+
+const Time = styled.p({
+    gridColumn: "span 2",
+    textAlign: "center"
+})
+
+const Timeline = styled.div({
+    display: "flex",
+    flexDirection: "column"
+})
+
+const Input = styled.input({
+    WebkitAppearance: 'none',
+    appearance: 'none',
+    background: 'transparent',
+    cursor: 'pointer',
+    width: '100%',
+  
+    '&::-webkit-slider-runnable-track': {
+      backgroundColor: 'rgba(136, 136, 136, 0.5)',
+      borderRadius: 'var(--border-radius)',
+    },
+  
+    '&::-webkit-slider-thumb': {
+      WebkitAppearance: 'none',
+      appearance: 'none',
+      height: '10px',
+      width: '10px',
+      borderRadius: 'var(--border-radius)',
+      backgroundColor: '#6498fa',
+    },
+})
+
+const Datalist = styled.datalist({
+    display: "flex",
+    justifyContent: "space-between"
+})
+
+const Option = styled.option({
+    padding: "0px 1px",
+    background: "rgba(136, 136, 136, 0.5)",
+    borderRadius: "var(--border-radius)"
+})
 
 //Uses floor function to keep remainder the same sign as divisor.
 function mod(x: number, div: number) {
@@ -72,6 +130,8 @@ export default function RainViewer() {
 
     const timeLine = React.useRef<HTMLInputElement>(null);
     const timeP = React.useRef<HTMLParagraphElement>(null);
+
+    const radarList = React.useId()
 
     const addLayer = React.useCallback(
         (index: number) => {
@@ -242,9 +302,9 @@ export default function RainViewer() {
     if (error) {
         return (
             <ControlPortal position={Position.BOTTOM_CENTER}>
-                <div className="leaflet-custom-control leaflet-control" id="playback">
-                    <p className="time">Could not get radar data</p>
-                </div>
+                <Playback className="leaflet-control">
+                    <Time>Could not get radar data</Time>
+                </Playback>
             </ControlPortal>
         );
     }
@@ -255,28 +315,28 @@ export default function RainViewer() {
         return (
             <>
                 <ControlPortal position={Position.BOTTOM_CENTER}>
-                    <div className="leaflet-custom-control leaflet-control" id="playback">
-                        <p ref={timeP} className="time">
+                    <Playback className="leaflet-control">
+                        <Time ref={timeP}>
                             {getTimeDisplay(activeData.frames[activeData.layerAnimPos].time)}
-                        </p>
+                        </Time>
                         <PlayPauseButtom play={play} pause={pause} />
-                        <div className="timeline">
-                            <input
+                        <Timeline>
+                            <Input
                                 ref={timeLine}
                                 type="range"
-                                list="radar-list"
+                                list={radarList}
                                 min={0}
                                 max={activeData.frames.length - 1}
                                 defaultValue={activeData.layerAnimPos}
                                 onChange={e => showFrame(e.currentTarget.valueAsNumber)}
                             />
-                            <datalist id="radar-list">
+                            <Datalist id={radarList}>
                                 {activeData.frames.map((frame, index) => (
-                                    <option key={frame.time} value={index} />
+                                    <Option key={frame.time} value={index} />
                                 ))}
-                            </datalist>
-                        </div>
-                    </div>
+                            </Datalist>
+                        </Timeline>
+                    </Playback>
                 </ControlPortal>
                 <ControlPortal position={Position.TOP_RIGHT}>
                     <Opacity value={opacity} setOpacity={setOpacity} />

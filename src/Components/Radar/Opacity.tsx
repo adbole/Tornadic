@@ -1,9 +1,15 @@
 import React from "react";
+import styled from "@emotion/styled";
 
 import { useBooleanState } from "Hooks";
 
 import { CircleSlashes } from "svgs/radar";
 
+
+const Container = styled.div({
+    padding: "10px",
+    ">p": { textAlign: "center" }
+})
 
 export default function Opacity({
     value,
@@ -27,13 +33,9 @@ export default function Opacity({
             onMouseEnter={setHoverTrue}
             onMouseLeave={setHoverFalse}
         >
-            {!hover && (
-                <div className="leaflet-control-toggle">
-                    <CircleSlashes />
-                </div>
-            )}
+            {!hover && <CircleSlashes />}
             {hover && (
-                <div id="opacity">
+                <Container>
                     <p>Opacity: {(value * 100).toFixed(0)}</p>
                     <input
                         type="range"
@@ -45,7 +47,7 @@ export default function Opacity({
                             setOpacity(e.currentTarget.valueAsNumber / 100)
                         }
                     />
-                </div>
+                </Container>
             )}
         </div>
     );
