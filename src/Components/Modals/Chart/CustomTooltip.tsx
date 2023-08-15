@@ -1,10 +1,19 @@
+import styled from "@emotion/styled";
 import type { TooltipProps } from "recharts";
 import type { NameType } from "recharts/types/component/DefaultTooltipContent";
 
 import { get_aq, get_uv } from "ts/Helpers";
+import { center_flex, darkBackBlur } from "ts/StyleMixins";
 
 import type { ChartViews, DataPoint } from ".";
 
+
+const Container = styled.div(center_flex, darkBackBlur, {
+    borderRadius: "var(--border-radius)",
+    flexDirection: "column",
+    padding: "10px",
+    h1: { padding: 0 },
+});
 
 function getUnit(data: DataPoint, defaultUnit: React.ReactNode) {
     const { property, primaryKey } = data;
@@ -34,7 +43,7 @@ export default function CustomTooltip({ active, payload }: TooltipProps<number, 
         (data.property === "windspeed_10m" && "Gust: ");
 
     return (
-        <div className="chart-tooltip">
+        <Container>
             <h1>
                 {fixDecimal(data.property, data.primaryKey)}
                 {unit}
@@ -46,6 +55,6 @@ export default function CustomTooltip({ active, payload }: TooltipProps<number, 
                     {unit}
                 </p>
             )}
-        </div>
+        </Container>
     );
 }

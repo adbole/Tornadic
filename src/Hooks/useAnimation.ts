@@ -7,18 +7,18 @@ type RequestId = {
     id?: number;
 };
 
-type Stage = "idle" | "enter" | "leave";
+export type AnimationStage = "idle" | "enter" | "leave";
 
 export default function useAnimation(
     defaultState: boolean,
     timeout: number
-): [() => void, () => void, Stage, boolean] {
+): [() => void, () => void, AnimationStage, boolean] {
     const isReady = React.useRef(false);
     const requestId = React.useRef<RequestId>({});
 
     const [state, setStateTrue, setStateFalse] = useBooleanState(defaultState);
 
-    const [stage, setStage] = React.useState<Stage>(state ? "enter" : "idle");
+    const [stage, setStage] = React.useState<AnimationStage>(state ? "enter" : "idle");
     const [shouldMount, setShouldMountTrue, setShouldMountFalse] = useBooleanState(state);
 
     React.useEffect(() => {

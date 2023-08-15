@@ -5,7 +5,7 @@ import { useBooleanState, useDragScroll } from "Hooks";
 
 import { useWeather } from "Contexts/WeatherContext";
 
-import Chart from "Components/Chart";
+import Chart from "Components/Modals/Chart";
 import Widget from "Components/Widget";
 import { Clock } from "svgs/widget";
 
@@ -20,44 +20,44 @@ const List = styled.ol({
     overflowY: "hidden",
 
     gap: "20px",
-    cursor: 'grab',
-  
-    '&.drag-active': { cursor: 'grabbing', },
-    '&:not(.drag-active)::-webkit-scrollbar-thumb': { backgroundColor: 'transparent !important', },
-})
+    cursor: "grab",
+
+    "&.drag-active": { cursor: "grabbing" },
+    "&:not(.drag-active)::-webkit-scrollbar-thumb": { backgroundColor: "transparent !important" },
+});
 
 const Item = styled.li({
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '5px',
-  
-    "p": { whiteSpace: 'nowrap', },
-    '> div': {
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'center',
-      alignItems: 'center',
-  
-      flex: '1',
-      
-      svg: { width: '2rem', },
+    display: "flex",
+    flexDirection: "column",
+    gap: "5px",
+
+    p: { whiteSpace: "nowrap" },
+    "> div": {
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+
+        flex: "1",
+
+        svg: { width: "2rem" },
     },
-})
+});
 
 const Seperator = styled.li({
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  
-    '&::before, &::after': {
-      content: '""',
-      display: 'inline-block',
-      flex: '1 1 auto',
-      width: '5px',
-      backgroundColor: 'white',
-      borderRadius: '5px',
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+
+    "&::before, &::after": {
+        content: '""',
+        display: "inline-block",
+        flex: "1 1 auto",
+        width: "5px",
+        backgroundColor: "white",
+        borderRadius: "5px",
     },
-})
+});
 
 /**
  * A helper component for the Hourly component to display the individual hours

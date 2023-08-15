@@ -2,7 +2,7 @@ import { useBooleanState } from "Hooks";
 
 import { useWeather } from "Contexts/WeatherContext";
 
-import Chart from "Components/Chart";
+import Chart from "Components/Modals/Chart";
 import { Wind as WindIcon } from "svgs/widget";
 
 import GaugeWidget from "./GagueWidget";
@@ -21,9 +21,9 @@ function generateAngledStamps() {
         rects.push(
             <rect
                 key={i}
-                style={{ 
+                style={{
                     transformOrigin: "center",
-                    transform: `rotate(${angle * i}deg)` 
+                    transform: `rotate(${angle * i}deg)`,
                 }}
                 width="1.5"
                 height="5"

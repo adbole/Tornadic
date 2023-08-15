@@ -9,14 +9,14 @@ import Widget from "./Widget";
 const Container = styled.div({
     position: "relative",
 
-    "svg": {
+    svg: {
         position: "absolute",
         transform: "translateX(-50%)",
         left: "50%",
         height: "100%",
         width: "100%",
-    }
-})
+    },
+});
 
 const ChildContainer = styled.div([
     center_flex,
@@ -25,29 +25,27 @@ const ChildContainer = styled.div([
         width: "100%",
         height: "100%",
 
-        "p": {
+        p: {
             maxWidth: "60%",
-            textAlign: "center"
+            textAlign: "center",
         },
-        "p:first-of-type": { fontSize: "2rem" }
-    }
-])
+        "p:first-of-type": { fontSize: "2rem" },
+    },
+]);
 
-export default function GaugeWidget({ 
+export default function GaugeWidget({
     children,
     gague,
     ...widgetProps
-}: WidgetProps & { 
-    gague: React.ReactNode
+}: WidgetProps & {
+    gague: React.ReactNode;
 }) {
     return (
         <Widget {...widgetProps}>
             <Container>
                 {gague}
-                <ChildContainer>
-                    {children}
-                </ChildContainer>
+                <ChildContainer>{children}</ChildContainer>
             </Container>
         </Widget>
-    )
+    );
 }

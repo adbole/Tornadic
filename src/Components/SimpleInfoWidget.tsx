@@ -5,8 +5,8 @@ import { useBooleanState } from "Hooks";
 
 import { useWeather } from "Contexts/WeatherContext";
 
-import type { ChartViews } from "Components/Chart";
-import Chart from "Components/Chart";
+import type { ChartViews } from "Components/Modals/Chart";
+import Chart from "Components/Modals/Chart";
 import Widget from "Components/Widget";
 
 
@@ -16,7 +16,7 @@ const SimpleWidget = styled(Widget)({
     ">svg": { width: "2.5rem" },
     ">.widget-title": { margin: "0" },
     ">p": { fontSize: "2rem" },
-})
+});
 
 export default function SimpleInfoWidget({
     icon,

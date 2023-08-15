@@ -22,10 +22,10 @@ const Container = styled.div([
                 flexDirection: "column",
                 backdropFilter: "blur(10px)",
                 "> svg": { width: "50px" },
-            }
-        ]
-    }
-])
+            },
+        ],
+    },
+]);
 
 export default function MessageScreen({ children }: { children: React.ReactNode }) {
     return (

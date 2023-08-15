@@ -1,14 +1,17 @@
 import React from "react";
+import styled from "@emotion/styled";
 
 import WeatherContext from "Contexts/WeatherContext";
 
 import Alert from "Components/Alert";
+import GaugeWidget from "Components/GagueWidget";
 import HazardLevel from "Components/HazardLevel";
 import { Button } from "Components/Input";
 import Now from "Components/Now";
 import Pressure from "Components/Pressure";
 import SimpleInfoWidget from "Components/SimpleInfoWidget";
 import SkeletonWidget from "Components/SkeletonWidget";
+import { WidgetStyle } from "Components/Widget";
 import Wind from "Components/Wind";
 import { ExclamationTriangle } from "svgs";
 import { Droplet, Eye, Moisture, Thermometer } from "svgs/widget";
@@ -16,6 +19,27 @@ import { Droplet, Eye, Moisture, Thermometer } from "svgs/widget";
 import type { ModalProps } from "./Modal";
 import Modal, { ModalContent } from "./Modal";
 
+
+const PeekContent = styled(ModalContent)({
+    padding: 0,
+
+    display: "grid",
+    gridTemplateColumns: "repeat(4, 1fr)",
+    gridAutoRows: "auto",
+
+    [`${WidgetStyle}`]: {
+        backdropFilter: "none",
+        boxShadow: "none",
+        minHeight: "150px",
+    },
+
+    [`${Now.Style}, ${Alert.Style}`]: {
+        gridColumn: "span 4",
+        borderRadius: 0,
+    },
+
+    [`${WidgetStyle}:nth-of-type(n+ 7)`]: { gridColumn: "span 2" },
+});
 
 export default function Peek({
     latitude,
@@ -26,8 +50,8 @@ export default function Peek({
     longitude?: number;
 } & ModalProps) {
     return (
-        <Modal id="peek" {...modalProps}>
-            <ModalContent>
+        <Modal {...modalProps}>
+            <PeekContent>
                 <WeatherContext
                     latitude={latitude}
                     longitude={longitude}
@@ -39,7 +63,7 @@ export default function Peek({
                             {Array.from({ length: 4 }, (_, i) => (
                                 <SkeletonWidget key={i} />
                             ))}
-                            
+
                             {Array.from({ length: 4 }, (_, i) => (
                                 <SkeletonWidget className="wind" key={i} />
                             ))}
@@ -78,7 +102,7 @@ export default function Peek({
                     <Wind />
                     <Pressure />
                 </WeatherContext>
-            </ModalContent>
+            </PeekContent>
         </Modal>
     );
 }

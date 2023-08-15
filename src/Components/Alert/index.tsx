@@ -6,15 +6,15 @@ import { useWeather } from "Contexts/WeatherContext";
 
 import Widget from "Components/Widget";
 
-import { alertColors, center_flex } from "ts/StyleMixins";
+import { alertColors } from "ts/StyleMixins";
 
 import AlertModal from "./AlertModal";
 import { AlertInformationDisplay } from "./Common";
 
 
 const AlertWidget = styled(Widget)<{
-    type: keyof typeof alertColors
-}>(({ type }) => ([
+    type: keyof typeof alertColors;
+}>(({ type }) => [
     {
         display: "grid",
         gridTemplateColumns: "100%",
@@ -23,29 +23,29 @@ const AlertWidget = styled(Widget)<{
         "> *": {
             paddingLeft: "10px",
             paddingRight: "10px",
-    
+
             "&:first-of-type": { paddingTop: "10px" },
-            "&:last-of-type": { paddingBottom: "10px" }
-        }
+            "&:last-of-type": { paddingBottom: "10px" },
+        },
     },
     {
         backgroundColor: alertColors[type].background,
-        color: alertColors[type].foreground
-    }
-]))
+        color: alertColors[type].foreground,
+    },
+]);
 
-const AlertInformation = styled.div({ 
+const AlertInformation = styled.div({
     display: "flex",
     justifyContent: "center",
-    flexDirection: "column"
-})
+    flexDirection: "column",
+});
 
 const ExcessAlerts = styled.p({
     paddingTop: "10px",
-    background: "rgba(0, 0, 0, 0.3)"
-})
+    background: "rgba(0, 0, 0, 0.3)",
+});
 
-export default function Alert() {
+function Alert() {
     const { alerts } = useWeather();
     const [modalOpen, showModal, hideModal] = useBooleanState(false);
 
@@ -78,3 +78,7 @@ export default function Alert() {
         </>
     );
 }
+
+Alert.Style = AlertWidget;
+
+export default Alert;

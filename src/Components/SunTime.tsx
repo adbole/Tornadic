@@ -14,9 +14,9 @@ const SunTimeWidget = styled(Widget)([
     {
         flexDirection: "row",
         justifyContent: "space-evenly",
-        "> svg": { width: "5rem" }
-    }
-])
+        "> svg": { width: "5rem" },
+    },
+]);
 
 /**
  * A helper component for SunTime to display when the sunrise/sunset will ocurr along with what comes next.

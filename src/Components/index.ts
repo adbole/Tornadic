@@ -1,10 +1,10 @@
 export { default as Alert } from "./Alert";
-export { default as Chart } from "./Chart";
 export { default as Daily } from "./Daily";
 export { default as HazardLevel } from "./HazardLevel";
 export { default as Hourly } from "./Hourly";
 export * from "./Input";
 export { default as MessageScreen } from "./MessageScreen";
+export { default as Chart } from "./Modals/Chart";
 export { default as Modal } from "./Modals/Modal";
 export * from "./Modals/Modal";
 export { default as Now } from "./Now";

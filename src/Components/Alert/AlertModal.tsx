@@ -1,4 +1,5 @@
 import React from "react";
+import styled from "@emotion/styled";
 
 import SlideContextProvider, { useSlide } from "Contexts/SlideContext";
 
@@ -10,22 +11,33 @@ import type NWSAlert from "ts/NWSAlert";
 
 import { AlertInformationDisplay } from "./Common";
 
+
+const ListModal = styled(Modal)({
+    ">.slidable>div": {
+        display: "flex",
+        flexDirection: "column",
+        overflow: "hidden",
+    },
+});
+
+const ListContent = styled(ModalContent)({ "> :not(last-of-type)": { marginBottom: "10px" } });
+
 /**
  * @returns An alert modal showing a single alert if alerts.length = 1 otherwise shows a list
  */
 export default function AlertModal({ alerts, ...modalProps }: { alerts: NWSAlert[] } & ModalProps) {
     if (alerts.length > 1) {
         return (
-            <Modal id="alert-list-modal" {...modalProps}>
+            <ListModal {...modalProps}>
                 <SlideContextProvider>
                     <ModalTitle>{alerts.length} Weather Alerts</ModalTitle>
-                    <ModalContent>
+                    <ListContent>
                         {alerts.map(alert => (
                             <AlertDisplaySelectionWrapper key={alert.get("id")} alert={alert} />
                         ))}
-                    </ModalContent>
+                    </ListContent>
                 </SlideContextProvider>
-            </Modal>
+            </ListModal>
         );
     }
 
@@ -42,7 +54,7 @@ function AlertDisplaySelectionWrapper({ alert }: { alert: NWSAlert }) {
     const onClickHandler = () => slideTo(<AlertModalBody alert={alert} onClick={reset} />);
 
     return (
-        <Widget className={alert.getAlertCSS()} onClick={onClickHandler}>
+        <Widget onClick={onClickHandler}>
             <AlertInformationDisplay alert={alert} />
         </Widget>
     );

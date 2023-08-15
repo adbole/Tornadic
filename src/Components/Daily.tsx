@@ -5,7 +5,7 @@ import { useBooleanState, useReadLocalStorage } from "Hooks";
 
 import { useWeather } from "Contexts/WeatherContext";
 
-import Chart from "Components/Chart";
+import Chart from "Components/Modals/Chart";
 import Widget from "Components/Widget";
 import { Calendar } from "svgs/widget";
 
@@ -18,22 +18,22 @@ const TempRangeColumn = styled(Column)({
     display: "flex",
     alignItems: "center",
     gap: "5px",
-})
+});
 const ConditionColumn = styled(TempRangeColumn)({ svg: { width: "1.5rem" } });
 
 const DualRange = styled.div({
-    position: 'relative',
-    width: '100%',
-    backgroundColor: 'rgba(89, 89, 89, 0.5)',
-    borderRadius: '5px',
-    height: '10px',
-})
+    position: "relative",
+    width: "100%",
+    backgroundColor: "rgba(89, 89, 89, 0.5)",
+    borderRadius: "5px",
+    height: "10px",
+});
 
 const Covered = styled.div({
-    position: 'absolute',
-    borderRadius: '5px',
-    height: '100%',
-})
+    position: "absolute",
+    borderRadius: "5px",
+    height: "100%",
+});
 
 const Row = styled.div({
     display: "flex",
@@ -43,7 +43,7 @@ const Row = styled.div({
         filter: "brightness(80%)",
         cursor: "pointer",
     },
-    "&:active": { filter: "brightness(70%)", },
+    "&:active": { filter: "brightness(70%)" },
 });
 
 const List = styled.div({
@@ -112,7 +112,7 @@ export default function Daily() {
 
         return {
             left: Normalize.Percent(min, low_week, high_week) + "%",
-            right: (100 - Normalize.Percent(max, low_week, high_week)) + "%",
+            right: 100 - Normalize.Percent(max, low_week, high_week) + "%",
             backgroundImage: `linear-gradient(90deg, ${minHSL} 0%, ${maxHSL} 100%)`,
         };
     };

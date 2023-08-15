@@ -1,4 +1,5 @@
 import React from "react";
+import styled from "@emotion/styled";
 import type { YAxisProps } from "recharts";
 import { CartesianGrid, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 
@@ -18,6 +19,25 @@ import ChartDisplay from "./ChartDisplay";
 import CustomTooltip from "./CustomTooltip";
 import getDataVisual from "./getDataVisual";
 
+
+const ChartModal = styled(Modal)({
+    width: "90%",
+    height: "80%",
+});
+
+const ChartContent = styled(ModalContent)({
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    height: "100%",
+    paddingTop: 0,
+
+    ".recharts-responsive-container": {
+        border: "1px solid #ffffff19",
+        borderRadius: "var(--border-radius)",
+        overflow: "hidden",
+    },
+});
 
 export type ChartViews = keyof Pick<
     CombinedHourly,
@@ -150,7 +170,7 @@ export default function Chart({
     };
 
     return (
-        <Modal id="chart" {...modalProps}>
+        <ChartModal {...modalProps}>
             <ModalTitle>
                 <select
                     ref={selectRef}
@@ -166,7 +186,7 @@ export default function Chart({
                     ))}
                 </select>
             </ModalTitle>
-            <ModalContent>
+            <ChartContent>
                 <InputGroup isUniform hasGap>
                     {weather.getAllDays("time").map((time, i) => (
                         <ToggleButton
@@ -220,7 +240,7 @@ export default function Chart({
                         )}
                     </ChartDisplay>
                 </ResponsiveContainer>
-            </ModalContent>
-        </Modal>
+            </ChartContent>
+        </ChartModal>
     );
 }

@@ -2,7 +2,7 @@ import { useBooleanState } from "Hooks";
 
 import { useWeather } from "Contexts/WeatherContext";
 
-import Chart from "Components/Chart";
+import Chart from "Components/Modals/Chart";
 import Widget from "Components/Widget";
 import { Down, Meter, Up } from "svgs/widget";
 

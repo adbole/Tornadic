@@ -49,7 +49,7 @@ const Temperature = styled.h1({
  * Displays the current location name, temperature, condition, and feels like temperature along with having a gradient to match the condition
  * @returns The Now widget
  */
-export default function Now({ displayOnly }: { displayOnly?: boolean }) {
+function Now({ displayOnly }: { displayOnly?: boolean }) {
     const { weather } = useWeather();
 
     const [locationModalIsOpen, showLocationModal, hideLocationModal] = useBooleanState(false);
@@ -62,7 +62,7 @@ export default function Now({ displayOnly }: { displayOnly?: boolean }) {
         <>
             {!displayOnly && (
                 <Global
-                    styles={{ "body": { background: `linear-gradient(to bottom, ${background[0]}, ${background[1]})`, } }}
+                    styles={{ body: { background: `linear-gradient(to bottom, ${background[0]}, ${background[1]})`, }, }}
                 />
             )}
             <NowWidget size={"widget-large"} isTemplate background={now.conditionInfo.background}>
@@ -94,3 +94,7 @@ export default function Now({ displayOnly }: { displayOnly?: boolean }) {
         </>
     );
 }
+
+Now.Style = NowWidget;
+
+export default Now;

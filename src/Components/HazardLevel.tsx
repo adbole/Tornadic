@@ -6,7 +6,7 @@ import { useBooleanState } from "Hooks";
 
 import { useWeather } from "Contexts/WeatherContext";
 
-import Chart from "Components/Chart";
+import Chart from "Components/Modals/Chart";
 import { Sun } from "svgs/conditions";
 import { Lungs } from "svgs/widget";
 
@@ -39,25 +39,27 @@ function getHazardProps(hazard: HazardType, hazardValue: number) {
 }
 
 function getAQInfo(aq: number): HazardInfo {
-    return ({
+    return {
         title: "Air Quality",
         titleIcon: <Lungs />,
         min: 0,
         max: 500,
         message: get_aq(aq),
-        gradient: "conic-gradient(from 0.5turn at 50% 50%, #00FF66 36deg, #FFF501 90deg, #FF9431 144deg, #FF2204 198deg, #8400FF 252deg, #6D0000 306deg)",
-    });
+        gradient:
+            "conic-gradient(from 0.5turn at 50% 50%, #00FF66 36deg, #FFF501 90deg, #FF9431 144deg, #FF2204 198deg, #8400FF 252deg, #6D0000 306deg)",
+    };
 }
 
 function getUVInfo(uv: number): HazardInfo {
-    return ({
+    return {
         title: "UV Index",
         titleIcon: <Sun />,
         min: 0,
         max: 11,
         message: get_uv(uv),
-        gradient: "conic-gradient(from 0.5turn at 50% 50%, #00FF66 36deg, #FFF501 100.8deg, #FF9431 165.6deg, #FF2204 230.4deg, #FF00D6 292.2deg)",
-    });
+        gradient:
+            "conic-gradient(from 0.5turn at 50% 50%, #00FF66 36deg, #FFF501 100.8deg, #FF9431 165.6deg, #FF2204 230.4deg, #FF00D6 292.2deg)",
+    };
 }
 
 function Meter({ rotation, gradient }: { rotation: number; gradient: string }) {
@@ -78,7 +80,7 @@ function Meter({ rotation, gradient }: { rotation: number; gradient: string }) {
                 <g
                     style={{
                         transformOrigin: "center",
-                        transform: `rotate(${rotation}deg)`
+                        transform: `rotate(${rotation}deg)`,
                     }}
                 >
                     <ellipse fill="black" cx="50%" cy="97" rx="6" ry="6" />
