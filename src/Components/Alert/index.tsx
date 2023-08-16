@@ -25,7 +25,7 @@ const AlertBase = css({
         "&:first-of-type": { paddingTop: "10px" },
         "&:last-of-type": { paddingBottom: "10px" },
     },
-})
+});
 
 const AlertWidget = styled(Widget)<{
     type: keyof typeof alertColors;

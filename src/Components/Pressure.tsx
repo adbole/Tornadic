@@ -1,3 +1,5 @@
+import styled from "@emotion/styled";
+
 import { useBooleanState } from "Hooks";
 
 import { useWeather } from "Contexts/WeatherContext";
@@ -6,8 +8,26 @@ import Chart from "Components/Modals/Chart";
 import Widget from "Components/Widget";
 import { Down, Meter, Up } from "svgs/widget";
 
+import { centerFlex } from "ts/StyleMixins";
 import type Weather from "ts/Weather";
 
+
+const Container = styled.div(centerFlex, {
+    flexDirection: "column",
+    gap: "5px",
+
+    "> svg": {
+        width: "2rem",
+        margin: "-0.5rem",
+    },
+
+    "> .equal": {
+        fontSize: "2rem",
+        margin: "-0.5rem",
+    },
+
+    "> .value": { fontSize: "2rem" },
+});
 
 function getTrendIcon(weather: Weather) {
     const surface = (x: number) => weather.getForecast("surface_pressure", x);
@@ -32,11 +52,11 @@ export default function Pressure() {
                 widgetTitle={"Air Pressure"}
                 onClick={showModal}
             >
-                <div>
+                <Container>
                     {getTrendIcon(weather)}
                     <p className="value">{weather.getForecast("surface_pressure").toFixed(2)}</p>
                     <p>{weather.getForecastUnit("surface_pressure")}</p>
-                </div>
+                </Container>
             </Widget>
             <Chart showView={"surface_pressure"} isOpen={modalOpen} onClose={hideModal} />
         </>

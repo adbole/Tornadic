@@ -1,7 +1,35 @@
 import React from "react";
+import { keyframes } from "@emotion/react";
+import styled from "@emotion/styled";
 
 import { useBooleanState } from "Hooks";
 
+import Input from "./Input";
+import InputGroup from "./InputGroup";
+
+
+const SearchBar = styled(InputGroup)({ display: "flex", })
+const SearchResults = styled.ul({
+    display: 'flex',
+    flexDirection: 'column',
+    padding: '5px',
+    textAlign: "left",
+    listStyle: 'none',
+    gap: '5px',
+    borderRadius: 'var(--input-border-radius)',
+    backgroundColor: 'var(--secondary)',
+})
+
+const shine = keyframes({ to: { backgroundPositionX: "-200%" } });
+
+const TextLoader = styled.span({
+    display: 'block',
+    height: '1.5rem',
+    borderRadius: '5px',
+    background: 'linear-gradient(135deg, transparent 40%, #f5f5f51a 50%, transparent 60%)',
+    backgroundSize: '200% 100%',
+    animation: `${shine} 1.5s linear infinite`
+})
 
 export type SearchResult<T> = {
     key: number;
@@ -41,37 +69,29 @@ function SearchInput<T>({ children, onGetResults, onSelect }: Props<T>) {
 
     return (
         <>
-            <div className="search-bar">
-                <input
-                    className="search-input"
+            <SearchBar>
+                <Input
                     type="search"
                     placeholder="Enter a location"
                     onChange={onChange}
+                    style={{ flex: 1 }}
                 />
                 {children}
-            </div>
+            </SearchBar>
             {isLoading ? (
-                <ul className="search-results">
-                    <li>
-                        <span className="text-loader" />
-                    </li>
-                    <li>
-                        <span className="text-loader" />
-                    </li>
-                    <li>
-                        <span className="text-loader" />
-                    </li>
-                </ul>
+                <SearchResults>
+                    {Array.from({ length: 5 }, (_, i) => <li key={i}><TextLoader /></li>)}
+                </SearchResults>
             ) : (
                 results &&
                 (results.length ? (
-                    <ul className="search-results">
+                    <SearchResults>
                         {results?.map(result => (
                             <li key={result.key} onClick={() => onSelect(result.payload)}>
                                 {result.label}
                             </li>
                         ))}
-                    </ul>
+                    </SearchResults>
                 ) : (
                     <span className="search-results">No Results Found</span>
                 ))

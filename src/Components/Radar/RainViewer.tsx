@@ -18,56 +18,56 @@ const Playback = styled.div([
     {
         display: "grid",
         gridTemplateColumns: "auto 1fr",
-    
+
         maxWidth: "900px",
         width: "100%",
         height: "fit-content",
-        padding: "10px"
-    }
-])
+        padding: "10px",
+    },
+]);
 
 const Time = styled.p({
     gridColumn: "span 2",
-    textAlign: "center"
-})
+    textAlign: "center",
+});
 
 const Timeline = styled.div({
     display: "flex",
-    flexDirection: "column"
-})
+    flexDirection: "column",
+});
 
 const Input = styled.input({
-    WebkitAppearance: 'none',
-    appearance: 'none',
-    background: 'transparent',
-    cursor: 'pointer',
-    width: '100%',
-  
-    '&::-webkit-slider-runnable-track': {
-      backgroundColor: 'rgba(136, 136, 136, 0.5)',
-      borderRadius: 'var(--border-radius)',
+    WebkitAppearance: "none",
+    appearance: "none",
+    background: "transparent",
+    cursor: "pointer",
+    width: "100%",
+
+    "&::-webkit-slider-runnable-track": {
+        backgroundColor: "rgba(136, 136, 136, 0.5)",
+        borderRadius: "var(--border-radius)",
     },
-  
-    '&::-webkit-slider-thumb': {
-      WebkitAppearance: 'none',
-      appearance: 'none',
-      height: '10px',
-      width: '10px',
-      borderRadius: 'var(--border-radius)',
-      backgroundColor: '#6498fa',
+
+    "&::-webkit-slider-thumb": {
+        WebkitAppearance: "none",
+        appearance: "none",
+        height: "10px",
+        width: "10px",
+        borderRadius: "var(--border-radius)",
+        backgroundColor: "#6498fa",
     },
-})
+});
 
 const Datalist = styled.datalist({
     display: "flex",
-    justifyContent: "space-between"
-})
+    justifyContent: "space-between",
+});
 
 const Option = styled.option({
     padding: "0px 1px",
     background: "rgba(136, 136, 136, 0.5)",
-    borderRadius: "var(--border-radius)"
-})
+    borderRadius: "var(--border-radius)",
+});
 
 //Uses floor function to keep remainder the same sign as divisor.
 function mod(x: number, div: number) {
@@ -131,7 +131,7 @@ export default function RainViewer() {
     const timeLine = React.useRef<HTMLInputElement>(null);
     const timeP = React.useRef<HTMLParagraphElement>(null);
 
-    const radarList = React.useId()
+    const radarList = React.useId();
 
     const addLayer = React.useCallback(
         (index: number) => {

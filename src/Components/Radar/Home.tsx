@@ -1,6 +1,6 @@
 import React from "react";
 import { useMap } from "react-leaflet";
-import { css,Global } from "@emotion/react";
+import { css, Global } from "@emotion/react";
 
 import { useBooleanState } from "Hooks";
 
@@ -20,7 +20,7 @@ export default function Home() {
     const [isZoomed, setIsZoomedTrue, setIsZoomedFalse] = useBooleanState(false);
 
     const map = useMap();
-    const containerId = React.useId()
+    const containerId = React.useId();
 
     const zoom = React.useCallback(
         () => !isZoomed && setIsZoomedTrue(),
@@ -32,9 +32,9 @@ export default function Home() {
     };
 
     React.useEffect(() => {
-        const container = map.getContainer()
+        const container = map.getContainer();
 
-        container.style.position = ""
+        container.style.position = "";
         container.addEventListener("click", zoom);
         return () => container.removeEventListener("click", zoom);
     }, [map, zoom, containerId]);
@@ -62,12 +62,16 @@ export default function Home() {
                             position: "relative",
                             cursor: "pointer",
                             borderRadius: "var(--border-radius)",
-                            ".leaflet-control-container": { display: "none" }
-                        }
-                    ]
+                            ".leaflet-control-container": { display: "none" },
+                        },
+                    ],
                 }}
             />
-            <button type="button" className="leaflet-custom-control leaflet-control" onClick={unZoom}>
+            <button
+                type="button"
+                className="leaflet-custom-control leaflet-control"
+                onClick={unZoom}
+            >
                 <Grid />
             </button>
         </>

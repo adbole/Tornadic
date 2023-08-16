@@ -9,8 +9,18 @@ import Chart from "Components/Modals/Chart";
 import Widget from "Components/Widget";
 import { Clock } from "svgs/widget";
 
+import { mediaQueries } from "ts/StyleMixins";
 import getTimeFormatted from "ts/TimeConversion";
 import type { HourInfo } from "ts/Weather";
+
+
+const HourlyWidget = styled(Widget)(({ moveOver }: { moveOver: boolean }) => ({
+    [mediaQueries.mediumMax]: { gridColumn: "span 2" },
+    [mediaQueries.large]: [
+        { gridColumn: "span 6" },
+        moveOver && { gridColumn: "span 4" }
+    ],
+}))
 
 
 const List = styled.ol({
@@ -91,7 +101,7 @@ function DaySeperator({ day }: { day: string }) {
  * @returns The Hourly widget
  */
 export default function Hourly() {
-    const { weather } = useWeather();
+    const { weather, alerts } = useWeather();
     const [modalOpen, showModal, hideModal] = useBooleanState(false);
     const listRef = React.useRef<HTMLOListElement | null>(null);
 
@@ -99,11 +109,12 @@ export default function Hourly() {
 
     return (
         <>
-            <Widget
+            <HourlyWidget
                 widgetTitle="Hourly Forecast"
                 widgetIcon={<Clock />}
                 onClick={showModal}
                 size="widget-wide"
+                moveOver={alerts.length > 0}
             >
                 <List ref={listRef} className="flex-list drag-scroll">
                     {[...weather.getFutureValues()].map((forecast, index) => {
@@ -121,7 +132,7 @@ export default function Hourly() {
                         return <Hour key={index} hourInfo={forecast} />;
                     })}
                 </List>
-            </Widget>
+            </HourlyWidget>
             <Chart showView="temperature_2m" isOpen={modalOpen} onClose={hideModal} />
         </>
     );

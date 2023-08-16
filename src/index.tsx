@@ -3,7 +3,7 @@ import { css, Global } from "@emotion/react";
 
 import App from "App";
 
-import { center_flex } from "ts/StyleMixins";
+import { centerFlex, mediaQueries } from "ts/StyleMixins";
 
 //TODO: switch to themeing
 const root = ReactDOM.createRoot(document.getElementById("root")!);
@@ -57,7 +57,7 @@ root.render(
                 }
 
                 body {
-                    ${center_flex}
+                    ${centerFlex}
                     min-height: 100vh;
 
                     background: radial-gradient(111% 111% at 74.29% -11%, #a93300 0%, #083434 100%),
@@ -96,6 +96,40 @@ root.render(
 
                     width: 100%;
                     max-width: 1800px;
+
+
+                    ${mediaQueries.mediumMin} {
+                        grid-template-columns: repeat(6, 1fr);
+                        grid-template-areas: 
+                        "n n . . . ." 
+                        "n n . . . ."
+                        "d d . . r r"
+                        "d d . . r r";
+                    }
+
+                    ${mediaQueries.large} {
+                        grid-template-columns: repeat(8, 1fr);
+                        grid-template-areas: 
+                        "n n . . . . . ." 
+                        "n n . . . . . ."
+                        "d d . . r r r r"
+                        "d d . . r r r r";
+                    }
+
+                    ${mediaQueries.mediumMax} {
+                        grid-template-columns: repeat(4, 1fr);
+                        grid-template-areas: none;
+                    }
+
+                    ${mediaQueries.small} { grid-template-columns: repeat(2, 1fr); }
+                }
+
+                #toast-root {
+                    position: fixed;
+                    bottom: 0px;
+                    height: fit-content;
+                    max-width: 100vw;
+                    padding: 10px;
                 }
             `}
         />

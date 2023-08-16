@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 
-import { center_flex } from "ts/StyleMixins";
+import { centerFlex } from "ts/StyleMixins";
 
 import type { WidgetProps } from "./Widget";
 import Widget from "./Widget";
@@ -19,7 +19,7 @@ const Container = styled.div({
 });
 
 const ChildContainer = styled.div([
-    center_flex,
+    centerFlex,
     {
         flexDirection: "column",
         width: "100%",

@@ -11,7 +11,7 @@ const SkeletonStyle = css({
     background: "linear-gradient(135deg, transparent 40%, #f5f5f51a 50%, transparent 60%)",
     backgroundSize: "200%, 100%",
     animation: `${shine} 1.5s linear infinite`,
-})
+});
 
 const Skeleton = styled(Widget)(SkeletonStyle);
 
@@ -27,6 +27,6 @@ function SkeletonWidget({
     return <Skeleton id={id} className={className} size={size} children={null} />;
 }
 
-SkeletonWidget.Style = SkeletonStyle
+SkeletonWidget.Style = SkeletonStyle;
 
-export default SkeletonWidget
+export default SkeletonWidget;

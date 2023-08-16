@@ -1,5 +1,5 @@
 import React from "react";
-import { css,Global } from "@emotion/react";
+import { css, Global } from "@emotion/react";
 import styled from "@emotion/styled";
 
 import { useBooleanState } from "Hooks";
@@ -11,7 +11,9 @@ import Settings from "Components/Modals/Settings";
 import Widget from "Components/Widget";
 import { Gear } from "svgs/widget";
 
-import { LocationInput } from "./Input";
+import { mediaQueries } from "ts/StyleMixins";
+
+import { Button, LocationInput } from "./Input";
 
 
 const NowStyle = css({
@@ -19,23 +21,28 @@ const NowStyle = css({
     gap: "10px",
     fontSize: "1.5rem",
     padding: "60px 0px",
-})
+    [mediaQueries.mediumMin]: { gridArea: "n" }
+});
 
 const NowWidget = styled(Widget)<{
     background: [string, string];
-}>(({ background }) => ([
+}>(({ background }) => [
     NowStyle,
-    { background: `linear-gradient(to bottom, ${background[0]}, ${background[1]})` }
-]));
+    { 
+        background: `linear-gradient(to bottom, ${background[0]}, ${background[1]})` ,
+        [mediaQueries.small]: {
+            background: "none",
+            backdropFilter: "none",
+            boxShadow: "none"
+        }
+    },
+]);
 
-const SettingsButton = styled.button({
+const SettingsButton = styled(Button)({
     position: "absolute",
     left: "10px",
     top: "10px",
     margin: "0px",
-    padding: "0px",
-    border: "none",
-    boxShadow: "none",
     svg: { width: "1.5rem" },
 });
 
@@ -70,9 +77,14 @@ function Now({ displayOnly, className }: { displayOnly?: boolean } & ClassNamePr
                     styles={{ body: { background: `linear-gradient(to bottom, ${background[0]}, ${background[1]})`, }, }}
                 />
             )}
-            <NowWidget className={className} size={"widget-large"} isTemplate background={now.conditionInfo.background}>
+            <NowWidget
+                className={className}
+                size={"widget-large"}
+                isTemplate
+                background={now.conditionInfo.background}
+            >
                 {!displayOnly && (
-                    <SettingsButton type="button" onClick={() => showSettings()}>
+                    <SettingsButton varient="transparent" onClick={() => showSettings()}>
                         <Gear />
                     </SettingsButton>
                 )}

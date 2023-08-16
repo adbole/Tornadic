@@ -8,8 +8,8 @@ import { CircleSlashes } from "svgs/radar";
 
 const Container = styled.div({
     padding: "10px",
-    ">p": { textAlign: "center" }
-})
+    ">p": { textAlign: "center" },
+});
 
 export default function Opacity({
     value,

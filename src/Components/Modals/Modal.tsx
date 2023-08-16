@@ -6,6 +6,8 @@ import styled from "@emotion/styled";
 import { useAnimation, useSameClick } from "Hooks";
 import type { AnimationStage } from "Hooks/useAnimation";
 
+import { mediaQueries } from "ts/StyleMixins";
+
 
 const Dialog = styled.dialog<{
     stage: AnimationStage;
@@ -23,7 +25,6 @@ const Dialog = styled.dialog<{
         overflow: "hidden",
         transform: "translateY(100vh)",
         transition: "transform 1s ease",
-
         "&::backdrop": {
             backdropFilter: "blur(5px)",
             backgroundColor: "rgba(0, 0, 0, 0.5)",
@@ -31,6 +32,12 @@ const Dialog = styled.dialog<{
             opacity: 0,
             transition: "opacity 1s ease",
         },
+        [mediaQueries.small]: {
+            maxWidth: '100%',
+            maxHeight: '75%',
+            margin: 'auto auto 0px auto',
+            borderRadius: 'var(--border-radius) var(--border-radius) 0px 0px',
+        }
     },
     stage === "enter" && {
         transform: "translateY(0)",

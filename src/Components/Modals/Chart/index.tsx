@@ -11,6 +11,7 @@ import { InputGroup, ToggleButton } from "Components/Input";
 import type { ModalProps } from "Components/Modals/Modal";
 import Modal, { ModalContent, ModalTitle } from "Components/Modals/Modal";
 
+import { mediaQueries } from "ts/StyleMixins";
 import getTimeFormatted from "ts/TimeConversion";
 import type Weather from "ts/Weather";
 import type { CombinedHourly } from "ts/Weather";
@@ -23,6 +24,11 @@ import getDataVisual from "./getDataVisual";
 const ChartModal = styled(Modal)({
     width: "90%",
     height: "80%",
+    [mediaQueries.small]: { 
+        width: "100%",
+        height: "60%",
+        paddingBottom: "20px"
+    }
 });
 
 const ChartContent = styled(ModalContent)({
@@ -30,6 +36,7 @@ const ChartContent = styled(ModalContent)({
     flexDirection: "column",
     alignItems: "center",
     height: "100%",
+    padding: "10px",
     paddingTop: 0,
 
     ".recharts-responsive-container": {
@@ -38,6 +45,8 @@ const ChartContent = styled(ModalContent)({
         overflow: "hidden",
     },
 });
+
+const Option = styled.option({ backgroundColor: "var(--widget-back)" })
 
 export type ChartViews = keyof Pick<
     CombinedHourly,
@@ -174,15 +183,14 @@ export default function Chart({
             <ModalTitle>
                 <select
                     ref={selectRef}
-                    className="clear"
                     title="Current Chart"
                     onChange={e => setView(e.currentTarget.value as ChartViews)}
                     value={view}
                 >
                     {Object.keys(CHART_VIEWS_TITLES).map(key => (
-                        <option key={key} value={CHART_VIEWS_TITLES[key]}>
+                        <Option key={key} value={CHART_VIEWS_TITLES[key]}>
                             {key.replace("_", " ")}
-                        </option>
+                        </Option>
                     ))}
                 </select>
             </ModalTitle>

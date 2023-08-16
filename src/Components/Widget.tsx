@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "@emotion/styled";
 
+import { mediaQueries } from "ts/StyleMixins";
+
 // #region Widget
 export type WidgetSize = "widget-large" | "widget-wide" | "";
 

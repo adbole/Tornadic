@@ -20,8 +20,8 @@ import type { ModalProps } from "./Modal";
 import Modal, { ModalContent } from "./Modal";
 
 
-const NowSkeleton = styled(SkeletonWidget)(Now.Style)
-const AlertSkeleton = styled(SkeletonWidget)(Alert.Style)
+const NowSkeleton = styled(SkeletonWidget)(Now.Style);
+const AlertSkeleton = styled(SkeletonWidget)(Alert.Style);
 
 const PeekContent = styled(ModalContent)({
     padding: 0,
@@ -60,7 +60,7 @@ export default function Peek({
                     longitude={longitude}
                     skeletonRender={() => (
                         <>
-                            <NowSkeleton className="now" size="widget-large"/>
+                            <NowSkeleton className="now" size="widget-large" />
                             <AlertSkeleton className="alert" />
 
                             {Array.from({ length: 4 }, (_, i) => (
@@ -81,7 +81,7 @@ export default function Peek({
                     )}
                 >
                     <Now className="now" displayOnly />
-                    <Alert className="alert"/>
+                    <Alert className="alert" />
                     <SimpleInfoWidget
                         icon={<Droplet />}
                         title="Precipitation"

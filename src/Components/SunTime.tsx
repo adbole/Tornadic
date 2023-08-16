@@ -5,12 +5,12 @@ import { useWeather } from "Contexts/WeatherContext";
 import Widget from "Components/Widget";
 import { Sunrise, Sunset } from "svgs/widget";
 
-import { center_flex } from "ts/StyleMixins";
+import { centerFlex } from "ts/StyleMixins";
 import getTimeFormatted from "ts/TimeConversion";
 
 
 const SunTimeWidget = styled(Widget)([
-    center_flex,
+    centerFlex,
     {
         flexDirection: "row",
         justifyContent: "space-evenly",

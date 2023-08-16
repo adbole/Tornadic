@@ -3,12 +3,12 @@ import type { TooltipProps } from "recharts";
 import type { NameType } from "recharts/types/component/DefaultTooltipContent";
 
 import { get_aq, get_uv } from "ts/Helpers";
-import { center_flex, darkBackBlur } from "ts/StyleMixins";
+import { centerFlex, darkBackBlur } from "ts/StyleMixins";
 
 import type { ChartViews, DataPoint } from ".";
 
 
-const Container = styled.div(center_flex, darkBackBlur, {
+const Container = styled.div(centerFlex, darkBackBlur, {
     borderRadius: "var(--border-radius)",
     flexDirection: "column",
     padding: "10px",

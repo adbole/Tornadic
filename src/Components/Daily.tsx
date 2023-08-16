@@ -1,4 +1,5 @@
 import { useRef } from "react";
+import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 
 import { useBooleanState, useReadLocalStorage } from "Hooks";
@@ -10,8 +11,12 @@ import Widget from "Components/Widget";
 import { Calendar } from "svgs/widget";
 
 import { Normalize, toHSL } from "ts/Helpers";
+import { mediaQueries } from "ts/StyleMixins";
 import type { DayInfo } from "ts/Weather";
 
+
+const DailyStyle = css({ [mediaQueries.mediumMin]: { gridArea: "d" } })
+const DailyWidget = styled(Widget)(DailyStyle)
 
 const Column = styled.div<{ flex: string }>(({ flex }) => ({ flex }));
 const TempRangeColumn = styled(Column)({
@@ -91,7 +96,7 @@ function Day({
  * Displays the week's temperatures and conditions along with the highest and lowest temp across the week.
  * @returns The Daily widget
  */
-export default function Daily() {
+function Daily() {
     const { weather } = useWeather();
     const { tempUnit } = useReadLocalStorage("userSettings")!;
 
@@ -119,7 +124,7 @@ export default function Daily() {
 
     return (
         <>
-            <Widget
+            <DailyWidget
                 className="daily"
                 size={"widget-large"}
                 widgetTitle="7-Day Forecast"
@@ -141,7 +146,7 @@ export default function Daily() {
                         />
                     ))}
                 </List>
-            </Widget>
+            </DailyWidget>
             <Chart
                 showView={"temperature_2m"}
                 showDay={chartDay.current}
@@ -151,3 +156,7 @@ export default function Daily() {
         </>
     );
 }
+
+Daily.Style = DailyStyle
+
+export default Daily

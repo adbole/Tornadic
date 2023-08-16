@@ -1,12 +1,13 @@
 import React from "react";
 import { AttributionControl, MapContainer, TileLayer, ZoomControl } from "react-leaflet";
+import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import L from "leaflet";
 
 import Widget from "Components/Widget";
 import { Map } from "svgs/widget";
 
-import { darkBackBlur } from "ts/StyleMixins";
+import { darkBackBlur, mediaQueries } from "ts/StyleMixins";
 
 import AlertPolygons from "./AlertPolygons";
 import ControlPortal, { Position } from "./ControlPortal";
@@ -16,8 +17,15 @@ import Peek from "./Peek";
 import RainViewer from "./RainViewer";
 
 
-const RadarWidget = styled(Widget)({
+const RadarStyle = css({
     backdropFilter: "none",
+    '&::before': {
+        content: '""',
+        position: 'absolute',
+        inset: '0',
+        backdropFilter: 'saturate(130%)',
+        borderRadius: 'var(--border-radius)',
+    },
     ".leaflet-center": {
         left: 0,
         right: 0,
@@ -32,7 +40,6 @@ const RadarWidget = styled(Widget)({
             overflow: "hidden",
         },
     ],
-
     ".leaflet-custom-control, .leaflet-control-toggle": [
         darkBackBlur,
         {
@@ -44,10 +51,13 @@ const RadarWidget = styled(Widget)({
             minHeight: "2rem",
             border: "none",
 
-            "> svg": { width: "1.25rem", },
+            "> svg": { width: "1.25rem" },
         },
     ],
-});
+    [mediaQueries.mediumMin]: { gridArea: "r" }
+})
+
+const RadarWidget = styled(Widget)(RadarStyle);
 
 type Dictionary = {
     [indiex: string]: HTMLDivElement;
@@ -81,7 +91,7 @@ L.Map.include({
  * Displays a small Radar widget that can then be clicked to zoom to fullscreen.
  * @returns The Radar widget
  */
-export default function Radar() {
+function Radar() {
     const defaultCent: L.LatLngExpression = {
         lat: 35.5,
         lng: -97.5,
@@ -122,3 +132,7 @@ export default function Radar() {
         </RadarWidget>
     );
 }
+
+Radar.Style = RadarStyle
+
+export default Radar

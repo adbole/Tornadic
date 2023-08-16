@@ -3,19 +3,16 @@ import styled from "@emotion/styled";
 
 import { useBooleanState } from "Hooks";
 
+import { Button } from "Components/Input";
 import { Pause, Play } from "svgs/radar";
 
 
-const Button = styled.button({
-    padding: 0,
-    border: "none",
-    background: "none",
+const PlayPause = styled(Button)({
     "svg": {
         width: "1.5rem",
-        height: "1.5rem"
+        height: "1.5rem",
     }
-})
-
+});
 
 export default function PlayPauseButton({
     play,
@@ -38,8 +35,8 @@ export default function PlayPauseButton({
     }
 
     return (
-        <Button type="button" onClick={onClick}>
+        <PlayPause varient="transparent" onClick={onClick}>
             {isPlaying ? <Pause /> : <Play />}
-        </Button>
+        </PlayPause>
     );
 }
