@@ -98,23 +98,22 @@ root.render(
                     width: 100%;
                     max-width: 1800px;
 
-
                     ${mediaQueries.mediumMin} {
                         grid-template-columns: repeat(6, 1fr);
-                        grid-template-areas: 
-                        "n n . . . ." 
-                        "n n . . . ."
-                        "d d . . r r"
-                        "d d . . r r";
+                        grid-template-areas:
+                            "n n . . . ."
+                            "n n . . . ."
+                            "d d . . r r"
+                            "d d . . r r";
                     }
 
                     ${mediaQueries.large} {
                         grid-template-columns: repeat(8, 1fr);
-                        grid-template-areas: 
-                        "n n . . . . . ." 
-                        "n n . . . . . ."
-                        "d d . . r r r r"
-                        "d d . . r r r r";
+                        grid-template-areas:
+                            "n n . . . . . ."
+                            "n n . . . . . ."
+                            "d d . . r r r r"
+                            "d d . . r r r r";
                     }
 
                     ${mediaQueries.mediumMax} {
@@ -122,7 +121,9 @@ root.render(
                         grid-template-areas: none;
                     }
 
-                    ${mediaQueries.small} { grid-template-columns: repeat(2, 1fr); }
+                    ${mediaQueries.small} {
+                        grid-template-columns: repeat(2, 1fr);
+                    }
                 }
 
                 #toast-root {

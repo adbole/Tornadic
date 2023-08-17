@@ -11,15 +11,15 @@ function* getUVGradient(value: number) {
 
     switch (uv) {
         case "Extreme":
-            yield <stop offset="0%" stopColor="#FF00D6" key={"Extreme"} />;
+            yield <stop offset="0%" stopColor="#FF00D6" key="Extreme" />;
         case "Very High":
-            yield <stop offset="25%" stopColor="#FF2204" key={"Very High"} />;
+            yield <stop offset="25%" stopColor="#FF2204" key="Very High" />;
         case "High":
-            yield <stop offset="50%" stopColor="#FF9431" key={"High"} />;
+            yield <stop offset="50%" stopColor="#FF9431" key="High" />;
         case "Moderate":
-            yield <stop offset="75%" stopColor="#FFF501" key={"Moderate"} />;
+            yield <stop offset="75%" stopColor="#FFF501" key="Moderate" />;
         case "Low":
-            yield <stop offset="100%" stopColor="#00FF66" key={"Low"} />;
+            yield <stop offset="100%" stopColor="#00FF66" key="Low" />;
     }
 }
 
@@ -28,17 +28,17 @@ function* getAQGradient(value: number) {
 
     switch (aq) {
         case "Hazardous":
-            yield <stop offset="0%" stopColor="#6D0000" key={"Hazardous"} />;
+            yield <stop offset="0%" stopColor="#6D0000" key="Hazardous" />;
         case "Very Unhealthy":
-            yield <stop offset="20%" stopColor="#8400FF" key={"Very Unhealthy"} />;
+            yield <stop offset="20%" stopColor="#8400FF" key="Very Unhealthy" />;
         case "Unhealthy":
-            yield <stop offset="40%" stopColor="#FF2204" key={"Unhealthy"} />;
+            yield <stop offset="40%" stopColor="#FF2204" key="Unhealthy" />;
         case "Unhealthy*":
-            yield <stop offset="60%" stopColor="#FF9431" key={"Unhealthy*"} />;
+            yield <stop offset="60%" stopColor="#FF9431" key="Unhealthy*" />;
         case "Moderate":
-            yield <stop offset="80%" stopColor="#FFF501" key={"Moderate"} />;
+            yield <stop offset="80%" stopColor="#FFF501" key="Moderate" />;
         case "Good":
-            yield <stop offset="100%" stopColor="#00FF66" key={"Good"} />;
+            yield <stop offset="100%" stopColor="#00FF66" key="Good" />;
     }
 }
 
@@ -50,7 +50,7 @@ export default function getDataVisual(
 ) {
     switch (view) {
         case "precipitation":
-            return <Bar dataKey={nameof<DataPoint>("primaryKey")} fill={"#0078ef"} unit={unit} />;
+            return <Bar dataKey={nameof<DataPoint>("primaryKey")} fill="#0078ef" unit={unit} />;
         case "temperature_2m": {
             const dataValues = dataPoints.flatMap(point => [
                 point.primaryKey,

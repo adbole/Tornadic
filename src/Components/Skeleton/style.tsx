@@ -1,4 +1,4 @@
-import { css,keyframes } from "@emotion/react";
+import { css, keyframes } from "@emotion/react";
 import styled from "@emotion/styled";
 
 import Widget from "Components/Widget";

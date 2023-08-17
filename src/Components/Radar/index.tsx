@@ -3,8 +3,16 @@ import L from "leaflet";
 
 import { Map } from "svgs/widget";
 
-import { AlertPolygons, ControlPortal, Home, Locate, Peek, Position, RainViewer } from "./__internal__"
-import RadarWidget from "./style"
+import {
+    AlertPolygons,
+    ControlPortal,
+    Home,
+    Locate,
+    Peek,
+    Position,
+    RainViewer,
+} from "./__internal__";
+import RadarWidget from "./style";
 
 
 type Dictionary = {
@@ -46,7 +54,7 @@ function Radar() {
     };
 
     return (
-        <RadarWidget size={"widget-large"} widgetTitle="Radar" widgetIcon={<Map />}>
+        <RadarWidget size="widget-large" widgetTitle="Radar" widgetIcon={<Map />}>
             <MapContainer
                 center={defaultCent}
                 zoom={10}
@@ -81,4 +89,4 @@ function Radar() {
     );
 }
 
-export default Radar
+export default Radar;

@@ -10,12 +10,12 @@ const Container = styled.div({
     display: "flex",
     overflow: "hidden",
 
-    "> div": { flex: "0 0 100%", },
+    "> div": { flex: "0 0 100%" },
 
     // DO NOT REMOVE
     // FIXES A BUG WITH ANIMATION ON SAFARI WHERE .slide-out
     // ELEMENTS MAY GET STUCK
-    "> .slide-in": { zIndex: "1", },
+    "> .slide-in": { zIndex: "1" },
 });
 
 const Context = React.createContext<Readonly<{

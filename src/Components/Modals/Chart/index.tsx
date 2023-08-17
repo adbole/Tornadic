@@ -15,7 +15,7 @@ import type Weather from "ts/Weather";
 import type { CombinedHourly } from "ts/Weather";
 
 import { ChartDisplay, CustomTooltip, getDataVisual } from "./__internal__";
-import ChartModal, { ChartContent, Option } from "./style"
+import ChartModal, { ChartContent, Option } from "./style";
 
 
 export type ChartViews = keyof Pick<
@@ -165,7 +165,7 @@ export default function Chart({
                 </select>
             </ModalTitle>
             <ChartContent>
-                <InputGroup isUniform hasGap>
+                <InputGroup isUniform hasGap style={{ width: "100%" }}>
                     {weather.getAllDays("time").map((time, i) => (
                         <ToggleButton
                             key={time}
@@ -182,7 +182,7 @@ export default function Chart({
                     <span ref={timeRef} />
                 </p>
 
-                <ResponsiveContainer width={"100%"} height="100%">
+                <ResponsiveContainer width="100%" height="100%">
                     <ChartDisplay
                         property={view}
                         data={chartData}

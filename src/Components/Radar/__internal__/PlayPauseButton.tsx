@@ -8,10 +8,10 @@ import { Pause, Play } from "svgs/radar";
 
 
 const PlayPause = styled(Button)({
-    "svg": {
+    svg: {
         width: "1.5rem",
         height: "1.5rem",
-    }
+    },
 });
 
 export default function PlayPauseButton({

@@ -4,24 +4,20 @@ import styled from "@emotion/styled";
 import { interactable } from "ts/StyleMixins";
 
 
-const Label = styled.label(
-    interactable,
-    {
-        display: 'inline-block',
-        width: '100%',
-        padding: '5px',
-        backgroundColor: 'var(--widget-back-layer)',
-        borderRadius: "var(--input-border-radius)",
-        textAlign: 'center',
-        transition: 'background-color 0.3s ease',
-    }
-)
-    
-const Input = styled.input({ 
-    display: "none",
-    [`&:checked + ${Label}`]: { backgroundColor: "var(--primary)" }
-})
+const Label = styled.label(interactable, {
+    display: "inline-block",
+    width: "100%",
+    padding: "5px",
+    backgroundColor: "var(--widget-back-layer)",
+    borderRadius: "var(--input-border-radius)",
+    textAlign: "center",
+    transition: "background-color 0.3s ease",
+});
 
+const Input = styled.input({
+    display: "none",
+    [`&:checked + ${Label}`]: { backgroundColor: "var(--primary)" },
+});
 
 function ToggleButton({
     label,

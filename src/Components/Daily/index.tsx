@@ -10,8 +10,15 @@ import { Calendar } from "svgs/widget";
 import { Normalize, toHSL } from "ts/Helpers";
 import type { DayInfo } from "ts/Weather";
 
-import DailyWidget, { Column, ConditionColumn, Covered, DualRange, List, Row, TempRangeColumn } from "./style";
-
+import DailyWidget, {
+    Column,
+    ConditionColumn,
+    Covered,
+    DualRange,
+    List,
+    Row,
+    TempRangeColumn,
+} from "./style";
 
 /**
  * A helper component for Daily to display the individual days of the week
@@ -80,7 +87,7 @@ export default function Daily() {
         <>
             <DailyWidget
                 className="daily"
-                size={"widget-large"}
+                size="widget-large"
                 widgetTitle="7-Day Forecast"
                 widgetIcon={<Calendar />}
             >
@@ -102,7 +109,7 @@ export default function Daily() {
                 </List>
             </DailyWidget>
             <Chart
-                showView={"temperature_2m"}
+                showView="temperature_2m"
                 showDay={chartDay.current}
                 isOpen={chartOpen}
                 onClose={hideChart}

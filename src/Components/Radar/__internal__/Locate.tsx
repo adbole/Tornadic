@@ -5,6 +5,7 @@ import L from "leaflet";
 
 import { useLocalStorage, useUserLocation } from "Hooks";
 
+import { Button } from "Components/Input";
 import { Cursor, LocationDot } from "svgs/radar";
 
 
@@ -43,12 +44,12 @@ export default function Locate() {
     }, [lat, lng, map, status]);
 
     return (
-        <button
-            type="button"
+        <Button
             className="leaflet-custom-control leaflet-control"
             onClick={() => setUserLocation({ useCurrent: true })}
+            style={{ padding: 0 }}
         >
             <Cursor />
-        </button>
+        </Button>
     );
 }

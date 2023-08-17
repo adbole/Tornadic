@@ -24,7 +24,7 @@ const Container = styled.div([
                 "> svg": { width: "50px" },
             },
         ],
-        [mediaQueries.small]: { "> svg": { width: "300px" } }
+        [mediaQueries.small]: { "> svg": { width: "300px" } },
     },
 ]);
 

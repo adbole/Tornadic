@@ -80,7 +80,7 @@ export default function Wind() {
                 <p>{weather.getForecast("windspeed_10m").toFixed(0)}</p>
                 <p>{weather.getForecastUnit("windspeed_10m")}</p>
             </Gauge>
-            <Chart showView={"windspeed_10m"} isOpen={modalOpen} onClose={hideModal} />
+            <Chart showView="windspeed_10m" isOpen={modalOpen} onClose={hideModal} />
         </>
     );
 }

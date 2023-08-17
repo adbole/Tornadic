@@ -49,7 +49,7 @@ export default function Pressure() {
             <Widget
                 className="pressure"
                 widgetIcon={<Meter />}
-                widgetTitle={"Air Pressure"}
+                widgetTitle="Air Pressure"
                 onClick={showModal}
             >
                 <Container>
@@ -58,7 +58,7 @@ export default function Pressure() {
                     <p>{weather.getForecastUnit("surface_pressure")}</p>
                 </Container>
             </Widget>
-            <Chart showView={"surface_pressure"} isOpen={modalOpen} onClose={hideModal} />
+            <Chart showView="surface_pressure" isOpen={modalOpen} onClose={hideModal} />
         </>
     );
 }

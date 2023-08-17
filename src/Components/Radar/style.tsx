@@ -8,12 +8,12 @@ import { darkBackBlur, mediaQueries } from "ts/StyleMixins";
 
 export const Base = css({
     backdropFilter: "none",
-    '&::before': {
+    "&::before": {
         content: '""',
-        position: 'absolute',
-        inset: '0',
-        backdropFilter: 'saturate(130%)',
-        borderRadius: 'var(--border-radius)',
+        position: "absolute",
+        inset: "0",
+        backdropFilter: "saturate(130%)",
+        borderRadius: "var(--border-radius)",
     },
     ".leaflet-center": {
         left: 0,
@@ -43,7 +43,7 @@ export const Base = css({
             "> svg": { width: "1.25rem" },
         },
     ],
-    [mediaQueries.mediumMin]: { gridArea: "r" }
-})
+    [mediaQueries.mediumMin]: { gridArea: "r" },
+});
 
 export default styled(Widget)(Base);

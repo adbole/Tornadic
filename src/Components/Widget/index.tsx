@@ -1,10 +1,9 @@
 import React from "react";
 
-import Container from "./style"
+import Container from "./style";
 
 
 export type WidgetSize = "widget-large" | "widget-wide" | "";
-
 
 export type WidgetProps = {
     size?: WidgetSize;
@@ -32,13 +31,7 @@ const Widget = React.forwardRef<HTMLDivElement, WidgetProps>((props, ref) => {
     } = props;
 
     return (
-        <Container
-            size={size}
-            isTemplate={isTemplate}
-            ref={ref}
-            className={className}
-            {...excess}
-        >
+        <Container size={size} isTemplate={isTemplate} ref={ref} className={className} {...excess}>
             {widgetTitle && widgetIcon && (
                 <h1 className="widget-title">
                     {widgetIcon} {widgetTitle}

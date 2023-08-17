@@ -8,8 +8,7 @@ import { Button } from "Components/Input";
 import PeekModal from "Components/Modals/Peek";
 
 /**
- * Automatically gets the user's current location in a leaflet map along with returning a button to return the user's current location
- * @returns A button that can return to the user's location at any given time
+ * A modal displaying some weather information for the given location
  */
 export default function Peek() {
     const map = useMap();

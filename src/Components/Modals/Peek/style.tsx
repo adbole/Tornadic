@@ -32,9 +32,9 @@ export default styled(ModalContent)({
     [`${WidgetContainer}:nth-last-of-type(-n + 4)`]: { gridColumn: "span 2" },
 });
 
-export const ErrorMessage = styled.div({ 
+export const ErrorMessage = styled.div({
     margin: "10px",
     textAlign: "center",
     gridColumn: " 1 / -1",
-    ">svg": { width: "2rem" } 
-})
+    ">svg": { width: "2rem" },
+});

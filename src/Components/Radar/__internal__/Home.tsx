@@ -4,6 +4,7 @@ import { Global } from "@emotion/react";
 
 import { useBooleanState } from "Hooks";
 
+import { Button } from "Components/Input";
 import { Grid } from "svgs/radar";
 
 /**
@@ -62,13 +63,13 @@ export default function Home() {
                     ],
                 }}
             />
-            <button
-                type="button"
+            <Button
                 className="leaflet-custom-control leaflet-control"
                 onClick={unZoom}
+                style={{ padding: 0 }}
             >
                 <Grid />
-            </button>
+            </Button>
         </>
     );
 }

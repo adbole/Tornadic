@@ -20,7 +20,7 @@ export default styled.div(({ hasGap = false, isUniform = false }: InputGroupProp
         overflow: "hidden",
 
         ">*": { "--input-border-radius": 0 },
-        "> * + *": { borderLeft: "white 1px solid", },
+        "> * + *": { borderLeft: "white 1px solid" },
     },
     isUniform && { gridAutoColumns: "1fr" },
 ]);

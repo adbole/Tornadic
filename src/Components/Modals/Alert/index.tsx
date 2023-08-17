@@ -25,7 +25,7 @@ const ListContent = styled(ModalContent)({ "> :not(last-of-type)": { marginBotto
  * @returns An alert modal showing a single alert if alerts.length = 1 otherwise shows a list
  */
 export default function AlertModal({ ...modalProps }: ModalProps) {
-    const { alerts } = useWeather()
+    const { alerts } = useWeather();
 
     if (alerts.length > 1) {
         return (

@@ -6,8 +6,8 @@ import Widget from "Components/Widget";
 import { mediaQueries } from "ts/StyleMixins";
 
 
-export const Base = css({ [mediaQueries.mediumMin]: { gridArea: "d" } })
-export default styled(Widget)(Base)
+export const Base = css({ [mediaQueries.mediumMin]: { gridArea: "d" } });
+export default styled(Widget)(Base);
 
 export const Column = styled.div<{ flex: string }>(({ flex }) => ({ flex }));
 export const TempRangeColumn = styled(Column)({

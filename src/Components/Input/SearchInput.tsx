@@ -8,28 +8,28 @@ import Input from "./Input";
 import InputGroup from "./InputGroup";
 
 
-const SearchBar = styled(InputGroup)({ display: "flex", })
+const SearchBar = styled(InputGroup)({ display: "flex" });
 const SearchResults = styled.ul({
-    display: 'flex',
-    flexDirection: 'column',
-    padding: '5px',
+    display: "flex",
+    flexDirection: "column",
+    padding: "5px",
     textAlign: "left",
-    listStyle: 'none',
-    gap: '5px',
-    borderRadius: 'var(--input-border-radius)',
-    backgroundColor: 'var(--secondary)',
-})
+    listStyle: "none",
+    gap: "5px",
+    borderRadius: "var(--input-border-radius)",
+    backgroundColor: "var(--secondary)",
+});
 
 const shine = keyframes({ to: { backgroundPositionX: "-200%" } });
 
 const TextLoader = styled.span({
-    display: 'block',
-    height: '1.5rem',
-    borderRadius: '5px',
-    background: 'linear-gradient(135deg, transparent 40%, #f5f5f51a 50%, transparent 60%)',
-    backgroundSize: '200% 100%',
-    animation: `${shine} 1.5s linear infinite`
-})
+    display: "block",
+    height: "1.5rem",
+    borderRadius: "5px",
+    background: "linear-gradient(135deg, transparent 40%, #f5f5f51a 50%, transparent 60%)",
+    backgroundSize: "200% 100%",
+    animation: `${shine} 1.5s linear infinite`,
+});
 
 export type SearchResult<T> = {
     key: number;
@@ -80,7 +80,11 @@ function SearchInput<T>({ children, onGetResults, onSelect }: Props<T>) {
             </SearchBar>
             {isLoading ? (
                 <SearchResults>
-                    {Array.from({ length: 5 }, (_, i) => <li key={i}><TextLoader /></li>)}
+                    {Array.from({ length: 5 }, (_, i) => (
+                        <li key={i}>
+                            <TextLoader />
+                        </li>
+                    ))}
                 </SearchResults>
             ) : (
                 results &&

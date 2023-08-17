@@ -10,8 +10,7 @@ import Modal, { ModalContent } from "Components/Modals/Modal";
 import Settings from "Components/Modals/Settings";
 import { Gear } from "svgs/widget";
 
-import NowWidget, { SettingsButton, Temperature } from "./style"
-
+import NowWidget, { SettingsButton, Temperature } from "./style";
 
 /**
  * Displays the current location name, temperature, condition, and feels like temperature along with having a gradient to match the condition
@@ -35,7 +34,7 @@ export default function Now({ displayOnly, className }: { displayOnly?: boolean 
             )}
             <NowWidget
                 className={className}
-                size={"widget-large"}
+                size="widget-large"
                 isTemplate
                 background={now.conditionInfo.background}
             >

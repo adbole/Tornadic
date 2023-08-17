@@ -5,7 +5,7 @@ import { useAnimation, useNullableState } from "Hooks";
 
 import { Button } from "../Input";
 
-import Container from "./style"
+import Container from "./style";
 
 
 export default function Toast({
@@ -39,11 +39,7 @@ export default function Toast({
         ? ReactDOM.createPortal(
               <Container stage={stage}>
                   {children}
-                  {action && (
-                      <Button onClick={action.onClick} >
-                          {action.content}
-                      </Button>
-                  )}
+                  {action && <Button onClick={action.onClick}>{action.content}</Button>}
               </Container>,
               portalRoot
           )

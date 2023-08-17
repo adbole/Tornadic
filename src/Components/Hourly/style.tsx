@@ -7,11 +7,8 @@ import { mediaQueries } from "ts/StyleMixins";
 
 export default styled(Widget)(({ moveOver }: { moveOver: boolean }) => ({
     [mediaQueries.mediumMax]: { gridColumn: "span 2" },
-    [mediaQueries.large]: [
-        { gridColumn: "span 6" },
-        moveOver && { gridColumn: "span 4" }
-    ],
-}))
+    [mediaQueries.large]: [{ gridColumn: "span 6" }, moveOver && { gridColumn: "span 4" }],
+}));
 
 export const List = styled.ol({
     display: "flex",

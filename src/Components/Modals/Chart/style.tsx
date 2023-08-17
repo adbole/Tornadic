@@ -8,11 +8,11 @@ import Modal, { ModalContent } from "../Modal";
 export default styled(Modal)({
     width: "90%",
     height: "80%",
-    [mediaQueries.small]: { 
+    [mediaQueries.small]: {
         width: "100%",
         height: "60%",
-        paddingBottom: "20px"
-    }
+        paddingBottom: "20px",
+    },
 });
 
 export const ChartContent = styled(ModalContent)({
@@ -30,4 +30,4 @@ export const ChartContent = styled(ModalContent)({
     },
 });
 
-export const Option = styled.option({ backgroundColor: "var(--widget-back)" })
+export const Option = styled.option({ backgroundColor: "var(--widget-back)" });

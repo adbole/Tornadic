@@ -1,6 +1,6 @@
 import type { WidgetSize } from "Components/Widget";
 
-import SkeletonWidget from "./style"
+import SkeletonWidget from "./style";
 
 
 export default function Skeleton({

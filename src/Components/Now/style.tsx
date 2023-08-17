@@ -12,20 +12,20 @@ export const Base = css({
     gap: "10px",
     fontSize: "1.5rem",
     padding: "60px 0px",
-    [mediaQueries.mediumMin]: { "#root": { gridArea: "n" } }
+    [mediaQueries.mediumMin]: { "#root": { gridArea: "n" } },
 });
 
 export default styled(Widget)<{
     background: [string, string];
 }>(({ background }) => [
     Base,
-    { 
-        background: `linear-gradient(to bottom, ${background[0]}, ${background[1]})` ,
+    {
+        background: `linear-gradient(to bottom, ${background[0]}, ${background[1]})`,
         [mediaQueries.small]: {
             background: "none",
             backdropFilter: "none",
-            boxShadow: "none"
-        }
+            boxShadow: "none",
+        },
     },
 ]);
 

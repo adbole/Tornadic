@@ -30,9 +30,9 @@ import * as WidgetIcons from "svgs/widget";
 import { mediaQueries } from "ts/StyleMixins";
 
 
-const HourlySkeleton = styled(Skeleton)({ [mediaQueries.large]: { gridColumn: "span 6" } })
-const RadarSkeleton = styled(Skeleton)({ [mediaQueries.mediumMin]: { gridArea: "r" } })
-const DailySkeleton = styled(Skeleton)({ gridArea: "d" })
+const HourlySkeleton = styled(Skeleton)({ [mediaQueries.large]: { gridColumn: "span 6" } });
+const RadarSkeleton = styled(Skeleton)({ [mediaQueries.mediumMin]: { gridArea: "r" } });
+const DailySkeleton = styled(Skeleton)({ gridArea: "d" });
 
 function LocationRequest() {
     const [modalOpen, showModal, hideModal] = useBooleanState(false);
@@ -58,14 +58,14 @@ function LocationRequest() {
 function AppLoader() {
     return (
         <>
-            <Skeleton size={"widget-large"} />
-            <HourlySkeleton size={"widget-wide"} />
-            <DailySkeleton size={"widget-large"} />
-            <RadarSkeleton size="widget-large"/>
+            <Skeleton size="widget-large" />
+            <HourlySkeleton size="widget-wide" />
+            <DailySkeleton size="widget-large" />
+            <RadarSkeleton size="widget-large" />
             {Array.from({ length: 8 }, (_, i) => (
                 <Skeleton key={i} />
             ))}
-            <Skeleton size={"widget-wide"} />
+            <Skeleton size="widget-wide" />
         </>
     );
 }
@@ -126,25 +126,17 @@ function App() {
             <Simple
                 icon={<WidgetIcons.Droplet />}
                 title="Precipitation"
-                property={"precipitation"}
+                property="precipitation"
             />
-            <Simple
-                icon={<WidgetIcons.Thermometer />}
-                title="Dewpoint"
-                property={"dewpoint_2m"}
-            />
+            <Simple icon={<WidgetIcons.Thermometer />} title="Dewpoint" property="dewpoint_2m" />
             <Simple
                 icon={<WidgetIcons.Moisture />}
                 title="Humidity"
-                property={"relativehumidity_2m"}
+                property="relativehumidity_2m"
             />
-            <Simple
-                icon={<WidgetIcons.Eye />}
-                title="Visibility"
-                property={"visibility"}
-            />
-            <HazardLevel hazard={"us_aqi"} />
-            <HazardLevel hazard={"uv_index"} />
+            <Simple icon={<WidgetIcons.Eye />} title="Visibility" property="visibility" />
+            <HazardLevel hazard="us_aqi" />
+            <HazardLevel hazard="uv_index" />
 
             <Wind />
             <Pressure />

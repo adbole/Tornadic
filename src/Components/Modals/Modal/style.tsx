@@ -29,11 +29,11 @@ export default styled.dialog<{
             transition: "opacity 1s ease",
         },
         [mediaQueries.small]: {
-            maxWidth: '100%',
-            maxHeight: '75%',
-            margin: 'auto auto 0px auto',
-            borderRadius: 'var(--border-radius) var(--border-radius) 0px 0px',
-        }
+            maxWidth: "100%",
+            maxHeight: "75%",
+            margin: "auto auto 0px auto",
+            borderRadius: "var(--border-radius) var(--border-radius) 0px 0px",
+        },
     },
     stage === "enter" && {
         transform: "translateY(0)",

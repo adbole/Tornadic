@@ -4,7 +4,7 @@ import { useWeather } from "Contexts/WeatherContext";
 
 import AlertModal from "Components/Modals/Alert";
 
-import AlertWidget, { AlertInformation, ExcessAlerts } from "./style"
+import AlertWidget, { AlertInformation, ExcessAlerts } from "./style";
 
 
 function Alert({ className }: ClassNameProp) {
@@ -26,7 +26,7 @@ function Alert({ className }: ClassNameProp) {
                 className={className}
                 type={alert.getAlertCSS() as any}
                 isTemplate
-                size={"widget-wide"}
+                size="widget-wide"
                 onClick={showModal}
             >
                 <AlertInformation>

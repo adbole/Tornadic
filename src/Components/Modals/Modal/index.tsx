@@ -4,7 +4,7 @@ import { Global } from "@emotion/react";
 
 import { useAnimation, useSameClick } from "Hooks";
 
-import Dialog from "./style"
+import Dialog from "./style";
 
 
 export type ModalProps = {
@@ -63,4 +63,4 @@ export default function Modal({ isOpen, children, onClose, className }: ModalPro
         : null;
 }
 
-export { ModalContent, ModalTitle } from "./style"
+export { ModalContent, ModalTitle } from "./style";
