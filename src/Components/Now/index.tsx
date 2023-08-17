@@ -1,67 +1,23 @@
 import React from "react";
-import { css, Global } from "@emotion/react";
-import styled from "@emotion/styled";
+import { Global } from "@emotion/react";
 
 import { useBooleanState } from "Hooks";
 
 import { useWeather } from "Contexts/WeatherContext";
 
+import { LocationInput } from "Components/Input";
 import Modal, { ModalContent } from "Components/Modals/Modal";
 import Settings from "Components/Modals/Settings";
-import Widget from "Components/Widget";
 import { Gear } from "svgs/widget";
 
-import { mediaQueries } from "ts/StyleMixins";
+import NowWidget, { SettingsButton, Temperature } from "./style"
 
-import { Button, LocationInput } from "./Input";
-
-
-const NowStyle = css({
-    alignItems: "center",
-    gap: "10px",
-    fontSize: "1.5rem",
-    padding: "60px 0px",
-    [mediaQueries.mediumMin]: { gridArea: "n" }
-});
-
-const NowWidget = styled(Widget)<{
-    background: [string, string];
-}>(({ background }) => [
-    NowStyle,
-    { 
-        background: `linear-gradient(to bottom, ${background[0]}, ${background[1]})` ,
-        [mediaQueries.small]: {
-            background: "none",
-            backdropFilter: "none",
-            boxShadow: "none"
-        }
-    },
-]);
-
-const SettingsButton = styled(Button)({
-    position: "absolute",
-    left: "10px",
-    top: "10px",
-    margin: "0px",
-    svg: { width: "1.5rem" },
-});
-
-const Temperature = styled.h1({
-    position: "relative",
-    fontSize: "6rem",
-    fontWeight: "200",
-
-    "&::after": {
-        position: "absolute",
-        content: "'°'",
-    },
-});
 
 /**
  * Displays the current location name, temperature, condition, and feels like temperature along with having a gradient to match the condition
  * @returns The Now widget
  */
-function Now({ displayOnly, className }: { displayOnly?: boolean } & ClassNameProp) {
+export default function Now({ displayOnly, className }: { displayOnly?: boolean } & ClassNameProp) {
     const { weather } = useWeather();
 
     const [locationModalIsOpen, showLocationModal, hideLocationModal] = useBooleanState(false);
@@ -111,7 +67,3 @@ function Now({ displayOnly, className }: { displayOnly?: boolean } & ClassNamePr
         </>
     );
 }
-
-Now.Style = NowStyle;
-
-export default Now;

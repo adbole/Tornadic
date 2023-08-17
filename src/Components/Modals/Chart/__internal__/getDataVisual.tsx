@@ -3,7 +3,7 @@ import { Area, Bar, Line } from "recharts";
 
 import { get_aq, get_uv, nameof, toHSL } from "ts/Helpers";
 
-import type { ChartViews, DataPoint } from ".";
+import type { ChartViews, DataPoint } from "../";
 
 
 function* getUVGradient(value: number) {

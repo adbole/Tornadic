@@ -2,10 +2,9 @@ import React from "react";
 
 import { useBooleanState, useLocalStorage } from "Hooks";
 
-import { Button, InputGroup, ToggleButton, ToggleSwitch } from "Components/Input";
+import { Button, InputGroup, ToggleButton } from "Components/Input";
 import type { ModalProps } from "Components/Modals/Modal";
 import Modal, { ModalContent, ModalTitle } from "Components/Modals/Modal";
-import { TornadicFull } from "svgs/icon";
 
 
 export default function Settings({ ...modalProps }: ModalProps) {

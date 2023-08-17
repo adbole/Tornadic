@@ -1,9 +1,9 @@
 import styled from "@emotion/styled";
 
-import { centerFlex } from "ts/StyleMixins";
+import type { WidgetProps } from "Components/Widget";
+import Widget from "Components/Widget";
 
-import type { WidgetProps } from "./Widget";
-import Widget from "./Widget";
+import { centerFlex } from "ts/StyleMixins";
 
 
 const Container = styled.div({

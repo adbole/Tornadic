@@ -5,7 +5,7 @@ import { useWeather } from "Contexts/WeatherContext";
 import Chart from "Components/Modals/Chart";
 import { Wind as WindIcon } from "svgs/widget";
 
-import GaugeWidget from "./GagueWidget";
+import Gauge from "../Gauge";
 
 /**
  * Generates an array of SVG rects to be added to the Wind component's SVG to help indicate 45 degree increments
@@ -46,7 +46,7 @@ export default function Wind() {
 
     return (
         <>
-            <GaugeWidget
+            <Gauge
                 widgetTitle="Wind"
                 widgetIcon={<WindIcon />}
                 onClick={showModal}
@@ -79,7 +79,7 @@ export default function Wind() {
             >
                 <p>{weather.getForecast("windspeed_10m").toFixed(0)}</p>
                 <p>{weather.getForecastUnit("windspeed_10m")}</p>
-            </GaugeWidget>
+            </Gauge>
             <Chart showView={"windspeed_10m"} isOpen={modalOpen} onClose={hideModal} />
         </>
     );

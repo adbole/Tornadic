@@ -4,7 +4,7 @@ import styled from "@emotion/styled";
 
 import { useAnimation, useNullableState } from "Hooks";
 
-import { Button } from "./Input";
+import { Button } from "../Input";
 
 
 const Container = styled.div({

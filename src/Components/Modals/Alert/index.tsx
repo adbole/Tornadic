@@ -2,14 +2,13 @@ import React from "react";
 import styled from "@emotion/styled";
 
 import SlideContextProvider, { useSlide } from "Contexts/SlideContext";
+import { useWeather } from "Contexts/WeatherContext";
 
 import type { ModalProps } from "Components/Modals/Modal";
 import Modal, { ModalContent, ModalTitle } from "Components/Modals/Modal";
 import Widget from "Components/Widget";
 
 import type NWSAlert from "ts/NWSAlert";
-
-import { AlertInformationDisplay } from "./Common";
 
 
 const ListModal = styled(Modal)({
@@ -25,7 +24,9 @@ const ListContent = styled(ModalContent)({ "> :not(last-of-type)": { marginBotto
 /**
  * @returns An alert modal showing a single alert if alerts.length = 1 otherwise shows a list
  */
-export default function AlertModal({ alerts, ...modalProps }: { alerts: NWSAlert[] } & ModalProps) {
+export default function AlertModal({ ...modalProps }: ModalProps) {
+    const { alerts } = useWeather()
+
     if (alerts.length > 1) {
         return (
             <ListModal {...modalProps}>
@@ -55,7 +56,13 @@ function AlertDisplaySelectionWrapper({ alert }: { alert: NWSAlert }) {
 
     return (
         <Widget onClick={onClickHandler}>
-            <AlertInformationDisplay alert={alert} />
+            <h2>{alert.get("event")}</h2>
+            <p>
+                <em>Issued:</em> {alert.get("sent")}
+            </p>
+            <p>
+                <em>Until:</em> {alert.get("ends") ?? alert.get("expires")}
+            </p>
         </Widget>
     );
 }

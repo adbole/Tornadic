@@ -1,7 +1,7 @@
 import { AreaChart, BarChart, LineChart } from "recharts";
 import type { CategoricalChartProps } from "recharts/types/chart/generateCategoricalChart";
 
-import type { ChartViews } from ".";
+import type { ChartViews } from "..";
 
 
 type ChartDisplayProps = {

@@ -6,7 +6,7 @@ import { useBooleanState } from "Hooks";
 
 import { useWeather } from "Contexts/WeatherContext";
 
-import AlertModal from "Components/Alert/AlertModal";
+import AlertModal from "Components/Modals/Alert";
 
 /**
  * Converts the coords given by the NWSAlert to an array of LatLngExpressions to be used by a polygon.
@@ -53,7 +53,7 @@ export default function AlertPolygons() {
                         />
                     );
                 })}
-            <AlertModal alerts={[alertToShow.current]} isOpen={modalOpen} onClose={hideModal} />
+            <AlertModal isOpen={modalOpen} onClose={hideModal} />
         </>
     );
 }

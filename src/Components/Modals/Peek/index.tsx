@@ -1,48 +1,21 @@
-import React from "react";
-import styled from "@emotion/styled";
-
 import WeatherContext from "Contexts/WeatherContext";
 
 import Alert from "Components/Alert";
-import GaugeWidget from "Components/GagueWidget";
 import HazardLevel from "Components/HazardLevel";
 import { Button } from "Components/Input";
 import Now from "Components/Now";
 import Pressure from "Components/Pressure";
-import SimpleInfoWidget from "Components/SimpleInfoWidget";
-import SkeletonWidget from "Components/SkeletonWidget";
-import { WidgetStyle } from "Components/Widget";
+import SimpleInfoWidget from "Components/Simple";
+import Skeleton from "Components/Skeleton";
 import Wind from "Components/Wind";
 import { ExclamationTriangle } from "svgs";
 import { Droplet, Eye, Moisture, Thermometer } from "svgs/widget";
 
-import type { ModalProps } from "./Modal";
-import Modal, { ModalContent } from "./Modal";
+import type { ModalProps } from "../Modal";
+import Modal from "../Modal";
 
+import PeekContent, { AlertSkeleton,NowSkeleton } from "./style";
 
-const NowSkeleton = styled(SkeletonWidget)(Now.Style);
-const AlertSkeleton = styled(SkeletonWidget)(Alert.Style);
-
-const PeekContent = styled(ModalContent)({
-    padding: 0,
-
-    display: "grid",
-    gridTemplateColumns: "repeat(4, 1fr)",
-    gridAutoRows: "1fr",
-
-    [`${WidgetStyle}`]: {
-        backdropFilter: "none",
-        boxShadow: "none",
-        minHeight: "150px",
-    },
-
-    ".now, .alert": {
-        gridColumn: "span 4",
-        borderRadius: 0,
-    },
-
-    [`${WidgetStyle}:nth-last-of-type(-n + 4)`]: { gridColumn: "span 2" },
-});
 
 export default function Peek({
     latitude,
@@ -64,11 +37,11 @@ export default function Peek({
                             <AlertSkeleton className="alert" />
 
                             {Array.from({ length: 4 }, (_, i) => (
-                                <SkeletonWidget key={i} />
+                                <Skeleton key={i} />
                             ))}
 
                             {Array.from({ length: 4 }, (_, i) => (
-                                <SkeletonWidget className="wind" key={i} />
+                                <Skeleton key={i} />
                             ))}
                         </>
                     )}

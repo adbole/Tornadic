@@ -18,8 +18,8 @@ import {
     Now,
     Pressure,
     Radar,
-    SimpleInfoWidget,
-    SkeletonWidget,
+    Simple,
+    Skeleton,
     SunTime,
     Wind,
 } from "Components";
@@ -30,9 +30,9 @@ import * as WidgetIcons from "svgs/widget";
 import { mediaQueries } from "ts/StyleMixins";
 
 
-const HourlySkeleton = styled(SkeletonWidget)({ [mediaQueries.large]: { gridColumn: "span 6" } })
-const RadarSkeleton = styled(SkeletonWidget)(Radar.Style)
-const DailySkeleton = styled(SkeletonWidget)(Daily.Style)
+const HourlySkeleton = styled(Skeleton)({ [mediaQueries.large]: { gridColumn: "span 6" } })
+const RadarSkeleton = styled(Skeleton)({ [mediaQueries.mediumMin]: { gridArea: "r" } })
+const DailySkeleton = styled(Skeleton)({ gridArea: "d" })
 
 function LocationRequest() {
     const [modalOpen, showModal, hideModal] = useBooleanState(false);
@@ -55,17 +55,17 @@ function LocationRequest() {
     );
 }
 
-function Skeleton() {
+function AppLoader() {
     return (
         <>
-            <SkeletonWidget size={"widget-large"} />
+            <Skeleton size={"widget-large"} />
             <HourlySkeleton size={"widget-wide"} />
             <DailySkeleton size={"widget-large"} />
             <RadarSkeleton size="widget-large"/>
             {Array.from({ length: 8 }, (_, i) => (
-                <SkeletonWidget key={i} />
+                <Skeleton key={i} />
             ))}
-            <SkeletonWidget size={"widget-wide"} />
+            <Skeleton size={"widget-wide"} />
         </>
     );
 }
@@ -108,7 +108,7 @@ function App() {
         <WeatherContext
             latitude={latitude}
             longitude={longitude}
-            skeletonRender={Skeleton}
+            skeletonRender={AppLoader}
             fallbackRender={getData => (
                 <MessageScreen>
                     <ExclamationTriangle />
@@ -123,22 +123,22 @@ function App() {
             <Daily />
             <Radar />
 
-            <SimpleInfoWidget
+            <Simple
                 icon={<WidgetIcons.Droplet />}
                 title="Precipitation"
                 property={"precipitation"}
             />
-            <SimpleInfoWidget
+            <Simple
                 icon={<WidgetIcons.Thermometer />}
                 title="Dewpoint"
                 property={"dewpoint_2m"}
             />
-            <SimpleInfoWidget
+            <Simple
                 icon={<WidgetIcons.Moisture />}
                 title="Humidity"
                 property={"relativehumidity_2m"}
             />
-            <SimpleInfoWidget
+            <Simple
                 icon={<WidgetIcons.Eye />}
                 title="Visibility"
                 property={"visibility"}

@@ -1,63 +1,17 @@
 import { useRef } from "react";
-import { css } from "@emotion/react";
-import styled from "@emotion/styled";
 
 import { useBooleanState, useReadLocalStorage } from "Hooks";
 
 import { useWeather } from "Contexts/WeatherContext";
 
 import Chart from "Components/Modals/Chart";
-import Widget from "Components/Widget";
 import { Calendar } from "svgs/widget";
 
 import { Normalize, toHSL } from "ts/Helpers";
-import { mediaQueries } from "ts/StyleMixins";
 import type { DayInfo } from "ts/Weather";
 
+import DailyWidget, { Column, ConditionColumn, Covered, DualRange, List, Row, TempRangeColumn } from "./style";
 
-const DailyStyle = css({ [mediaQueries.mediumMin]: { gridArea: "d" } })
-const DailyWidget = styled(Widget)(DailyStyle)
-
-const Column = styled.div<{ flex: string }>(({ flex }) => ({ flex }));
-const TempRangeColumn = styled(Column)({
-    display: "flex",
-    alignItems: "center",
-    gap: "5px",
-});
-const ConditionColumn = styled(TempRangeColumn)({ svg: { width: "1.5rem" } });
-
-const DualRange = styled.div({
-    position: "relative",
-    width: "100%",
-    backgroundColor: "rgba(89, 89, 89, 0.5)",
-    borderRadius: "5px",
-    height: "10px",
-});
-
-const Covered = styled.div({
-    position: "absolute",
-    borderRadius: "5px",
-    height: "100%",
-});
-
-const Row = styled.div({
-    display: "flex",
-    alignItems: "center",
-    flex: 1,
-    "&:hover": {
-        filter: "brightness(80%)",
-        cursor: "pointer",
-    },
-    "&:active": { filter: "brightness(70%)" },
-});
-
-const List = styled.div({
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "space-between",
-
-    "> div + div": { borderTop: "1px solid rgba(100, 100, 100, 0.25)" },
-});
 
 /**
  * A helper component for Daily to display the individual days of the week
@@ -96,7 +50,7 @@ function Day({
  * Displays the week's temperatures and conditions along with the highest and lowest temp across the week.
  * @returns The Daily widget
  */
-function Daily() {
+export default function Daily() {
     const { weather } = useWeather();
     const { tempUnit } = useReadLocalStorage("userSettings")!;
 
@@ -156,7 +110,3 @@ function Daily() {
         </>
     );
 }
-
-Daily.Style = DailyStyle
-
-export default Daily

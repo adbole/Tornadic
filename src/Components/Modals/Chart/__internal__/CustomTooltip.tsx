@@ -5,7 +5,7 @@ import type { NameType } from "recharts/types/component/DefaultTooltipContent";
 import { get_aq, get_uv } from "ts/Helpers";
 import { centerFlex, darkBackBlur } from "ts/StyleMixins";
 
-import type { ChartViews, DataPoint } from ".";
+import type { ChartViews, DataPoint } from "../";
 
 
 const Container = styled.div(centerFlex, darkBackBlur, {

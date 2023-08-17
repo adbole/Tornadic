@@ -13,7 +13,7 @@ import { Lungs } from "svgs/widget";
 import { get_aq, get_uv, Normalize } from "ts/Helpers";
 import type { CombinedHourly } from "ts/Weather";
 
-import GaugeWidget from "./GagueWidget";
+import Gauge from "../Gauge";
 
 
 const Gradient = styled.div<{ gradient: string }>(({ gradient }) => ({
@@ -117,7 +117,7 @@ export default function HazardLevel({ hazard }: { hazard: HazardType }) {
 
     return (
         <>
-            <GaugeWidget
+            <Gauge
                 widgetTitle={title}
                 widgetIcon={titleIcon}
                 onClick={showModal}
@@ -125,7 +125,7 @@ export default function HazardLevel({ hazard }: { hazard: HazardType }) {
             >
                 <p>{hazardValue}</p>
                 <p className="level-message">{message}</p>
-            </GaugeWidget>
+            </Gauge>
             <Chart showView={hazard} isOpen={modalOpen} onClose={hideModal} />
         </>
     );

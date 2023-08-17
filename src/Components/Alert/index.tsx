@@ -1,52 +1,11 @@
-import { css } from "@emotion/react";
-import styled from "@emotion/styled";
-
 import { useBooleanState } from "Hooks";
 
 import { useWeather } from "Contexts/WeatherContext";
 
-import Widget from "Components/Widget";
+import AlertModal from "Components/Modals/Alert";
 
-import { alertColors } from "ts/StyleMixins";
+import AlertWidget, { AlertInformation, ExcessAlerts } from "./style"
 
-import AlertModal from "./AlertModal";
-import { AlertInformationDisplay } from "./Common";
-
-
-const AlertBase = css({
-    display: "grid",
-    gridTemplateColumns: "100%",
-    gridTemplateRows: "1fr",
-    padding: "0px",
-    "> *": {
-        paddingLeft: "10px",
-        paddingRight: "10px",
-
-        "&:first-of-type": { paddingTop: "10px" },
-        "&:last-of-type": { paddingBottom: "10px" },
-    },
-});
-
-const AlertWidget = styled(Widget)<{
-    type: keyof typeof alertColors;
-}>(({ type }) => [
-    AlertBase,
-    {
-        backgroundColor: alertColors[type].background,
-        color: alertColors[type].foreground,
-    },
-]);
-
-const AlertInformation = styled.div({
-    display: "flex",
-    justifyContent: "center",
-    flexDirection: "column",
-});
-
-const ExcessAlerts = styled.p({
-    paddingTop: "10px",
-    background: "rgba(0, 0, 0, 0.3)",
-});
 
 function Alert({ className }: ClassNameProp) {
     const { alerts } = useWeather();
@@ -56,7 +15,7 @@ function Alert({ className }: ClassNameProp) {
     if (!alerts.length) return null;
 
     //Determine which alert should be shown.
-    const alertToShow = alerts.reduce(
+    const alert = alerts.reduce(
         (highest, next) => (next.priority < highest.priority ? next : highest),
         alerts[0]
     );
@@ -65,24 +24,28 @@ function Alert({ className }: ClassNameProp) {
         <>
             <AlertWidget
                 className={className}
-                type={alertToShow.getAlertCSS() as any}
+                type={alert.getAlertCSS() as any}
                 isTemplate
                 size={"widget-wide"}
                 onClick={showModal}
             >
                 <AlertInformation>
-                    <AlertInformationDisplay alert={alertToShow} />
+                    <h2>{alert.get("event")}</h2>
+                    <p>
+                        <em>Issued:</em> {alert.get("sent")}
+                    </p>
+                    <p>
+                        <em>Until:</em> {alert.get("ends") ?? alert.get("expires")}
+                    </p>
                 </AlertInformation>
 
                 {alerts.length > 1 && (
                     <ExcessAlerts>+{alerts.length - 1} more alert(s)</ExcessAlerts>
                 )}
             </AlertWidget>
-            <AlertModal alerts={alerts} isOpen={modalOpen} onClose={hideModal} />
+            <AlertModal isOpen={modalOpen} onClose={hideModal} />
         </>
     );
 }
-
-Alert.Style = AlertBase;
 
 export default Alert;

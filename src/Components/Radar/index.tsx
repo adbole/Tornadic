@@ -1,63 +1,11 @@
-import React from "react";
 import { AttributionControl, MapContainer, TileLayer, ZoomControl } from "react-leaflet";
-import { css } from "@emotion/react";
-import styled from "@emotion/styled";
 import L from "leaflet";
 
-import Widget from "Components/Widget";
 import { Map } from "svgs/widget";
 
-import { darkBackBlur, mediaQueries } from "ts/StyleMixins";
+import { AlertPolygons, ControlPortal, Home, Locate, Peek, Position, RainViewer } from "./__internal__"
+import RadarWidget from "./style"
 
-import AlertPolygons from "./AlertPolygons";
-import ControlPortal, { Position } from "./ControlPortal";
-import Home from "./Home";
-import Locate from "./Locate";
-import Peek from "./Peek";
-import RainViewer from "./RainViewer";
-
-
-const RadarStyle = css({
-    backdropFilter: "none",
-    '&::before': {
-        content: '""',
-        position: 'absolute',
-        inset: '0',
-        backdropFilter: 'saturate(130%)',
-        borderRadius: 'var(--border-radius)',
-    },
-    ".leaflet-center": {
-        left: 0,
-        right: 0,
-
-        display: "flex",
-        justifyContent: "center",
-    },
-    ".leaflet-control": [
-        darkBackBlur,
-        {
-            borderRadius: "var(--border-radius)",
-            overflow: "hidden",
-        },
-    ],
-    ".leaflet-custom-control, .leaflet-control-toggle": [
-        darkBackBlur,
-        {
-            color: "white !important",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            minWidth: "2rem",
-            minHeight: "2rem",
-            border: "none",
-
-            "> svg": { width: "1.25rem" },
-        },
-    ],
-    [mediaQueries.mediumMin]: { gridArea: "r" }
-})
-
-const RadarWidget = styled(Widget)(RadarStyle);
 
 type Dictionary = {
     [indiex: string]: HTMLDivElement;
@@ -132,7 +80,5 @@ function Radar() {
         </RadarWidget>
     );
 }
-
-Radar.Style = RadarStyle
 
 export default Radar

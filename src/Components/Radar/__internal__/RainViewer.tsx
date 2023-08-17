@@ -6,7 +6,6 @@ import L from "leaflet";
 import { useBooleanState } from "Hooks";
 
 import { fetchData } from "ts/Fetch";
-import { darkBackBlur } from "ts/StyleMixins";
 import getTimeFormatted from "ts/TimeConversion";
 
 import ControlPortal, { Position } from "./ControlPortal";
@@ -120,6 +119,7 @@ namespace RadarTypes {
     };
 }
 
+//TODO convert to using hook
 export default function RainViewer() {
     const [error, setErrorTrue] = useBooleanState(false);
 

@@ -1,5 +1,4 @@
 import React from "react";
-import styled from "@emotion/styled";
 import type { YAxisProps } from "recharts";
 import { CartesianGrid, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 
@@ -9,44 +8,15 @@ import { useWeather } from "Contexts/WeatherContext";
 
 import { InputGroup, ToggleButton } from "Components/Input";
 import type { ModalProps } from "Components/Modals/Modal";
-import Modal, { ModalContent, ModalTitle } from "Components/Modals/Modal";
+import { ModalTitle } from "Components/Modals/Modal";
 
-import { mediaQueries } from "ts/StyleMixins";
 import getTimeFormatted from "ts/TimeConversion";
 import type Weather from "ts/Weather";
 import type { CombinedHourly } from "ts/Weather";
 
-import ChartDisplay from "./ChartDisplay";
-import CustomTooltip from "./CustomTooltip";
-import getDataVisual from "./getDataVisual";
+import { ChartDisplay, CustomTooltip, getDataVisual } from "./__internal__";
+import ChartModal, { ChartContent, Option } from "./style"
 
-
-const ChartModal = styled(Modal)({
-    width: "90%",
-    height: "80%",
-    [mediaQueries.small]: { 
-        width: "100%",
-        height: "60%",
-        paddingBottom: "20px"
-    }
-});
-
-const ChartContent = styled(ModalContent)({
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    height: "100%",
-    padding: "10px",
-    paddingTop: 0,
-
-    ".recharts-responsive-container": {
-        border: "1px solid #ffffff19",
-        borderRadius: "var(--border-radius)",
-        overflow: "hidden",
-    },
-});
-
-const Option = styled.option({ backgroundColor: "var(--widget-back)" })
 
 export type ChartViews = keyof Pick<
     CombinedHourly,
