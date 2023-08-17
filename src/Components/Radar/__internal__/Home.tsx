@@ -1,15 +1,10 @@
 import React from "react";
 import { useMap } from "react-leaflet";
-import { css, Global } from "@emotion/react";
+import { Global } from "@emotion/react";
 
 import { useBooleanState } from "Hooks";
 
 import { Grid } from "svgs/radar";
-
-// const default = css({
-//     cursor: "pointer",
-//     ".leaflet-control": { display: "none" }
-// })
 
 /**
  * Provides the zooming functionality for the Radar component
@@ -54,7 +49,7 @@ export default function Home() {
                 styles={{
                     ".leaflet-container": [
                         isZoomed && {
-                            zIndex: "var(--on-top)",
+                            zIndex: "var(--z-layer-1)",
                             inset: 0,
                             position: "fixed",
                         },

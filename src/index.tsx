@@ -38,7 +38,8 @@ root.render(
                     --primary: #2668f7;
                     --secondary: #3d3d3d;
 
-                    --on-top: 99999;
+                    --z-layer-1: 1;
+                    --z-layer-2: 2;
 
                     color: rgba(255, 255, 255, 0.9);
                     font-size: 16px;
@@ -126,10 +127,14 @@ root.render(
 
                 #toast-root {
                     position: fixed;
+                    z-index: var(--z-layer-2);
+                    display: flex;
+                    flex-direction: column;
                     bottom: 0px;
                     height: fit-content;
                     max-width: 100vw;
                     padding: 10px;
+                    gap: 10px;
                 }
             `}
         />

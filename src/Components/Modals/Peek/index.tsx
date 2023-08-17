@@ -14,7 +14,7 @@ import { Droplet, Eye, Moisture, Thermometer } from "svgs/widget";
 import type { ModalProps } from "../Modal";
 import Modal from "../Modal";
 
-import PeekContent, { AlertSkeleton,NowSkeleton } from "./style";
+import PeekContent, { AlertSkeleton, ErrorMessage, NowSkeleton } from "./style";
 
 
 export default function Peek({
@@ -46,11 +46,11 @@ export default function Peek({
                         </>
                     )}
                     fallbackRender={getData => (
-                        <>
+                        <ErrorMessage>
                             <ExclamationTriangle />
                             <p>Unable to get weater data</p>
                             <Button onClick={getData}>Try Again</Button>
-                        </>
+                        </ErrorMessage>
                     )}
                 >
                     <Now className="now" displayOnly />

@@ -1,21 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import styled from "@emotion/styled";
 
 import { useAnimation, useNullableState } from "Hooks";
 
 import { Button } from "../Input";
 
+import Container from "./style"
 
-const Container = styled.div({
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    gap: "10px",
-    backgroundColor: "var(--widget-back)",
-    borderRadius: "var(--border-radius)",
-    padding: "5px 10px",
-});
 
 export default function Toast({
     isOpen,
@@ -34,7 +25,8 @@ export default function Toast({
 
     React.useEffect(() => {
         if (isOpen) open();
-    }, [isOpen, open]);
+        else close();
+    }, [isOpen, open, close]);
 
     React.useEffect(() => {
         const root = document.getElementById("toast-root")!;
@@ -45,15 +37,10 @@ export default function Toast({
 
     return shouldMount && portalRoot
         ? ReactDOM.createPortal(
-              <Container>
+              <Container stage={stage}>
                   {children}
                   {action && (
-                      <Button
-                          onClick={() => {
-                              action.onClick();
-                              close();
-                          }}
-                      >
+                      <Button onClick={action.onClick} >
                           {action.content}
                       </Button>
                   )}
