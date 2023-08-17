@@ -145,14 +145,12 @@ export default function useOpenMeteo(
 
     const getData = React.useCallback(async () => {
         if (!urls) return;
-
+        
         //Perform a full refresh on all data
         if (!refresh || !weather) {
-            unsetError();
             if (refresh) clearTimeout(refresh);
             if (alertRefresh) clearTimeout(alertRefresh);
 
-            //Await all the requests to finish
             const [forecast, airquality, alertResponse] = await Promise.all([
                 fetchData<Forecast>(urls.forecastURL, "Open-Meteo Weather Forecast").catch(e =>
                     setError(e)
@@ -181,6 +179,9 @@ export default function useOpenMeteo(
             setAlertRefresh(smartTimeout(unsetAlertRefresh, alertResponse.expiresAfter));
             setAlerts(alertResponse.alerts);
         }
+
+        unsetError()
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [alertRefresh, refresh, settings, urls, weather]);
 

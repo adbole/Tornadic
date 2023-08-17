@@ -20,11 +20,6 @@ export default function useReadLocalStorage<K extends keyof StorageKeysAndTypes>
 
     const [storedValue, setStoredValue] = React.useState<NullableKeysAndTypes[K]>(read);
 
-    React.useEffect(() => {
-        setStoredValue(read());
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-
     const onStorage = React.useCallback(
         (event: StorageEvent | CustomEvent) => {
             if (event instanceof StorageEvent && event.key !== key) return;
