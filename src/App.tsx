@@ -32,7 +32,7 @@ import { mediaQueries } from "ts/StyleMixins";
 
 const HourlySkeleton = styled(Skeleton)({ [mediaQueries.large]: { gridColumn: "span 6" } });
 const RadarSkeleton = styled(Skeleton)({ [mediaQueries.mediumMin]: { gridArea: "r" } });
-const DailySkeleton = styled(Skeleton)({ gridArea: "d" });
+const DailySkeleton = styled(Skeleton)({ [mediaQueries.mediumMin]: { gridArea: "d" } });
 
 function LocationRequest() {
     const [modalOpen, showModal, hideModal] = useBooleanState(false);

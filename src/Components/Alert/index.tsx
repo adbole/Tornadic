@@ -30,7 +30,7 @@ function Alert({ className }: ClassNameProp) {
                 onClick={showModal}
             >
                 <AlertInformation>
-                    <h2>{alert.get("event")}</h2>
+                    <h1>{alert.get("event")}</h1>
                     <p>
                         <em>Issued:</em> {alert.get("sent")}
                     </p>
@@ -43,7 +43,7 @@ function Alert({ className }: ClassNameProp) {
                     <ExcessAlerts>+{alerts.length - 1} more alert(s)</ExcessAlerts>
                 )}
             </AlertWidget>
-            <AlertModal isOpen={modalOpen} onClose={hideModal} />
+            <AlertModal alerts={alerts} isOpen={modalOpen} onClose={hideModal} />
         </>
     );
 }

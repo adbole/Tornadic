@@ -29,14 +29,6 @@ export const interactable = css({
     "&:active, &:disabled": { filter: "brightness(70%)" },
 });
 
-export const inset = (value: string) =>
-    css({
-        top: value,
-        left: value,
-        right: value,
-        bottom: value,
-    });
-
 export const alertColors = {
     warning: {
         background: "#C31700",

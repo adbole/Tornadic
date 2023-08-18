@@ -2,25 +2,25 @@ import styled from "@emotion/styled";
 
 import { Tornadic } from "svgs/icon";
 
-import { centerFlex, inset, mediaQueries } from "ts/StyleMixins";
+import { centerFlex, mediaQueries } from "ts/StyleMixins";
 
 
 const Container = styled.div([
-    inset("0px"),
     centerFlex,
     {
         flexDirection: "column",
         position: "fixed",
+        inset: 0,
 
         textAlign: "center",
         "> svg": { width: "500px" },
         "> div": [
-            inset("0px"),
             centerFlex,
             {
                 position: "fixed",
                 flexDirection: "column",
                 backdropFilter: "blur(10px)",
+                inset: 0,
                 "> svg": { width: "50px" },
             },
         ],

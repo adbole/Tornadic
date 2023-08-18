@@ -9,6 +9,8 @@ export default styled.dialog<{
     stage: AnimationStage;
 }>(({ stage }) => [
     {
+        display: "flex",
+        flexDirection: "column",
         color: "inherit",
         margin: "auto",
         width: "500px",
@@ -16,8 +18,6 @@ export default styled.dialog<{
         borderRadius: "var(--border-radius)",
         border: "none",
         padding: "0px",
-        display: "flex",
-        flexDirection: "column",
         overflow: "hidden",
         transform: "translateY(100vh)",
         transition: "transform 1s ease",

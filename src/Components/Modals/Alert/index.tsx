@@ -2,13 +2,12 @@ import React from "react";
 import styled from "@emotion/styled";
 
 import SlideContextProvider, { useSlide } from "Contexts/SlideContext";
-import { useWeather } from "Contexts/WeatherContext";
 
 import type { ModalProps } from "Components/Modals/Modal";
 import Modal, { ModalContent, ModalTitle } from "Components/Modals/Modal";
-import Widget from "Components/Widget";
 
 import type NWSAlert from "ts/NWSAlert";
+import { alertColors } from "ts/StyleMixins";
 
 
 const ListModal = styled(Modal)({
@@ -19,14 +18,18 @@ const ListModal = styled(Modal)({
     },
 });
 
+const ListItem = styled.div({ 
+    borderRadius: "var(--border-radius)",
+    padding: "10px",
+    "h1": { fontSize: "1.5rem" }
+})
+
 const ListContent = styled(ModalContent)({ "> :not(last-of-type)": { marginBottom: "10px" } });
 
 /**
  * @returns An alert modal showing a single alert if alerts.length = 1 otherwise shows a list
  */
-export default function AlertModal({ ...modalProps }: ModalProps) {
-    const { alerts } = useWeather();
-
+export default function AlertModal({ alerts, ...modalProps }: { alerts: NWSAlert[] } & ModalProps) {
     if (alerts.length > 1) {
         return (
             <ListModal {...modalProps}>
@@ -53,17 +56,18 @@ function AlertDisplaySelectionWrapper({ alert }: { alert: NWSAlert }) {
     const { slideTo, reset } = useSlide();
 
     const onClickHandler = () => slideTo(<AlertModalBody alert={alert} onClick={reset} />);
+    const alertColor = alert.getAlertCSS() as keyof typeof alertColors
 
     return (
-        <Widget onClick={onClickHandler}>
-            <h2>{alert.get("event")}</h2>
+        <ListItem onClick={onClickHandler} style={{ backgroundColor: alertColors[alertColor].background, color: alertColors[alertColor].foreground }}>
+            <h1>{alert.get("event")}</h1>
             <p>
                 <em>Issued:</em> {alert.get("sent")}
             </p>
             <p>
                 <em>Until:</em> {alert.get("ends") ?? alert.get("expires")}
             </p>
-        </Widget>
+        </ListItem>
     );
 }
 
@@ -74,9 +78,11 @@ function AlertModalBody({
     alert: NWSAlert;
     onClick?: (e: React.MouseEvent<HTMLHeadingElement>) => void;
 }) {
+    const alertColor = alert.getAlertCSS() as keyof typeof alertColors
+
     return (
         <>
-            <ModalTitle className={alert.getAlertCSS()} onClick={onClick}>
+            <ModalTitle onClick={onClick} style={{ backgroundColor: alertColors[alertColor].background, color: alertColors[alertColor].foreground }}>
                 {alert.get("event")}
             </ModalTitle>
             <ModalContent>

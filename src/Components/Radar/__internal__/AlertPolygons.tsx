@@ -8,6 +8,8 @@ import { useWeather } from "Contexts/WeatherContext";
 
 import AlertModal from "Components/Modals/Alert";
 
+import { alertColors } from "ts/StyleMixins";
+
 /**
  * Converts the coords given by the NWSAlert to an array of LatLngExpressions to be used by a polygon.
  * @param coords The coords to be converted
@@ -44,16 +46,17 @@ export default function AlertPolygons() {
                         showModal();
                     };
 
+                    const backgroundName = alert.getAlertCSS() as keyof typeof alertColors
                     return (
                         <Polygon
-                            className={alert.getAlertCSS()}
                             key={alert.get("id")}
                             positions={convertToLatLng(alert.getCoords()!)}
                             eventHandlers={{ click: onClick }}
+                            color={alertColors[backgroundName].background}
                         />
                     );
                 })}
-            <AlertModal isOpen={modalOpen} onClose={hideModal} />
+            <AlertModal alerts={[alertToShow.current]} isOpen={modalOpen} onClose={hideModal} />
         </>
     );
 }

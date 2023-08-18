@@ -43,6 +43,7 @@ export const Base = css({
             "> svg": { width: "1.25rem" },
         },
     ],
+    ".leaflet-overlay-pane": { "svg": { width: "unset" } },
     [mediaQueries.mediumMin]: { gridArea: "r" },
 });
 
