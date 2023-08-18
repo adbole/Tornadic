@@ -8,16 +8,15 @@ import Chart from "Components/Modals/Chart";
 import { Calendar } from "svgs/widget";
 
 import { Normalize, toHSL } from "ts/Helpers";
+import { varNames } from "ts/StyleMixins";
 import type { DayInfo } from "ts/Weather";
 
 import DailyWidget, {
     Column,
-    ConditionColumn,
     Covered,
     DualRange,
     List,
     Row,
-    TempRangeColumn,
 } from "./style";
 
 /**
@@ -35,20 +34,20 @@ function Day({
 }) {
     return (
         <Row onClick={onClick}>
-            <Column flex="1 1">
+            <Column style={{ flex:"1 1" }}>
                 <p>{dayInfo.day}</p>
             </Column>
-            <ConditionColumn flex="1 0">
+            <Column style={{ flex:"1 0", [varNames.svgSize]: "1.5rem" }}>
                 <dayInfo.conditionInfo.icon />
                 {dayInfo.has_chance_of_rain && <span>{dayInfo.precipitation_probability}%</span>}
-            </ConditionColumn>
-            <TempRangeColumn flex="0 0 55%">
+            </Column>
+            <Column style={{ flex:"0 0 55%" }}>
                 <p>{dayInfo.temperature_low}°</p>
                 <DualRange>
                     <Covered style={style} />
                 </DualRange>
                 <p>{dayInfo.temperature_high}°</p>
-            </TempRangeColumn>
+            </Column>
         </Row>
     );
 }
@@ -86,7 +85,6 @@ export default function Daily() {
     return (
         <>
             <DailyWidget
-                className="daily"
                 size="widget-large"
                 widgetTitle="7-Day Forecast"
                 widgetIcon={<Calendar />}

@@ -13,7 +13,6 @@ export const Base = css({
         position: "absolute",
         inset: "0",
         backdropFilter: "saturate(130%)",
-        borderRadius: vars.borderRadius,
     },
     ".leaflet-center": {
         left: 0,

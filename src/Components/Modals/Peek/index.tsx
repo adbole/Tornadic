@@ -33,8 +33,8 @@ export default function Peek({
                     longitude={longitude}
                     skeletonRender={() => (
                         <>
-                            <NowSkeleton className="now" size="widget-large" />
-                            <AlertSkeleton className="alert" />
+                            <NowSkeleton size="widget-large" />
+                            <AlertSkeleton />
 
                             {Array.from({ length: 4 }, (_, i) => (
                                 <Skeleton key={i} />
@@ -53,8 +53,8 @@ export default function Peek({
                         </ErrorMessage>
                     )}
                 >
-                    <Now className="now" displayOnly />
-                    <Alert className="alert" />
+                    <Now displayOnly />
+                    <Alert />
                     <SimpleInfoWidget
                         icon={<Droplet />}
                         title="Precipitation"

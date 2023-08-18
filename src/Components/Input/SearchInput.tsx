@@ -99,7 +99,7 @@ function SearchInput<T>({ children, onGetResults, onSelect }: Props<T>) {
                         ))}
                     </SearchResults>
                 ) : (
-                    <span className="search-results">No Results Found</span>
+                    <SearchResults><li>No Results Found</li></SearchResults>
                 ))
             )}
         </>

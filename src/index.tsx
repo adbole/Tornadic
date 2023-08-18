@@ -3,7 +3,7 @@ import { css, Global } from "@emotion/react";
 
 import App from "App";
 
-import { centerFlex, mediaQueries } from "ts/StyleMixins";
+import { centerFlex, mediaQueries, vars } from "ts/StyleMixins";
 
 //TODO: switch to themeing
 const root = ReactDOM.createRoot(document.getElementById("root")!);
@@ -37,6 +37,8 @@ root.render(
                     --input-border-radius: 10px;
                     --primary: #2668f7;
                     --secondary: #3d3d3d;
+
+                    --svg-size: 1rem;
 
                     --z-layer-1: 1;
                     --z-layer-2: 2;
@@ -72,7 +74,7 @@ root.render(
 
                 svg:not(.recharts-surface) {
                     display: inline-block;
-                    width: 1rem;
+                    width: ${vars.svgSize};
                 }
 
                 p,
@@ -128,7 +130,7 @@ root.render(
 
                 #toast-root {
                     position: fixed;
-                    z-index: var(--z-layer-2);
+                    z-index: ${vars.zLayer2};
                     display: flex;
                     flex-direction: column;
                     bottom: 0px;

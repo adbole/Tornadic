@@ -5,12 +5,14 @@ import { useBooleanState } from "Hooks";
 
 import { useWeather } from "Contexts/WeatherContext";
 
-import { LocationInput } from "Components/Input";
+import { Button, LocationInput } from "Components/Input";
 import Modal, { ModalContent } from "Components/Modals/Modal";
 import Settings from "Components/Modals/Settings";
 import { Gear } from "svgs/widget";
 
-import NowWidget, { SettingsButton, Temperature } from "./style";
+import { varNames } from "ts/StyleMixins";
+
+import NowWidget, { Temperature } from "./style";
 
 /**
  * Displays the current location name, temperature, condition, and feels like temperature along with having a gradient to match the condition
@@ -39,9 +41,19 @@ export default function Now({ displayOnly, className }: { displayOnly?: boolean 
                 background={now.conditionInfo.background}
             >
                 {!displayOnly && (
-                    <SettingsButton varient="transparent" onClick={() => showSettings()}>
+                    <Button 
+                        varient="transparent" 
+                        onClick={() => showSettings()}
+                        style={{
+                            position: "absolute",
+                            left: "10px",
+                            top: "10px",
+                            margin: "0px",
+                            [varNames.svgSize]: "1.5rem"
+                        }}
+                    >
                         <Gear />
-                    </SettingsButton>
+                    </Button>
                 )}
 
                 <p onClick={() => (displayOnly ? undefined : showLocationModal())}>

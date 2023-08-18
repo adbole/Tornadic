@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 
-import { vars } from "ts/StyleMixins";
+import { varNames, vars } from "ts/StyleMixins";
 
 
 type InputGroupProps = {
@@ -21,7 +21,7 @@ export default styled.div(({ hasGap = false, isUniform = false }: InputGroupProp
         borderRadius: vars.inputBorderRadius,
         overflow: "hidden",
 
-        ">*": { "--input-border-radius": 0 },
+        ">*": { [varNames.inputBorderRadius]: 0 },
         "> * + *": { borderLeft: "white 1px solid" },
     },
     isUniform && { gridAutoColumns: "1fr" },

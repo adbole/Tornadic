@@ -9,13 +9,11 @@ import { mediaQueries } from "ts/StyleMixins";
 export const Base = css({ [mediaQueries.mediumMin]: { gridArea: "d" } });
 export default styled(Widget)(Base);
 
-export const Column = styled.div<{ flex: string }>(({ flex }) => ({ flex }));
-export const TempRangeColumn = styled(Column)({
+export const Column = styled.div({
     display: "flex",
     alignItems: "center",
     gap: "5px",
 });
-export const ConditionColumn = styled(TempRangeColumn)({ svg: { width: "1.5rem" } });
 
 export const DualRange = styled.div({
     position: "relative",

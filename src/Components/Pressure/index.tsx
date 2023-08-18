@@ -47,7 +47,6 @@ export default function Pressure() {
     return (
         <>
             <Widget
-                className="pressure"
                 widgetIcon={<Meter />}
                 widgetTitle="Air Pressure"
                 onClick={showModal}

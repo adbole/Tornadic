@@ -14,11 +14,27 @@ export const vars = {
     borderRadius: "var(--border-radius)",
     inputBorderRadius: "var(--input-border-radius)",
 
+    svgSize: "var(--svg-size)",
+
     primary: "var(--primary)",
 
     zLayer1: "var(--z-layer-1)",
     zLayer2: "var(--z-layer-2)",
-}
+} as const;
+
+export const varNames= {
+    background: "--background" as any,
+    backgroundLayer: "--background-layer" as any,
+    borderRadius: "--border-radius" as any,
+    inputBorderRadius: "--input-border-radius" as any,
+
+    svgSize: "--svg-size" as any,
+
+    primary: "--primary" as any,
+
+    zLayer1: "--z-layer-1" as any,
+    zLayer2: "--z-layer-2" as any,
+} as const;
 
 export const alertColors = {
     warning: {
