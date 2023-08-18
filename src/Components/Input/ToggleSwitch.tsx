@@ -1,5 +1,7 @@
 import styled from "@emotion/styled";
 
+import { vars } from "ts/StyleMixins";
+
 
 const Label = styled.label({
     display: "flex",
@@ -13,8 +15,8 @@ const Input = styled.input({
     position: "relative",
     width: "4rem",
     height: "2rem",
-    borderRadius: "var(--input-border-radius)",
-    backgroundColor: "var(--secondary)",
+    borderRadius: vars.inputBorderRadius,
+    backgroundColor: vars.backgroundLayer,
     transition: "background-color 0.3s ease",
     outline: "none",
     cursor: "pointer",
@@ -33,7 +35,7 @@ const Input = styled.input({
     },
 
     "&:checked": {
-        backgroundColor: "var(--primary)",
+        backgroundColor: vars.primary,
 
         "&::after": { left: "70%" },
     },

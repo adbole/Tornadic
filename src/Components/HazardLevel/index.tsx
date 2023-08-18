@@ -1,6 +1,5 @@
 import type { ReactNode } from "react";
 import React from "react";
-import styled from "@emotion/styled";
 
 import { useBooleanState } from "Hooks";
 
@@ -15,12 +14,6 @@ import type { CombinedHourly } from "ts/Weather";
 
 import Gauge from "../Gauge";
 
-
-const Gradient = styled.div<{ gradient: string }>(({ gradient }) => ({
-    width: "100%",
-    height: "100%",
-    background: gradient,
-}));
 
 type HazardInfo = Readonly<{
     title: string;
@@ -96,7 +89,13 @@ function Meter({ rotation, gradient }: { rotation: number; gradient: string }) {
                 clipPath={`url(#${clipID})`}
                 mask={`url(#${maskID})`}
             >
-                <Gradient gradient={gradient} />
+                <div 
+                    style={{
+                        width: "100%",
+                        height: "100%",
+                        background: gradient
+                    }}
+                />
             </foreignObject>
         </svg>
     );

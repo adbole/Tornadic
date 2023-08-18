@@ -1,5 +1,7 @@
 import styled from "@emotion/styled";
 
+import { vars } from "ts/StyleMixins";
+
 
 type InputGroupProps = {
     hasGap?: boolean;
@@ -16,7 +18,7 @@ export default styled.div(({ hasGap = false, isUniform = false }: InputGroupProp
     },
     hasGap && { gap: "5px" },
     !hasGap && {
-        borderRadius: "var(--input-border-radius)",
+        borderRadius: vars.inputBorderRadius,
         overflow: "hidden",
 
         ">*": { "--input-border-radius": 0 },

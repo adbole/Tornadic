@@ -3,7 +3,7 @@ import styled from "@emotion/styled";
 
 import Widget from "Components/Widget";
 
-import { darkBackBlur, mediaQueries } from "ts/StyleMixins";
+import { darkBackBlur, mediaQueries, vars } from "ts/StyleMixins";
 
 
 export const Base = css({
@@ -13,7 +13,7 @@ export const Base = css({
         position: "absolute",
         inset: "0",
         backdropFilter: "saturate(130%)",
-        borderRadius: "var(--border-radius)",
+        borderRadius: vars.borderRadius,
     },
     ".leaflet-center": {
         left: 0,
@@ -25,7 +25,7 @@ export const Base = css({
     ".leaflet-control": [
         darkBackBlur,
         {
-            borderRadius: "var(--border-radius)",
+            borderRadius: vars.borderRadius,
             overflow: "hidden",
         },
     ],

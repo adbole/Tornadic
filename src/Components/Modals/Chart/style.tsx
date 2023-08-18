@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 
-import { mediaQueries } from "ts/StyleMixins";
+import { mediaQueries, vars } from "ts/StyleMixins";
 
 import Modal, { ModalContent } from "../Modal";
 
@@ -25,9 +25,9 @@ export const ChartContent = styled(ModalContent)({
 
     ".recharts-responsive-container": {
         border: "1px solid #ffffff19",
-        borderRadius: "var(--border-radius)",
+        borderRadius: vars.borderRadius,
         overflow: "hidden",
     },
 });
 
-export const Option = styled.option({ backgroundColor: "var(--widget-back)" });
+export const Option = styled.option({ backgroundColor: vars.background });

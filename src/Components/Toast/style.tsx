@@ -2,6 +2,8 @@ import styled from "@emotion/styled";
 
 import type { AnimationStage } from "Hooks/useAnimation";
 
+import { vars } from "ts/StyleMixins";
+
 
 export default styled.div<{ stage: AnimationStage }>(({ stage }) => [
     {
@@ -9,8 +11,8 @@ export default styled.div<{ stage: AnimationStage }>(({ stage }) => [
         justifyContent: "space-between",
         alignItems: "center",
         gap: "10px",
-        backgroundColor: "var(--widget-back)",
-        borderRadius: "var(--border-radius)",
+        backgroundColor: vars.background,
+        borderRadius: vars.borderRadius,
         padding: "5px 10px",
         transform: "translateY(120%)",
         transition: "transform 1s ease",

@@ -47,7 +47,7 @@ export default function Locate() {
         <Button
             className="leaflet-custom-control leaflet-control"
             onClick={() => setUserLocation({ useCurrent: true })}
-            style={{ padding: 0 }}
+            style={{ padding: 0, marginBottom: 0 }}
         >
             <Cursor />
         </Button>

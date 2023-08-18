@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 
 import type { AnimationStage } from "Hooks/useAnimation";
 
-import { mediaQueries } from "ts/StyleMixins";
+import { mediaQueries, vars } from "ts/StyleMixins";
 
 
 export default styled.dialog<{
@@ -14,8 +14,8 @@ export default styled.dialog<{
         color: "inherit",
         margin: "auto",
         width: "500px",
-        backgroundColor: "var(--widget-back)",
-        borderRadius: "var(--border-radius)",
+        backgroundColor: vars.background,
+        borderRadius: vars.borderRadius,
         border: "none",
         padding: "0px",
         overflow: "hidden",
@@ -32,7 +32,7 @@ export default styled.dialog<{
             maxWidth: "100%",
             maxHeight: "75%",
             margin: "auto auto 0px auto",
-            borderRadius: "var(--border-radius) var(--border-radius) 0px 0px",
+            borderRadius: `${vars.borderRadius} ${vars.borderRadius} 0px 0px`,
         },
     },
     stage === "enter" && {

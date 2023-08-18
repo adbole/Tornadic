@@ -6,6 +6,7 @@ import L from "leaflet";
 import { useBooleanState } from "Hooks";
 
 import { fetchData } from "ts/Fetch";
+import { vars } from "ts/StyleMixins";
 import getTimeFormatted from "ts/TimeConversion";
 
 import ControlPortal, { Position } from "./ControlPortal";
@@ -44,7 +45,7 @@ const Input = styled.input({
 
     "&::-webkit-slider-runnable-track": {
         backgroundColor: "rgba(136, 136, 136, 0.5)",
-        borderRadius: "var(--border-radius)",
+        borderRadius: vars.borderRadius,
     },
 
     "&::-webkit-slider-thumb": {
@@ -52,7 +53,7 @@ const Input = styled.input({
         appearance: "none",
         height: "10px",
         width: "10px",
-        borderRadius: "var(--border-radius)",
+        borderRadius: vars.borderRadius,
         backgroundColor: "#6498fa",
     },
 });
@@ -65,7 +66,7 @@ const Datalist = styled.datalist({
 const Option = styled.option({
     padding: "0px 1px",
     background: "rgba(136, 136, 136, 0.5)",
-    borderRadius: "var(--border-radius)",
+    borderRadius: vars.borderRadius,
 });
 
 //Uses floor function to keep remainder the same sign as divisor.

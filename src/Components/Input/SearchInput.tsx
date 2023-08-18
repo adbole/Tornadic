@@ -4,6 +4,8 @@ import styled from "@emotion/styled";
 
 import { useBooleanState } from "Hooks";
 
+import { vars } from "ts/StyleMixins";
+
 import Input from "./Input";
 import InputGroup from "./InputGroup";
 
@@ -16,8 +18,8 @@ const SearchResults = styled.ul({
     textAlign: "left",
     listStyle: "none",
     gap: "5px",
-    borderRadius: "var(--input-border-radius)",
-    backgroundColor: "var(--secondary)",
+    borderRadius: vars.inputBorderRadius,
+    backgroundColor: vars.backgroundLayer,
 });
 
 const shine = keyframes({ to: { backgroundPositionX: "-200%" } });

@@ -7,6 +7,8 @@ import { useBooleanState } from "Hooks";
 import { Button } from "Components/Input";
 import { Grid } from "svgs/radar";
 
+import { vars } from "ts/StyleMixins";
+
 /**
  * Provides the zooming functionality for the Radar component
  * along with returning a button to be added to leaflet to provide unzooming
@@ -50,14 +52,14 @@ export default function Home() {
                 styles={{
                     ".leaflet-container": [
                         isZoomed && {
-                            zIndex: "var(--z-layer-1)",
+                            zIndex: vars.zLayer1,
                             inset: 0,
                             position: "fixed",
                         },
                         !isZoomed && {
                             position: "relative",
                             cursor: "pointer",
-                            borderRadius: "var(--border-radius)",
+                            borderRadius: vars.borderRadius,
                             ".leaflet-control-container": { display: "none" },
                         },
                     ],
@@ -66,7 +68,7 @@ export default function Home() {
             <Button
                 className="leaflet-custom-control leaflet-control"
                 onClick={unZoom}
-                style={{ padding: 0 }}
+                style={{ padding: 0, marginBottom: 0 }}
             >
                 <Grid />
             </Button>

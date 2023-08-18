@@ -8,26 +8,17 @@ export const mediaQueries = {
     small: "@media screen and (max-width: 800px)",
 };
 
-export const darkBackBlur = css({
-    backgroundColor: "rgba(0, 0, 0, 0.75)",
-    backdropFilter: "blur(10px)",
-    color: "white",
-});
+export const vars = {
+    background: "var(--background)",
+    backgroundLayer: "var(--background-layer)",
+    borderRadius: "var(--border-radius)",
+    inputBorderRadius: "var(--input-border-radius)",
 
-export const centerFlex = css({
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-});
+    primary: "var(--primary)",
 
-export const interactable = css({
-    transition: "filter 0.3s ease",
-    filter: "brightness(100%)",
-
-    "&:hover, &:focus": { cursor: "pointer" },
-
-    "&:active, &:disabled": { filter: "brightness(70%)" },
-});
+    zLayer1: "var(--z-layer-1)",
+    zLayer2: "var(--z-layer-2)",
+}
 
 export const alertColors = {
     warning: {
@@ -51,3 +42,26 @@ export const alertColors = {
         foreground: "black",
     },
 };
+
+
+export const darkBackBlur = css({
+    backgroundColor: "rgba(0, 0, 0, 0.75)",
+    backdropFilter: "blur(10px)",
+    color: "white",
+});
+
+export const centerFlex = css({
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+});
+
+export const interactable = css({
+    transition: "filter 0.3s ease",
+    filter: "brightness(100%)",
+
+    "&:hover, &:focus": { cursor: "pointer" },
+
+    "&:active, &:disabled": { filter: "brightness(70%)" },
+});
+

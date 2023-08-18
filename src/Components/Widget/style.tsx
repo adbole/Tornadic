@@ -1,5 +1,7 @@
 import styled from "@emotion/styled";
 
+import { vars } from "ts/StyleMixins";
+
 import type { WidgetSize } from ".";
 
 
@@ -15,7 +17,7 @@ export default styled.section<{
         padding: "10px",
         overflow: "hidden",
 
-        borderRadius: "var(--border-radius)",
+        borderRadius: vars.borderRadius,
         backdropFilter: "saturate(130%)",
         boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.25)",
 

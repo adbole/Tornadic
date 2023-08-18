@@ -31,8 +31,8 @@ root.render(
                 }
 
                 :root {
-                    --widget-back: #2c2c2c;
-                    --widget-back-layer: #363636;
+                    --background: #2c2c2c;
+                    --background-layer: #363636;
                     --border-radius: 15px;
                     --input-border-radius: 10px;
                     --primary: #2668f7;

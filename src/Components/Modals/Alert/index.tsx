@@ -7,7 +7,7 @@ import type { ModalProps } from "Components/Modals/Modal";
 import Modal, { ModalContent, ModalTitle } from "Components/Modals/Modal";
 
 import type NWSAlert from "ts/NWSAlert";
-import { alertColors } from "ts/StyleMixins";
+import { alertColors, vars } from "ts/StyleMixins";
 
 
 const ListModal = styled(Modal)({
@@ -19,7 +19,7 @@ const ListModal = styled(Modal)({
 });
 
 const ListItem = styled.div({ 
-    borderRadius: "var(--border-radius)",
+    borderRadius: vars.borderRadius,
     padding: "10px",
     "h1": { fontSize: "1.5rem" }
 })
