@@ -7,7 +7,7 @@ import AlertModal from "Components/Modals/Alert";
 import AlertWidget, { AlertInformation, ExcessAlerts } from "./style";
 
 
-function Alert({ className }: ClassNameProp) {
+function Alert() {
     const { alerts } = useWeather();
     const [modalOpen, showModal, hideModal] = useBooleanState(false);
 
@@ -23,7 +23,6 @@ function Alert({ className }: ClassNameProp) {
     return (
         <>
             <AlertWidget
-                className={className}
                 type={alert.getAlertCSS() as any}
                 isTemplate
                 size="widget-wide"
