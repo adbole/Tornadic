@@ -28,7 +28,7 @@ export default styled.dialog<{
             opacity: 0,
             transition: "opacity 1s ease",
         },
-        [mediaQueries.small]: {
+        [mediaQueries.smallMax]: {
             maxWidth: "100%",
             maxHeight: "75%",
             margin: "auto auto 0px auto",

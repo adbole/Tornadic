@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 
 import { Tornadic } from "svgs/icon";
 
-import { centerFlex, mediaQueries } from "ts/StyleMixins";
+import { centerFlex, mediaQueries, varNames } from "ts/StyleMixins";
 
 
 const Container = styled.div([
@@ -13,7 +13,7 @@ const Container = styled.div([
         inset: 0,
 
         textAlign: "center",
-        "> svg": { width: "500px" },
+        [varNames.svgSize]: "500px",
         "> div": [
             centerFlex,
             {
@@ -21,10 +21,10 @@ const Container = styled.div([
                 flexDirection: "column",
                 backdropFilter: "blur(10px)",
                 inset: 0,
-                "> svg": { width: "50px" },
+                [varNames.svgSize]: "50px",
             },
         ],
-        [mediaQueries.small]: { "> svg": { width: "300px" } },
+        [mediaQueries.smallMax]: { [varNames.svgSize]: "300px" },
     },
 ]);
 

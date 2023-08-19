@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 
-import { vars } from "ts/StyleMixins";
+import { mediaQueries, vars } from "ts/StyleMixins";
 
 import type { WidgetSize } from ".";
 
@@ -17,10 +17,6 @@ export default styled.section<{
         padding: "10px",
         overflow: "hidden",
 
-        borderRadius: vars.borderRadius,
-        backdropFilter: "saturate(130%)",
-        boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.25)",
-
         ".widget-title": {
             display: "flex",
             flexDirection: "row",
@@ -28,6 +24,12 @@ export default styled.section<{
 
             fontSize: "1rem",
             marginBottom: "10px",
+        },
+
+        backdropFilter: "saturate(130%)",
+        [mediaQueries.smallMin]: {
+            borderRadius: vars.borderRadius,
+            boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.25)",
         },
     },
     size === "widget-large" && {

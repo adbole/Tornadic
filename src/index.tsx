@@ -2,6 +2,7 @@ import ReactDOM from "react-dom/client";
 import { css, Global } from "@emotion/react";
 
 import App from "App";
+import Widget from "Components/Widget/style"
 
 import { centerFlex, mediaQueries, vars } from "ts/StyleMixins";
 
@@ -93,9 +94,6 @@ root.render(
                     display: grid;
                     grid-auto-rows: 150px;
                     grid-auto-flow: dense;
-                    gap: 20px;
-
-                    padding: 10px;
 
                     width: 100%;
                     max-width: 1800px;
@@ -123,8 +121,17 @@ root.render(
                         grid-template-areas: none;
                     }
 
-                    ${mediaQueries.small} {
+                    ${mediaQueries.smallMin} {
+                        padding: 10px;
+                        gap: 20px;
+                    }
+
+                    ${mediaQueries.smallMax} {
                         grid-template-columns: repeat(2, 1fr);
+
+                        ${Widget} + ${Widget} {
+                            border-top: 1px solid #ffffff3d;
+                        }
                     }
                 }
 

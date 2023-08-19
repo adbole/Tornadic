@@ -28,8 +28,9 @@ type Properties = {
 };
 
 export default class NWSAlert {
+    private declare readonly type: string
     private declare readonly geometry: {
-        // [Polygons][Polygon][Points]
+        readonly type: string,
         readonly coordinates: number[][][];
     } | null;
 
@@ -57,11 +58,8 @@ export default class NWSAlert {
         return this.properties[prop];
     }
 
-    /**
-     * @returns An array of polygons
-     */
-    getCoords() {
-        return this.geometry?.coordinates;
+    hasCoords() {
+        return this.geometry !== null
     }
 
     getAlertCSS() {

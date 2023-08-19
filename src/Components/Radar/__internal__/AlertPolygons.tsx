@@ -1,6 +1,5 @@
 import { useRef } from "react";
-import { Polygon, useMap } from "react-leaflet";
-import type { LatLngExpression } from "leaflet";
+import { GeoJSON, useMap } from "react-leaflet";
 
 import { useBooleanState } from "Hooks";
 
@@ -10,17 +9,6 @@ import AlertModal from "Components/Modals/Alert";
 
 import { alertColors } from "ts/StyleMixins";
 
-/**
- * Converts the coords given by the NWSAlert to an array of LatLngExpressions to be used by a polygon.
- * @param coords The coords to be converted
- * @returns The new coords to be used by a polygon
- */
-function convertToLatLng(coords: number[][][]): LatLngExpression[] {
-    return coords[0].map<LatLngExpression>(latlng => ({
-        lat: latlng[1],
-        lng: latlng[0],
-    }));
-}
 
 /**
  * Returns a mapping of polygons for every alert there is in the current WeatherData
@@ -36,7 +24,7 @@ export default function AlertPolygons() {
     return (
         <>
             {alerts
-                .filter(alert => alert.getCoords())
+                .filter(alert => alert.hasCoords())
                 .map(alert => {
                     const onClick = () => {
                         //Don't show modal if the radar isn't zoomed
@@ -47,12 +35,13 @@ export default function AlertPolygons() {
                     };
 
                     const backgroundName = alert.getAlertCSS() as keyof typeof alertColors
+                    
                     return (
-                        <Polygon
+                        <GeoJSON 
                             key={alert.get("id")}
-                            positions={convertToLatLng(alert.getCoords()!)}
+                            data={alert as any}
                             eventHandlers={{ click: onClick }}
-                            color={alertColors[backgroundName].background}
+                            style={{ color: alertColors[backgroundName].background }}
                         />
                     );
                 })}

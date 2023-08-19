@@ -5,7 +5,7 @@ import { useWeather } from "Contexts/WeatherContext";
 import Widget from "Components/Widget";
 import { Sunrise, Sunset } from "svgs/widget";
 
-import { centerFlex } from "ts/StyleMixins";
+import { centerFlex, varNames } from "ts/StyleMixins";
 import getTimeFormatted from "ts/TimeConversion";
 
 
@@ -14,7 +14,7 @@ const SunTimeWidget = styled(Widget)([
     {
         flexDirection: "row",
         justifyContent: "space-evenly",
-        "> svg": { width: "5rem" },
+        [varNames.svgSize]: "5rem",
     },
 ]);
 

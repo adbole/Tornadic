@@ -5,8 +5,9 @@ export const mediaQueries = {
     large: "@media screen and (min-width: 1400px)",
     mediumMin: "@media screen and (min-width: 1100px)",
     mediumMax: "@media screen and (max-width: 1100px)",
-    small: "@media screen and (max-width: 800px)",
-};
+    smallMin: "@media screen and (min-width: 800px)",
+    smallMax: "@media screen and (max-width: 800px)",
+} as const;
 
 export const vars = {
     background: "var(--background)",

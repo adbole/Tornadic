@@ -30,6 +30,7 @@ import * as WidgetIcons from "svgs/widget";
 import { mediaQueries } from "ts/StyleMixins";
 
 
+const NowSkeleton = styled(Skeleton)({ [mediaQueries.mediumMax]: { gridColumn: "1 / -1" } })
 const HourlySkeleton = styled(Skeleton)({ [mediaQueries.large]: { gridColumn: "span 6" } });
 const RadarSkeleton = styled(Skeleton)({ [mediaQueries.mediumMin]: { gridArea: "r" } });
 const DailySkeleton = styled(Skeleton)({ [mediaQueries.mediumMin]: { gridArea: "d" } });
@@ -58,7 +59,7 @@ function LocationRequest() {
 function AppLoader() {
     return (
         <>
-            <Skeleton size="widget-large" />
+            <NowSkeleton size="widget-large" />
             <HourlySkeleton size="widget-wide" />
             <DailySkeleton size="widget-large" />
             <RadarSkeleton size="widget-large" />

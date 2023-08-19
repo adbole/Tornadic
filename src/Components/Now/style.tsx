@@ -19,12 +19,16 @@ export default styled(Widget)<{
     Base,
     {
         background: `linear-gradient(to bottom, ${background[0]}, ${background[1]})`,
-        [mediaQueries.small]: {
-            background: "none",
-            backdropFilter: "none",
-            boxShadow: "none",
-        },
-    },
+        "#root > &": {
+            [mediaQueries.mediumMax]: {
+                background: "none",
+                backdropFilter: "none",
+                boxShadow: "none",
+                gridColumn: "1 / -1"
+            },
+            [mediaQueries.mediumMin]: { gridArea: "n" },
+        }
+},
 ]);
 
 export const Temperature = styled.h1({

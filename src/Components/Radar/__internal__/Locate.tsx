@@ -3,7 +3,7 @@ import ReactDOMServer from "react-dom/server";
 import { useMap } from "react-leaflet";
 import L from "leaflet";
 
-import { useLocalStorage, useUserLocation } from "Hooks";
+import { useUserLocation } from "Hooks";
 
 import { Button } from "Components/Input";
 import { Cursor, LocationDot } from "svgs/radar";
@@ -24,7 +24,6 @@ export default function Locate() {
     const map = useMap();
     const currMarker = React.useRef<L.Marker>();
 
-    const [, setUserLocation] = useLocalStorage("userLocation");
     const { latitude: lat, longitude: lng, status } = useUserLocation();
 
     React.useEffect(() => {
@@ -46,7 +45,7 @@ export default function Locate() {
     return (
         <Button
             className="leaflet-custom-control leaflet-control"
-            onClick={() => setUserLocation({ useCurrent: true })}
+            onClick={() => lat && lng && map.panTo({ lat, lng })}
             style={{ padding: 0, marginBottom: 0 }}
         >
             <Cursor />
