@@ -9,33 +9,31 @@ export const mediaQueries = {
     smallMax: "@media screen and (max-width: 800px)",
 } as const;
 
-export const vars = {
-    background: "var(--background)",
-    backgroundLayer: "var(--background-layer)",
-    borderRadius: "var(--border-radius)",
-    inputBorderRadius: "var(--input-border-radius)",
+const baseVarNames = {
+    background: "--background",
+    backgroundLayer: "--background-layer",
+    borderRadius: "--border-radius",
+    inputBorderRadius: "--input-border-radius",
 
-    svgSize: "var(--svg-size)",
+    svgSize: "--svg-size",
 
-    primary: "var(--primary)",
+    primary: "--primary",
 
-    zLayer1: "var(--z-layer-1)",
-    zLayer2: "var(--z-layer-2)",
+    zLayer1: "--z-layer-1",
+    zLayer2: "--z-layer-2",
 } as const;
 
-export const varNames= {
-    background: "--background" as any,
-    backgroundLayer: "--background-layer" as any,
-    borderRadius: "--border-radius" as any,
-    inputBorderRadius: "--input-border-radius" as any,
+//Proxy for varNames to prevent type-hinting when using 
+//inside style attributes
+export const varNames: {
+    [K in keyof typeof baseVarNames]: any
+} = baseVarNames;
 
-    svgSize: "--svg-size" as any,
-
-    primary: "--primary" as any,
-
-    zLayer1: "--z-layer-1" as any,
-    zLayer2: "--z-layer-2" as any,
-} as const;
+export const vars = new Proxy(baseVarNames, {
+    get(target, prop) {
+        return `var(${target[prop as keyof typeof target]})`
+    }
+})
 
 export const alertColors = {
     warning: {
