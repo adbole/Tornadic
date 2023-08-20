@@ -80,10 +80,9 @@ export default class WeatherCondition {
             case 86:
                 return "Snow Showers";
             case 95:
-                return "Thunderstorms";
             case 96:
             case 99:
-                return "Thunderstorms and Hail";
+                return "Thunderstorms";
             default:
                 return "Clear";
         }
