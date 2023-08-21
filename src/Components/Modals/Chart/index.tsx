@@ -111,22 +111,21 @@ export default function Chart({
     const chartData = React.useMemo(() => getData(weather, view, day), [weather, view, day]);
 
     const timeRef = React.useRef<HTMLSpanElement>(null);
-    const selectRef = React.useRef<HTMLSelectElement>(null);
 
     //Autosize the select element for style points
-    React.useEffect(() => {
-        if (!selectRef.current) return;
+    const setWidth = React.useCallback((element: HTMLSelectElement) => {
+        if (element === null) return;
 
         const canvasContext = document.createElement("canvas").getContext("2d")!;
-        canvasContext.font = getComputedStyle(selectRef.current).font;
+        canvasContext.font = getComputedStyle(element).font;
 
         //Incase textContent is null Temperature is default since its the largest option
         const width = canvasContext.measureText(
-            selectRef.current.children[selectRef.current.selectedIndex].textContent ?? "Temperature"
+            element.children[element.selectedIndex].textContent ?? "Temperature"
         ).width;
 
-        selectRef.current.style.width = Math.round(width) + 30 + "px";
-    }, [view, selectRef]);
+        element.style.width = Math.round(width) + 30 + "px";
+    }, []);
 
     const setTimeText = React.useCallback(
         (s: string) => {
@@ -152,9 +151,12 @@ export default function Chart({
         <ChartModal {...modalProps}>
             <ModalTitle>
                 <select
-                    ref={selectRef}
+                    ref={setWidth}
                     title="Current Chart"
-                    onChange={e => setView(e.currentTarget.value as ChartViews)}
+                    onChange={e => {
+                        setView(e.currentTarget.value as ChartViews)
+                        setWidth(e.target)
+                    }}
                     value={view}
                 >
                     {Object.keys(CHART_VIEWS_TITLES).map(key => (

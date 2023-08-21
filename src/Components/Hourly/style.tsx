@@ -28,7 +28,10 @@ export const Item = styled.li({
     flexDirection: "column",
     gap: "5px",
 
-    p: { whiteSpace: "nowrap" },
+    "p": { 
+        whiteSpace: "nowrap",
+        textAlign: "center"
+    },
     "> div": {
         display: "flex",
         flexDirection: "column",

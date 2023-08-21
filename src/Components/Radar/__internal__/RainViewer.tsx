@@ -23,6 +23,7 @@ const Playback = styled.div([
         width: "100%",
         height: "fit-content",
         padding: "10px",
+        margin: "10px",
     },
 ]);
 
