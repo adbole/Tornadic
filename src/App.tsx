@@ -1,4 +1,5 @@
 import React from "react";
+import styled from "@emotion/styled";
 
 import { useBooleanState, useLocalStorage, useOnlineOffline, useUserLocation } from "Hooks";
 
@@ -17,8 +18,8 @@ import {
     Now,
     Pressure,
     Radar,
-    SimpleInfoWidget,
-    SkeletonWidget,
+    Simple,
+    Skeleton,
     SunTime,
     Wind,
 } from "Components";
@@ -26,6 +27,13 @@ import { ExclamationTriangle, Spinner, WifiOff } from "svgs";
 import { Cursor } from "svgs/radar";
 import * as WidgetIcons from "svgs/widget";
 
+import { mediaQueries } from "ts/StyleMixins";
+
+
+const NowSkeleton = styled(Skeleton)({ [mediaQueries.mediumMax]: { gridColumn: "1 / -1" } })
+const HourlySkeleton = styled(Skeleton)({ [mediaQueries.large]: { gridColumn: "span 6" } });
+const RadarSkeleton = styled(Skeleton)({ [mediaQueries.mediumMin]: { gridArea: "r" } });
+const DailySkeleton = styled(Skeleton)({ [mediaQueries.mediumMin]: { gridArea: "d" } });
 
 function LocationRequest() {
     const [modalOpen, showModal, hideModal] = useBooleanState(false);
@@ -48,17 +56,17 @@ function LocationRequest() {
     );
 }
 
-function Skeleton() {
+function AppLoader() {
     return (
         <>
-            <SkeletonWidget className="now" size={"widget-large"} />
-            <SkeletonWidget className="hourly" />
-            <SkeletonWidget className="daily" size={"widget-large"} />
-            <SkeletonWidget id="radar" size={"widget-large"} />
+            <NowSkeleton size="widget-large" />
+            <HourlySkeleton size="widget-wide" />
+            <DailySkeleton size="widget-large" />
+            <RadarSkeleton size="widget-large" />
             {Array.from({ length: 8 }, (_, i) => (
-                <SkeletonWidget key={i} />
+                <Skeleton key={i} />
             ))}
-            <SkeletonWidget size={"widget-wide"} />
+            <Skeleton size="widget-wide" />
         </>
     );
 }
@@ -98,54 +106,43 @@ function App() {
     if (!latitude || !longitude) return null;
 
     return (
-        <>
-            <WeatherContext
-                latitude={latitude}
-                longitude={longitude}
-                skeletonRender={() => <Skeleton />}
-                fallbackRender={getData => (
-                    <MessageScreen>
-                        <ExclamationTriangle />
-                        <p>Unable to get weather data</p>
-                        <Button onClick={getData}>Try Again</Button>
-                    </MessageScreen>
-                )}
-            >
-                <Now />
-                <Daily />
-                <Radar />
+        <WeatherContext
+            latitude={latitude}
+            longitude={longitude}
+            skeletonRender={AppLoader}
+            fallbackRender={getData => (
+                <MessageScreen>
+                    <ExclamationTriangle />
+                    <p>Unable to get weather data</p>
+                    <Button onClick={getData}>Try Again</Button>
+                </MessageScreen>
+            )}
+        >
+            <Now />
+            <Alert />
+            <Hourly />
+            <Daily />
+            <Radar />
 
-                <Alert />
-                <Hourly />
+            <Simple
+                icon={<WidgetIcons.Droplet />}
+                title="Precipitation"
+                property="precipitation"
+            />
+            <Simple icon={<WidgetIcons.Thermometer />} title="Dewpoint" property="dewpoint_2m" />
+            <Simple
+                icon={<WidgetIcons.Moisture />}
+                title="Humidity"
+                property="relativehumidity_2m"
+            />
+            <Simple icon={<WidgetIcons.Eye />} title="Visibility" property="visibility" />
+            <HazardLevel hazard="us_aqi" />
+            <HazardLevel hazard="uv_index" />
 
-                <SimpleInfoWidget
-                    icon={<WidgetIcons.Droplet />}
-                    title="Precipitation"
-                    property={"precipitation"}
-                />
-                <SimpleInfoWidget
-                    icon={<WidgetIcons.Thermometer />}
-                    title="Dewpoint"
-                    property={"dewpoint_2m"}
-                />
-                <SimpleInfoWidget
-                    icon={<WidgetIcons.Moisture />}
-                    title="Humidity"
-                    property={"relativehumidity_2m"}
-                />
-                <SimpleInfoWidget
-                    icon={<WidgetIcons.Eye />}
-                    title="Visibility"
-                    property={"visibility"}
-                />
-                <HazardLevel hazard={"us_aqi"} />
-                <HazardLevel hazard={"uv_index"} />
-
-                <Wind />
-                <Pressure />
-                <SunTime />
-            </WeatherContext>
-        </>
+            <Wind />
+            <Pressure />
+            <SunTime />
+        </WeatherContext>
     );
 }
 

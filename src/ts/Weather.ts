@@ -7,9 +7,7 @@ import getTimeFormatted from "ts/TimeConversion";
 import type { WeatherConditionType } from "./WeatherCondition";
 import WeatherCondition from "./WeatherCondition";
 
-//#region Enum and type definitions
 
-//Allows IsRaining to easily return values based on condition and precipitation despite if data is for hour or day
 type BaseInfo = Readonly<{
     conditionInfo: WeatherCondition;
     precipitation_probability: number;
@@ -28,7 +26,6 @@ export type DayInfo = Readonly<{
     temperature_high: number;
 }> &
     BaseInfo;
-//#endregion Enum and type definitions
 
 export type CombinedHourly = Forecast["hourly"] & Omit<AirQuality["hourly"], "time">;
 

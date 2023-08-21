@@ -1,9 +1,22 @@
 import React from "react";
+import styled from "@emotion/styled";
 
 import { useAnimation, useNullableState } from "Hooks";
 
 import { throwError } from "ts/Helpers";
 
+
+const Container = styled.div({
+    display: "flex",
+    overflow: "hidden",
+
+    "> div": { flex: "0 0 100%" },
+
+    // DO NOT REMOVE
+    // FIXES A BUG WITH ANIMATION ON SAFARI WHERE .slide-out
+    // ELEMENTS MAY GET STUCK
+    "> .slide-in": { zIndex: "1" },
+});
 
 const Context = React.createContext<Readonly<{
     slideTo: (value: NonNullable<React.ReactNode>) => void;
@@ -44,7 +57,7 @@ function SlideContextProvider({ children }: { children: React.ReactNode }) {
     );
 
     return (
-        <div
+        <Container
             className="slidable"
             style={{
                 transition: "0.75s ease",
@@ -64,7 +77,7 @@ function SlideContextProvider({ children }: { children: React.ReactNode }) {
                 </div>
                 {secondaryContent && <div className="slide-in">{secondaryContent}</div>}
             </Context.Provider>
-        </div>
+        </Container>
     );
 }
 

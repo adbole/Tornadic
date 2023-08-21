@@ -1,22 +1,28 @@
-import { cleanClass } from "ts/Helpers";
+import styled from "@emotion/styled";
+
+import { varNames, vars } from "ts/StyleMixins";
 
 
-export default function InputGroup({
-    children,
-    hasGap = false,
-    isUniform = false,
-}: {
-    children: React.ReactNode;
+type InputGroupProps = {
     hasGap?: boolean;
     isUniform?: boolean;
-}) {
-    return (
-        <div
-            className={cleanClass(
-                `input-group ${hasGap ? "gap" : ""} ${isUniform ? "uniform" : ""}`
-            )}
-        >
-            {children}
-        </div>
-    );
-}
+};
+
+export default styled.div(({ hasGap = false, isUniform = false }: InputGroupProps) => [
+    {
+        display: "grid",
+        gridAutoFlow: "column",
+        margin: "5px 0px",
+
+        ">*": { margin: 0 },
+    },
+    hasGap && { gap: "5px" },
+    !hasGap && {
+        borderRadius: vars.inputBorderRadius,
+        overflow: "hidden",
+
+        ">*": { [varNames.inputBorderRadius]: 0 },
+        "> * + *": { borderLeft: "white 1px solid" },
+    },
+    isUniform && { gridAutoColumns: "1fr" },
+]);

@@ -2,7 +2,27 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self'; style-src 'self'; object-src 'none';" >
+    <meta http-equiv="Content-Security-Policy" content="
+        default-src 'self';
+        img-src 
+            'self'
+            https://tilecache.rainviewer.com
+            https://tile.openstreetmap.org
+            data:;
+        script-src 'self'; 
+        script-src-elem 'self';
+        style-src 'self' 'unsafe-inline'; 
+        object-src 'none';
+        connect-src 
+            'self'
+            https://api.open-meteo.com
+            https://air-quality-api.open-meteo.com
+            https://api.weather.gov
+            https://tile.openstreetmap.org
+            https://api.rainviewer.com
+            https://tilecache.rainviewer.com
+            https://geocoding-api.open-meteo.com
+    ">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="Weather app providing weather data from open-meteo and the NWS for your current location." />
     <meta name="theme-color" content="#000000">
@@ -13,7 +33,6 @@
     <link rel="apple-touch-icon" href="/resources/images/icons/apple-touch-icon.png" />
 
     <link rel="stylesheet" href="/resources/css/leaflet.min.css" />
-    <link rel="stylesheet" href="/resources/css/site.min.css" />
 
     <!--Preconnect to API endpoints-->
     <link rel="preconnect" href="https://api.open-meteo.com"/>

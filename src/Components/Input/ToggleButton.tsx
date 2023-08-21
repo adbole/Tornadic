@@ -1,5 +1,23 @@
 import React from "react";
+import styled from "@emotion/styled";
 
+import { interactable, vars } from "ts/StyleMixins";
+
+
+const Label = styled.label(interactable, {
+    display: "inline-block",
+    width: "100%",
+    padding: "5px",
+    backgroundColor: vars.backgroundLayer,
+    borderRadius: vars.inputBorderRadius,
+    textAlign: "center",
+    transition: "background-color 0.3s ease",
+});
+
+const Input = styled.input({
+    display: "none",
+    [`&:checked + ${Label}`]: { backgroundColor: vars.primary },
+});
 
 function ToggleButton({
     label,
@@ -15,15 +33,15 @@ function ToggleButton({
     const id = React.useId();
 
     return (
-        <div className="toggle-button">
-            <input
+        <div>
+            <Input
                 type="radio"
                 name={name}
                 id={id}
                 defaultChecked={defaultChecked}
                 onClick={onClick}
             />
-            <label htmlFor={id}>{label}</label>
+            <Label htmlFor={id}>{label}</Label>
         </div>
     );
 }

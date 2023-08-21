@@ -2,42 +2,49 @@ import { useBooleanState } from "Hooks";
 
 import { useWeather } from "Contexts/WeatherContext";
 
-import Widget from "Components/Widget";
+import AlertModal from "Components/Modals/Alert";
 
-import AlertModal from "./AlertModal";
-import { AlertInformationDisplay } from "./Common";
+import AlertWidget, { AlertInformation, ExcessAlerts } from "./style";
 
 
-export default function Alert() {
+function Alert() {
     const { alerts } = useWeather();
     const [modalOpen, showModal, hideModal] = useBooleanState(false);
 
     //If no alerts are active then don't display this component.
-    if (!alerts.length) return <></>;
+    if (!alerts.length) return null;
 
     //Determine which alert should be shown.
-    const alertToShow = alerts.reduce(
+    const alert = alerts.reduce(
         (highest, next) => (next.priority < highest.priority ? next : highest),
         alerts[0]
     );
 
     return (
         <>
-            <Widget
+            <AlertWidget
+                type={alert.getAlertCSS() as any}
                 isTemplate
-                size={"widget-wide"}
-                className={`alert ${alertToShow.getAlertCSS()}`}
+                size="widget-wide"
                 onClick={showModal}
             >
-                <div>
-                    <AlertInformationDisplay alert={alertToShow} />
-                </div>
+                <AlertInformation>
+                    <h1>{alert.get("event")}</h1>
+                    <p>
+                        <em>Issued:</em> {alert.get("sent")}
+                    </p>
+                    <p>
+                        <em>Until:</em> {alert.get("ends") ?? alert.get("expires")}
+                    </p>
+                </AlertInformation>
 
                 {alerts.length > 1 && (
-                    <p className="excess-alerts">+{alerts.length - 1} more alert(s)</p>
+                    <ExcessAlerts>+{alerts.length - 1} more alert(s)</ExcessAlerts>
                 )}
-            </Widget>
+            </AlertWidget>
             <AlertModal alerts={alerts} isOpen={modalOpen} onClose={hideModal} />
         </>
     );
 }
+
+export default Alert;

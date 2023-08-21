@@ -1,25 +1,27 @@
-import React from "react";
 import { AttributionControl, MapContainer, TileLayer, ZoomControl } from "react-leaflet";
 import L from "leaflet";
 
-import Widget from "Components/Widget";
 import { Map } from "svgs/widget";
 
-import AlertPolygons from "./AlertPolygons";
-import ControlPortal, { Position } from "./ControlPortal";
-import Home from "./Home";
-import Locate from "./Locate";
-import Peek from "./Peek";
-import RainViewer from "./RainViewer";
+import {
+    AlertPolygons,
+    ControlPortal,
+    Home,
+    Locate,
+    Peek,
+    Position,
+    RainViewer,
+} from "./__internal__";
+import RadarWidget from "./style";
 
 
-interface IDictionary {
+type Dictionary = {
     [indiex: string]: HTMLDivElement;
-}
+};
 
 L.Map.include({
     _initControlPos() {
-        const corners = (this._controlCorners = {} as IDictionary);
+        const corners = (this._controlCorners = {} as Dictionary);
         const l = "leaflet-";
         const container = (this._controlContainer = L.DomUtil.create(
             "div",
@@ -45,14 +47,14 @@ L.Map.include({
  * Displays a small Radar widget that can then be clicked to zoom to fullscreen.
  * @returns The Radar widget
  */
-export default function Radar() {
+function Radar() {
     const defaultCent: L.LatLngExpression = {
         lat: 35.5,
         lng: -97.5,
     };
 
     return (
-        <Widget id="radar" size={"widget-large"} widgetTitle="Radar" widgetIcon={<Map />}>
+        <RadarWidget size="widget-large" widgetTitle="Radar" widgetIcon={<Map />}>
             <MapContainer
                 center={defaultCent}
                 zoom={10}
@@ -83,6 +85,8 @@ export default function Radar() {
                 <RainViewer />
                 <Peek />
             </MapContainer>
-        </Widget>
+        </RadarWidget>
     );
 }
+
+export default Radar;
