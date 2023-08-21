@@ -1,6 +1,6 @@
-<svg id="svg5" width="16mm" height="16mm" version="1.1" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
- <g id="layer1" stroke-width=".26458">
-  <ellipse id="path184" cx="8" cy="8" rx="8" ry="8" fill="#6498fa"/>
-  <ellipse id="path184-2" cx="8" cy="8" rx="7" ry="7" fill="#fff"/>
+<svg version="1.1" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+ <g stroke-width=".26458">
+  <ellipse cx="8" cy="8" rx="8" ry="8" fill="#6498fa"/>
+  <ellipse cx="8" cy="8" rx="6" ry="6" fill="#fff"/>
  </g>
 </svg>

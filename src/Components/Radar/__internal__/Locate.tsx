@@ -11,7 +11,6 @@ import { Cursor, LocationDot } from "svgs/radar";
 
 const Current_Location_Icon = L.divIcon({
     html: ReactDOMServer.renderToString(<LocationDot />),
-    className: "current-location",
     iconSize: [20, 20],
     iconAnchor: [10, 20],
 });
@@ -35,7 +34,10 @@ export default function Locate() {
         };
 
         if (!currMarker.current) {
-            currMarker.current = L.marker(coords, { icon: Current_Location_Icon }).addTo(map);
+            currMarker.current = L.marker(coords, {
+                icon: Current_Location_Icon,
+                title: "Current Location Marker",
+            }).addTo(map);
         }
 
         map.panTo(coords);
@@ -47,6 +49,7 @@ export default function Locate() {
             className="leaflet-custom-control leaflet-control"
             onClick={() => lat && lng && map.panTo({ lat, lng })}
             style={{ padding: 0, marginBottom: 0 }}
+            title="Pan to current location"
         >
             <Cursor />
         </Button>

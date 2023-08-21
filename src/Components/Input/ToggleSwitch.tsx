@@ -43,13 +43,15 @@ const Input = styled.input({
 
 function ToggleSwitch({
     label,
+    title,
     onChange,
 }: {
     label: string;
+    title?: string;
     onChange: React.ChangeEventHandler<HTMLInputElement>;
 }) {
     return (
-        <Label>
+        <Label title={title}>
             <Input type="checkbox" onChange={onChange} />
             <span>{label}</span>
         </Label>

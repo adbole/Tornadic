@@ -69,6 +69,7 @@ export default function Home() {
                 className="leaflet-custom-control leaflet-control"
                 onClick={unZoom}
                 style={{ padding: 0, marginBottom: 0 }}
+                title="Return to Dashboard"
             >
                 <Grid />
             </Button>

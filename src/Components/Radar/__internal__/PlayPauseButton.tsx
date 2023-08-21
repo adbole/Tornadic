@@ -1,18 +1,12 @@
 import React from "react";
-import styled from "@emotion/styled";
 
 import { useBooleanState } from "Hooks";
 
 import { Button } from "Components/Input";
 import { Pause, Play } from "svgs/radar";
 
+import { varNames } from "ts/StyleMixins";
 
-const PlayPause = styled(Button)({
-    svg: {
-        width: "1.5rem",
-        height: "1.5rem",
-    },
-});
 
 export default function PlayPauseButton({
     play,
@@ -35,8 +29,13 @@ export default function PlayPauseButton({
     }
 
     return (
-        <PlayPause varient="transparent" onClick={onClick}>
+        <Button 
+            varient="transparent" 
+            onClick={onClick} 
+            style={{ [varNames.svgSize]: "1.5rem" }}
+            title={isPlaying ? "Pause" : "Play"}
+        >
             {isPlaying ? <Pause /> : <Play />}
-        </PlayPause>
+        </Button>
     );
 }

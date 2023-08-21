@@ -50,6 +50,7 @@ export default function Now({ displayOnly }: { displayOnly?: boolean }) {
                             margin: "0px",
                             [varNames.svgSize]: "1.5rem"
                         }}
+                        title="Open Settings"
                     >
                         <Gear />
                     </Button>
