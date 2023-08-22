@@ -68,7 +68,7 @@ declare global {
                     state: string;
                 };
             };
-            county: string;
+            forecastZone: string;
         };
     }>;
 

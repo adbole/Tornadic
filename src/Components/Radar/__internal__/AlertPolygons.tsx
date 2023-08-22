@@ -15,7 +15,7 @@ import { alertColors } from "ts/StyleMixins";
  * @returns Polygons representing every alert in the current WeatherData
  */
 export default function AlertPolygons() {
-    const { alerts } = useWeather();
+    const { nationAlerts: alerts } = useWeather();
     const map = useMap();
 
     const [modalOpen, showModal, hideModal] = useBooleanState(false);

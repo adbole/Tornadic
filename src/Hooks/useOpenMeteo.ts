@@ -64,7 +64,7 @@ function getUrls(latitude: number, longitude: number, userSettings: UserSettings
  * @param from
  * @returns
  */
-async function getAlertData(from: string | GridPoint): Promise<{
+async function getAlertData(from: string | GridPoint, settings: UserSettings): Promise<{
     point: GridPoint;
     alerts: NWSAlert[];
     expiresAfter: number;
@@ -75,12 +75,11 @@ async function getAlertData(from: string | GridPoint): Promise<{
         point = await fetchData<GridPoint>(from, "National Weather Service API Point Endpoint");
     } else point = from;
 
-    const lastIndex = point.properties.county.lastIndexOf("/") + 1;
-
-    //Extract the county from the county url given by the point
-    const county = point.properties.county.substring(lastIndex);
+    const lastIndex = point.properties.forecastZone.lastIndexOf("/") + 1;
+    const zone = point.properties.forecastZone.substring(lastIndex);
+    
     const apiResponse = await fetchDataAndHeaders<{ features: NWSAlert[] }>(
-        `https://api.weather.gov/alerts/active/zone/${county}`,
+        `https://api.weather.gov/alerts/active/${!settings.radarAlertMode ? `zone/${zone}` : ""}`,
         "National Weather Service Alert Endpoint"
     );
 
@@ -144,7 +143,7 @@ export default function useOpenMeteo(
     }, [settings, unsetWeather]);
 
     const getData = React.useCallback(async () => {
-        if (!urls) return;
+        if (!urls || !settings) return;
 
         //Perform a full refresh on all data
         if (!refresh || !weather) {
@@ -158,7 +157,7 @@ export default function useOpenMeteo(
                 fetchData<AirQuality>(urls.airQualityURL, "Open-Meteo Air Quality").catch(e =>
                     setError(e)
                 ),
-                getAlertData(weather?.point ?? urls.pointURL).catch(e => setError(e)),
+                getAlertData(weather?.point ?? urls.pointURL, settings).catch(e => setError(e)),
             ]);
 
             if (!forecast || !airquality || !alertResponse) return;
@@ -169,10 +168,10 @@ export default function useOpenMeteo(
             setAlertRefresh(smartTimeout(unsetAlertRefresh, alertResponse.expiresAfter));
 
             //Convert data to desired formats
-            setWeather(new Weather(forecast, airquality, alertResponse.point, settings!));
+            setWeather(new Weather(forecast, airquality, alertResponse.point, settings));
             setAlerts(alertResponse.alerts);
         } else if (!alertRefresh && weather) {
-            const alertResponse = await getAlertData(weather.point).catch(e => setError(e));
+            const alertResponse = await getAlertData(weather.point, settings).catch(e => setError(e));
 
             if (!alertResponse) return;
 

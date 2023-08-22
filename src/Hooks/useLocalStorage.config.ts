@@ -8,6 +8,7 @@ declare global {
         tempUnit: "fahrenheit" | "celsius";
         windspeed: "kmh" | "mph" | "kn";
         precipitation: "mm" | "inch";
+        radarAlertMode: boolean
     };
 
     type UserLocation = {
@@ -28,6 +29,7 @@ const DEFAULTS: LocalStorageDefaults = {
         tempUnit: "fahrenheit",
         windspeed: "mph",
         precipitation: "inch",
+        radarAlertMode: false
     },
     userLocation: { useCurrent: false },
 };

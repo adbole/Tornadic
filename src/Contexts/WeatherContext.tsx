@@ -5,7 +5,7 @@
 
 import React from "react";
 
-import { useOpenMeteo } from "Hooks";
+import { useOpenMeteo, useReadLocalStorage } from "Hooks";
 
 import Toast from "Components/Toast";
 
@@ -17,6 +17,7 @@ import type Weather from "ts/Weather";
 const WeatherContext = React.createContext<{
     weather: Weather;
     alerts: NWSAlert[];
+    nationAlerts: NWSAlert[];
 }>({} as any);
 export const useWeather = () =>
     React.useContext(WeatherContext) ??
@@ -36,15 +37,21 @@ function WeatherContextProvider({
     children: React.ReactNode;
 }) {
     const { weather, alerts, error, getData } = useOpenMeteo(latitude, longitude);
+    const { radarAlertMode } = useReadLocalStorage("userSettings")!;
 
     const value = React.useMemo(() => {
         if (!weather || !alerts) return null;
 
         return {
             weather,
-            alerts,
+            alerts: radarAlertMode
+                ? alerts.filter(alert =>
+                      alert.get("affectedZones").includes(weather.point.properties.forecastZone)
+                  )
+                : alerts,
+            nationAlerts: alerts,
         };
-    }, [weather, alerts]);
+    }, [weather, alerts, radarAlertMode]);
 
     if (error && !value) {
         return fallbackRender(getData);

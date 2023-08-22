@@ -25,12 +25,13 @@ type Properties = {
     readonly description: string;
     readonly instruction: string;
     readonly response: string;
+    readonly affectedZones: string[];
 };
 
 export default class NWSAlert {
-    private declare readonly type: string
+    private declare readonly type: string;
     private declare readonly geometry: {
-        readonly type: string,
+        readonly type: string;
         readonly coordinates: number[][][];
     } | null;
 
@@ -52,14 +53,14 @@ export default class NWSAlert {
                 return this.properties[prop];
             }
 
-            return getTimeFormatted(this.properties[prop], "dateTime");
+            return getTimeFormatted(this.properties[prop] as string, "dateTime") as Properties[K];
         }
 
         return this.properties[prop];
     }
 
     hasCoords() {
-        return this.geometry !== null
+        return this.geometry !== null;
     }
 
     getAlertCSS() {

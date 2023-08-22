@@ -15,7 +15,7 @@ const Input = styled.input({
     position: "relative",
     width: "4rem",
     height: "2rem",
-    borderRadius: vars.inputBorderRadius,
+    borderRadius: vars.borderRadius,
     backgroundColor: vars.backgroundLayer,
     transition: "background-color 0.3s ease",
     outline: "none",
@@ -44,15 +44,17 @@ const Input = styled.input({
 function ToggleSwitch({
     label,
     title,
+    defaultChecked,
     onChange,
 }: {
     label: string;
     title?: string;
+    defaultChecked: boolean,
     onChange: React.ChangeEventHandler<HTMLInputElement>;
 }) {
     return (
         <Label title={title}>
-            <Input type="checkbox" onChange={onChange} />
+            <Input type="checkbox" onChange={onChange} defaultChecked={defaultChecked}/>
             <span>{label}</span>
         </Label>
     );
