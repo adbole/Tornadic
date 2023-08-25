@@ -26,6 +26,13 @@ type Properties = {
     readonly instruction: string;
     readonly response: string;
     readonly affectedZones: string[];
+    readonly messageType: "Alert" | "Update" | "Cancel" | "Ack" | "Error"
+    readonly references: {
+        readonly identifier: string
+    }[]
+    readonly parameters: {
+        readonly expiredReferences: string[] | undefined
+    }
 };
 
 export default class NWSAlert {
@@ -46,7 +53,7 @@ export default class NWSAlert {
         this.priority = this.getNamePriority() + this.getAlertType();
     }
 
-    get<K extends keyof Properties>(prop: K): Properties[K] {
+    get<K extends keyof Omit<Properties, "parameters">>(prop: K): Properties[K] {
         if (prop === "sent" || prop === "effective" || prop === "expires" || prop === "ends") {
             if (!this.properties[prop]) {
                 //Don't convert something that is null
@@ -57,6 +64,10 @@ export default class NWSAlert {
         }
 
         return this.properties[prop];
+    }
+
+    getParameter<K extends keyof Properties["parameters"]>(prop: K): Properties["parameters"][K] {
+        return this.properties.parameters[prop]
     }
 
     hasCoords() {

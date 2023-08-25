@@ -8,6 +8,88 @@ import useNullableState from "./useNullableState";
 import useReadLocalStorage from "./useReadLocalStorage";
 
 
+export default function useOpenMeteo(
+    latitude?: number,
+    longitude?: number
+): {
+    weather: Weather | null;
+    alerts: NWSAlert[] | null;
+    error: string | null;
+    getData: () => Promise<void>;
+} {
+    const settings = useReadLocalStorage("userSettings");
+    const [urls, setUrls] = React.useState<EndpointURLs>();
+
+    const [error, setError, unsetError] = useNullableState<string>();
+
+    const [weather, setWeather, unsetWeather] = useNullableState<Weather>();
+    const [alerts, setAlerts] = useNullableState<NWSAlert[]>();
+
+    //null here will indicate a refresh is needed as a stored value indicates a timer is running
+    const [refresh, setRefresh, unsetRefresh] = useNullableState<NodeJS.Timeout>();
+    const [alertRefresh, setAlertRefresh, unsetAlertRefresh] = useNullableState<NodeJS.Timeout>();
+
+    React.useEffect(() => {
+        if (latitude && longitude && settings) {
+            setUrls(getUrls(latitude, longitude, settings));
+            unsetWeather()
+        }
+    }, [latitude, longitude, settings, unsetWeather]);
+
+    const getData = React.useCallback(async () => {
+        if (!urls || !settings) return;
+
+        //Perform a full refresh on all data
+        if (!refresh || !weather) {
+            if (refresh) clearTimeout(refresh);
+            if (alertRefresh) clearTimeout(alertRefresh);
+
+            const [forecast, airquality, alertResponse] = await Promise.all([
+                fetchData<Forecast>(urls.forecastURL, "Open-Meteo Weather Forecast").catch(e =>
+                    setError(e)
+                ),
+                fetchData<AirQuality>(urls.airQualityURL, "Open-Meteo Air Quality").catch(e =>
+                    setError(e)
+                ),
+                getAlertData(weather?.point ?? urls.pointURL, settings).catch(e => setError(e)),
+            ]);
+
+            if (!forecast || !airquality || !alertResponse) return;
+
+            //Determine when the next hour is
+            const ms = 3.6e6 - (new Date().getTime() % 3.6e6);
+            setRefresh(smartTimeout(unsetRefresh, ms));
+            setAlertRefresh(smartTimeout(unsetAlertRefresh, alertResponse.expiresAfter));
+
+            //Convert data to desired formats
+            setWeather(new Weather(forecast, airquality, alertResponse.point, settings));
+            setAlerts(alertResponse.alerts);
+        } else if (!alertRefresh && weather) {
+            const alertResponse = await getAlertData(weather.point, settings).catch(e => setError(e));
+
+            if (!alertResponse) return;
+
+            setAlertRefresh(smartTimeout(unsetAlertRefresh, alertResponse.expiresAfter));
+            setAlerts(alertResponse.alerts);
+        }
+
+        unsetError();
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [alertRefresh, refresh, settings, urls, weather]);
+
+    React.useEffect(() => {
+        getData();
+    }, [getData]);
+
+    return {
+        weather,
+        alerts,
+        error,
+        getData,
+    };
+}
+
 function getUrls(latitude: number, longitude: number, userSettings: UserSettings): EndpointURLs {
     //NOTE: Precipitation unit of in affects the unit of visibility to become ft
     const forecastURL = new URL(
@@ -77,13 +159,13 @@ async function getAlertData(from: string | GridPoint, settings: UserSettings): P
 
     const lastIndex = point.properties.forecastZone.lastIndexOf("/") + 1;
     const zone = point.properties.forecastZone.substring(lastIndex);
-    
+
     const apiResponse = await fetchDataAndHeaders<{ features: NWSAlert[] }>(
         `https://api.weather.gov/alerts/active/${!settings.radarAlertMode ? `zone/${zone}` : ""}`,
         "National Weather Service Alert Endpoint"
     );
 
-    const alerts = apiResponse.data.features.map(alert => new NWSAlert(alert));
+    const alerts = removeExpired(apiResponse.data.features.map(alert => new NWSAlert(alert)));
 
     //Determine when the alert will expire
     const expiresHeader = new Date(apiResponse.headers.get("expires")!);
@@ -99,6 +181,27 @@ async function getAlertData(from: string | GridPoint, settings: UserSettings): P
     };
 }
 
+function removeExpired(alerts: NWSAlert[]) {
+    const markedForDeletion: number[] = []
+
+    alerts.forEach((alert, index) => {
+        const references = alert.get("references")
+        const expiredReferences = alert.getParameter("expiredReferences")
+
+        if(alert.get("messageType") === "Update" || references.length || expiredReferences?.length) {
+            for(let i = index; i < alerts.length; ++i) {
+                const id = alerts[i].get("id")
+
+                if(references.some(alert => alert.identifier === id) || expiredReferences?.some(str => str.includes(id))) {
+                    markedForDeletion.push(i)
+                }
+            }
+        }
+    })
+
+    return alerts.filter((_, i) => !markedForDeletion.includes(i))
+}
+
 function smartTimeout(fn: () => void, ms: number) {
     return setTimeout(() => {
         if (document.visibilityState === "hidden") {
@@ -107,91 +210,4 @@ function smartTimeout(fn: () => void, ms: number) {
             fn();
         }
     }, ms);
-}
-
-export default function useOpenMeteo(
-    latitude?: number,
-    longitude?: number
-): {
-    weather: Weather | null;
-    alerts: NWSAlert[] | null;
-    error: string | null;
-    getData: () => Promise<void>;
-} {
-    const settings = useReadLocalStorage("userSettings");
-    const [urls, setUrls] = React.useState<EndpointURLs>();
-
-    const [error, setError, unsetError] = useNullableState<string>();
-
-    const [weather, setWeather, unsetWeather] = useNullableState<Weather>();
-    const [alerts, setAlerts] = useNullableState<NWSAlert[]>();
-
-    //null here will indicate a refresh is needed as a stored value indicates a timer is running
-    const [refresh, setRefresh, unsetRefresh] = useNullableState<NodeJS.Timeout>();
-    const [alertRefresh, setAlertRefresh, unsetAlertRefresh] = useNullableState<NodeJS.Timeout>();
-
-    React.useEffect(() => {
-        if (latitude && longitude && settings) setUrls(getUrls(latitude, longitude, settings));
-    }, [latitude, longitude, settings]);
-
-    React.useEffect(() => {
-        if (urls) unsetWeather();
-    }, [urls, unsetWeather]);
-
-    React.useEffect(() => {
-        unsetWeather();
-    }, [settings, unsetWeather]);
-
-    const getData = React.useCallback(async () => {
-        if (!urls || !settings) return;
-
-        //Perform a full refresh on all data
-        if (!refresh || !weather) {
-            if (refresh) clearTimeout(refresh);
-            if (alertRefresh) clearTimeout(alertRefresh);
-
-            const [forecast, airquality, alertResponse] = await Promise.all([
-                fetchData<Forecast>(urls.forecastURL, "Open-Meteo Weather Forecast").catch(e =>
-                    setError(e)
-                ),
-                fetchData<AirQuality>(urls.airQualityURL, "Open-Meteo Air Quality").catch(e =>
-                    setError(e)
-                ),
-                getAlertData(weather?.point ?? urls.pointURL, settings).catch(e => setError(e)),
-            ]);
-
-            if (!forecast || !airquality || !alertResponse) return;
-
-            //Determine when the next hour is
-            const ms = 3.6e6 - (new Date().getTime() % 3.6e6);
-            setRefresh(smartTimeout(unsetRefresh, ms));
-            setAlertRefresh(smartTimeout(unsetAlertRefresh, alertResponse.expiresAfter));
-
-            //Convert data to desired formats
-            setWeather(new Weather(forecast, airquality, alertResponse.point, settings));
-            setAlerts(alertResponse.alerts);
-        } else if (!alertRefresh && weather) {
-            const alertResponse = await getAlertData(weather.point, settings).catch(e => setError(e));
-
-            if (!alertResponse) return;
-
-            setAlertRefresh(smartTimeout(unsetAlertRefresh, alertResponse.expiresAfter));
-            setAlerts(alertResponse.alerts);
-        }
-
-        unsetError();
-
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [alertRefresh, refresh, settings, urls, weather]);
-
-    React.useEffect(() => {
-        getData();
-    }, [getData]);
-
-    return {
-        weather,
-        alerts,
-        error,
-        getData,
-    };
 }
