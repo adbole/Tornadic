@@ -19,7 +19,7 @@ import NowWidget, { Temperature } from "./style";
  * @returns The Now widget
  */
 export default function Now({ displayOnly }: { displayOnly?: boolean }) {
-    const { weather } = useWeather();
+    const { weather, point } = useWeather();
 
     const [locationModalIsOpen, showLocationModal, hideLocationModal] = useBooleanState(false);
     const [settingsOpen, showSettings, hideSettings] = useBooleanState(false);
@@ -27,28 +27,22 @@ export default function Now({ displayOnly }: { displayOnly?: boolean }) {
     const now = weather.getNow();
     const background = now.conditionInfo.background;
 
+    const gradient = `linear-gradient(to bottom, ${background[0]}, ${background[1]})`;
+
     return (
         <>
-            {!displayOnly && (
-                <Global
-                    styles={{ body: { background: `linear-gradient(to bottom, ${background[0]}, ${background[1]})`, }, }}
-                />
-            )}
-            <NowWidget
-                size="widget-large"
-                isTemplate
-                background={now.conditionInfo.background}
-            >
+            {!displayOnly && <Global styles={{ body: { background: gradient } }} />}
+            <NowWidget size="widget-large" isTemplate style={{ background: gradient }}>
                 {!displayOnly && (
-                    <Button 
-                        varient="transparent" 
+                    <Button
+                        varient="transparent"
                         onClick={() => showSettings()}
                         style={{
                             position: "absolute",
                             left: "10px",
                             top: "10px",
-                            margin: "0px",
-                            [varNames.svgSize]: "1.5rem"
+                            margin: 0,
+                            [varNames.svgSize]: "1.5rem",
                         }}
                         title="Open Settings"
                     >
@@ -57,7 +51,7 @@ export default function Now({ displayOnly }: { displayOnly?: boolean }) {
                 )}
 
                 <p onClick={() => (displayOnly ? undefined : showLocationModal())}>
-                    {now.location}
+                    {point.properties.relativeLocation.properties.city}
                 </p>
 
                 <Temperature>{now.temperature}</Temperature>

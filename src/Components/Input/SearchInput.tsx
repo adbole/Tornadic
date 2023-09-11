@@ -1,8 +1,9 @@
 import React from "react";
-import { keyframes } from "@emotion/react";
 import styled from "@emotion/styled";
 
 import { useBooleanState } from "Hooks";
+
+import { Base as SkeletonBase } from "Components/Skeleton/style";
 
 import { vars } from "ts/StyleMixins";
 
@@ -10,7 +11,6 @@ import Input from "./Input";
 import InputGroup from "./InputGroup";
 
 
-const SearchBar = styled(InputGroup)({ display: "flex" });
 const SearchResults = styled.ul({
     display: "flex",
     flexDirection: "column",
@@ -22,15 +22,10 @@ const SearchResults = styled.ul({
     backgroundColor: vars.backgroundLayer,
 });
 
-const shine = keyframes({ to: { backgroundPositionX: "-200%" } });
-
-const TextLoader = styled.span({
+const TextLoader = styled.span(SkeletonBase, {
     display: "block",
     height: "1.5rem",
     borderRadius: "5px",
-    background: "linear-gradient(135deg, transparent 40%, #f5f5f51a 50%, transparent 60%)",
-    backgroundSize: "200% 100%",
-    animation: `${shine} 1.5s linear infinite`,
 });
 
 export type SearchResult<T> = {
@@ -63,7 +58,7 @@ function SearchInput<T>({ children, onGetResults, onSelect }: Props<T>) {
     const delayId = React.useRef<NodeJS.Timeout>();
 
     const onChange = React.useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-        if (delayId.current) clearTimeout(delayId.current);
+        clearTimeout(delayId.current);
 
         const value = e.currentTarget.value;
         delayId.current = setTimeout(() => setQuery(value), 1000);
@@ -71,7 +66,7 @@ function SearchInput<T>({ children, onGetResults, onSelect }: Props<T>) {
 
     return (
         <>
-            <SearchBar>
+            <InputGroup style={{ display: "flex" }}>
                 <Input
                     type="search"
                     placeholder="Enter a location"
@@ -79,7 +74,7 @@ function SearchInput<T>({ children, onGetResults, onSelect }: Props<T>) {
                     style={{ flex: 1 }}
                 />
                 {children}
-            </SearchBar>
+            </InputGroup>
             {isLoading ? (
                 <SearchResults>
                     {Array.from({ length: 5 }, (_, i) => (
@@ -92,14 +87,16 @@ function SearchInput<T>({ children, onGetResults, onSelect }: Props<T>) {
                 results &&
                 (results.length ? (
                     <SearchResults>
-                        {results?.map(result => (
+                        {results.map(result => (
                             <li key={result.key} onClick={() => onSelect(result.payload)}>
                                 {result.label}
                             </li>
                         ))}
                     </SearchResults>
                 ) : (
-                    <SearchResults><li>No Results Found</li></SearchResults>
+                    <SearchResults>
+                        <li>No Results</li>
+                    </SearchResults>
                 ))
             )}
         </>

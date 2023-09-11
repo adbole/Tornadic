@@ -41,20 +41,13 @@ export default class Weather {
 
     private readonly forecast: Readonly<Forecast>;
     private readonly airQuality: Readonly<AirQuality>;
-    readonly point: Readonly<GridPoint>;
 
-    constructor(
-        forecast: Forecast,
-        airQuality: AirQuality,
-        point: GridPoint,
-        settings: UserSettings
-    ) {
+    constructor(forecast: Forecast, airQuality: AirQuality, settings: UserSettings) {
         this.hourLength = forecast.hourly.time.length;
         this.dayLength = forecast.daily.time.length;
 
         this.forecast = this.configureForecast(forecast, settings);
         this.airQuality = airQuality;
-        this.point = point;
 
         this.nowIndex = this.forecast.hourly.time.indexOf(this.forecast.current_weather.time);
     }
@@ -91,17 +84,12 @@ export default class Weather {
      * will take other data using nowIndex and combine it to provide a better Now.
      */
     getNow(): {
-        readonly location: string;
         readonly conditionInfo: WeatherCondition;
         readonly temperature: string;
         readonly feelsLike: string;
     } {
         return {
-            location: this.point.properties.relativeLocation.properties.city,
-            conditionInfo: new WeatherCondition(
-                this.getForecast("weathercode"),
-                this.isDay()
-            ),
+            conditionInfo: new WeatherCondition(this.getForecast("weathercode"), this.isDay()),
             temperature: this.getForecast("temperature_2m").toFixed(0),
             feelsLike: this.getForecast("apparent_temperature").toFixed(0),
         };

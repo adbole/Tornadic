@@ -23,17 +23,19 @@ import {
     SunTime,
     Wind,
 } from "Components";
-import { ExclamationTriangle, Spinner, WifiOff } from "svgs";
+import FetchErrorHandler from "Components/FetchErrorHandler";
+import Toast from "Components/Toast";
+import { Spinner, WifiOff } from "svgs";
 import { Cursor } from "svgs/radar";
 import * as WidgetIcons from "svgs/widget";
 
 import { mediaQueries } from "ts/StyleMixins";
 
 
-const NowSkeleton = styled(Skeleton)({ [mediaQueries.mediumMax]: { gridColumn: "1 / -1" } })
-const HourlySkeleton = styled(Skeleton)({ [mediaQueries.large]: { gridColumn: "span 6" } });
-const RadarSkeleton = styled(Skeleton)({ [mediaQueries.mediumMin]: { gridArea: "r" } });
-const DailySkeleton = styled(Skeleton)({ [mediaQueries.mediumMin]: { gridArea: "d" } });
+const NowSkeleton = styled(Skeleton)({ [mediaQueries.max("medium")]: { gridColumn: "1 / -1" } });
+const HourlySkeleton = styled(Skeleton)({ [mediaQueries.min("large")]: { gridColumn: "span 6" } });
+const RadarSkeleton = styled(Skeleton)({ [mediaQueries.min("medium")]: { gridArea: "r" } });
+const DailySkeleton = styled(Skeleton)({ [mediaQueries.min("medium")]: { gridArea: "d" } });
 
 function LocationRequest() {
     const [modalOpen, showModal, hideModal] = useBooleanState(false);
@@ -106,43 +108,50 @@ function App() {
     if (!latitude || !longitude) return null;
 
     return (
-        <WeatherContext
-            latitude={latitude}
-            longitude={longitude}
-            skeletonRender={AppLoader}
-            fallbackRender={getData => (
-                <MessageScreen>
-                    <ExclamationTriangle />
-                    <p>Unable to get weather data</p>
-                    <Button onClick={getData}>Try Again</Button>
-                </MessageScreen>
+        <FetchErrorHandler
+            errorRender={(hasError, retry) => (
+                <Toast
+                    isOpen={hasError}
+                    action={{
+                        content: "Try Again",
+                        onClick: retry,
+                    }}
+                >
+                    Could not get weather data
+                </Toast>
             )}
         >
-            <Now />
-            <Alert />
-            <Hourly />
-            <Daily />
-            <Radar />
+            <WeatherContext latitude={latitude} longitude={longitude} skeletonRender={AppLoader}>
+                <Now />
+                <Alert />
+                <Hourly />
+                <Daily />
+                <Radar />
 
-            <Simple
-                icon={<WidgetIcons.Droplet />}
-                title="Precipitation"
-                property="precipitation"
-            />
-            <Simple icon={<WidgetIcons.Thermometer />} title="Dewpoint" property="dewpoint_2m" />
-            <Simple
-                icon={<WidgetIcons.Moisture />}
-                title="Humidity"
-                property="relativehumidity_2m"
-            />
-            <Simple icon={<WidgetIcons.Eye />} title="Visibility" property="visibility" />
-            <HazardLevel hazard="us_aqi" />
-            <HazardLevel hazard="uv_index" />
+                <Simple
+                    icon={<WidgetIcons.Droplet />}
+                    title="Precipitation"
+                    property="precipitation"
+                />
+                <Simple
+                    icon={<WidgetIcons.Thermometer />}
+                    title="Dewpoint"
+                    property="dewpoint_2m"
+                />
+                <Simple
+                    icon={<WidgetIcons.Moisture />}
+                    title="Humidity"
+                    property="relativehumidity_2m"
+                />
+                <Simple icon={<WidgetIcons.Eye />} title="Visibility" property="visibility" />
+                <HazardLevel hazard="us_aqi" />
+                <HazardLevel hazard="uv_index" />
 
-            <Wind />
-            <Pressure />
-            <SunTime />
-        </WeatherContext>
+                <Wind />
+                <Pressure />
+                <SunTime />
+            </WeatherContext>
+        </FetchErrorHandler>
     );
 }
 

@@ -1,11 +1,11 @@
 import { css } from "@emotion/react";
 
-import { centerFlex, mediaQueries,varNames,vars } from "ts/StyleMixins";
+import { centerFlex, mediaQueries, varNames, vars } from "ts/StyleMixins";
 
 
 export default css`
     * {
-        margin: 0px;
+        margin: 0;
         font-family:
             system-ui,
             -apple-system,
@@ -26,10 +26,14 @@ export default css`
     :root {
         ${varNames.background}: #2c2c2c;
         ${varNames.backgroundLayer}: #363636;
+        ${varNames.primary}: #2668f7;
+        ${varNames.watch}: #FFF501;
+        ${varNames.advise}: #FF9431;
+        ${varNames.warn}: #C31700;
+        ${varNames.statement}: #8F00FF;
+
         ${varNames.borderRadius}: 15px;
         ${varNames.inputBorderRadius}: 10px;
-
-        ${varNames.primary}: #2668f7;
 
         ${varNames.svgSize}: 1rem;
 
@@ -68,12 +72,14 @@ export default css`
 
     p,
     h1 {
-        margin: 0px;
+        margin: 0;
         line-height: 1;
         height: fit-content;
 
         //If an svg is within a p or h1, this will ensure it aligns somewhat properly
-        > svg { vertical-align: middle; }
+        > svg {
+            vertical-align: middle;
+        }
     }
 
     #root {
@@ -84,7 +90,7 @@ export default css`
         width: 100%;
         max-width: 1800px;
 
-        ${mediaQueries.mediumMin} {
+        ${mediaQueries.min("medium")} {
             grid-template-columns: repeat(6, 1fr);
             grid-template-areas:
                 "n n . . . ."
@@ -93,7 +99,7 @@ export default css`
                 "d d . . r r";
         }
 
-        ${mediaQueries.large} {
+        ${mediaQueries.min("large")} {
             grid-template-columns: repeat(8, 1fr);
             grid-template-areas:
                 "n n . . . . . ."
@@ -102,17 +108,16 @@ export default css`
                 "d d . . r r r r";
         }
 
-        ${mediaQueries.mediumMax} {
+        ${mediaQueries.max("medium")} {
             grid-template-columns: repeat(4, 1fr);
             grid-template-areas: none;
         }
 
-        ${mediaQueries.smallMin} {
-            padding: 10px;
-            gap: 20px;
-        }
+        padding: 10px;
+        gap: 20px;
 
-        ${mediaQueries.smallMax} {
+        ${mediaQueries.max("small")} {
+            gap: 10px;
             grid-template-columns: repeat(2, 1fr);
 
             > section + section {
@@ -132,4 +137,4 @@ export default css`
         padding: 10px;
         gap: 10px;
     }
-`
+`;

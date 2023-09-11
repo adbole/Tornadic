@@ -26,13 +26,13 @@ type Properties = {
     readonly instruction: string;
     readonly response: string;
     readonly affectedZones: string[];
-    readonly messageType: "Alert" | "Update" | "Cancel" | "Ack" | "Error"
+    readonly messageType: "Alert" | "Update" | "Cancel" | "Ack" | "Error";
     readonly references: {
-        readonly identifier: string
-    }[]
+        readonly identifier: string;
+    }[];
     readonly parameters: {
-        readonly expiredReferences: string[] | undefined
-    }
+        readonly expiredReferences: string[] | undefined;
+    };
 };
 
 export default class NWSAlert {
@@ -67,7 +67,7 @@ export default class NWSAlert {
     }
 
     getParameter<K extends keyof Properties["parameters"]>(prop: K): Properties["parameters"][K] {
-        return this.properties.parameters[prop]
+        return this.properties.parameters[prop];
     }
 
     hasCoords() {

@@ -28,7 +28,10 @@ async function getQueryResults(query: string) {
         .map(result => ({
             key: result.id,
             label: `${result.name}, ${result.admin1} @ ${result.latitude}, ${result.longitude}`,
-            payload: result,
+            payload: {
+                latitude: result.latitude,
+                longitude: result.longitude,
+            },
         }));
 }
 
@@ -37,7 +40,7 @@ export default function LocationInput() {
     const locationPermission = usePermission("geolocation");
 
     return (
-        <SearchInput<QueryResult>
+        <SearchInput
             onGetResults={query => getQueryResults(query)}
             onSelect={({ latitude, longitude }) =>
                 setUserLocation({
@@ -50,7 +53,10 @@ export default function LocationInput() {
             }
         >
             {locationPermission !== "denied" && (
-                <Button onClick={() => setUserLocation({ useCurrent: true })}>
+                <Button
+                    onClick={() => setUserLocation({ useCurrent: true })}
+                    title="Use Current Location"
+                >
                     <Cursor />
                 </Button>
             )}

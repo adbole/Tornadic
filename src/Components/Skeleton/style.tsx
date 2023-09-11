@@ -7,7 +7,9 @@ import Widget from "Components/Widget";
 const shine = keyframes({ to: { backgroundPositionX: "-200%" } });
 
 export const Base = css({
-    background: "linear-gradient(135deg, transparent 40%, #f5f5f51a 50%, transparent 60%)",
+    // background: "linear-gradient(135deg, transparent 30%, rgba(255, 255, 255, 0.1) 40%, rgba(255, 255, 255, 0.15) 60%, transparent 70%)",
+    background:
+        "linear-gradient(90deg, rgba(255, 255, 255, 0) 0, rgba(255, 255, 255, 0.1) 20%, rgba(255, 255, 255, 0.15) 60%, rgba(255, 255, 255, 0))",
     backgroundSize: "200%, 100%",
     animation: `${shine} 1.5s linear infinite`,
 });

@@ -39,7 +39,9 @@ export default function Pressure() {
                     <p style={{ margin: "-0.5rem", fontSize: "2rem", [varNames.svgSize]: "2rem" }}>
                         {getTrendIcon(weather)}
                     </p>
-                    <p style={{ fontSize: "2rem" }}>{weather.getForecast("surface_pressure").toFixed(2)}</p>
+                    <p style={{ fontSize: "2rem" }}>
+                        {weather.getForecast("surface_pressure").toFixed(2)}
+                    </p>
                     <p>{weather.getForecastUnit("surface_pressure")}</p>
                 </Container>
             </Widget>

@@ -17,7 +17,7 @@ export default styled.dialog<{
         backgroundColor: vars.background,
         borderRadius: vars.borderRadius,
         border: "none",
-        padding: "0px",
+        padding: 0,
         overflow: "hidden",
         transform: "translateY(100vh)",
         transition: "transform 1s ease",
@@ -28,7 +28,7 @@ export default styled.dialog<{
             opacity: 0,
             transition: "opacity 1s ease",
         },
-        [mediaQueries.smallMax]: {
+        [mediaQueries.max("small")]: {
             maxWidth: "100%",
             maxHeight: "75%",
             margin: "auto auto 0px auto",

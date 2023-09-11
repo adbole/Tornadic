@@ -8,7 +8,7 @@ import Modal, { ModalContent } from "../Modal";
 export default styled(Modal)({
     width: "90%",
     height: "80%",
-    [mediaQueries.smallMax]: {
+    [mediaQueries.max("small")]: {
         width: "100%",
         height: "60%",
         paddingBottom: "20px",

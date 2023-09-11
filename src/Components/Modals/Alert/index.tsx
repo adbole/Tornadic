@@ -18,11 +18,11 @@ const ListModal = styled(Modal)({
     },
 });
 
-const ListItem = styled.div({ 
+const ListItem = styled.div({
     borderRadius: vars.borderRadius,
     padding: "10px",
-    "h1": { fontSize: "1.5rem" }
-})
+    h1: { fontSize: "1.5rem" },
+});
 
 const ListContent = styled(ModalContent)({ "> :not(last-of-type)": { marginBottom: "10px" } });
 
@@ -56,10 +56,16 @@ function AlertDisplaySelectionWrapper({ alert }: { alert: NWSAlert }) {
     const { slideTo, reset } = useSlide();
 
     const onClickHandler = () => slideTo(<AlertModalBody alert={alert} onClick={reset} />);
-    const alertColor = alert.getAlertCSS() as keyof typeof alertColors
+    const alertColor = alert.getAlertCSS() as keyof typeof alertColors;
 
     return (
-        <ListItem onClick={onClickHandler} style={{ backgroundColor: alertColors[alertColor].background, color: alertColors[alertColor].foreground }}>
+        <ListItem
+            onClick={onClickHandler}
+            style={{
+                backgroundColor: alertColors[alertColor].background,
+                color: alertColors[alertColor].foreground,
+            }}
+        >
             <h1>{alert.get("event")}</h1>
             <p>
                 <em>Issued:</em> {alert.get("sent")}
@@ -78,11 +84,17 @@ function AlertModalBody({
     alert: NWSAlert;
     onClick?: (e: React.MouseEvent<HTMLHeadingElement>) => void;
 }) {
-    const alertColor = alert.getAlertCSS() as keyof typeof alertColors
+    const alertColor = alert.getAlertCSS() as keyof typeof alertColors;
 
     return (
         <>
-            <ModalTitle onClick={onClick} style={{ backgroundColor: alertColors[alertColor].background, color: alertColors[alertColor].foreground }}>
+            <ModalTitle
+                onClick={onClick}
+                style={{
+                    backgroundColor: alertColors[alertColor].background,
+                    color: alertColors[alertColor].foreground,
+                }}
+            >
                 {alert.get("event")}
             </ModalTitle>
             <ModalContent>

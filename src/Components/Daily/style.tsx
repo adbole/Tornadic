@@ -6,7 +6,7 @@ import Widget from "Components/Widget";
 import { mediaQueries } from "ts/StyleMixins";
 
 
-export const Base = css({ [mediaQueries.mediumMin]: { gridArea: "d" } });
+export const Base = css({ [mediaQueries.min("medium")]: { gridArea: "d" } });
 export default styled(Widget)(Base);
 
 export const Column = styled.div({

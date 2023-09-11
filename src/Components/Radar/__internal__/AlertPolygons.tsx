@@ -9,7 +9,6 @@ import AlertModal from "Components/Modals/Alert";
 
 import { alertColors } from "ts/StyleMixins";
 
-
 /**
  * Returns a mapping of polygons for every alert there is in the current WeatherData
  * @returns Polygons representing every alert in the current WeatherData
@@ -34,10 +33,10 @@ export default function AlertPolygons() {
                         showModal();
                     };
 
-                    const backgroundName = alert.getAlertCSS() as keyof typeof alertColors
-                    
+                    const backgroundName = alert.getAlertCSS() as keyof typeof alertColors;
+
                     return (
-                        <GeoJSON 
+                        <GeoJSON
                             key={alert.get("id")}
                             data={alert as any}
                             eventHandlers={{ click: onClick }}

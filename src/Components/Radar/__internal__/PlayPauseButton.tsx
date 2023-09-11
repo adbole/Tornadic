@@ -29,9 +29,9 @@ export default function PlayPauseButton({
     }
 
     return (
-        <Button 
-            varient="transparent" 
-            onClick={onClick} 
+        <Button
+            varient="transparent"
+            onClick={onClick}
             style={{ [varNames.svgSize]: "1.5rem" }}
             title={isPlaying ? "Pause" : "Play"}
         >

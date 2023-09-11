@@ -1,6 +1,7 @@
 import WeatherContext from "Contexts/WeatherContext";
 
 import Alert from "Components/Alert";
+import FetchErrorHandler from "Components/FetchErrorHandler";
 import HazardLevel from "Components/HazardLevel";
 import { Button } from "Components/Input";
 import Now from "Components/Now";
@@ -28,56 +29,55 @@ export default function Peek({
     return (
         <Modal {...modalProps}>
             <PeekContent>
-                <WeatherContext
-                    latitude={latitude}
-                    longitude={longitude}
-                    skeletonRender={() => (
-                        <>
-                            <NowSkeleton size="widget-large" />
-                            <AlertSkeleton />
-
-                            {Array.from({ length: 4 }, (_, i) => (
-                                <Skeleton key={i} />
-                            ))}
-
-                            {Array.from({ length: 4 }, (_, i) => (
-                                <Skeleton key={i} />
-                            ))}
-                        </>
-                    )}
-                    fallbackRender={getData => (
-                        <ErrorMessage>
+                <FetchErrorHandler
+                    errorRender={(hasError, retry) => (
+                        <ErrorMessage style={{ display: hasError ? "" : "none" }}>
                             <ExclamationTriangle />
-                            <p>Unable to get weater data</p>
-                            <Button onClick={getData}>Try Again</Button>
+                            <span>Couldn't get weather info</span>
+                            <Button onClick={retry}>Try Again</Button>
                         </ErrorMessage>
                     )}
                 >
-                    <Now displayOnly />
-                    <Alert />
-                    <SimpleInfoWidget
-                        icon={<Droplet />}
-                        title="Precipitation"
-                        property="precipitation"
-                    />
-                    <SimpleInfoWidget
-                        icon={<Thermometer />}
-                        title="Dewpoint"
-                        property="dewpoint_2m"
-                    />
-                    <SimpleInfoWidget
-                        icon={<Moisture />}
-                        title="Humidity"
-                        property="relativehumidity_2m"
-                    />
-                    <SimpleInfoWidget icon={<Eye />} title="Visibility" property="visibility" />
+                    <WeatherContext
+                        latitude={latitude}
+                        longitude={longitude}
+                        skeletonRender={() => (
+                            <>
+                                <NowSkeleton size="widget-large" />
+                                <AlertSkeleton size="widget-wide" />
 
-                    <HazardLevel hazard="us_aqi" />
-                    <HazardLevel hazard="uv_index" />
+                                {Array.from({ length: 8 }, (_, i) => (
+                                    <Skeleton key={i} />
+                                ))}
+                            </>
+                        )}
+                    >
+                        <Now displayOnly />
+                        <Alert />
+                        <SimpleInfoWidget
+                            icon={<Droplet />}
+                            title="Precipitation"
+                            property="precipitation"
+                        />
+                        <SimpleInfoWidget
+                            icon={<Thermometer />}
+                            title="Dewpoint"
+                            property="dewpoint_2m"
+                        />
+                        <SimpleInfoWidget
+                            icon={<Moisture />}
+                            title="Humidity"
+                            property="relativehumidity_2m"
+                        />
+                        <SimpleInfoWidget icon={<Eye />} title="Visibility" property="visibility" />
 
-                    <Wind />
-                    <Pressure />
-                </WeatherContext>
+                        <HazardLevel hazard="us_aqi" />
+                        <HazardLevel hazard="uv_index" />
+
+                        <Wind />
+                        <Pressure />
+                    </WeatherContext>
+                </FetchErrorHandler>
             </PeekContent>
         </Modal>
     );

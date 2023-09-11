@@ -1,55 +1,72 @@
 import { css } from "@emotion/react";
 
 
-export const mediaQueries = {
-    large: "@media screen and (min-width: 1400px)",
-    mediumMin: "@media screen and (min-width: 1100px)",
-    mediumMax: "@media screen and (max-width: 1100px)",
-    smallMin: "@media screen and (min-width: 800px)",
-    smallMax: "@media screen and (max-width: 800px)",
+const breakpoints = {
+    large: 1400,
+    medium: 1100,
+    small: 800,
 } as const;
+
+type BreakpointKey = keyof typeof breakpoints;
+
+export const mediaQueries = {
+    min(
+        key: BreakpointKey
+    ): `@media screen and (min-width: ${(typeof breakpoints)[BreakpointKey]}px)` {
+        return `@media screen and (min-width: ${breakpoints[key]}px)`;
+    },
+    max(
+        key: BreakpointKey
+    ): `@media screen and (max-width: ${(typeof breakpoints)[BreakpointKey]}px)` {
+        return `@media screen and (max-width: ${breakpoints[key]}px)`;
+    },
+};
 
 const baseVarNames = {
     background: "--background",
     backgroundLayer: "--background-layer",
+    primary: "--primary",
+    watch: "--watch",
+    advise: "--advise",
+    warn: "--warn",
+    statement: "--statment",
+
     borderRadius: "--border-radius",
     inputBorderRadius: "--input-border-radius",
 
     svgSize: "--svg-size",
 
-    primary: "--primary",
-
     zLayer1: "--z-layer-1",
     zLayer2: "--z-layer-2",
 } as const;
 
-//Proxy for varNames to prevent type-hinting when using 
+//Proxy for varNames to prevent type-hinting when using
 //inside style attributes
 export const varNames: {
-    [K in keyof typeof baseVarNames]: any
+    [K in keyof typeof baseVarNames]: any;
 } = baseVarNames;
 
 export const vars = new Proxy(baseVarNames, {
     get(target, prop) {
-        return `var(${target[prop as keyof typeof target]})`
-    }
-})
+        return `var(${target[prop as keyof typeof target]})`;
+    },
+});
 
 export const alertColors = {
     warning: {
-        background: "#C31700",
+        background: vars.warn,
         foreground: "white",
     },
     watch: {
-        background: "#FFF501",
+        background: vars.watch,
         foreground: "black",
     },
     advisory: {
-        background: "#FF9431",
+        background: vars.advise,
         foreground: "black",
     },
     statement: {
-        background: "#8F00FF",
+        background: vars.statement,
         foreground: "white",
     },
     none: {
@@ -57,7 +74,6 @@ export const alertColors = {
         foreground: "black",
     },
 };
-
 
 export const darkBackBlur = css({
     backgroundColor: "rgba(0, 0, 0, 0.75)",
@@ -79,4 +95,3 @@ export const interactable = css({
 
     "&:active, &:disabled": { filter: "brightness(70%)" },
 });
-

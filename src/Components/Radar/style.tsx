@@ -42,8 +42,8 @@ export const Base = css({
             [varNames.svgSize]: "1.25rem",
         },
     ],
-    ".leaflet-overlay-pane": { "svg": { width: "unset" } },
-    [mediaQueries.mediumMin]: { gridArea: "r" },
+    ".leaflet-overlay-pane": { svg: { width: "unset" } },
+    [mediaQueries.min("medium")]: { gridArea: "r" },
 });
 
 export default styled(Widget)(Base);

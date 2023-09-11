@@ -105,12 +105,13 @@ export default function Chart({
     const [day, setDay] = React.useState(showDay);
 
     const radioId = React.useId();
+    const timeRef = React.useRef<HTMLSpanElement>(null);
 
     const settings = useReadLocalStorage("userSettings")!;
 
     const chartData = React.useMemo(() => getData(weather, view, day), [weather, view, day]);
 
-    const timeRef = React.useRef<HTMLSpanElement>(null);
+    React.useEffect(() => setDay(showDay), [showDay]);
 
     //Autosize the select element for style points
     const setWidth = React.useCallback((element: HTMLSelectElement) => {
@@ -154,8 +155,8 @@ export default function Chart({
                     ref={setWidth}
                     title="Current Chart"
                     onChange={e => {
-                        setView(e.currentTarget.value as ChartViews)
-                        setWidth(e.target)
+                        setView(e.currentTarget.value as ChartViews);
+                        setWidth(e.target);
                     }}
                     value={view}
                 >

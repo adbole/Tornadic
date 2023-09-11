@@ -6,8 +6,7 @@
 import React from "react";
 
 import { useOpenMeteo, useReadLocalStorage } from "Hooks";
-
-import Toast from "Components/Toast";
+import useNWS from "Hooks/useNWS";
 
 import { throwError } from "ts/Helpers";
 import type NWSAlert from "ts/NWSAlert";
@@ -16,63 +15,86 @@ import type Weather from "ts/Weather";
 
 const WeatherContext = React.createContext<{
     weather: Weather;
+    point: GridPoint;
     alerts: NWSAlert[];
     nationAlerts: NWSAlert[];
 }>({} as any);
+
 export const useWeather = () =>
     React.useContext(WeatherContext) ??
     throwError("Please use useWeather inside a WeatherContext provider");
 
-function WeatherContextProvider({
+export default function WeatherContextProvider({
     latitude,
     longitude,
     skeletonRender,
-    fallbackRender,
     children,
 }: {
     latitude?: number;
     longitude?: number;
     skeletonRender: () => JSX.Element;
-    fallbackRender: (getData: VoidFunction) => JSX.Element;
     children: React.ReactNode;
 }) {
-    const { weather, alerts, error, getData } = useOpenMeteo(latitude, longitude);
+    const { weather, isLoading: openLoading } = useOpenMeteo(latitude, longitude);
+    const { point, alerts, isLoading: nwsLoading } = useNWS(latitude, longitude);
     const { radarAlertMode } = useReadLocalStorage("userSettings")!;
 
     const value = React.useMemo(() => {
-        if (!weather || !alerts) return null;
+        if (!weather || !point || !alerts) return null;
 
         return {
             weather,
+            point,
             alerts: radarAlertMode
                 ? alerts.filter(alert =>
-                      alert.get("affectedZones").includes(weather.point.properties.forecastZone)
+                      alert.get("affectedZones").includes(point.properties.forecastZone)
                   )
                 : alerts,
             nationAlerts: alerts,
         };
-    }, [weather, alerts, radarAlertMode]);
+    }, [weather, point, alerts, radarAlertMode]);
 
-    if (error && !value) {
-        return fallbackRender(getData);
-    }
+    const isLoading = openLoading || nwsLoading;
 
-    return value ? (
-        <>
-            <WeatherContext.Provider value={value}>{children}</WeatherContext.Provider>
-            <Toast
-                isOpen={error !== null}
-                action={{
-                    content: "Try Again",
-                    onClick: getData,
-                }}
-            >
-                <p>Couldn't get weather data</p>
-            </Toast>
-        </>
+    return !isLoading && value ? (
+        <WeatherContext.Provider value={value}>{children}</WeatherContext.Provider>
     ) : (
         skeletonRender()
     );
 }
 
-export default WeatherContextProvider;
+//Modified WeatherContext only providing alert information
+export function AlertProvider({
+    latitude,
+    longitude,
+    skeletonRender,
+    children,
+}: {
+    latitude?: number;
+    longitude?: number;
+    skeletonRender: () => JSX.Element;
+    children: React.ReactNode;
+}) {
+    const { point, alerts, isLoading } = useNWS(latitude, longitude);
+    const { radarAlertMode } = useReadLocalStorage("userSettings")!;
+
+    const value = React.useMemo(() => {
+        if (!point || !alerts) return null;
+
+        return {
+            point,
+            alerts: radarAlertMode
+                ? alerts.filter(alert =>
+                      alert.get("affectedZones").includes(point.properties.forecastZone)
+                  )
+                : alerts,
+            nationAlerts: alerts,
+        };
+    }, [point, alerts, radarAlertMode]);
+
+    return !isLoading && value ? (
+        <WeatherContext.Provider value={value as any}>{children}</WeatherContext.Provider>
+    ) : (
+        skeletonRender()
+    );
+}

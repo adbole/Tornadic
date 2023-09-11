@@ -49,12 +49,12 @@ function ToggleSwitch({
 }: {
     label: string;
     title?: string;
-    defaultChecked: boolean,
+    defaultChecked: boolean;
     onChange: React.ChangeEventHandler<HTMLInputElement>;
 }) {
     return (
         <Label title={title}>
-            <Input type="checkbox" onChange={onChange} defaultChecked={defaultChecked}/>
+            <Input type="checkbox" onChange={onChange} defaultChecked={defaultChecked} />
             <span>{label}</span>
         </Label>
     );

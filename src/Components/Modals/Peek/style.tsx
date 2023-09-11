@@ -1,11 +1,11 @@
 import styled from "@emotion/styled";
 
-import NowWidget, { Base as AlertBaseStyle } from "Components/Alert/style";
-import AlertWidget, { Base as NowBaseStyle } from "Components/Now/style";
+import { Base as AlertBaseStyle } from "Components/Alert/style";
+import { Base as NowBaseStyle } from "Components/Now/style";
 import Skeleton from "Components/Skeleton";
 import WidgetContainer from "Components/Widget/style";
 
-import { varNames } from "ts/StyleMixins";
+import { varNames, vars } from "ts/StyleMixins";
 
 import { ModalContent } from "../Modal";
 
@@ -14,24 +14,32 @@ export const NowSkeleton = styled(Skeleton)(NowBaseStyle);
 export const AlertSkeleton = styled(Skeleton)(AlertBaseStyle);
 
 export default styled(ModalContent)({
-    padding: 0,
+    padding: "10px",
 
     display: "grid",
     gridTemplateColumns: "repeat(2, 1fr)",
     gridAutoRows: "150px",
+    gap: "10px",
 
     [`${WidgetContainer}`]: {
         backdropFilter: "none",
         boxShadow: "none",
     },
-
-    [`${NowSkeleton}, ${AlertSkeleton}, ${NowWidget}, ${AlertWidget}`]: { borderRadius: 0, },
-
 });
 
 export const ErrorMessage = styled.div({
-    margin: "10px",
-    textAlign: "center",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+
+    borderRadius: vars.borderRadius,
+
+    background: vars.warn,
+    color: "white",
+    padding: "10px",
     gridColumn: " 1 / -1",
+
     [varNames.svgSize]: "2rem",
+    svg: { fill: "white" },
 });

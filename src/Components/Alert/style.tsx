@@ -10,7 +10,7 @@ export const Base = css({
     display: "grid",
     gridTemplateColumns: "100%",
     gridTemplateRows: "1fr",
-    padding: "0px",
+    padding: 0,
     "> *": {
         paddingLeft: "10px",
         paddingRight: "10px",

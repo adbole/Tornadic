@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 
-import { mediaQueries, vars } from "ts/StyleMixins";
+import { vars } from "ts/StyleMixins";
 
 import type { WidgetSize } from ".";
 
@@ -27,10 +27,8 @@ export default styled.section<{
         },
 
         backdropFilter: "saturate(130%)",
-        [mediaQueries.smallMin]: {
-            borderRadius: vars.borderRadius,
-            boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.25)",
-        },
+        borderRadius: vars.borderRadius,
+        boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.25)",
     },
     size === "widget-large" && {
         minHeight: "300px",

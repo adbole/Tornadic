@@ -6,14 +6,14 @@ import { mediaQueries } from "ts/StyleMixins";
 
 
 export default styled(Widget)(({ moveOver }: { moveOver: boolean }) => ({
-    [mediaQueries.mediumMax]: { gridColumn: "span 2" },
-    [mediaQueries.large]: [{ gridColumn: "span 6" }, moveOver && { gridColumn: "span 4" }],
+    [mediaQueries.max("medium")]: { gridColumn: "span 2" },
+    [mediaQueries.min("large")]: [{ gridColumn: "span 6" }, moveOver && { gridColumn: "span 4" }],
 }));
 
 export const List = styled.ol({
     display: "flex",
     listStyleType: "none",
-    padding: "0px",
+    padding: 0,
     overflowY: "hidden",
 
     gap: "20px",
@@ -28,9 +28,9 @@ export const Item = styled.li({
     flexDirection: "column",
     gap: "5px",
 
-    "p": { 
+    p: {
         whiteSpace: "nowrap",
-        textAlign: "center"
+        textAlign: "center",
     },
     "> div": {
         display: "flex",

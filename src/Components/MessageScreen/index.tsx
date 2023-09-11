@@ -13,7 +13,6 @@ const Container = styled.div([
         inset: 0,
 
         textAlign: "center",
-        [varNames.svgSize]: "500px",
         "> div": [
             centerFlex,
             {
@@ -24,7 +23,8 @@ const Container = styled.div([
                 [varNames.svgSize]: "50px",
             },
         ],
-        [mediaQueries.smallMax]: { [varNames.svgSize]: "300px" },
+        [varNames.svgSize]: "500px",
+        [mediaQueries.max("small")]: { [varNames.svgSize]: "300px" },
     },
 ]);
 

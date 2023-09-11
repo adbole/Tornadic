@@ -11,13 +11,7 @@ import { Normalize, toHSL } from "ts/Helpers";
 import { varNames } from "ts/StyleMixins";
 import type { DayInfo } from "ts/Weather";
 
-import DailyWidget, {
-    Column,
-    Covered,
-    DualRange,
-    List,
-    Row,
-} from "./style";
+import DailyWidget, { Column, Covered, DualRange, List, Row } from "./style";
 
 /**
  * A helper component for Daily to display the individual days of the week
@@ -34,14 +28,14 @@ function Day({
 }) {
     return (
         <Row onClick={onClick}>
-            <Column style={{ flex:"1 1" }}>
+            <Column style={{ flex: "1 1" }}>
                 <p>{dayInfo.day}</p>
             </Column>
-            <Column style={{ flex:"1 0", [varNames.svgSize]: "1.5rem" }}>
+            <Column style={{ flex: "1 0", [varNames.svgSize]: "1.5rem" }}>
                 <dayInfo.conditionInfo.icon />
                 {dayInfo.has_chance_of_rain && <span>{dayInfo.precipitation_probability}%</span>}
             </Column>
-            <Column style={{ flex:"0 0 55%" }}>
+            <Column style={{ flex: "0 0 55%" }}>
                 <p>{dayInfo.temperature_low}°</p>
                 <DualRange>
                     <Covered style={style} />
@@ -84,11 +78,7 @@ export default function Daily() {
 
     return (
         <>
-            <DailyWidget
-                size="widget-large"
-                widgetTitle="7-Day Forecast"
-                widgetIcon={<Calendar />}
-            >
+            <DailyWidget size="widget-large" widgetTitle="7-Day Forecast" widgetIcon={<Calendar />}>
                 <List>
                     {dailyValues.map((day, index) => (
                         <Day

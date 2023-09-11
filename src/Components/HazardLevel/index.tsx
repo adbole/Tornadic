@@ -89,11 +89,11 @@ function Meter({ rotation, gradient }: { rotation: number; gradient: string }) {
                 clipPath={`url(#${clipID})`}
                 mask={`url(#${maskID})`}
             >
-                <div 
+                <div
                     style={{
                         width: "100%",
                         height: "100%",
-                        background: gradient
+                        background: gradient,
                     }}
                 />
             </foreignObject>

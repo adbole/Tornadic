@@ -26,7 +26,7 @@ const Button = styled.button(({ varient = "primary" }: ButtonProps) => [
     varient === "transparent" && {
         backgroundColor: "transparent",
         boxShadow: "none",
-        padding: 0
+        padding: 0,
     },
 ]);
 

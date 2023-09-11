@@ -72,9 +72,8 @@ declare global {
         };
     }>;
 
-    type EndpointURLs = Readonly<{
-        forecastURL: URL;
-        airQualityURL: string;
-        pointURL: string;
-    }>;
+    type SWRFetchError = {
+        key: string;
+        errorMsg: string;
+    };
 }
