@@ -16,7 +16,8 @@ export default function useOpenMeteo(
 } {
     const settings = useReadLocalStorage("userSettings");
     const urls = React.useMemo(() => {
-        if (latitude && longitude && settings) return getUrls(latitude, longitude, settings);
+        if (latitude !== undefined && longitude !== undefined && settings) 
+            return getUrls(latitude, longitude, settings);
     }, [latitude, longitude, settings]);
 
     const timeout = React.useRef<NodeJS.Timeout>();

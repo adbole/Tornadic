@@ -5,8 +5,7 @@
 
 import React from "react";
 
-import { useOpenMeteo, useReadLocalStorage } from "Hooks";
-import useNWS from "Hooks/useNWS";
+import { useNWS, useOpenMeteo, useReadLocalStorage } from "Hooks";
 
 import { throwError } from "ts/Helpers";
 import type NWSAlert from "ts/NWSAlert";

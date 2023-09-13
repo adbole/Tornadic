@@ -47,7 +47,6 @@ declare global {
         hourly: { time: string[] } & HourlyProperties<number[]>;
         daily_units: { time: string } & DailyProperties<string, string>;
         daily: { time: string[] } & DailyProperties<number[], string[]>;
-        nowIndex: number; //Indicates the index where the value for now occurs in all hourly data arrays
     };
 
     //Airquality and forecast data are connected in that the current index for forecast will correlate to the

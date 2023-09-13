@@ -54,6 +54,12 @@ export default defineConfig(() => {
                     background_color: "#191B1F"
                 }
             })
-        ]
+        ],
+        test: { 
+            globals: true,
+            environment: "jsdom",
+            setupFiles: ["./src/__tests__/setupTests.ts"],
+            coverage: { prodier: "v8" }
+        }
     };
 });
