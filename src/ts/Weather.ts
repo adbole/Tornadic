@@ -99,7 +99,9 @@ export default class Weather {
      * Gets 48 hours of future values
      */
     *getFutureValues(): Generator<HourInfo> {
-        for (let i = this.nowIndex + 1; i < this.nowIndex + 49; ++i) {
+        const start = this.nowIndex + 1
+
+        for (let i = start; i < start + 48; ++i) {
             const conditionInfo = new WeatherCondition(
                 this.getForecast("weathercode", i),
                 this.isDay(i)
@@ -181,7 +183,7 @@ export default class Weather {
         return this.airQuality.hourly[key] as CombinedHourly[K];
     }
 
-    getAllDays<K extends keyof Forecast["daily"]>(prop: K, day: number = 0): Forecast["daily"][K] {
+    getAllDays<K extends keyof Forecast["daily"]>(prop: K): Forecast["daily"][K] {
         return this.forecast.daily[prop];
     }
 
