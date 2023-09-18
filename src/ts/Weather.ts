@@ -122,7 +122,7 @@ export default class Weather {
     }
 
     *getDailyValues(): Generator<DayInfo> {
-        for (let i = 0; i < this.forecast.daily.time.length; ++i) {
+        for (let i = 0; i < this.getAllDays("time").length; ++i) {
             const isDay = i === 0 ? this.isDay() : true;
 
             const weatherCode =

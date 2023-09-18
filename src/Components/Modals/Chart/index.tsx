@@ -111,7 +111,8 @@ export default function Chart({
 
     const chartData = React.useMemo(() => getData(weather, view, day), [weather, view, day]);
 
-    React.useEffect(() => setDay(showDay), [showDay]);
+    //Ensure the current prop value is used when opened or changed
+    React.useEffect(() => setDay(showDay), [showDay, modalProps.isOpen]);
 
     //Autosize the select element for style points
     const setWidth = React.useCallback((element: HTMLSelectElement) => {
@@ -120,7 +121,7 @@ export default function Chart({
         const canvasContext = document.createElement("canvas").getContext("2d")!;
         canvasContext.font = getComputedStyle(element).font;
 
-        //Incase textContent is null Temperature is default since its the largest option
+        //In case textContent is null Temperature is default since its the largest option
         const width = canvasContext.measureText(
             element.children[element.selectedIndex].textContent ?? "Temperature"
         ).width;
