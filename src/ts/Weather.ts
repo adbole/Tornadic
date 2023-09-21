@@ -17,15 +17,13 @@ type BaseInfo = Readonly<{
 export type HourInfo = Readonly<{
     time: string;
     temperature: number;
-}> &
-    BaseInfo;
+}> & BaseInfo;
 
 export type DayInfo = Readonly<{
     day: string;
     temperature_low: number;
     temperature_high: number;
-}> &
-    BaseInfo;
+}> & BaseInfo;
 
 export type CombinedHourly = Forecast["hourly"] & Omit<AirQuality["hourly"], "time">;
 
@@ -56,7 +54,7 @@ export default class Weather {
         const visibilityDivisor = settings.precipitation === "inch" ? 5280 : 1000;
 
         //All data point arrays have the same length, so one loop is sufficient
-        for (let i = 0; i < forecast.hourly.time.length; ++i) {
+        for (let i = 0; i < this.hourLength; ++i) {
             //Convert units
             forecast.hourly.surface_pressure[i] /= 33.864;
             forecast.hourly.visibility[i] /= visibilityDivisor;
@@ -122,7 +120,7 @@ export default class Weather {
     }
 
     *getDailyValues(): Generator<DayInfo> {
-        for (let i = 0; i < this.getAllDays("time").length; ++i) {
+        for (let i = 0; i < this.dayLength; ++i) {
             const isDay = i === 0 ? this.isDay() : true;
 
             const weatherCode =
