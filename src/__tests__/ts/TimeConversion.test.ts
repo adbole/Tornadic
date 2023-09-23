@@ -11,9 +11,7 @@ afterAll(() => {
 });
 
 test("weekday", () => {
-    console.log(process.env.TZ)
     const result = getTimeFormatted(new Date(), "weekday");
-
     expect(result).toEqual("Sun");
 });
 
@@ -34,6 +32,5 @@ test("date", () => {
 
 test("dateTime", () => {
     const result = getTimeFormatted(new Date(), "dateTime");
-
     expect(result).toMatch("Sun, Jan 1, 12:00 PM UTC");
 });
