@@ -2,6 +2,8 @@
 export class Normalize {
     //Normalizes a value to be between 0 and 1 given it and the minimum and maximum values possible
     static Decimal(x: number, min: number, max: number) {
+        x = Math.max(Math.min(x, max), min);
+
         return (x - min) / (max - min);
     }
 
@@ -39,10 +41,9 @@ export function get_uv(uv: number): UVLevel {
 
 //Converts the given Fahrenheit temperature to a hsl color
 export function toHSL(temp: number, unit: UserSettings["tempUnit"]) {
-    const bound = unit === "fahrenheit" ? 120 : 45;
-    const clampedValue = Math.max(Math.min(temp, bound), 0);
+    const max = unit === "fahrenheit" ? 120 : 45;
 
-    return `hsl(${250 * ((bound - clampedValue) / bound)}deg, 100%, 50%)`;
+    return `hsl(${250 * (1 - Normalize.Decimal(temp, 0, max))}deg, 100%, 50%)`;
 }
 
 //Throws an error. For use in expressions where throw isn't allowed.
@@ -52,5 +53,3 @@ export const throwError = (msg: string) => {
 
 //Helper method to ensure that a string matches a property on a type
 export const nameof = <T>(name: Extract<keyof T, string>): string => name;
-
-export const cleanClass = (className: string) => className.replace(/  +/, " ").trim();

@@ -3,9 +3,14 @@ import * as Conditions from "svgs/conditions";
 import type { Intesity, WeatherConditionType } from "ts/WeatherCondition";
 import WeatherCondition from "ts/WeatherCondition";
 
-
 //[Weathercode, intensity, condition, icon day, icon night]
-const valueExpected: [number, Intesity, WeatherConditionType, React.ComponentType, React.ComponentType][] = [
+const valueExpected: [
+    number,
+    Intesity,
+    WeatherConditionType,
+    React.ComponentType,
+    React.ComponentType,
+][] = [
     [0, "", "Clear", Conditions.Sun, Conditions.Moon],
     [1, "", "Mostly Clear", Conditions.CloudSun, Conditions.CloudMoon],
     [2, "", "Partly Cloudy", Conditions.Cloud, Conditions.Cloud],
@@ -36,20 +41,20 @@ const valueExpected: [number, Intesity, WeatherConditionType, React.ComponentTyp
     [99, "", "Thunderstorms", Conditions.Lightning, Conditions.Lightning],
 ];
 
-test("Every code is converted as expected with all props set accordingly", () => {
-    const result = valueExpected.every(arr => {
-        const dayCondition = new WeatherCondition(arr[0], true)
-        const nightCondition = new WeatherCondition(arr[0], false)
+test.each(valueExpected)(
+    "%i -> %s %s with icons %o and %o",
+    (code, intensity, type, dayIcon, nightIcon) => {
+        const dayCondition = new WeatherCondition(code, true);
+        const nightCondition = new WeatherCondition(code, false);
 
-        return dayCondition.intensity === arr[1] &&
-               dayCondition.type === arr[2] &&
-               dayCondition.icon.name === arr[3].name &&
-               nightCondition.intensity === dayCondition.intensity &&
-               nightCondition.type === dayCondition.type &&
-               nightCondition.icon.name === arr[4].name
-    })
+        expect.soft(dayCondition.intensity).toBe(intensity);
+        expect.soft(dayCondition.type).toBe(type);
+        expect.soft(dayCondition.icon.name).toBe(dayIcon.name);
 
-    expect(result).toBe(true)
-})
+        expect.soft(nightCondition.intensity).toBe(dayCondition.intensity);
+        expect.soft(nightCondition.type).toBe(dayCondition.type);
+        expect.soft(nightCondition.icon.name).toBe(nightIcon.name);
+    }
+);
 
-test.todo("Add background checks")
+test.todo("Add background checks");

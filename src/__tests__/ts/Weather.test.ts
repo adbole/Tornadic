@@ -95,7 +95,7 @@ weatherTest("getAllForecast returns the array for each key", ({ weather }) => {
     const airQualityResult =
         airQualityApiOpenMeteo.hourly.us_aqi === weather.getAllForecast("us_aqi");
 
-    expect.soft(forecastResult && airQualityResult).toBe(true);
+    expect(forecastResult && airQualityResult).toBe(true);
 });
 
 weatherTest("getAllDays returns the array for each key", ({ weather }) => {
@@ -186,13 +186,13 @@ describe("configureForecast properly sets and converts units based on settings",
 
         const sourceForecast = forecast();
 
-        expect(
+        expect.soft(
             sourceForecast.hourly.visibility.every(
                 (value, index) => value / 5280 === mi.getForecast("visibility", index)
             )
         ).toBe(true);
 
-        expect(
+        expect.soft(
             sourceForecast.hourly.visibility.every(
                 (value, index) => value / 1000 === km.getForecast("visibility", index)
             )

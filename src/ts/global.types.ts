@@ -70,9 +70,4 @@ declare global {
             forecastZone: string;
         };
     }>;
-
-    type SWRFetchError = {
-        key: string;
-        errorMsg: string;
-    };
 }
