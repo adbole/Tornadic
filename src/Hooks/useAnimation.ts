@@ -24,7 +24,7 @@ export default function useAnimation(
     React.useEffect(() => {
         cancelTimeoutAnimationFrame(requestId.current);
 
-        //Animations should only fire after first renders
+        //Animations should only fire after first render
         if (!isReady.current) {
             isReady.current = true;
             return;
@@ -33,11 +33,10 @@ export default function useAnimation(
         if (state) {
             setStage("idle");
             setShouldMountTrue();
-
-            requestTimeoutAnimationFrame(() => setStage("enter"));
+            requestId.current = requestTimeoutAnimationFrame(() => setStage("enter"));
         } else {
             setStage("leave");
-            requestTimeoutAnimationFrame(setShouldMountFalse, timeout);
+            requestId.current = requestTimeoutAnimationFrame(setShouldMountFalse, timeout);
         }
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
