@@ -24,7 +24,7 @@ test("should start in enter stage if default state is true with true shouldMount
 test("shouldMount sets to true followed by enter stage when state is set to true", async () => {
     vi.spyOn(window, "requestAnimationFrame").mockImplementation(cb => cb(performance.now()) as any);
 
-    const { result } = renderHook(() => useAnimation(false, 10));
+    const { result } = renderHook(() => useAnimation(false, 0));
     
     act(() => {
         result.current[0](); //setStateTrue
@@ -39,7 +39,7 @@ test("shouldMount sets to true followed by enter stage when state is set to true
 test("stage sets to idle followed by false shouldMount when state is set to false", async () => {
     vi.spyOn(window, "requestAnimationFrame").mockImplementation(cb => cb(performance.now()) as any);
 
-    const { result } = renderHook(() => useAnimation(true, 10));
+    const { result } = renderHook(() => useAnimation(true, 0));
     
     act(() => {
         result.current[1](); //setStateFalse
