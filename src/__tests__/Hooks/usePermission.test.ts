@@ -1,4 +1,5 @@
 import { renderHook, waitFor } from "@testing-library/react";
+import type { Mock } from "vitest";
 
 import { usePermission } from "Hooks"
 
@@ -10,7 +11,7 @@ test("should return unknown when permission is not found", () => {
 })
 
 test("should return granted when permission is granted", async () => {
-    vi.spyOn(navigator.permissions, "query").mockImplementation(() => Promise.resolve({ state: "granted" } as PermissionStatus));
+    (navigator.permissions.query as Mock).mockResolvedValue({ state: "granted" } as PermissionStatus);
 
     const { result } = renderHook(() => usePermission("geolocation"));
 
@@ -18,7 +19,7 @@ test("should return granted when permission is granted", async () => {
 })
 
 test("should return denied when permission is denied", async () => {
-    vi.spyOn(navigator.permissions, "query").mockImplementation(() => Promise.resolve({ state: "denied" } as PermissionStatus));
+    (navigator.permissions.query as Mock).mockResolvedValue({ state: "denied" } as PermissionStatus);
 
     const { result } = renderHook(() => usePermission("geolocation"));
 
@@ -26,7 +27,7 @@ test("should return denied when permission is denied", async () => {
 })
 
 test("should return prompt when permission needs to be prompted", async () => {
-    vi.spyOn(navigator.permissions, "query").mockImplementation(() => Promise.resolve({ state: "prompt" } as PermissionStatus));
+    (navigator.permissions.query as Mock).mockResolvedValue({ state: "prompt" } as PermissionStatus);
 
     const { result } = renderHook(() => usePermission("geolocation"));
 

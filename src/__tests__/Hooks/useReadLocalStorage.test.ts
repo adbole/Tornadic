@@ -1,3 +1,4 @@
+import { setLocalStorageItem } from "__tests__/__utils__";
 import { act, renderHook } from "@testing-library/react";
 
 import { useLocalStorage, useReadLocalStorage } from "Hooks";
@@ -16,7 +17,7 @@ test("returns null when no value is stored", () => {
 });
 
 test("returns the stored value", () => {
-    localStorage.setItem("userSettings", JSON.stringify(DEFAULTS.userSettings));
+    setLocalStorageItem("userSettings", DEFAULTS.userSettings);
 
     const { result } = renderHook(() => useReadLocalStorage("userSettings"));
 
@@ -48,7 +49,7 @@ describe("key updates in another document", () => {
         const { result } = renderHook(() => useReadLocalStorage("userSettings"));
     
         act(() => {
-            localStorage.setItem("userSettings", JSON.stringify(modifiedSettings));
+            setLocalStorageItem("userSettings", modifiedSettings);
             window.dispatchEvent(new StorageEvent("storage", { key: "userSettings" }));
         });
     
@@ -59,7 +60,7 @@ describe("key updates in another document", () => {
         const { result } = renderHook(() => useReadLocalStorage("userSettings"));
     
         act(() => {
-            localStorage.setItem("userSettings", JSON.stringify(DEFAULTS.userSettings));
+            setLocalStorageItem("userSettings", DEFAULTS.userSettings);
             window.dispatchEvent(new StorageEvent("storage", { key: "userLocation" }));
         });
     

@@ -1,3 +1,4 @@
+import { setLocalStorageItem } from "__tests__/__utils__";
 import { act, renderHook } from "@testing-library/react";
 
 import { useLocalStorage } from "Hooks";
@@ -55,7 +56,7 @@ describe("key updates by another useLocalStorage hook", () => {
     
         act(() => {
             //Default is false
-            localStorage.setItem("userLocation", JSON.stringify({ useCurrent: true }));
+            setLocalStorageItem("userLocation", { useCurrent: true })
             result1.current[1](modifiedSettings);
         });
         
@@ -70,7 +71,7 @@ describe("key updates in another document", () => {
         const { result } = renderHook(() => useLocalStorage("userSettings"));
     
         act(() => {
-            localStorage.setItem("userSettings", JSON.stringify(modifiedSettings));
+            setLocalStorageItem("userSettings", modifiedSettings);
             window.dispatchEvent(new StorageEvent("storage", { key: "userSettings" }));
         });
     
@@ -81,7 +82,7 @@ describe("key updates in another document", () => {
         const { result } = renderHook(() => useLocalStorage("userSettings"));
     
         act(() => {
-            localStorage.setItem("userSettings", JSON.stringify(modifiedSettings));
+            setLocalStorageItem("userSettings", modifiedSettings);
             window.dispatchEvent(new StorageEvent("storage", { key: "userLocation" }));
         });
     

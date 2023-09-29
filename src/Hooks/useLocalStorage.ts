@@ -9,7 +9,7 @@ declare global {
     interface StorageKeysAndTypes {}
 
     interface WindowEventMap {
-        [LOCAL_STORAGE_EVENT]: CustomEvent;
+        [LOCAL_STORAGE_EVENT]: CustomEvent<keyof StorageKeysAndTypes>;
     }
 }
 
