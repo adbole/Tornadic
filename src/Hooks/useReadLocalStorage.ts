@@ -10,7 +10,7 @@ export default function useReadLocalStorage<K extends keyof StorageKeysAndTypes>
 ): NullableKeysAndTypes[K] {
     const read = React.useCallback((): NullableKeysAndTypes[K] => {
         try {
-            const value = window.localStorage.getItem(key);
+            const value = localStorage.getItem(key);
             return value ? JSON.parse(value) : null;
         } catch {
             console.error(`Failed to get ${key} from localStroage`);

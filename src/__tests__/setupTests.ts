@@ -16,7 +16,6 @@ navigator.permissions = { query: () => Promise.resolve({ state: "granted" } as P
 
 beforeEach(() => {
     fetchMocker.mockResponse((req) => {
-        console.log("Mock")
         if(req.url.match(/air-quality-api.open-meteo.com/))
             return JSON.stringify(airQualityOpenMeteo)
         else if(req.url.match(/api\.open-meteo\.com/))
@@ -28,6 +27,8 @@ beforeEach(() => {
        
         return { status: 404 }
     })
+
+    localStorage.clear();
 })
 
 afterEach(() => {

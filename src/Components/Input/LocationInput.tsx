@@ -52,7 +52,7 @@ export default function LocationInput() {
                 })
             }
         >
-            {locationPermission !== "denied" && (
+            {locationPermission !== "denied" && navigator.geolocation && (
                 <Button
                     onClick={() => setUserLocation({ useCurrent: true })}
                     title="Use Current Location"

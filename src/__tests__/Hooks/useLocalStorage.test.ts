@@ -9,10 +9,6 @@ const modifiedSettings = {
     tempUnit: "celsius",
 } as UserSettings;
 
-beforeEach(() => {
-    localStorage.clear();
-});
-
 test("sets the default values if none are stored", () => {
     const { result } = renderHook(() => useLocalStorage("userSettings"));
 
@@ -43,26 +39,52 @@ test("setValue also allows functions and provides the old value as a param", asy
     expect.soft(setFn).toHaveBeenCalledWith(DEFAULTS.userSettings);
 });
 
-test("when a value is stored all hooks using the key are updated", () => {
-    const { result: result1 } = renderHook(() => useLocalStorage("userSettings"));
-    const { result: result2 } = renderHook(() => useLocalStorage("userSettings"));
-
-    act(() => result1.current[1](modifiedSettings));
-    expect.soft(result1.current[0]).toStrictEqual(modifiedSettings);
-    expect.soft(result2.current[0]).toStrictEqual(modifiedSettings);
-});
-
-test("during value updates, hooks using another key won't update even if new values exist", () => {
-    const { result: result1 } = renderHook(() => useLocalStorage("userSettings"));
-    const { result: result2 } = renderHook(() => useLocalStorage("userLocation"));
-
-    act(() => {
-        result1.current[1](modifiedSettings);
-        //Default is false
-        localStorage.setItem("userLocation", JSON.stringify({ useCurrent: true }));
+describe("key updates by another useLocalStorage hook", () => {
+    test("when a value is stored all hooks using the key are updated", () => {
+        const { result: result1 } = renderHook(() => useLocalStorage("userSettings"));
+        const { result: result2 } = renderHook(() => useLocalStorage("userSettings"));
+    
+        act(() => result1.current[1](modifiedSettings));
+        expect.soft(result1.current[0]).toStrictEqual(modifiedSettings);
+        expect.soft(result2.current[0]).toStrictEqual(modifiedSettings);
     });
     
-    expect.soft(result1.current[0]).toStrictEqual(modifiedSettings);
-    expect.soft(result2.current[0]).toStrictEqual(DEFAULTS.userLocation);
-    expect.soft(result2.current[0]).not.toStrictEqual({ useCurrent: true });
+    test("during value updates, hooks using another key won't update even if new values exist", () => {
+        const { result: result1 } = renderHook(() => useLocalStorage("userSettings"));
+        const { result: result2 } = renderHook(() => useLocalStorage("userLocation"));
+    
+        act(() => {
+            //Default is false
+            localStorage.setItem("userLocation", JSON.stringify({ useCurrent: true }));
+            result1.current[1](modifiedSettings);
+        });
+        
+        expect.soft(result1.current[0]).toStrictEqual(modifiedSettings);
+        expect.soft(result2.current[0]).toStrictEqual(DEFAULTS.userLocation);
+        expect.soft(result2.current[0]).not.toStrictEqual({ useCurrent: true });
+    });
+})
+
+describe("key updates in another document", () => {
+    test("updates the value when the key is modified", () => {
+        const { result } = renderHook(() => useLocalStorage("userSettings"));
+    
+        act(() => {
+            localStorage.setItem("userSettings", JSON.stringify(modifiedSettings));
+            window.dispatchEvent(new StorageEvent("storage", { key: "userSettings" }));
+        });
+    
+        expect.soft(result.current[0]).toStrictEqual(modifiedSettings);
+    });
+
+    test("doesn't update the value if another key is modified", () => {
+        const { result } = renderHook(() => useLocalStorage("userSettings"));
+    
+        act(() => {
+            localStorage.setItem("userSettings", JSON.stringify(modifiedSettings));
+            window.dispatchEvent(new StorageEvent("storage", { key: "userLocation" }));
+        });
+    
+        expect.soft(result.current[0]).toStrictEqual(DEFAULTS.userSettings);
+    })
 });

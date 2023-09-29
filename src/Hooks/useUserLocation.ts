@@ -11,7 +11,6 @@ import useReadLocalStorage from "./useReadLocalStorage";
 
 
 type Status =
-    | "no_storage"
     | "no_value"
     | "nav_not_supported"
     | "denied"
@@ -28,7 +27,7 @@ export default function useUserLocation() {
         setStatus("loading");
 
         if (userLocation === null) {
-            setStatus("no_storage");
+            setStatus("no_value");
         } else if (userLocation.useCurrent) {
             if (!navigator.geolocation) {
                 setStatus("nav_not_supported");
