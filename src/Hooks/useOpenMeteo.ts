@@ -20,26 +20,19 @@ export default function useOpenMeteo(
             return getUrls(latitude, longitude, settings);
     }, [latitude, longitude, settings]);
 
-    const timeout = React.useRef<NodeJS.Timeout>();
-
-    const key = urls ? "Open-Meteo" : null;
+    const key = urls ? [urls.airQualityURL, urls.forecastURL] : null;
     const {
         data: weather,
         isLoading,
-        mutate,
     } = useSWR<Weather, string>(key, async () => {
-        clearTimeout(timeout.current);
 
         const [forecast, airquality] = await Promise.all([
             fetchData<Forecast>(urls!.forecastURL, "Cannot get Open-Meteo forecast"),
             fetchData<AirQuality>(urls!.airQualityURL, "Cannot get Open-Meteo air quality"),
         ]);
 
-        const ms = 3.6e6 - (new Date().getTime() % 3.6e6);
-        timeout.current = setTimeout(() => mutate(), ms);
-
         return new Weather(forecast, airquality, settings!);
-    });
+    }, { refreshInterval: () => 3.6e6 - (new Date().getTime() % 3.6e6) });
 
     return {
         weather,

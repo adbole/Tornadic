@@ -1,4 +1,4 @@
-import { setLocalStorageItem } from "__tests__/__utils__";
+import { dispatchStorage, setLocalStorageItem } from "__tests__/__utils__";
 import { act, renderHook } from "@testing-library/react";
 
 import { useLocalStorage, useReadLocalStorage } from "Hooks";
@@ -50,7 +50,7 @@ describe("key updates in another document", () => {
     
         act(() => {
             setLocalStorageItem("userSettings", modifiedSettings);
-            window.dispatchEvent(new StorageEvent("storage", { key: "userSettings" }));
+            dispatchStorage("userSettings")
         });
     
         expect.soft(result.current).toStrictEqual(modifiedSettings);
@@ -61,7 +61,7 @@ describe("key updates in another document", () => {
     
         act(() => {
             setLocalStorageItem("userSettings", DEFAULTS.userSettings);
-            window.dispatchEvent(new StorageEvent("storage", { key: "userLocation" }));
+            dispatchStorage("userLocation")
         });
     
         expect.soft(result.current).toBeNull();

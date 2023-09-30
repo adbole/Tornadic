@@ -1,5 +1,4 @@
-import airQualityApiOpenMeteo from "__tests__/__mocks__/air-quality-api.open-meteo";
-import apiOpenMeteo from "__tests__/__mocks__/api.open-meteo";
+import { airQualityOpenMeteo,apiOpenMeteo } from "__tests__/__mocks__";
 
 import DEFAULTS from "Hooks/useLocalStorage.config";
 
@@ -15,7 +14,7 @@ const forecast = () => structuredClone(apiOpenMeteo);
 
 //General tests will won't use the above methods as they take advantage of
 //comparing references or values that get converted which makes testing easier
-const weatherTest = test.extend({ weather: new Weather(apiOpenMeteo, airQualityApiOpenMeteo, DEFAULTS.userSettings), });
+const weatherTest = test.extend({ weather: new Weather(apiOpenMeteo, airQualityOpenMeteo, DEFAULTS.userSettings), });
 
 weatherTest("isDay returns the correct day value", ({ weather }) => {
     expect(weather.isDay()).toEqual(Boolean(apiOpenMeteo.current_weather.is_day));
@@ -57,7 +56,7 @@ describe("getForecast", () => {
                 arr.every((value, index) => value === weather.getForecast(key as any, index))
             );
 
-            const airQualityResult = airQualityApiOpenMeteo.hourly.us_aqi.every(
+            const airQualityResult = airQualityOpenMeteo.hourly.us_aqi.every(
                 (value, index) => value === weather.getForecast("us_aqi", index)
             );
 
@@ -93,7 +92,7 @@ weatherTest("getAllForecast returns the array for each key", ({ weather }) => {
     );
 
     const airQualityResult =
-        airQualityApiOpenMeteo.hourly.us_aqi === weather.getAllForecast("us_aqi");
+        airQualityOpenMeteo.hourly.us_aqi === weather.getAllForecast("us_aqi");
 
     expect(forecastResult && airQualityResult).toBe(true);
 });
@@ -119,8 +118,8 @@ test("hasChanceOfRain returns correct value for correct conditions", () => {
 
 describe("configureForecast properly sets and converts units based on settings", () => {
     test("tempUnit", () => {
-        const fahrenheit = new Weather(forecast(), airQualityApiOpenMeteo, DEFAULTS.userSettings);
-        const celsius = new Weather(forecast(), airQualityApiOpenMeteo, {
+        const fahrenheit = new Weather(forecast(), airQualityOpenMeteo, DEFAULTS.userSettings);
+        const celsius = new Weather(forecast(), airQualityOpenMeteo, {
             ...DEFAULTS.userSettings,
             tempUnit: "celsius",
         });
@@ -135,8 +134,8 @@ describe("configureForecast properly sets and converts units based on settings",
     });
 
     test("precipitation", () => {
-        const inch = new Weather(forecast(), airQualityApiOpenMeteo, DEFAULTS.userSettings);
-        const mm = new Weather(forecast(), airQualityApiOpenMeteo, {
+        const inch = new Weather(forecast(), airQualityOpenMeteo, DEFAULTS.userSettings);
+        const mm = new Weather(forecast(), airQualityOpenMeteo, {
             ...DEFAULTS.userSettings,
             precipitation: "mm",
         });
@@ -149,12 +148,12 @@ describe("configureForecast properly sets and converts units based on settings",
     });
 
     test("windspeed", () => {
-        const mph = new Weather(forecast(), airQualityApiOpenMeteo, DEFAULTS.userSettings);
-        const kmh = new Weather(forecast(), airQualityApiOpenMeteo, {
+        const mph = new Weather(forecast(), airQualityOpenMeteo, DEFAULTS.userSettings);
+        const kmh = new Weather(forecast(), airQualityOpenMeteo, {
             ...DEFAULTS.userSettings,
             windspeed: "kmh",
         });
-        const kn = new Weather(forecast(), airQualityApiOpenMeteo, {
+        const kn = new Weather(forecast(), airQualityOpenMeteo, {
             ...DEFAULTS.userSettings,
             windspeed: "kn",
         });
@@ -178,8 +177,8 @@ describe("configureForecast properly sets and converts units based on settings",
     });
 
     test("visibililty is converted as expected", () => {
-        const mi = new Weather(forecast(), airQualityApiOpenMeteo, DEFAULTS.userSettings);
-        const km = new Weather(forecast(), airQualityApiOpenMeteo, {
+        const mi = new Weather(forecast(), airQualityOpenMeteo, DEFAULTS.userSettings);
+        const km = new Weather(forecast(), airQualityOpenMeteo, {
             ...DEFAULTS.userSettings,
             precipitation: "mm",
         });
@@ -200,7 +199,7 @@ describe("configureForecast properly sets and converts units based on settings",
     });
 
     test("surface_pressure is converted as expected", () => {
-        const weather = new Weather(forecast(), airQualityApiOpenMeteo, DEFAULTS.userSettings)
+        const weather = new Weather(forecast(), airQualityOpenMeteo, DEFAULTS.userSettings)
         const sourceForecast = forecast()
 
         expect(

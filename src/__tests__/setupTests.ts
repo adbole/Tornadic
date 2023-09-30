@@ -28,9 +28,9 @@ beforeEach(() => {
         if(req.url.match(/air-quality-api.open-meteo.com/))
             return JSON.stringify(airQualityOpenMeteo)
         else if(req.url.match(/api\.open-meteo\.com/))
-            return JSON.stringify(apiOpenMeteo)
+            return JSON.stringify(apiOpenMeteo)   
         else if(req.url.match(/^https:\/\/api.weather.gov\/alerts\/active\/.*$/))
-            return JSON.stringify(apiWeatherGov_alerts)
+            return { body: JSON.stringify(apiWeatherGov_alerts), headers: { expires: new Date().toISOString() } }
         else if(req.url.match(/^https:\/\/api.weather.gov\/points\/.*$/))
             return JSON.stringify(apiWeatherGov_points)
        
