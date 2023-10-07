@@ -8,6 +8,8 @@ import apiOpenMeteo from "./__mocks__/api.open-meteo";
 import apiWeatherGov_alerts from "./__mocks__/api.weather.gov_alerts";
 import apiWeatherGov_points from "./__mocks__/api.weather.gov_points";
 
+import "@testing-library/jest-dom/vitest";
+
 
 const fetchMocker = createFetchMock(vi);
 fetchMocker.enableMocks();
