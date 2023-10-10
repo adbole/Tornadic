@@ -47,7 +47,14 @@ export default class Weather {
         this.forecast = this.configureForecast(forecast, settings);
         this.airQuality = airQuality;
 
-        this.nowIndex = this.forecast.hourly.time.indexOf(this.forecast.current_weather.time);
+        this.nowIndex = this.forecast.hourly.time.findIndex(
+            (time) => new Date(time).getTime() > Date.now() 
+        ) - 1;
+
+        if (this.nowIndex < 0) {
+            console.error("Cannot find current time in forecast data")
+            throw new Error("Cannot find current time in forecast data");
+        }
     }
 
     private configureForecast(forecast: Forecast, settings: UserSettings) {
