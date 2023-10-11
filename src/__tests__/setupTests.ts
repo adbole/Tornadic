@@ -21,9 +21,10 @@ navigator.permissions = { query: vi.fn() }
 navigator.geolocation = { getCurrentPosition: vi.fn() }
 
 beforeAll(() => {
+    let count = 0;
     (navigator.permissions.query as Mock).mockImplementation(() => Promise.resolve({ state: "granted" } as PermissionStatus));
     (navigator.geolocation.getCurrentPosition as Mock).mockImplementation((cb) => cb({ coords: { latitude: 1, longitude: 1 } }));
-    vi.spyOn(window, "requestAnimationFrame").mockImplementation(cb => cb(performance.now()) as any);
+    vi.spyOn(window, "requestAnimationFrame").mockImplementation(cb => cb(performance.now() + ++count * 100) as any);
 })
 
 beforeEach(() => {

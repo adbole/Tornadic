@@ -157,7 +157,7 @@ export default function Chart({
                     title="Current Chart"
                     onChange={e => {
                         setView(e.currentTarget.value as ChartViews);
-                        setWidth(e.target);
+                        setWidth(e.currentTarget);
                     }}
                     value={view}
                 >
