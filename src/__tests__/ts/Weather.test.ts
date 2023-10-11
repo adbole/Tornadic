@@ -14,7 +14,25 @@ const forecast = () => structuredClone(apiOpenMeteo);
 
 //General tests will won't use the above methods as they take advantage of
 //comparing references or values that get converted which makes testing easier
-const weatherTest = test.extend({ weather: new Weather(apiOpenMeteo, airQualityOpenMeteo, DEFAULTS.userSettings), });
+const weatherTest = test.extend<{
+    weather: Weather
+}>({ 
+    weather: async ({ task }, use) => {
+        const weather = new Weather(apiOpenMeteo, airQualityOpenMeteo, DEFAULTS.userSettings);
+
+        await use(weather)
+    }
+});
+
+beforeEach(() => {    
+    vi.useFakeTimers()
+    vi.setSystemTime(apiOpenMeteo.current_weather.time)
+})
+
+afterEach(() => {
+    vi.runOnlyPendingTimers()
+    vi.useRealTimers()
+})
 
 weatherTest("isDay returns the correct day value", ({ weather }) => {
     expect(weather.isDay()).toEqual(Boolean(apiOpenMeteo.current_weather.is_day));

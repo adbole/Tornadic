@@ -26,7 +26,7 @@ afterEach(() => {
 test("no request are made if nothing is passed", () => {
     const { result } = renderNWS();
 
-    expect.soft(fetch).not.toHaveBeenCalled();
+    expect.soft(fetchMock).not.toHaveBeenCalled();
     expect.soft(result.current.point).toBeUndefined();
     expect.soft(result.current.alerts).toBeUndefined();
     expect.soft(result.current.isLoading).toBe(false);
@@ -44,21 +44,21 @@ describe("data fetching", () => {
     test("gets the point data first", async () => {
         renderNWS(1, 1);
     
-        expect.soft(fetch).toHaveBeenCalledOnce();
+        expect.soft(fetchMock).toHaveBeenCalledOnce();
     })
 
     test("if point data fails, then alert data is never fetched", async () => {
         fetchMock.mockReject();
         renderNWS(1, 1);
 
-        expect.soft(fetch).toHaveBeenCalledOnce();
+        expect.soft(fetchMock).toHaveBeenCalledOnce();
 
         await act(async () => {
             await vi.runOnlyPendingTimersAsync();
         });
         
         const requests = fetchMock.requests().map(req => req.url);
-        expect.soft(fetch).toHaveBeenCalledTimes(2);
+        expect.soft(fetchMock).toHaveBeenCalledTimes(2);
         expect.soft(requests[0]).toContain("points");
         expect.soft(requests[1]).toContain("points");
 
@@ -68,13 +68,13 @@ describe("data fetching", () => {
     test("gets the alert data if point data is OK", async () => {
         const { result } = renderNWS(1, 1);
 
-        expect.soft(fetch).toHaveBeenCalledOnce()
+        expect.soft(fetchMock).toHaveBeenCalledOnce()
         
         await act(async () => {
             await vi.runOnlyPendingTimersAsync();
         });
         
-        expect.soft(fetch).toHaveBeenCalledTimes(2);
+        expect.soft(fetchMock).toHaveBeenCalledTimes(2);
         expect.soft(result.current.point).toStrictEqual(apiWeatherGov_points);
         expect.soft(result.current.alerts).toHaveLength(apiWeatherGov_alerts.features.length);
         expect.soft(result.current.isLoading).toBe(false);
@@ -87,19 +87,19 @@ describe("data fetching", () => {
             await vi.runOnlyPendingTimersAsync();
         });
 
-        expect.soft(fetch).toHaveBeenCalledTimes(2);
+        expect.soft(fetchMock).toHaveBeenCalledTimes(2);
 
         await act(async () => {
             await vi.advanceTimersByTimeAsync(5000);
         })
 
-        expect.soft(fetch).toHaveBeenCalledTimes(3);
+        expect.soft(fetchMock).toHaveBeenCalledTimes(3);
 
         await act(async () => {
             await vi.advanceTimersByTimeAsync(5000);
         })
 
-        expect.soft(fetch).toHaveBeenCalledTimes(4);
+        expect.soft(fetchMock).toHaveBeenCalledTimes(4);
     })
 
     describe.todo("radar alert mode tests")

@@ -22,8 +22,6 @@ test("should start in enter stage if default state is true with true shouldMount
 });
 
 test("shouldMount sets to true followed by enter stage when state is set to true", async () => {
-    vi.spyOn(window, "requestAnimationFrame").mockImplementation(cb => cb(performance.now()) as any);
-
     const { result } = renderHook(() => useAnimation(false, 0));
     
     act(() => {
@@ -32,13 +30,9 @@ test("shouldMount sets to true followed by enter stage when state is set to true
         
     expect.soft(result.current[3]).toBe(true); //shouldMount
     expect.soft(result.current[2]).toBe<AnimationStage>("enter"); //stage
-
-    (window.requestAnimationFrame as Mock).mockRestore();
 });
 
 test("stage sets to idle followed by false shouldMount when state is set to false", async () => {
-    vi.spyOn(window, "requestAnimationFrame").mockImplementation(cb => cb(performance.now()) as any);
-
     const { result } = renderHook(() => useAnimation(true, 0));
     
     act(() => {
@@ -47,6 +41,4 @@ test("stage sets to idle followed by false shouldMount when state is set to fals
         
     expect.soft(result.current[3]).toBe(false); //shouldMount
     expect.soft(result.current[2]).toBe<AnimationStage>("leave"); //stage
-    
-    (window.requestAnimationFrame as Mock).mockRestore();
 });

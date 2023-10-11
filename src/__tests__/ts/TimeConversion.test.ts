@@ -1,12 +1,12 @@
 import getTimeFormatted from "ts/TimeConversion";
 
 
-beforeAll(() => {
+beforeEach(() => {
     vi.useFakeTimers();
     vi.setSystemTime(new Date("2023-01-01T12:00:00.000Z"));
 });
 
-afterAll(() => {
+afterEach(() => {
     vi.useRealTimers();
 });
 
