@@ -20,20 +20,14 @@ export type ModalProps = {
 export default function Modal({ isOpen, children, onClose, className }: ModalProps) {
     const [openModal, closeModal, stage, shouldMount] = useAnimation(isOpen, 1000);
 
-    const dialogRef = React.useRef<HTMLDialogElement>(null);
+    const dialogRef = React.useRef<HTMLDialogElement | null>(null);
 
     React.useEffect(() => {
-        if (isOpen) {
-            openModal();
-        }
+        if (isOpen) openModal();
     }, [isOpen, openModal]);
 
     React.useLayoutEffect(() => {
-        if (shouldMount) {
-            dialogRef.current?.showModal();
-        } else {
-            onClose();
-        }
+        if (!shouldMount) onClose();
     }, [onClose, shouldMount]);
 
     useSameClick(dialogRef, (e: MouseEvent) => {
@@ -42,21 +36,26 @@ export default function Modal({ isOpen, children, onClose, className }: ModalPro
         if (target === dialogRef.current) closeModal();
     });
 
+    const ref = React.useCallback((el: HTMLDialogElement | null) => {
+        el?.showModal();
+        dialogRef.current = el;
+    }, []);
+
     return shouldMount
         ? ReactDOM.createPortal(
               <>
-                  <Global styles={{ body: { overflow: "hidden" } }} />
-                  <Dialog
-                      ref={dialogRef}
-                      stage={stage}
-                      onCancel={e => {
-                          e.preventDefault();
-                          closeModal();
-                      }}
-                      className={className}
-                  >
-                      {children}
-                  </Dialog>
+                <Global styles={{ body: { overflow: "hidden" } }} />
+                <Dialog
+                    ref={ref}
+                    stage={stage}
+                    onCancel={e => {
+                        e.preventDefault();
+                        closeModal();
+                    }}
+                    className={className}
+                >
+                    {children}
+                </Dialog>
               </>,
               document.body
           )

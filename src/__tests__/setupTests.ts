@@ -10,22 +10,9 @@ import apiWeatherGov_points from "./__mocks__/api.weather.gov_points";
 
 import "@testing-library/jest-dom/vitest";
 
-
+// Fetch Mocks
 const fetchMocker = createFetchMock(vi);
 fetchMocker.enableMocks();
-
-// @ts-expect-error with readonly assignment
-navigator.permissions = { query: vi.fn() }
-
-// @ts-expect-error with readonly assignment
-navigator.geolocation = { getCurrentPosition: vi.fn() }
-
-beforeAll(() => {
-    let count = 0;
-    (navigator.permissions.query as Mock).mockImplementation(() => Promise.resolve({ state: "granted" } as PermissionStatus));
-    (navigator.geolocation.getCurrentPosition as Mock).mockImplementation((cb) => cb({ coords: { latitude: 1, longitude: 1 } }));
-    vi.spyOn(window, "requestAnimationFrame").mockImplementation(cb => cb(performance.now() + ++count * 100) as any);
-})
 
 beforeEach(() => {
     fetchMocker.mockResponse((req) => {
@@ -44,11 +31,45 @@ beforeEach(() => {
     localStorage.clear();
 })
 
-afterAll(() => {
-    (window.requestAnimationFrame as Mock).mockRestore();
+afterEach(() => {
+    fetchMocker.resetMocks();
+});
+
+//Navigator Mocks
+beforeEach(() => {
+    vi.stubGlobal("navigator", {
+        ...navigator,
+        onLine: true,
+        permissions: { query: vi.fn() },
+        geolocation: { getCurrentPosition: vi.fn() }
+    });
+
+    (navigator.permissions.query as Mock).mockImplementation(() => Promise.resolve({ state: "granted" } as PermissionStatus));
+    (navigator.geolocation.getCurrentPosition as Mock).mockImplementation((cb) => cb({ coords: { latitude: 1, longitude: 1 } }));
 })
 
 afterEach(() => {
-    fetchMocker.resetMocks();
-    cleanup();
+    vi.unstubAllGlobals();
 });
+
+//Animation Frame Mocks
+beforeEach(() => {
+    let count = 0;
+
+    vi.spyOn(window, "requestAnimationFrame").mockImplementation(cb => cb(performance.now() + ++count * 100) as any);
+})
+
+afterEach(() => {
+    (window.requestAnimationFrame as Mock).mockRestore();
+})
+
+//Dialog Mocks
+beforeEach(() => {
+    HTMLDialogElement.prototype.showModal = vi.fn(function (this: HTMLDialogElement) {
+        this.open = true;
+    });
+})
+
+afterEach(() => {
+    (HTMLDialogElement.prototype.showModal as Mock).mockRestore();
+})

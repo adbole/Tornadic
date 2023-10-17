@@ -1,4 +1,5 @@
 import { airQualityOpenMeteo,apiOpenMeteo } from "__tests__/__mocks__";
+import { mockDate } from "__tests__/__utils__";
 
 import DEFAULTS from "Hooks/useLocalStorage.config";
 
@@ -24,15 +25,7 @@ const weatherTest = test.extend<{
     }
 });
 
-beforeEach(() => {    
-    vi.useFakeTimers()
-    vi.setSystemTime(apiOpenMeteo.current_weather.time)
-})
-
-afterEach(() => {
-    vi.runOnlyPendingTimers()
-    vi.useRealTimers()
-})
+mockDate();
 
 weatherTest("isDay returns the correct day value", ({ weather }) => {
     expect(weather.isDay()).toEqual(Boolean(apiOpenMeteo.current_weather.is_day));

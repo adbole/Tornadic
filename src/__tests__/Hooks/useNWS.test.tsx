@@ -20,7 +20,7 @@ const renderNWS = (lat?: number, long?: number) =>
     renderHook(() => useNWS(lat, long), { wrapper: Wrapper });
 
 afterEach(() => {
-    errorCaller.mockClear();
+    errorCaller.mockReset();
 })
 
 test("no request are made if nothing is passed", () => {

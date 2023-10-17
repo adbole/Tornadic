@@ -1,15 +1,15 @@
-import { act, render, renderHook, screen, waitFor } from "@testing-library/react"
+import { act, render, renderHook, screen } from "@testing-library/react"
 
 import SlideContextProvider, { useSlide } from "Contexts/SlideContext"
 
 
-const Child = "CHILD"
-const Secondary = "SECONDARY"
+const child = "CHILD"
+const secondary = "SECONDARY"
 
 function Wrapper() {
     return (
         <SlideContextProvider>
-            <div data-testid={Child}/>
+            <div data-testid={child}/>
         </SlideContextProvider>
     )
 }
@@ -17,7 +17,7 @@ function Wrapper() {
 test("Provided children is shown", () => {
     render(<Wrapper />)
 
-    expect(screen.getByTestId(Child)).toBeInTheDocument()
+    expect(screen.getByTestId(child)).toBeInTheDocument()
 })
 
 test("Using useSlide outside of SlideContextProvider throws an error", () => {
@@ -28,23 +28,25 @@ test("slideTo sets secondaryContent", () => {
     const { result } = renderHook(() => useSlide(), { wrapper: SlideContextProvider })
 
     act(() => {
-        result.current.slideTo(<div data-testid={Secondary} />)
+        result.current.slideTo(<div data-testid={secondary} />)
     })
 
-    expect(screen.getByTestId(Secondary)).toBeInTheDocument()
+    expect(screen.getByTestId(secondary)).toBeInTheDocument()
 })
 
 test("reset unsets secondaryContent", async () => {
     const { result } = renderHook(() => useSlide(), { wrapper: SlideContextProvider })
 
     act(() => {
-        result.current.slideTo(<div data-testid={Secondary} />)
+        result.current.slideTo(<div data-testid={secondary} />)
     })
+
+    expect.soft(screen.getByTestId(secondary)).toBeInTheDocument()
 
     act(() => {
         result.current.reset()
     })
 
-    expect(screen.queryByTestId(Secondary)).not.toBeInTheDocument()
+    expect.soft(screen.queryByTestId(secondary)).not.toBeInTheDocument()
 
 })

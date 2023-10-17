@@ -26,7 +26,7 @@ beforeEach(() => {
 })
 
 afterEach(() => {
-    errorCaller.mockClear();
+    errorCaller.mockReset();
 
     vi.runOnlyPendingTimers();
     vi.useRealTimers();
