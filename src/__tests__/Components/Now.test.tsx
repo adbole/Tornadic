@@ -1,30 +1,17 @@
-import { airQualityOpenMeteo, apiOpenMeteo, apiWeatherGov_alerts, apiWeatherGov_points } from "__tests__/__mocks__";
+import { apiWeatherGov_points } from "__tests__/__mocks__";
+import useWeather from "__tests__/__mocks__/useWeather";
 import { mockDate } from "__tests__/__utils__";
+import matchBrokenText from "__tests__/__utils__/matchBrokenText";
 import { act, render, screen } from "@testing-library/react";
 
-import DEFAULTS from "Hooks/useLocalStorage.config";
-
 import { Now } from "Components";
-
-import NWSAlert from "ts/NWSAlert";
-import Weather from "ts/Weather";
 
 
 const location = apiWeatherGov_points.properties.relativeLocation.properties.city;
 
 mockDate()
 
-vi.mock("Contexts/WeatherContext", async (importOriginal) => {
-    return {
-        ...[await importOriginal()],
-        useWeather: () => ({
-            weather: new Weather(apiOpenMeteo, airQualityOpenMeteo, DEFAULTS.userSettings),
-            point: apiWeatherGov_points as GridPoint,
-            alerts: apiWeatherGov_alerts.features.map(alert => new NWSAlert(alert)),
-            nationAlerts: apiWeatherGov_alerts.features.map(alert => new NWSAlert(alert))
-        })
-    }
-})
+vi.mock("Contexts/WeatherContext", () => useWeather)
 
 test("Displays current weather information", () => {
     render(<Now />);
@@ -32,14 +19,7 @@ test("Displays current weather information", () => {
     expect.soft(screen.getByText(location)).toBeInTheDocument()
     expect.soft(screen.getByText("66")).toBeInTheDocument()
     expect.soft(screen.getByText("Partly Cloudy")).toBeInTheDocument()
-    expect.soft(screen.getByText((_, element) => {
-        const matchText = "Feels like 68"
-
-        const hasText = element!.textContent!.includes(matchText)
-        const childrenHaveText = [...element!.children].some(child => child.textContent!.includes(matchText))
-
-        return hasText && !childrenHaveText;
-    })).toBeInTheDocument()
+    expect.soft(screen.getByText(matchBrokenText("Feels like 68"))).toBeInTheDocument()
 })
 
 test("Clicking on the location name opens the location modal", () => {
@@ -62,7 +42,7 @@ test("Cliking on the gear opens the settings modal", () => {
     expect(screen.getByRole("dialog")).toBeInTheDocument()
 })
 
-test("Display only hides the gear icon and disables the location modal", () => {
+test("displayOnly hides the gear icon and disables the location modal", () => {
     render(<Now displayOnly={true} />);
 
     expect.soft(screen.queryByRole("button")).not.toBeInTheDocument()

@@ -1,4 +1,3 @@
-import { cleanup } from "@testing-library/react";
 import type { Mock } from "vitest";
 import { vi } from "vitest";
 import createFetchMock from "vitest-fetch-mock";
