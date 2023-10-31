@@ -7,6 +7,7 @@ import apiOpenMeteo from "./__mocks__/api.open-meteo";
 import apiWeatherGov_alerts from "./__mocks__/api.weather.gov_alerts";
 import apiWeatherGov_points from "./__mocks__/api.weather.gov_points";
 
+import "vitest-canvas-mock";
 import "@testing-library/jest-dom/vitest";
 
 // Fetch Mocks
@@ -39,12 +40,9 @@ beforeEach(() => {
     vi.stubGlobal("navigator", {
         ...navigator,
         onLine: true,
-        permissions: { query: vi.fn() },
-        geolocation: { getCurrentPosition: vi.fn() }
+        permissions: { query: vi.fn().mockImplementation(() => Promise.resolve({ state: "granted" } as PermissionStatus)) },
+        geolocation: { getCurrentPosition: vi.fn().mockImplementation((cb) => cb({ coords: { latitude: 1, longitude: 1 } })) }
     });
-
-    (navigator.permissions.query as Mock).mockImplementation(() => Promise.resolve({ state: "granted" } as PermissionStatus));
-    (navigator.geolocation.getCurrentPosition as Mock).mockImplementation((cb) => cb({ coords: { latitude: 1, longitude: 1 } }));
 })
 
 afterEach(() => {
@@ -67,6 +65,12 @@ beforeEach(() => {
     HTMLDialogElement.prototype.showModal = vi.fn(function (this: HTMLDialogElement) {
         this.open = true;
     });
+
+    vi.stubGlobal("ResizeObserver", vi.fn().mockImplementation(() => ({
+        observe: vi.fn(),
+        unobserve: vi.fn(),
+        disconnect: vi.fn()
+    })))
 })
 
 afterEach(() => {
