@@ -1,4 +1,3 @@
-import React from "react";
 import useWeather from "__tests__/__mocks__/useWeather";
 import { mockDate, setLocalStorageItem } from "__tests__/__utils__";
 import { act, fireEvent, render, screen } from "@testing-library/react";
@@ -54,7 +53,7 @@ describe("interaction tests", () => {
         })
 
         expect.soft(screen.getByRole("dialog")).toBeInTheDocument()
-        expect.soft((screen.getByText("Temperature") as HTMLOptionElement).selected).toBeTruthy()
+        expect.soft(screen.getByText<HTMLOptionElement>("Temperature").selected).toBeTruthy()
         expect.soft(screen.getAllByLabelText(/.+?/)[0]).toBeChecked()
     })
 
