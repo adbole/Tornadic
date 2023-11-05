@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import React from "react";
+import testIds from "__tests__/__constants__/testIDs";
 
 import { useBooleanState } from "Hooks";
 
@@ -75,6 +76,7 @@ function Meter({ rotation, gradient }: { rotation: number; gradient: string }) {
                         transformOrigin: "center",
                         transform: `rotate(${rotation}deg)`,
                     }}
+                    data-testid={testIds.HazardLevel.SVG_GROUP}
                 >
                     <ellipse fill="black" cx="50%" cy="97" rx="6" ry="6" />
                     <ellipse fill="white" cx="50%" cy="97" rx="3" ry="3" />

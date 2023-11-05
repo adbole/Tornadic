@@ -45,10 +45,6 @@ beforeEach(() => {
     });
 })
 
-afterEach(() => {
-    vi.unstubAllGlobals();
-});
-
 //Animation Frame Mocks
 beforeEach(() => {
     let count = 0;
@@ -76,3 +72,7 @@ beforeEach(() => {
 afterEach(() => {
     (HTMLDialogElement.prototype.showModal as Mock).mockRestore();
 })
+
+afterEach(() => {
+    vi.unstubAllGlobals();
+});

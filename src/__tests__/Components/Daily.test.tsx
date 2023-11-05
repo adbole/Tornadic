@@ -41,14 +41,14 @@ test("foreach day clicked, it opens the chart modal to the temperature on said d
             fireEvent.click(day)
         })
 
-        expect(screen.getByRole("dialog")).toBeInTheDocument()
-        expect(screen.getByText<HTMLOptionElement>("Temperature").selected).toBeTruthy()
-        expect(screen.getAllByLabelText(/.+?/)[i]).toBeChecked()
+        expect.soft(screen.getByRole("dialog")).toBeInTheDocument()
+        expect.soft(screen.getByText<HTMLOptionElement>("Temperature").selected).toBeTruthy()
+        expect.soft(screen.getAllByLabelText(/.+?/)[i]).toBeChecked()
 
         act(() => {
             screen.getByRole("dialog").dispatchEvent(new Event("cancel"))
         })
 
-        expect(screen.queryByRole("dialog")).not.toBeInTheDocument()
+        expect.soft(screen.queryByRole("dialog")).not.toBeInTheDocument()
     })
 })
