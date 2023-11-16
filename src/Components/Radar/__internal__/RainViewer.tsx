@@ -121,7 +121,7 @@ namespace RadarTypes {
     };
 }
 
-//TODO: convert to using hook
+//TODO: convert to using hook with SWR
 export default function RainViewer() {
     const [error, setErrorTrue] = useBooleanState(false);
 

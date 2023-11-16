@@ -16,7 +16,7 @@ import RadarWidget from "./style";
 
 
 type Dictionary = {
-    [indiex: string]: HTMLDivElement;
+    [index: string]: HTMLDivElement;
 };
 
 L.Map.include({

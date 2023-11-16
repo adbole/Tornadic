@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/no-anonymous-default-export
-export default {
+const forecast = () => ({
     "latitude": 35.546389,
     "longitude": -97.54327,
     "generationtime_ms": 1.0859966278076172,
@@ -2658,4 +2658,6 @@ export default {
             13
         ]
     }
-}
+})
+
+export default forecast;

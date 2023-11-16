@@ -1,5 +1,4 @@
-import { apiOpenMeteo } from "__tests__/__mocks__";
-import { setLocalStorageItem } from "__tests__/__utils__";
+import { mockDate, setLocalStorageItem } from "__tests__/__utils__";
 import { act, render, renderHook, screen } from "@testing-library/react"
 
 import DEFAULTS from "Hooks/useLocalStorage.config";
@@ -24,16 +23,10 @@ function Wrapper({ children }: { children: React.ReactNode }) {
 
 const renderWeather = () => renderHook(() => useWeather(), { wrapper: Wrapper })
 
+mockDate()
+
 beforeEach(() => {
     setLocalStorageItem("userSettings", DEFAULTS.userSettings)
-    
-    vi.useFakeTimers()
-    vi.setSystemTime(apiOpenMeteo.current_weather.time)
-})
-
-afterEach(() => {
-    vi.runOnlyPendingTimers()
-    vi.useRealTimers()
 })
 
 describe("render", () => {

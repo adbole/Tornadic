@@ -1,4 +1,4 @@
-import { airQualityOpenMeteo,apiOpenMeteo } from "__tests__/__mocks__";
+import { airQualityOpenMeteo, forecast } from "__tests__/__mocks__";
 import { mockDate } from "__tests__/__utils__";
 
 import DEFAULTS from "Hooks/useLocalStorage.config";
@@ -9,17 +9,16 @@ import type { WeatherConditionType } from "ts/WeatherCondition";
 //NOW INDEX FOR MOCK IS 21
 const NOW_INDEX = 21;
 
-//Factory methods to create clones of forecast and airquality objects when needed
-const forecast = () => structuredClone(apiOpenMeteo);
-// const air = () => structuredClone(airQualityApiOpenMeteo)
+//This object will be modified by weather, this makes testing easier as it ensures
+//the methods are accessing the object as expected since the referenced values should be the same.
+//Exact values don't matter for these tests, only conversion tests use unique forecast objects.
+const forecastObj = forecast()
 
-//General tests will won't use the above methods as they take advantage of
-//comparing references or values that get converted which makes testing easier
 const weatherTest = test.extend<{
     weather: Weather
 }>({ 
     weather: async ({ task }, use) => {
-        const weather = new Weather(apiOpenMeteo, airQualityOpenMeteo, DEFAULTS.userSettings);
+        const weather = new Weather(forecastObj, airQualityOpenMeteo, DEFAULTS.userSettings);
 
         await use(weather)
     }
@@ -28,7 +27,7 @@ const weatherTest = test.extend<{
 mockDate();
 
 weatherTest("isDay returns the correct day value", ({ weather }) => {
-    expect(weather.isDay()).toEqual(Boolean(apiOpenMeteo.current_weather.is_day));
+    expect(weather.isDay()).toEqual(Boolean(forecastObj.current_weather.is_day));
 });
 
 weatherTest("getNow returns an object of values representing now", ({ weather }) => {
@@ -37,8 +36,8 @@ weatherTest("getNow returns an object of values representing now", ({ weather })
     expect.soft(now.conditionInfo.type).toEqual<WeatherConditionType>("Partly Cloudy");
     expect
         .soft(now.feelsLike)
-        .toEqual(apiOpenMeteo.hourly.apparent_temperature[NOW_INDEX].toFixed(0));
-    expect.soft(now.temperature).toEqual(apiOpenMeteo.hourly.temperature_2m[NOW_INDEX].toFixed(0));
+        .toEqual(forecastObj.hourly.apparent_temperature[NOW_INDEX].toFixed(0));
+    expect.soft(now.temperature).toEqual(forecastObj.hourly.temperature_2m[NOW_INDEX].toFixed(0));
 });
 
 weatherTest(
@@ -47,8 +46,8 @@ weatherTest(
         const arr = [...weather.getFutureValues()];
 
         expect.soft(arr).toHaveLength(48);
-        expect.soft(arr[0].time).toEqual(apiOpenMeteo.hourly.time[NOW_INDEX + 1]);
-        expect.soft(arr[arr.length - 1].time).toEqual(apiOpenMeteo.hourly.time[NOW_INDEX + 48]);
+        expect.soft(arr[0].time).toEqual(forecastObj.hourly.time[NOW_INDEX + 1]);
+        expect.soft(arr[arr.length - 1].time).toEqual(forecastObj.hourly.time[NOW_INDEX + 48]);
     }
 );
 
@@ -63,7 +62,7 @@ describe("getForecast", () => {
     weatherTest(
         "Given Forecast, Airquality and Settings all values are valid and available",
         ({ weather }) => {
-            const forecastResult = Object.entries(apiOpenMeteo.hourly).every(([key, arr]) =>
+            const forecastResult = Object.entries(forecastObj.hourly).every(([key, arr]) =>
                 arr.every((value, index) => value === weather.getForecast(key as any, index))
             );
 
@@ -76,12 +75,12 @@ describe("getForecast", () => {
     );
 
     weatherTest("uses nowIndex", ({ weather }) => {
-        expect(weather.getForecast("time")).toEqual(apiOpenMeteo.current_weather.time);
+        expect(weather.getForecast("time")).toEqual(forecastObj.current_weather.time);
     });
 });
 
 weatherTest("getForecastUnit returns the proper unit foreach value", ({ weather }) => {
-    const forecastResult = Object.entries(apiOpenMeteo.hourly_units).every(
+    const forecastResult = Object.entries(forecastObj.hourly_units).every(
         ([key, value]) => value === weather.getForecastUnit(key as any)
     );
 
@@ -90,7 +89,7 @@ weatherTest("getForecastUnit returns the proper unit foreach value", ({ weather 
 });
 
 weatherTest("getDay returns values for the daily prop", ({ weather }) => {
-    const result = Object.entries(apiOpenMeteo.daily).every(([key, arr]) =>
+    const result = Object.entries(forecastObj.daily).every(([key, arr]) =>
         arr.every((value, index) => value === weather.getDay(key as any, index))
     );
 
@@ -98,7 +97,7 @@ weatherTest("getDay returns values for the daily prop", ({ weather }) => {
 });
 
 weatherTest("getAllForecast returns the array for each key", ({ weather }) => {
-    const forecastResult = Object.entries(apiOpenMeteo.hourly).every(
+    const forecastResult = Object.entries(forecastObj.hourly).every(
         ([key, arr]) => arr === weather.getAllForecast(key as any)
     );
 
@@ -109,7 +108,7 @@ weatherTest("getAllForecast returns the array for each key", ({ weather }) => {
 });
 
 weatherTest("getAllDays returns the array for each key", ({ weather }) => {
-    const result = Object.entries(apiOpenMeteo.daily).every(
+    const result = Object.entries(forecastObj.daily).every(
         ([key, arr]) => arr === weather.getAllDays(key as any)
     );
 

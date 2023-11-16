@@ -59,7 +59,7 @@ export default defineConfig(() => {
             globals: true,
             environment: "jsdom",
             globalSetup: "./src/__tests__/globals.ts",
-            setupFiles: "./src/__tests__/setupTests.ts",
+            setupFiles: "./src/__tests__/setupTests.tsx",
             coverage: { prodier: "v8" }
         }
     };

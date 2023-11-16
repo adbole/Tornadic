@@ -1,5 +1,4 @@
-import { apiOpenMeteo } from "__tests__/__mocks__";
-import { setLocalStorageItem } from "__tests__/__utils__";
+import { mockDate, setLocalStorageItem } from "__tests__/__utils__";
 import { act, renderHook } from "@testing-library/react";
 import { SWRConfig } from "swr";
 
@@ -20,16 +19,10 @@ function Wrapper({ children }: { children: React.ReactNode }) {
 const renderOpenMeteo = (lat?: number, long?: number) => 
     renderHook(() => useOpenMeteo(lat, long), { wrapper: Wrapper });
 
-beforeEach(() => {    
-    vi.useFakeTimers()
-    vi.setSystemTime(apiOpenMeteo.current_weather.time)
-})
+mockDate()
 
 afterEach(() => {
     errorCaller.mockReset();
-
-    vi.runOnlyPendingTimers();
-    vi.useRealTimers();
 })
 
 describe("no requests", () => {

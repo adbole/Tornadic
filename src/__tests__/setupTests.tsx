@@ -1,11 +1,12 @@
+import {
+    airQualityOpenMeteo,
+    apiWeatherGov_alerts,
+    apiWeatherGov_points,
+    forecast
+} from "__tests__/__mocks__"
 import type { Mock } from "vitest";
 import { vi } from "vitest";
 import createFetchMock from "vitest-fetch-mock";
-
-import airQualityOpenMeteo from "./__mocks__/air-quality-api.open-meteo";
-import apiOpenMeteo from "./__mocks__/api.open-meteo";
-import apiWeatherGov_alerts from "./__mocks__/api.weather.gov_alerts";
-import apiWeatherGov_points from "./__mocks__/api.weather.gov_points";
 
 import "vitest-canvas-mock";
 import "@testing-library/jest-dom/vitest";
@@ -19,7 +20,7 @@ beforeEach(() => {
         if(req.url.match(/air-quality-api.open-meteo.com/))
             return JSON.stringify(airQualityOpenMeteo)
         else if(req.url.match(/api\.open-meteo\.com/))
-            return JSON.stringify(apiOpenMeteo)   
+            return JSON.stringify(forecast())   
         else if(req.url.match(/^https:\/\/api.weather.gov\/alerts\/active\/.*$/))
             return { body: JSON.stringify(apiWeatherGov_alerts), headers: { expires: new Date().toISOString() } }
         else if(req.url.match(/^https:\/\/api.weather.gov\/points\/.*$/))
@@ -76,3 +77,8 @@ afterEach(() => {
 afterEach(() => {
     vi.unstubAllGlobals();
 });
+
+vi.mock("recharts", async (importOriginal) => ({
+    ...(await importOriginal() as any),
+    ResponsiveContainer: (props: any) => <div {...props} />,
+}))
