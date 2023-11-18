@@ -8,13 +8,13 @@ import { useWeather } from "Contexts/WeatherContext";
 import type { ChartViews } from "Components/Modals/Chart";
 import Chart from "Components/Modals/Chart";
 import Widget from "Components/Widget";
+import { WidgetTitle } from "Components/Widget/style";
 
 
 const SimpleWidget = styled(Widget)({
     alignItems: "center",
 
     ">svg": { width: "2.5rem" },
-    ">.widget-title": { margin: "0" },
     ">p": { fontSize: "2rem" },
 });
 
@@ -34,7 +34,7 @@ export default function SimpleInfoWidget({
         <>
             <SimpleWidget isTemplate onClick={showModal}>
                 {icon}
-                <h1 className="widget-title">{title}</h1>
+                <WidgetTitle style={{ margin: "0" }}>{title}</WidgetTitle>
                 <p>
                     {weather.getForecast(property).toFixed(0) + weather.getForecastUnit(property)}
                 </p>

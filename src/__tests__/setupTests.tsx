@@ -1,5 +1,5 @@
 import {
-    airQualityOpenMeteo,
+    airquality,
     apiWeatherGov_alerts,
     apiWeatherGov_points,
     forecast
@@ -18,7 +18,7 @@ fetchMocker.enableMocks();
 beforeEach(() => {
     fetchMocker.mockResponse((req) => {
         if(req.url.match(/air-quality-api.open-meteo.com/))
-            return JSON.stringify(airQualityOpenMeteo)
+            return JSON.stringify(airquality())
         else if(req.url.match(/api\.open-meteo\.com/))
             return JSON.stringify(forecast())   
         else if(req.url.match(/^https:\/\/api.weather.gov\/alerts\/active\/.*$/))

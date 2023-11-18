@@ -1,4 +1,4 @@
-import { airQualityOpenMeteo, forecast } from "__tests__/__mocks__";
+import { airquality, forecast } from "__tests__/__mocks__";
 import { mockDate } from "__tests__/__utils__";
 
 import DEFAULTS from "Hooks/useLocalStorage.config";
@@ -9,16 +9,17 @@ import type { WeatherConditionType } from "ts/WeatherCondition";
 //NOW INDEX FOR MOCK IS 21
 const NOW_INDEX = 21;
 
-//This object will be modified by weather, this makes testing easier as it ensures
-//the methods are accessing the object as expected since the referenced values should be the same.
-//Exact values don't matter for these tests, only conversion tests use unique forecast objects.
+//These objects will be modified by weather, this makes testing easier as it ensures
+//the methods are accessing the objects as expected since the referenced values should be the same.
+//Exact values don't matter for these tests, only conversion tests use unique objects.
 const forecastObj = forecast()
+const airqualityObj = airquality()
 
 const weatherTest = test.extend<{
     weather: Weather
 }>({ 
     weather: async ({ task }, use) => {
-        const weather = new Weather(forecastObj, airQualityOpenMeteo, DEFAULTS.userSettings);
+        const weather = new Weather(forecastObj, airqualityObj, DEFAULTS.userSettings);
 
         await use(weather)
     }
@@ -66,7 +67,7 @@ describe("getForecast", () => {
                 arr.every((value, index) => value === weather.getForecast(key as any, index))
             );
 
-            const airQualityResult = airQualityOpenMeteo.hourly.us_aqi.every(
+            const airQualityResult = airqualityObj.hourly.us_aqi.every(
                 (value, index) => value === weather.getForecast("us_aqi", index)
             );
 
@@ -102,7 +103,7 @@ weatherTest("getAllForecast returns the array for each key", ({ weather }) => {
     );
 
     const airQualityResult =
-        airQualityOpenMeteo.hourly.us_aqi === weather.getAllForecast("us_aqi");
+        airqualityObj.hourly.us_aqi === weather.getAllForecast("us_aqi");
 
     expect(forecastResult && airQualityResult).toBe(true);
 });
@@ -128,8 +129,8 @@ test("hasChanceOfRain returns correct value for correct conditions", () => {
 
 describe("configureForecast properly sets and converts units based on settings", () => {
     test("tempUnit", () => {
-        const fahrenheit = new Weather(forecast(), airQualityOpenMeteo, DEFAULTS.userSettings);
-        const celsius = new Weather(forecast(), airQualityOpenMeteo, {
+        const fahrenheit = new Weather(forecast(), airquality(), DEFAULTS.userSettings);
+        const celsius = new Weather(forecast(), airquality(), {
             ...DEFAULTS.userSettings,
             tempUnit: "celsius",
         });
@@ -144,8 +145,8 @@ describe("configureForecast properly sets and converts units based on settings",
     });
 
     test("precipitation", () => {
-        const inch = new Weather(forecast(), airQualityOpenMeteo, DEFAULTS.userSettings);
-        const mm = new Weather(forecast(), airQualityOpenMeteo, {
+        const inch = new Weather(forecast(), airquality(), DEFAULTS.userSettings);
+        const mm = new Weather(forecast(), airquality(), {
             ...DEFAULTS.userSettings,
             precipitation: "mm",
         });
@@ -158,12 +159,12 @@ describe("configureForecast properly sets and converts units based on settings",
     });
 
     test("windspeed", () => {
-        const mph = new Weather(forecast(), airQualityOpenMeteo, DEFAULTS.userSettings);
-        const kmh = new Weather(forecast(), airQualityOpenMeteo, {
+        const mph = new Weather(forecast(), airquality(), DEFAULTS.userSettings);
+        const kmh = new Weather(forecast(), airquality(), {
             ...DEFAULTS.userSettings,
             windspeed: "kmh",
         });
-        const kn = new Weather(forecast(), airQualityOpenMeteo, {
+        const kn = new Weather(forecast(), airquality(), {
             ...DEFAULTS.userSettings,
             windspeed: "kn",
         });
@@ -187,8 +188,8 @@ describe("configureForecast properly sets and converts units based on settings",
     });
 
     test("visibililty is converted as expected", () => {
-        const mi = new Weather(forecast(), airQualityOpenMeteo, DEFAULTS.userSettings);
-        const km = new Weather(forecast(), airQualityOpenMeteo, {
+        const mi = new Weather(forecast(), airquality(), DEFAULTS.userSettings);
+        const km = new Weather(forecast(), airquality(), {
             ...DEFAULTS.userSettings,
             precipitation: "mm",
         });
@@ -209,7 +210,7 @@ describe("configureForecast properly sets and converts units based on settings",
     });
 
     test("surface_pressure is converted as expected", () => {
-        const weather = new Weather(forecast(), airQualityOpenMeteo, DEFAULTS.userSettings)
+        const weather = new Weather(forecast(), airquality(), DEFAULTS.userSettings)
         const sourceForecast = forecast()
 
         expect(

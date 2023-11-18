@@ -1,7 +1,7 @@
 import testIds from "__tests__/__constants__/testIDs";
 import useWeather from "__tests__/__mocks__/useWeather";
 import { mockDate } from "__tests__/__utils__";
-import { render, screen } from "@testing-library/react";
+import { act, render, screen } from "@testing-library/react";
 
 import { HazardLevel } from "Components";
 
@@ -28,6 +28,20 @@ test("renders airquality", () => {
         .toHaveStyle("transform: rotate(48.16deg)")
 })
 
+test("shows the airquality chart if clicked", () => {
+    render(<HazardLevel hazard="us_aqi"/>);
+
+    expect.soft(screen.queryByRole("dialog")).not.toBeInTheDocument()
+
+    act(() => {
+        screen.getByTestId(testIds.Widget.WidgetSection).click()
+    })
+
+    expect.soft(screen.getByRole("dialog")).toBeInTheDocument()
+    expect.soft(screen.getByRole<HTMLOptionElement>("option", { name: "Air Quality" } ).selected).toBeTruthy()
+    expect.soft(screen.getAllByLabelText(/.+?/)[0]).toBeChecked()
+})
+
 test("renders uv index", () => {
     const weather = useWeather.useWeather().weather
 
@@ -39,4 +53,18 @@ test("renders uv index", () => {
 
     expect.soft(screen.getByTestId(testIds.HazardLevel.SVG_GROUP))
         .toHaveStyle("transform: rotate(20deg)")
+})
+
+test("shows the uv index chart if clicked", () => {
+    render(<HazardLevel hazard="uv_index"/>);
+
+    expect.soft(screen.queryByRole("dialog")).not.toBeInTheDocument()
+
+    act(() => {
+        screen.getByTestId(testIds.Widget.WidgetSection).click()
+    })
+
+    expect.soft(screen.getByRole("dialog")).toBeInTheDocument()
+    expect.soft(screen.getByRole<HTMLOptionElement>("option", { name: "UV Index" } ).selected).toBeTruthy()
+    expect.soft(screen.getAllByLabelText(/.+?/)[0]).toBeChecked()
 })

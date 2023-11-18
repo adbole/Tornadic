@@ -1,5 +1,4 @@
-// eslint-disable-next-line import/no-anonymous-default-export
-export default {
+const airquality = () => ({
     "latitude": 35.546389,
     "longitude": -97.54327,
     "generationtime_ms": 0.9429454803466797,
@@ -256,4 +255,6 @@ export default {
             -1
         ]
     }
-}
+})
+
+export default airquality;

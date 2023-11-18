@@ -2,6 +2,10 @@
 //To help prevent double use, please use the following format:
 // {ComponentName}: {ComponentName}_{ComponentPart}
 
-const testIds = { HazardLevel: { SVG_GROUP: "HAZARD_LEVEL_GROUP_ROTATION", } } as const
+const testIds = { 
+    HazardLevel: { SVG_GROUP: "HAZARD_LEVEL_GROUP_ROTATION", },
+    Widget: { WidgetSection: "WIDGET_SECTION", },
+    Wind: { WindIndicator: "WIND_INDICATOR", },
+} as const
 
 export default testIds
