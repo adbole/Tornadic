@@ -1,8 +1,8 @@
 import {
     airquality,
-    apiWeatherGov_alerts,
     apiWeatherGov_points,
-    forecast
+    forecast,
+    singleAlert
 } from "__tests__/__mocks__"
 import type { Mock } from "vitest";
 import { vi } from "vitest";
@@ -22,7 +22,7 @@ beforeEach(() => {
         else if(req.url.match(/api\.open-meteo\.com/))
             return JSON.stringify(forecast())   
         else if(req.url.match(/^https:\/\/api.weather.gov\/alerts\/active\/.*$/))
-            return { body: JSON.stringify(apiWeatherGov_alerts), headers: { expires: new Date().toISOString() } }
+            return { body: JSON.stringify(singleAlert), headers: { expires: new Date().toISOString() } }
         else if(req.url.match(/^https:\/\/api.weather.gov\/points\/.*$/))
             return JSON.stringify(apiWeatherGov_points)
        

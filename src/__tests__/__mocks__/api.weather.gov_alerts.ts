@@ -1,12 +1,3 @@
-// eslint-disable-next-line import/no-anonymous-default-export
-export default {
-    "@context": { "@version": "1.1" },
-    "type": "FeatureCollection",
-    "features": [],
-    "title": "Current watches, warnings, and advisories for Oklahoma (OKZ025) OK",
-    "updated": "2023-09-07T00:00:00+00:00"
-}
-
 export const single = {
     "@context": [
         "https://geojson.org/geojson-ld/geojson-context.jsonld",

@@ -1,10 +1,8 @@
 import testIds from "__tests__/__constants__/testIDs";
 import useWeather from "__tests__/__mocks__/useWeather";
-import { mockDate, setLocalStorageItem } from "__tests__/__utils__";
+import { mockDate } from "__tests__/__utils__";
 import matchBrokenText from "__tests__/__utils__/matchBrokenText";
-import { act, fireEvent, render, screen } from "@testing-library/react";
-
-import DEFAULTS from "Hooks/useLocalStorage.config";
+import { act , render, screen } from "@testing-library/react";
 
 import { Wind } from "Components";
 

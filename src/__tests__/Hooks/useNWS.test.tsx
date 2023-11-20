@@ -1,5 +1,5 @@
 
-import { apiWeatherGov_alerts, apiWeatherGov_points } from "__tests__/__mocks__";
+import { apiWeatherGov_points } from "__tests__/__mocks__";
 import { act, renderHook } from "@testing-library/react";
 import { SWRConfig } from "swr";
 
@@ -76,7 +76,7 @@ describe("data fetching", () => {
         
         expect.soft(fetchMock).toHaveBeenCalledTimes(2);
         expect.soft(result.current.point).toStrictEqual(apiWeatherGov_points);
-        expect.soft(result.current.alerts).toHaveLength(apiWeatherGov_alerts.features.length);
+        expect.soft(result.current.alerts).toHaveLength(1);
         expect.soft(result.current.isLoading).toBe(false);
     })
 
