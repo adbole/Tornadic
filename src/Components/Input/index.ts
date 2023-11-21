@@ -1,4 +1,5 @@
 export { default as Button } from "./Button";
+export { default as Input } from "./Input";
 export { default as InputGroup } from "./InputGroup";
 export { default as LocationInput } from "./LocationInput";
 export { default as SearchInput } from "./SearchInput";

@@ -59,8 +59,8 @@ export default function Daily() {
 
     const dailyValues = [...weather.getDailyValues()];
 
-    const low_week = Math.min(...dailyValues.flatMap(day => day.temperature_low));
-    const high_week = Math.max(...dailyValues.flatMap(day => day.temperature_high));
+    const low_week = Math.min(...dailyValues.map(day => day.temperature_low));
+    const high_week = Math.max(...dailyValues.map(day => day.temperature_high));
 
     const calculateDualRangeCoverStyle = (min: number, max: number) => {
         min = Math.max(0, min);

@@ -4,12 +4,16 @@ import {
     forecast,
     singleAlert
 } from "__tests__/__mocks__"
+import { createSerializer } from "@emotion/jest"
 import type { Mock } from "vitest";
 import { vi } from "vitest";
 import createFetchMock from "vitest-fetch-mock";
 
 import "vitest-canvas-mock";
 import "@testing-library/jest-dom/vitest";
+
+
+expect.addSnapshotSerializer(createSerializer());
 
 // Fetch Mocks
 const fetchMocker = createFetchMock(vi);
