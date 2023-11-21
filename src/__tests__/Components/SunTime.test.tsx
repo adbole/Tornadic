@@ -38,3 +38,13 @@ test("shows sunset if the current time is before it", () => {
     ).toBeInTheDocument()
     expect.soft(screen.getByText("SunsetSVG")).toBeInTheDocument()
 })
+
+test("shows the sunrise of the next day if the current time is after today's sunset", () => {
+    vi.setSystemTime(forecast().hourly.time[20]);
+
+    render(<SunTime />);
+
+    expect.soft(
+        screen.getByRole("heading", { name: getTimeFormatted(forecast().daily.sunrise[1], "hourMinute") })
+    ).toBeInTheDocument()
+})
