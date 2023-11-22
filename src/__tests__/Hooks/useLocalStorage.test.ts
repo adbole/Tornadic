@@ -13,7 +13,8 @@ const modifiedSettings = {
 test("sets the default values if none are stored", () => {
     const { result } = renderHook(() => useLocalStorage("userSettings"));
 
-    expect(result.current[0]).toStrictEqual(DEFAULTS.userSettings);
+    expect.soft(result.current[0]).toStrictEqual(DEFAULTS.userSettings);
+    expect.soft(localStorage).toHaveLocalItemValue("userSettings", DEFAULTS.userSettings)
 });
 
 test("sets the default values, if none are stored, to the overriden defaults if provided", () => {
@@ -21,6 +22,7 @@ test("sets the default values, if none are stored, to the overriden defaults if 
 
     expect.soft(result.current[0]).toStrictEqual(modifiedSettings);
     expect.soft(result.current[0]).not.toStrictEqual(DEFAULTS.userSettings);
+    expect.soft(localStorage).toHaveLocalItemValue("userSettings", modifiedSettings)
 });
 
 test("stores a value using setValue and updates the state to said value", async () => {
@@ -28,6 +30,7 @@ test("stores a value using setValue and updates the state to said value", async 
 
     act(() => result.current[1](modifiedSettings));
     expect(result.current[0]).toStrictEqual(modifiedSettings);
+    expect.soft(localStorage).toHaveLocalItemValue("userSettings", modifiedSettings)
 });
 
 test("setValue also allows functions and provides the old value as a param", async () => {
@@ -38,6 +41,7 @@ test("setValue also allows functions and provides the old value as a param", asy
     act(() => result.current[1](setFn));
     expect.soft(result.current[0]).toStrictEqual(modifiedSettings);
     expect.soft(setFn).toHaveBeenCalledWith(DEFAULTS.userSettings);
+    expect.soft(localStorage).toHaveLocalItemValue("userSettings", modifiedSettings)
 });
 
 describe("key updates by another useLocalStorage hook", () => {

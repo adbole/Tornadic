@@ -26,21 +26,25 @@ test("returns the stored value", () => {
 
 describe("key updates by useLocalStorage", () => {
     test("updates the value when the key is modified", () => {
-        const { result: result1 } = renderHook(() => useLocalStorage("userSettings"));
-        const { result: result2 } = renderHook(() => useReadLocalStorage("userSettings"));
+        const { result: writeResult } = renderHook(() => useLocalStorage("userSettings"));
+        const { result: readResult } = renderHook(() => useReadLocalStorage("userSettings"));
     
-        act(() => result1.current[1](modifiedSettings));
-        expect.soft(result1.current[0]).toStrictEqual(modifiedSettings);
-        expect.soft(result2.current).toStrictEqual(modifiedSettings);
+        act(() => writeResult.current[1](modifiedSettings));
+        expect.soft(writeResult.current[0]).toStrictEqual(modifiedSettings);
+        expect.soft(readResult.current).toStrictEqual(modifiedSettings);
     });
     
     test("value isn't updated when another key is modified", () => {
-        const { result: result1 } = renderHook(() => useLocalStorage("userSettings"));
-        const { result: result2 } = renderHook(() => useReadLocalStorage("userLocation"));
+        const { result: writeResult } = renderHook(() => useLocalStorage("userSettings"));
+        const { result: readResult } = renderHook(() => useReadLocalStorage("userLocation"));
     
-        act(() => result1.current[1](modifiedSettings));
-        expect.soft(result1.current[0]).toStrictEqual(modifiedSettings);
-        expect.soft(result2.current).toBeNull();
+        act(() => {
+            setLocalStorageItem("userLocation", DEFAULTS.userLocation);
+            writeResult.current[1](modifiedSettings);
+        });
+        expect.soft(writeResult.current[0]).toStrictEqual(modifiedSettings);
+        expect.soft(readResult.current).toBeNull();
+        expect.soft(localStorage).toHaveLocalItemValue("userLocation", DEFAULTS.userLocation)
     })
 })
 
@@ -65,5 +69,6 @@ describe("key updates in another document", () => {
         });
     
         expect.soft(result.current).toBeNull();
+        expect.soft(localStorage).toHaveLocalItemValue("userSettings", DEFAULTS.userSettings)
     })
 })

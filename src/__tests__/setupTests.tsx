@@ -95,7 +95,7 @@ expect.extend({
         const pass = received.getItem(key) === JSON.stringify(value);
 
         return {
-            message: () => `expected ${key} to ${this.isNot ? "not": ""} have value: ${value}`,
+            message: () => `expected ${key} to${this.isNot ? " not": ""} have value: ${value}`,
             pass,
         };
     }
