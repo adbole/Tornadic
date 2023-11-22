@@ -76,12 +76,9 @@ function AppLoader() {
 function App() {
     const online = useOnlineOffline();
     const { latitude, longitude, status } = useUserLocation();
-    const [settings, setSettings] = useLocalStorage("userSettings");
-
-    React.useEffect(() => {
-        setSettings(settings); // Save Defaults
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    
+    //useLocalStorage here causes the default value to be set for useReadLocalStorage
+    useLocalStorage("userSettings");
 
     if (!online) {
         return (

@@ -24,6 +24,9 @@ export default function useLocalStorage<K extends keyof StorageKeysAndTypes>(
     const read = React.useCallback((): StorageKeysAndTypes[K] => {
         try {
             const value = localStorage.getItem(key);
+
+            if(!value) localStorage.setItem(key, JSON.stringify(defaultValue));
+
             return value ? JSON.parse(value) : defaultValue;
         } catch {
             console.error(`Failed to get ${key} from localStroage`);
