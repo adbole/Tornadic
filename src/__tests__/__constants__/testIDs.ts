@@ -6,6 +6,7 @@ const testIds = {
     HazardLevel: { SVG_GROUP: "HAZARD_LEVEL_GROUP_ROTATION", },
     Widget: { WidgetSection: "WIDGET_SECTION", },
     Wind: { WindIndicator: "WIND_INDICATOR", },
+    SearchInput: { Skeleton: "SEARCH_INPUT_SKELETON", },
 } as const
 
 export default testIds

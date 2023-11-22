@@ -2,6 +2,7 @@ import {
     airquality,
     apiWeatherGov_points,
     forecast,
+    geocoding,
     singleAlert
 } from "__tests__/__mocks__"
 import { createSerializer } from "@emotion/jest"
@@ -23,8 +24,10 @@ beforeEach(() => {
     fetchMocker.mockResponse((req) => {
         if(req.url.match(/air-quality-api.open-meteo.com/))
             return JSON.stringify(airquality())
+        else if(req.url.match(/geocoding-api.open-meteo.com/))
+            return JSON.stringify(geocoding)
         else if(req.url.match(/api\.open-meteo\.com/))
-            return JSON.stringify(forecast())   
+            return JSON.stringify(forecast())
         else if(req.url.match(/^https:\/\/api.weather.gov\/alerts\/active\/.*$/))
             return { body: JSON.stringify(singleAlert), headers: { expires: new Date().toISOString() } }
         else if(req.url.match(/^https:\/\/api.weather.gov\/points\/.*$/))
@@ -86,3 +89,14 @@ vi.mock("recharts", async (importOriginal) => ({
     ...(await importOriginal() as any),
     ResponsiveContainer: (props: any) => <div {...props} />,
 }))
+
+expect.extend({
+    toHaveLocalItemValue<K extends keyof StorageKeysAndTypes>(received: Storage, key: K, value: StorageKeysAndTypes[K]) {
+        const pass = received.getItem(key) === JSON.stringify(value);
+
+        return {
+            message: () => `expected ${key} to ${this.isNot ? "not": ""} have value: ${value}`,
+            pass,
+        };
+    }
+})

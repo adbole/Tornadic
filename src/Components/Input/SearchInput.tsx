@@ -1,4 +1,5 @@
 import React from "react";
+import testIds from "__tests__/__constants__/testIDs";
 import styled from "@emotion/styled";
 
 import { useBooleanState } from "Hooks";
@@ -35,12 +36,13 @@ export type SearchResult<T> = {
 };
 
 type Props<T> = {
-    children: React.ReactNode;
+    children?: React.ReactNode;
+    placeHolder?: string;
     onGetResults: (query: string) => Promise<SearchResult<T>[]>;
     onSelect: (payload: T) => void;
 };
 
-function SearchInput<T>({ children, onGetResults, onSelect }: Props<T>) {
+function SearchInput<T>({ children, placeHolder, onGetResults, onSelect }: Props<T>) {
     const [query, setQuery] = React.useState("");
     const [results, setResults] = React.useState<SearchResult<T>[]>();
     const [isLoading, setIsLoadingTrue, setIsLoadingFalse] = useBooleanState(false);
@@ -69,7 +71,7 @@ function SearchInput<T>({ children, onGetResults, onSelect }: Props<T>) {
             <InputGroup style={{ display: "flex" }}>
                 <Input
                     type="search"
-                    placeholder="Enter a location"
+                    placeholder={placeHolder}
                     onChange={onChange}
                     style={{ flex: 1 }}
                 />
@@ -79,7 +81,7 @@ function SearchInput<T>({ children, onGetResults, onSelect }: Props<T>) {
                 <SearchResults>
                     {Array.from({ length: 5 }, (_, i) => (
                         <li key={i}>
-                            <TextLoader />
+                            <TextLoader data-testid={testIds.SearchInput.Skeleton}/>
                         </li>
                     ))}
                 </SearchResults>
