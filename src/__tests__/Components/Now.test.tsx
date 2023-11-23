@@ -1,7 +1,6 @@
 import { apiWeatherGov_points } from "__tests__/__mocks__";
 import useWeather from "__tests__/__mocks__/useWeather";
-import { mockDate } from "__tests__/__utils__";
-import matchBrokenText from "__tests__/__utils__/matchBrokenText";
+import { matchBrokenText, mockDate } from "__tests__/__utils__";
 import { act, cleanup, render, screen } from "@testing-library/react";
 
 import { Now } from "Components";

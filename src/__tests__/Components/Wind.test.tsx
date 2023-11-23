@@ -1,7 +1,6 @@
 import testIds from "__tests__/__constants__/testIDs";
 import useWeather from "__tests__/__mocks__/useWeather";
-import { mockDate } from "__tests__/__utils__";
-import matchBrokenText from "__tests__/__utils__/matchBrokenText";
+import { matchBrokenText, mockDate } from "__tests__/__utils__";
 import { act , render, screen } from "@testing-library/react";
 
 import { Wind } from "Components";
