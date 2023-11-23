@@ -54,6 +54,12 @@ describe("data fetching", () => {
         expect(fetchMock).toHaveBeenCalledTimes(2);
         expect.soft(requests[0]).toContain("latitude=1&longitude=1");
         expect.soft(requests[1]).toContain("latitude=1&longitude=1");
+
+        //Weather will throw an error relating to not being able to find current time for forecast
+        //This is irrelavent to this test and the following ensures it initializes properly to supress it.
+        await act(async () => {
+            await vi.runOnlyPendingTimersAsync();
+        })
     })
 
     test("gets the data when all params are passed and settings set", async () => {

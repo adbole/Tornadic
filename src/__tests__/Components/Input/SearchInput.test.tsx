@@ -1,5 +1,5 @@
 import testIds from "__tests__/__constants__/testIDs";
-import { act, fireEvent, render, screen } from "@testing-library/react";
+import { act, cleanup, fireEvent, render, screen } from "@testing-library/react";
 
 import { SearchInput } from "Components";
 import type { SearchResult } from "Components/Input/SearchInput";
@@ -74,7 +74,9 @@ test("When the input is changed, the onGetResults function is called after a del
     })
 
     expect.soft(onGetResults).toHaveBeenCalledWith("test")
-    expect(onGetResults).toHaveBeenCalledOnce()
+    expect.soft(onGetResults).toHaveBeenCalledOnce()
+
+    cleanup()
 })
 
 test("When the input is changed during the delay, it is reset", () => {    
@@ -108,6 +110,8 @@ test("When the input is changed during the delay, it is reset", () => {
 
     //With onGetResults called the skeletons will be shown. Below tests will test the results
     expect.soft(screen.getAllByTestId(testIds.SearchInput.Skeleton)).toHaveLength(5)
+
+    cleanup()
 })
 
 test("When the onGetResults function returns results, they are displayed", async () => {

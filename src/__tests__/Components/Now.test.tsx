@@ -2,7 +2,7 @@ import { apiWeatherGov_points } from "__tests__/__mocks__";
 import useWeather from "__tests__/__mocks__/useWeather";
 import { mockDate } from "__tests__/__utils__";
 import matchBrokenText from "__tests__/__utils__/matchBrokenText";
-import { act, render, screen } from "@testing-library/react";
+import { act, cleanup, render, screen } from "@testing-library/react";
 
 import { Now } from "Components";
 
@@ -30,6 +30,8 @@ test("Clicking on the location name opens the location modal", () => {
     })
 
     expect(screen.getByRole("dialog")).toBeInTheDocument()
+
+    cleanup()
 })
 
 test("Cliking on the gear opens the settings modal", () => {

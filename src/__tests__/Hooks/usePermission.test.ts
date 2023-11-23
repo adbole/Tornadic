@@ -1,4 +1,4 @@
-import { renderHook, waitFor } from "@testing-library/react";
+import { cleanup, renderHook, waitFor } from "@testing-library/react";
 
 import { usePermission } from "Hooks"
 
@@ -7,6 +7,8 @@ test("should return unknown when permission is not found", () => {
     const { result } = renderHook(() => usePermission("foo" as any));
 
     expect(result.current).toBe("unknown");
+
+    cleanup()
 })
 
 test("should return granted when permission is granted", async () => {
