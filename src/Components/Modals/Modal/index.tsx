@@ -27,8 +27,8 @@ export default function Modal({ isOpen, children, onClose, className }: ModalPro
     }, [isOpen, openModal]);
 
     React.useLayoutEffect(() => {
-        if (!shouldMount) onClose();
-    }, [onClose, shouldMount]);
+        if (!shouldMount && isOpen) onClose();
+    }, [onClose, shouldMount, isOpen]);
 
     useSameClick(dialogRef, (e: MouseEvent) => {
         const target = e.target as HTMLElement;

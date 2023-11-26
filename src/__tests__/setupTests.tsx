@@ -5,7 +5,7 @@ import {
     geocoding,
     singleAlert
 } from "__tests__/__mocks__"
-import { createSerializer } from "@emotion/jest"
+import { createSerializer, matchers } from "@emotion/jest"
 import type { Mock } from "vitest";
 import { vi } from "vitest";
 import createFetchMock from "vitest-fetch-mock";
@@ -15,6 +15,8 @@ import "@testing-library/jest-dom/vitest";
 
 
 expect.addSnapshotSerializer(createSerializer());
+// @ts-expect-error with matchers type not being compatible
+expect.extend(matchers);
 
 // Fetch Mocks
 const fetchMocker = createFetchMock(vi);
