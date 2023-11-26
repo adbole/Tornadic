@@ -1,5 +1,4 @@
 import { act, renderHook } from "@testing-library/react";
-import type { Mock } from "vitest";
 
 import { useAnimation } from "Hooks";
 import type { AnimationStage } from "Hooks/useAnimation"
