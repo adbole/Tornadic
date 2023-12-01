@@ -3,12 +3,10 @@ import * as d3 from 'd3';
 
 import { throwError } from 'ts/Helpers';
 
+import type { DataPoint } from '..';
 
-const ChartContext = React.createContext<{
-    chart: d3.Selection<SVGSVGElement, unknown, null, undefined>
-    x: d3.ScaleTime<number, number>
-    y: d3.ScaleLinear<number, number>
-} | null>(null)
+
+const ChartContext = React.createContext<d3.Selection<SVGSVGElement, unknown, null, undefined> | null>(null)
 
 export const margin = {
     top: 20,
@@ -21,15 +19,30 @@ export const useChart = () =>
     React.useContext(ChartContext) ??
     throwError('useChart must be used within a ChartContextProvider')
 
+export function getScales(chart: d3.Selection<SVGSVGElement, unknown, null, undefined>, dataPoints: DataPoint[]) {
+    const boundingRect = chart.node()!.getBoundingClientRect()
+    const width = boundingRect.width
+    const height = boundingRect.height
+
+    const xDomain = d3.extent(dataPoints, d => d.x) as [Date, Date]
+    const yDomain = d3.extent(dataPoints, d => d.y1) as [number, number]
+
+    return {
+        x: d3.scaleTime()
+            .domain(xDomain)
+            .range([margin.left, width - margin.right]),
+        y: d3.scaleLinear()
+            .domain(yDomain)
+            .range([height - margin.bottom, margin.top])
+    }
+}
+
 export default function ChartContextProvider({ xDomain, yDomain, children }: { 
     xDomain: [Date, Date],
     yDomain: [number, number],
     children: React.ReactNode 
 }) {
     const [chart, setChart] = React.useState<d3.Selection<SVGSVGElement, unknown, null, undefined> | null>(null)
-
-    const [x, setX] = React.useState<d3.ScaleTime<number, number> | null>(null)
-    const [y, setY] = React.useState<d3.ScaleLinear<number, number> | null>(null)
 
     React.useEffect(() => {
         if(!chart) return;
@@ -38,18 +51,6 @@ export default function ChartContextProvider({ xDomain, yDomain, children }: {
             const boundingRect = chart.node()!.getBoundingClientRect()
             const width = boundingRect.width
             const height = boundingRect.height
-
-            setX(
-                () => d3.scaleTime()
-                    .domain(xDomain)
-                    .range([margin.left, width - margin.right])
-            )
-
-            setY(
-                () => d3.scaleLinear()
-                    .domain(yDomain)
-                    .range([height - margin.bottom, margin.top])
-            )
 
             chart.attr('viewBox', `0 0 ${width ?? 1200} ${height ?? 600}`)
         }
@@ -61,14 +62,8 @@ export default function ChartContextProvider({ xDomain, yDomain, children }: {
         return () => window.removeEventListener('resize', onResize)
     }, [chart, xDomain, yDomain])
 
-    const value = React.useMemo(() => {
-        if(!chart || !x || !y) return null;
-
-        return { chart, x, y }
-    }, [chart, x, y])
-
     return (
-        <ChartContext.Provider value={value}>
+        <ChartContext.Provider value={chart}>
             <svg 
                 className='recharts-surface'
                 width="100%"
@@ -79,7 +74,7 @@ export default function ChartContextProvider({ xDomain, yDomain, children }: {
                         setChart(d3.select(element))
                 }}
             >
-                {value && children}
+                {chart && children}
             </svg>
             
         </ChartContext.Provider>

@@ -1,11 +1,13 @@
 import React from 'react';
 import * as d3 from 'd3';
 
-import { margin, useChart } from './ChartContext';
+import type { DataPoint } from '..';
+
+import { getScales, margin, useChart } from './ChartContext';
 
 
-export default function Axes() {
-    const { chart, x, y } = useChart();
+export default function Axes({ dataPoints }: { dataPoints: DataPoint[] }) {
+    const chart = useChart();
 
     const xAxis = React.useRef<d3.Selection<SVGGElement, unknown, null, undefined> | undefined>()
     const yAxis = React.useRef<d3.Selection<SVGGElement, unknown, null, undefined> | undefined>()
@@ -30,6 +32,8 @@ export default function Axes() {
             const boundingRect = chart.node()!.getBoundingClientRect()
             const height = boundingRect.height
 
+            const { x, y } = getScales(chart, dataPoints)
+
             xAxis.current!
                 .attr('transform', `translate(0, ${height - margin.bottom})`)    
                 .call(d3.axisBottom(x).ticks(5))
@@ -43,7 +47,7 @@ export default function Axes() {
         window.addEventListener('resize', draw)
 
         return () => window.removeEventListener('resize', draw)
-    }, [x, y, chart])
+    }, [dataPoints, chart])
 
     return null;
 }

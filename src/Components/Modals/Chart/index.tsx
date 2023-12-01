@@ -197,7 +197,7 @@ export default function Chart({
                 </p>
 
                 <ChartContext xDomain={[times[0], times[times.length - 1]]} yDomain={getMinMax([Math.min(...y1), Math.max(...y1)], view)} >
-                    <Axes />
+                    <Axes dataPoints={dataPoints}/>
                     <ChartVisualization view={view} dataPoints={dataPoints} />
                 </ChartContext>
             </ChartContent>

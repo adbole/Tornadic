@@ -9,7 +9,7 @@ import { get_aq, get_uv, toHSL } from "ts/Helpers";
 
 import type { ChartViews, DataPoint } from "..";
 
-import { margin, useChart } from "./ChartContext";
+import { getScales, margin, useChart } from "./ChartContext";
 
 
 function* getUVGradient(value: number) {
@@ -50,7 +50,7 @@ function* getAQGradient(value: number) {
 
 export default function ChartVisualization({ view, dataPoints }: { view: ChartViews; dataPoints: DataPoint[] }) {
 
-    const { chart, x, y } = useChart()
+    const chart = useChart()
     const settings = useReadLocalStorage("userSettings")
 
     const gradientId = React.useId()
@@ -61,6 +61,8 @@ export default function ChartVisualization({ view, dataPoints }: { view: ChartVi
         if(!chart) return () => {};
 
         console.log("change")
+
+        const { x, y } = getScales(chart, dataPoints)
 
         path.current = 
             chart.append('path')
@@ -82,7 +84,7 @@ export default function ChartVisualization({ view, dataPoints }: { view: ChartVi
         }
 
         return () => path.current?.remove()
-    }, [chart, dataPoints, gradientId, view, x, y])
+    }, [chart, dataPoints, gradientId, view])
 
     if(view === "temperature_2m" && settings) {
         const max = Math.max(...dataPoints.map(point => point.y1))
