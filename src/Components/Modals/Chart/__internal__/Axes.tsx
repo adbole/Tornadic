@@ -1,53 +1,72 @@
 import React from 'react';
 import * as d3 from 'd3';
 
-import type { DataPoint } from '..';
-
-import { getScales, margin, useChart } from './ChartContext';
+import { useChart } from './ChartContext';
 
 
-export default function Axes({ dataPoints }: { dataPoints: DataPoint[] }) {
-    const chart = useChart();
+export default function Axes() {
+    const { chart, x, y } = useChart();
 
-    const xAxis = React.useRef<d3.Selection<SVGGElement, unknown, null, undefined> | undefined>()
-    const yAxis = React.useRef<d3.Selection<SVGGElement, unknown, null, undefined> | undefined>()
-    
-    React.useEffect(() => {
-        const fontSize = "16px system-ui"
+    const xAxis = React.useRef<SVGGElement>(null)
+    const yAxis = React.useRef<SVGGElement>(null)
 
-        xAxis.current = chart.append('g').style("font", fontSize)
-        yAxis.current = chart.append('g').style("font", fontSize)
-
-        return () => {
-            xAxis.current?.remove()
-            yAxis.current?.remove()
-        }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    const xGrid = React.useRef<SVGGElement>(null)
+    const yGrid = React.useRef<SVGGElement>(null)
 
     React.useEffect(() => {
-        if(!xAxis.current && !yAxis.current) return;
+        if(!xAxis.current || !yAxis.current || !xGrid.current || !yGrid.current) return;
 
-        const draw = () => {
-            const boundingRect = chart.node()!.getBoundingClientRect()
-            const height = boundingRect.height
+        const axisBottom = d3.axisBottom(x)
+            .tickFormat(d3.timeFormat("%-I %p"))
 
-            const { x, y } = getScales(chart, dataPoints)
-
-            xAxis.current!
-                .attr('transform', `translate(0, ${height - margin.bottom})`)    
-                .call(d3.axisBottom(x).ticks(5))
-            yAxis.current!
-                .attr('transform', `translate(${margin.left}, 0)`)
-                .call(d3.axisLeft(y).ticks(5))
+        if((x as d3.ScaleBand<Date>).bandwidth) {
+            axisBottom.tickValues(x.domain().filter((_, i) => i % 6 === 0))
+        }
+        else {
+            axisBottom.ticks(5)
         }
 
-        draw()
+        // scale.range() is used to get the offsets of the axis.
+        // y-axis is inverted since the origin is at the top left.
 
-        window.addEventListener('resize', draw)
+        d3.select(xGrid.current!)
+            .call(
+                d3.axisBottom(x)
+                    .tickSize(-(y.range()[0]))
+                    .tickFormat(() => "")
+                    .ticks(10)
+            )
 
-        return () => window.removeEventListener('resize', draw)
-    }, [dataPoints, chart])
+        d3.select(yGrid.current!)
+            .call(
+                d3.axisLeft(y)
+                    .tickSize(-(x.range()[1]))
+                    .tickFormat(() => "")
+                    .ticks(5)
+            )
 
-    return null;
+        d3.select(xAxis.current!).call(axisBottom)
+        d3.select(yAxis.current!).call(d3.axisLeft(y).ticks(5))
+
+        d3.selectAll([xGrid.current, yGrid.current])
+            .selectAll('path, line')
+            .attr('stroke', '#ffffff19')
+
+        d3.selectAll([xGrid.current, xAxis.current])
+            .attr('transform', `translate(0, ${y.range()[0]})`)    
+
+        d3.selectAll([yGrid.current, yAxis.current])
+            .attr('transform', `translate(${x.range()[0]}, 0)`)
+
+    }, [chart, x, y])
+
+    return (
+        <>
+            <g ref={xAxis} style={{ font: "16px system-ui" }}/>
+            <g ref={yAxis} style={{ font: "16px system-ui" }}/>
+
+            <g ref={xGrid} />
+            <g ref={yGrid} />
+        </>
+    );
 }

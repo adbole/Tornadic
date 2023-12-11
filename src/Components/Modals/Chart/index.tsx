@@ -79,47 +79,7 @@ export default function Chart({
     const radioId = React.useId();
     const timeRef = React.useRef<HTMLSpanElement>(null);
 
-    const from = day * 24;
-    const to = from + 24
 
-    const times = React.useMemo(
-        () => weather.getAllForecast("time").slice(from, to).map(time => new Date(time)), 
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        [weather, day]
-    );
-
-    const y1 = React.useMemo(
-        () => weather.getAllForecast(view).slice(from, to), 
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        [weather, view, day]
-    );
-
-    const y2 = React.useMemo(
-        () => {
-            let prop: keyof CombinedHourly | null = null;
-
-            switch (view) {
-                case "temperature_2m":
-                    prop = "apparent_temperature"
-                    break;
-                case "windspeed_10m":
-                    prop = "windgusts_10m"
-                    break;
-            }
-
-            if(prop === null) return null;
-
-            return weather.getAllForecast(prop).slice(from, to);
-        },
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        [weather, view, day]
-    )
-
-    const dataPoints = y1.map((y, i) => ({
-        x: times[i],
-        y1: y,
-        y2: y2?.[i] ?? null,
-    }));
 
     //Ensure the current prop value is used when opened or changed
     React.useEffect(() => setDay(showDay), [showDay, modalProps.isOpen]);
@@ -196,9 +156,9 @@ export default function Chart({
                     <span ref={timeRef} />
                 </p>
 
-                <ChartContext xDomain={[times[0], times[times.length - 1]]} yDomain={getMinMax([Math.min(...y1), Math.max(...y1)], view)} >
-                    <Axes dataPoints={dataPoints}/>
-                    <ChartVisualization view={view} dataPoints={dataPoints} />
+                <ChartContext view={view} day={day}>
+                    <Axes />
+                    <ChartVisualization />
                 </ChartContext>
             </ChartContent>
         </ChartModal>

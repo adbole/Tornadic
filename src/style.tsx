@@ -65,7 +65,7 @@ export default css`
         background-blend-mode: difference, normal;
     }
 
-    svg:not(.recharts-surface) {
+    svg {
         display: inline-block;
         width: ${vars.svgSize};
     }

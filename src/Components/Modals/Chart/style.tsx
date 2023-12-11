@@ -15,6 +15,15 @@ export default styled(Modal)({
     },
 });
 
+export const ResponsiveSVG = styled.svg({
+    border: "1px solid #ffffff19",
+    borderRadius: vars.borderRadius,
+    overflow: "hidden",
+    width: "100%",
+    height: "100%",
+    display: "block"
+})
+
 export const ChartContent = styled(ModalContent)({
     display: "flex",
     flexDirection: "column",
