@@ -4,7 +4,7 @@ import { Global } from "@emotion/react";
 
 import { useAnimation, useSameClick } from "Hooks";
 
-import Dialog from "./style";
+import Dialog, { CloseButton } from "./style";
 
 
 export type ModalProps = {

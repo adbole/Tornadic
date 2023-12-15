@@ -1,13 +1,13 @@
 import React from 'react';
+import styled from '@emotion/styled';
 import * as d3 from 'd3';
 
 import { useWeather } from 'Contexts/WeatherContext';
 
 import { throwError } from 'ts/Helpers';
-import type { CombinedHourly } from 'ts/Weather';
+import { vars } from 'ts/StyleMixins';
 
 import type { ChartViews, DataPoint } from '..';
-import { ResponsiveSVG } from '../style';
 
 
 const ChartContext = React.createContext<{
@@ -19,7 +19,7 @@ const ChartContext = React.createContext<{
 } | null>(null)
 
 export const margin = {
-    top: 20,
+    top: 120,
     right: 10,
     bottom: 40,
     left: 40,
@@ -29,6 +29,16 @@ export const useChart = () =>
     React.useContext(ChartContext) ??
     throwError('useChart must be used within a ChartContextProvider')
 
+const ResponsiveSVG = styled.svg({
+    position: "relative",
+    border: "1px solid #ffffff19",
+    borderRadius: vars.borderRadius,
+    overflow: "hidden",
+    width: "100%",
+    height: "100%",
+    display: "block"
+})
+    
 function getMinMax([min, max]: [number, number], property: ChartViews): [number, number] {
     switch (property) {
         case "surface_pressure":
@@ -124,6 +134,7 @@ export default function ChartContextProvider({ view, day, children }: {
 
         const onResize = () => {
             const boundingRect = chart.node()!.getBoundingClientRect()
+
             const width = boundingRect.width
             const height = boundingRect.height
 

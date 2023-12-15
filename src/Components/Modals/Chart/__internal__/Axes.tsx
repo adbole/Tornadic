@@ -32,7 +32,7 @@ export default function Axes() {
         d3.select(xGrid.current!)
             .call(
                 d3.axisBottom(x)
-                    .tickSize(-(y.range()[0]))
+                    .tickSize(-(y.range()[0] - y.range()[1]))
                     .tickFormat(() => "")
                     .ticks(10)
             )
@@ -40,7 +40,7 @@ export default function Axes() {
         d3.select(yGrid.current!)
             .call(
                 d3.axisLeft(y)
-                    .tickSize(-(x.range()[1]))
+                    .tickSize(-(x.range()[1] - x.range()[0]))
                     .tickFormat(() => "")
                     .ticks(5)
             )

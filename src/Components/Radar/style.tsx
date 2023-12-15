@@ -8,12 +8,6 @@ import { darkBackBlur, mediaQueries, varNames, vars } from "ts/StyleMixins";
 
 export const Base = css({
     backdropFilter: "none",
-    "&::before": {
-        content: '""',
-        position: "absolute",
-        inset: "0",
-        backdropFilter: "saturate(130%)",
-    },
     ".leaflet-center": {
         left: 0,
         right: 0,

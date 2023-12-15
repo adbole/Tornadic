@@ -26,9 +26,10 @@ export default styled.section<{
         padding: "10px",
         overflow: "hidden",
 
-        backdropFilter: "saturate(130%)",
+        backdropFilter: "blur(10px)",
+        boxShadow: "inset 0 0 0 200px rgba(255, 255, 255, 0.01)",
+        border: "1px solid rgba(255, 255, 255, 0.05)",
         borderRadius: vars.borderRadius,
-        boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.25)",
     },
     size === "widget-large" && {
         minHeight: "300px",

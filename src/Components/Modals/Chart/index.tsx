@@ -1,8 +1,4 @@
 import React from "react";
-import type { YAxisProps } from "recharts";
-import { CartesianGrid, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
-
-import { useReadLocalStorage } from "Hooks";
 
 import { useWeather } from "Contexts/WeatherContext";
 
@@ -11,11 +7,11 @@ import type { ModalProps } from "Components/Modals/Modal";
 import { ModalTitle } from "Components/Modals/Modal";
 
 import getTimeFormatted from "ts/TimeConversion";
-import type Weather from "ts/Weather";
 import type { CombinedHourly } from "ts/Weather";
 
 import ChartVisualization from "./__internal__/ChartVisualization";
-import { Axes, ChartContext } from "./__internal__";
+import NowReference from "./__internal__/NowReference";
+import { Axes, ChartContext, Tooltip } from "./__internal__";
 import ChartModal, { ChartContent, Option } from "./style";
 
 
@@ -157,8 +153,10 @@ export default function Chart({
                 </p>
 
                 <ChartContext view={view} day={day}>
+                    <Tooltip day={day}/>
                     <Axes />
                     <ChartVisualization />
+                    <NowReference isShown={!day}/>
                 </ChartContext>
             </ChartContent>
         </ChartModal>

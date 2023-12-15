@@ -7,22 +7,12 @@ import Modal, { ModalContent } from "../Modal";
 
 export default styled(Modal)({
     width: "90%",
-    height: "80%",
+    height: "90%",
     [mediaQueries.max("small")]: {
         width: "100%",
-        height: "60%",
         paddingBottom: "20px",
     },
 });
-
-export const ResponsiveSVG = styled.svg({
-    border: "1px solid #ffffff19",
-    borderRadius: vars.borderRadius,
-    overflow: "hidden",
-    width: "100%",
-    height: "100%",
-    display: "block"
-})
 
 export const ChartContent = styled(ModalContent)({
     display: "flex",

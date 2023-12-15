@@ -6,7 +6,7 @@ import { useBooleanState } from "Hooks";
 import { useWeather } from "Contexts/WeatherContext";
 
 import { Button, LocationInput } from "Components/Input";
-import Modal, { ModalContent } from "Components/Modals/Modal";
+import Modal, { ModalContent, ModalTitle } from "Components/Modals/Modal";
 import Settings from "Components/Modals/Settings";
 import { Gear } from "svgs/widget";
 
@@ -31,8 +31,8 @@ export default function Now({ displayOnly }: { displayOnly?: boolean }) {
 
     return (
         <>
-            {!displayOnly && <Global styles={{ body: { background: gradient } }} />}
-            <NowWidget size="widget-large" isTemplate style={{ background: gradient }}>
+            {!displayOnly && <Global styles={{ body: { background: gradient, backgroundAttachment: "fixed" } }} />}
+            <NowWidget size="widget-large" isTemplate>
                 {!displayOnly && (
                     <Button
                         varient="transparent"
