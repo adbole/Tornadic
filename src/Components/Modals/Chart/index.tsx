@@ -48,21 +48,6 @@ export type DataPoint = {
     y2: number | null;
 };
 
-function getMinMax([min, max]: [number, number], property: ChartViews): [number, number] {
-    switch (property) {
-        case "surface_pressure":
-            return [min - 0.3, max + 0.3];
-        case "precipitation":
-            return [0, Math.max(0.5, max + 0.25)];
-        case "relativehumidity_2m":
-            return [0, 100];
-        case "uv_index":
-            return [0, Math.max(11, max)];
-        default:
-            return [Math.floor(min / 10) * 10, Math.ceil(max / 10) * 10 + 10];
-    }
-}
-
 export default function Chart({
     showView,
     showDay = 0,
@@ -73,12 +58,13 @@ export default function Chart({
     const [day, setDay] = React.useState(showDay);
 
     const radioId = React.useId();
-    const timeRef = React.useRef<HTMLSpanElement>(null);
 
-
-
-    //Ensure the current prop value is used when opened or changed
-    React.useEffect(() => setDay(showDay), [showDay, modalProps.isOpen]);
+    //Ensure the current prop values are used when opened
+    React.useEffect(() => {
+        setView(showView);
+        setDay(showDay);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [modalProps.isOpen]);
 
     //Autosize the select element for style points
     const setWidth = React.useCallback((element: HTMLSelectElement) => {
@@ -94,26 +80,6 @@ export default function Chart({
 
         element.style.width = Math.round(width) + 30 + "px";
     }, []);
-
-    // const setTimeText = React.useCallback(
-    //     (s: string) => {
-    //         if (!timeRef.current) return;
-
-    //         timeRef.current.innerText = s;
-    //     },
-    //     [timeRef]
-    // );
-
-    // const onMouseMove = React.useCallback(
-    //     (e: any) => (e.activeLabel ? setTimeText(", " + e.activeLabel) : setTimeText("")),
-    //     [setTimeText]
-    // );
-    // const onMouseLeave = React.useCallback(() => setTimeText(""), [setTimeText]);
-
-    // const yAxisProps: YAxisProps = {
-    //     width: 50,
-    //     domain: ([dataMin, dataMax]) => getMinMax([dataMin, dataMax], view),
-    // };
 
     return (
         <ChartModal {...modalProps}>
@@ -147,16 +113,21 @@ export default function Chart({
                     ))}
                 </InputGroup>
 
-                <p>
-                    {getTimeFormatted(weather.getForecast("time", day * 24), "date")}
-                    <span ref={timeRef} />
-                </p>
+                <p>{getTimeFormatted(weather.getForecast("time", day * 24), "date")}</p>
 
                 <ChartContext view={view} day={day}>
-                    <Tooltip day={day}/>
                     <Axes />
                     <ChartVisualization />
                     <NowReference isShown={!day}/>
+                    <Tooltip day={day}/>
+                    <line 
+                        x1={0} 
+                        x2="100%" 
+                        y1={100}
+                        y2={100} 
+                        stroke="#ffffff19" 
+                        strokeWidth={1}
+                    />
                 </ChartContext>
             </ChartContent>
         </ChartModal>

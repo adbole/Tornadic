@@ -26,7 +26,7 @@ export default function Area({
             .x((d: DataPoint) => xScale(d.x))
             .y0(y.range()[0])
             .y1((d: DataPoint) => y(d[yProp] as number))
-            .defined((d: DataPoint) => Boolean(d[yProp]))
+            .defined((d: DataPoint) => d[yProp] != null && !isNaN(d[yProp] as number))
     }, [x, y, yProp])
 
     React.useEffect(() => {

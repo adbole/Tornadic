@@ -25,7 +25,7 @@ export default function Line({
             .curve(d3.curveMonotoneX)
             .x((d: DataPoint) => xScale(d.x))
             .y((d: DataPoint) => y(d[yProp] as number))
-            .defined((d: DataPoint) => Boolean(d[yProp]))
+            .defined((d: DataPoint) => d[yProp] != null && !isNaN(d[yProp] as number))
         
     }, [x, y, yProp] )
 
