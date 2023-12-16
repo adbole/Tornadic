@@ -1,6 +1,8 @@
-export { ReactComponent as CircleSlashes } from "./circle-slashes.svg";
-export { ReactComponent as LocationDot } from "./current-location-dot.svg";
-export { ReactComponent as Cursor } from "./cursor-fill.svg";
-export { ReactComponent as Grid } from "./grid.svg";
-export { ReactComponent as Pause } from "./pause-fill.svg";
-export { ReactComponent as Play } from "./play-fill.svg";
+/// <reference types="vite-plugin-svgr/client" />
+
+export { default as CircleSlashes } from "./circle-slashes.svg?react";
+export { default as LocationDot } from "./current-location-dot.svg?react";
+export { default as Cursor } from "./cursor-fill.svg?react";
+export { default as Grid } from "./grid.svg?react";
+export { default as Pause } from "./pause-fill.svg?react";
+export { default as Play } from "./play-fill.svg?react";

@@ -28,7 +28,7 @@ export default styled.section<{
 
         backdropFilter: "blur(10px)",
         boxShadow: "inset 0 0 0 200px rgba(255, 255, 255, 0.01)",
-        border: "1px solid rgba(255, 255, 255, 0.05)",
+        border: "1px solid rgba(255, 255, 255, 0.1)",
         borderRadius: vars.borderRadius,
     },
     size === "widget-large" && {

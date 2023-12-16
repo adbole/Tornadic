@@ -21,7 +21,7 @@ test("Provided children is shown", () => {
 })
 
 test("Using useSlide outside of SlideContextProvider throws an error", () => {
-    expect(() => useSlide()).toThrowError();
+    expect(() => renderHook(useSlide)).toThrowError();
 })
 
 test("slideTo sets secondaryContent", () => {

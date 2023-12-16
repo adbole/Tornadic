@@ -2,16 +2,10 @@ import React from "react";
 import styled from "@emotion/styled";
 import * as d3 from "d3";
 
-import { useWeather } from "Contexts/WeatherContext";
+import type { DataPoint } from "../..";
+import { useChart } from "../ChartContext";
 
-import { get_aq, get_uv } from "ts/Helpers";
-import getTimeFormatted from "ts/TimeConversion";
-import type { CombinedHourly } from "ts/Weather";
-import type Weather from "ts/Weather";
-
-import type { ChartViews, DataPoint } from "..";
-
-import { useChart } from "./ChartContext";
+import { PrimaryInformation, SecondaryInformation, Time } from "./__internal__";
 
 
 const Container = styled.div({
@@ -34,109 +28,13 @@ function getTime(scale: d3.ScaleTime<number, number, never> | d3.ScaleBand<Date>
     return scale.domain()[index]
 }
 
-function supportingInformation(view: ChartViews): [keyof Omit<CombinedHourly, "time">, string] | undefined {
-    switch(view) {
-        case "precipitation":
-            return ["precipitation_probability", "Chance of Precip"]
-        case "temperature_2m":
-            return ["apparent_temperature", "Feels"]
-        case "relativehumidity_2m":
-            return ["dewpoint_2m", "Dewpoint"]
-        case "dewpoint_2m":
-            return ["relativehumidity_2m", "Humidity"]
-        case "windspeed_10m":
-            return ["windgusts_10m", "Gust"]
-        case "us_aqi": 
-            return ["us_aqi", ""]
-        case "uv_index":
-            return ["uv_index", ""]
-        default:
-            return undefined
-    }
-}
-
-function trunc(value: number) {
-    return Math.floor(value * 100) / 100
-}
-
-function getLowHigh(weather: Weather, prop: keyof Omit<CombinedHourly, "time">, day: number) {
-    const range = d3.extent(weather.getAllForecast(prop).slice(day * 24, (day + 1) * 24))
-    if(range[0] === undefined) return
-
-    const unit = weather.getForecastUnit(prop)
-    return `L: ${trunc(range[0])}${unit} H: ${trunc(range[1])}${unit}`
-}
-
 export default function Tooltip({ day }: { day: number }) {
-    const { chart, x, y, view, dataPoints } = useChart()
-    const { weather } = useWeather()
+    const { chart, x, y, dataPoints } = useChart()
 
     const [hoverIndex, setHoverIndex] = React.useState(-1);
 
     const div = React.useRef<HTMLDivElement | null>(null)
     const referenceLine = React.useRef<SVGLineElement | null>(null)
-
-    const time = React.useMemo(() => {
-        if(hoverIndex !== -1) {
-            const dataPoint = dataPoints[hoverIndex]
-            return getTimeFormatted(dataPoint.x, "hourMinute")
-        }
-
-        if(day === 0) {
-            return "Now"
-        }
-
-        return "Min and Max"
-    }, [day, hoverIndex, dataPoints])
-
-    const mainInformation = React.useMemo(() => {
-        let string: string | undefined = undefined;
-
-        if(hoverIndex !== -1) {
-            const dataPoint = dataPoints[hoverIndex]
-            string = trunc(dataPoint.y1).toString()
-        }
-        else if(day === 0) {
-            string = trunc(weather.getForecast(view)).toString()
-        }
-        else return getLowHigh(weather, view, day)
-
-        return string && string + weather.getForecastUnit(view)
-    }, [day, view, weather, hoverIndex, dataPoints])
-
-    const secondaryInformation = React.useMemo(() => {
-        const supporting = supportingInformation(view);
-        if(!supporting) return null;
-
-        const [property, label] = supporting;
-
-        if(property === "uv_index" || property === "us_aqi") {
-            const level = property === "uv_index" ? get_uv : get_aq
-
-            if(hoverIndex !== -1) {
-                const weatherIndex = (day * 24) + hoverIndex
-                return level(weather.getForecast(property, weatherIndex))
-            }
-            else if(day === 0) {
-                return level(weather.getForecast(property))
-            }
-            
-            return null;
-        }
-
-        let string = `${label}: `;
-
-        if(hoverIndex !== -1) {
-            const weatherIndex = (day * 24) + hoverIndex
-            string += trunc(weather.getForecast(property, weatherIndex)).toString()
-        }
-        else if(day === 0) {
-            string += trunc(weather.getForecast(property)).toString()
-        }
-        else return getLowHigh(weather, property, day)
-
-        return string + weather.getForecastUnit(property)
-    }, [day, view, weather, hoverIndex])
 
     React.useEffect(() => {
         if(!div.current) {
@@ -217,7 +115,7 @@ export default function Tooltip({ day }: { day: number }) {
 
     if(dataPoints.every(d => d.y1 == null)) return (
         <g>
-            <foreignObject width="100%" height="100px">
+            <foreignObject width="100%" height="100px"> 
                 <Container style={{ left: "50%", transform: "translateX(-50%)" }}>
                     <h1>No Data</h1>
                 </Container>
@@ -229,9 +127,9 @@ export default function Tooltip({ day }: { day: number }) {
         <g>
             <foreignObject width="100%" height="100px" >
                 <Container ref={div}>
-                    <span>{time}</span>
-                    <h1>{mainInformation}</h1>
-                    <h3>{secondaryInformation}</h3>
+                    <Time day={day} hoverIndex={hoverIndex} />
+                    <PrimaryInformation day={day} hoverIndex={hoverIndex} />
+                    <SecondaryInformation day={day} hoverIndex={hoverIndex} />
                 </Container>
             </foreignObject>
             <line ref={referenceLine} stroke="#fff" strokeWidth={2}/>

@@ -152,7 +152,7 @@ export default function ChartContextProvider({ view, day, children }: {
     }, [chart, dataPoints])
 
     const value = React.useMemo(() => {
-        if(!chart || !x || !y) return null;
+        if(!chart || x === null || y === null) return null;
 
         return {
             chart,

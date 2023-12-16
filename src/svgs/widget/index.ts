@@ -1,15 +1,17 @@
-export { ReactComponent as Down } from "./arrow-down-short.svg";
-export { ReactComponent as Up } from "./arrow-up-short.svg";
-export { ReactComponent as Calendar } from "./calendar-fill.svg";
-export { ReactComponent as Clock } from "./clock-fill.svg";
-export { ReactComponent as Droplet } from "./droplet-fill.svg";
-export { ReactComponent as Eye } from "./eye-fill.svg";
-export { ReactComponent as Gear } from "./gear-wide-connected.svg";
-export { ReactComponent as Lungs } from "./lungs-fill.svg";
-export { ReactComponent as Map } from "./map-fill.svg";
-export { ReactComponent as Meter } from "./meter.svg";
-export { ReactComponent as Moisture } from "./moisture.svg";
-export { ReactComponent as Sunrise } from "./sunrise-fill.svg";
-export { ReactComponent as Sunset } from "./sunset-fill.svg";
-export { ReactComponent as Thermometer } from "./thermometer.svg";
-export { ReactComponent as Wind } from "./wind.svg";
+/// <reference types="vite-plugin-svgr/client" />
+
+export { default as Down } from "./arrow-down-short.svg?react";
+export { default as Up } from "./arrow-up-short.svg?react";
+export { default as Calendar } from "./calendar-fill.svg?react";
+export { default as Clock } from "./clock-fill.svg?react";
+export { default as Droplet } from "./droplet-fill.svg?react";
+export { default as Eye } from "./eye-fill.svg?react";
+export { default as Gear } from "./gear-wide-connected.svg?react";
+export { default as Lungs } from "./lungs-fill.svg?react";
+export { default as Map } from "./map-fill.svg?react";
+export { default as Meter } from "./meter.svg?react";
+export { default as Moisture } from "./moisture.svg?react";
+export { default as Sunrise } from "./sunrise-fill.svg?react";
+export { default as Sunset } from "./sunset-fill.svg?react";
+export { default as Thermometer } from "./thermometer.svg?react";
+export { default as Wind } from "./wind.svg?react";

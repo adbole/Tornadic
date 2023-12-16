@@ -1,5 +1,5 @@
 import { mockDate, setLocalStorageItem } from "__tests__/__utils__";
-import { act, render, renderHook, screen } from "@testing-library/react"
+import { act, cleanup, render, renderHook, screen } from "@testing-library/react"
 
 import DEFAULTS from "Hooks/useLocalStorage.config";
 
@@ -21,7 +21,7 @@ function Wrapper({ children }: { children: React.ReactNode }) {
     )
 }
 
-const renderWeather = () => renderHook(() => useWeather(), { wrapper: Wrapper })
+const renderWeather = () => renderHook(useWeather, { wrapper: Wrapper })
 
 mockDate()
 
@@ -81,7 +81,7 @@ describe("render", () => {
 
 describe("hook", () => {
     test("throws error when used outside of provider", () => {
-        expect(() => useWeather()).toThrowError()
+        expect(() => renderHook(useWeather)).toThrowError()
     })
 
     test("returns the data when used inside provider", async () => {

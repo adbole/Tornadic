@@ -8,13 +8,11 @@ import { useChart } from "./ChartContext";
 
 export default function NowReference({ isShown }: { isShown: boolean }) {
     const { x, y } = useChart()
-    const { weather } = useWeather()
+    const { weather } = useWeather()    
 
-    
-    const xScale = x as d3.ScaleTime<number, number, never>
-    
     const nowX = React.useMemo(() => 
-        xScale(new Date(weather.getForecast("time"))) as number
+        x(new Date(weather.getForecast("time"))) as number
+        + ((x as d3.ScaleBand<Date>)?.bandwidth?.() ?? 0) / 2
         // eslint-disable-next-line react-hooks/exhaustive-deps
         , [x, weather]
     )

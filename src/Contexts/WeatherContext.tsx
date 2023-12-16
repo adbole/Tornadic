@@ -17,7 +17,7 @@ const WeatherContext = React.createContext<{
     point: GridPoint;
     alerts: NWSAlert[];
     nationAlerts: NWSAlert[];
-}>({} as any);
+} | null>(null);
 
 export const useWeather = () =>
     React.useContext(WeatherContext) ??
