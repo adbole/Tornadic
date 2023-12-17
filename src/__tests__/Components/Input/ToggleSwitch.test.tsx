@@ -3,8 +3,8 @@ import { act, render, screen } from "@testing-library/react";
 import { ToggleSwitch } from "Components";
 
 
-test("Matches default snapshot", () => {
-    const comp = render(
+test("Matches snapshot", () => {
+    const { container } = render(
         <ToggleSwitch 
             label="MyToggleSwitch"
             title="MyToggleSwitchTitle"
@@ -13,11 +13,23 @@ test("Matches default snapshot", () => {
         />
     )
 
-    expect(comp).toMatchSnapshot()
+    expect(container).toMatchSnapshot()
 })
 
-test("Matches default checked snapshot", () => {
-    const comp = render(
+test("Is not checked when defaultChecked is false", () => {
+    render(
+        <ToggleSwitch 
+            label="MyToggleSwitch"
+            onChange={() => undefined}
+            defaultChecked={false}
+        />
+    )
+
+    expect(screen.getByLabelText("MyToggleSwitch")).not.toBeChecked()
+})
+
+test("Is checked by when defaultChecked is true", () => {
+    render(
         <ToggleSwitch 
             label="MyToggleSwitch"
             onChange={() => undefined}
@@ -25,7 +37,7 @@ test("Matches default checked snapshot", () => {
         />
     )
 
-    expect(comp).toMatchSnapshot()
+    expect(screen.getByLabelText("MyToggleSwitch")).toBeChecked()
 })
 
 test("onChange is called when clicked", () => {

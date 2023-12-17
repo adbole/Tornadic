@@ -107,31 +107,31 @@ test("If the mouse was dragged to the backdrop, onClose is not called", () => {
 
 describe("Helpers", () => {
     test("ModalContent renders a div and matches snapshot", () => {
-        const comp = render(<ModalContent>Test Content</ModalContent>);
+        const { container } = render(<ModalContent>Test Content</ModalContent>);
 
         expect.soft(screen.getByText("Test Content").tagName).toBe("DIV")
-        expect.soft(comp).toMatchSnapshot()
+        expect.soft(container).toMatchSnapshot()
     })
 
     test("ModalTitle renders an h1 and matches snapshot", () => {
-        const comp = render(<ModalTitle>Test Title</ModalTitle>);
+        const { container } = render(<ModalTitle>Test Title</ModalTitle>);
 
         expect.soft(screen.getByText("Test Title").tagName).toBe("H1")
-        expect.soft(comp).toMatchSnapshot()
+        expect.soft(container).toMatchSnapshot()
     })
 })
 
 describe("Dialog style", () => {
     test("Matches idle snapshot", () => {
-        const comp = render(<Dialog stage="idle"/>);
+        const { container } = render(<Dialog stage="idle"/>);
 
-        expect(comp).toMatchSnapshot()
+        expect(container).toMatchSnapshot()
     })
 
     test("Matches enter snapshot", () => {
-        const comp = render(<Dialog stage="enter"/>);
+        const { container } = render(<Dialog stage="enter"/>);
 
-        expect(comp).toMatchSnapshot()
+        expect(container).toMatchSnapshot()
     })
 })
 

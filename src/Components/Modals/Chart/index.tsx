@@ -9,9 +9,7 @@ import { ModalTitle } from "Components/Modals/Modal";
 import getTimeFormatted from "ts/TimeConversion";
 import type { CombinedHourly } from "ts/Weather";
 
-import ChartVisualization from "./__internal__/ChartVisualization";
-import NowReference from "./__internal__/NowReference";
-import { Axes, ChartContext, Tooltip } from "./__internal__";
+import { Axes, ChartContext, ChartVisualization, NowReference, Tooltip } from "./__internal__";
 import ChartModal, { ChartContent, Option } from "./style";
 
 

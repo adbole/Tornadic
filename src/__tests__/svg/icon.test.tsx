@@ -4,7 +4,7 @@ import * as svgs from "svgs/icon"
 
 
 test.each(Object.entries(svgs))("%s", (_, Svg) => {
-  const comp = render(<Svg />)
+  const { container } = render(<Svg />)
 
-  expect(comp).toMatchSnapshot()
+  expect(container).toMatchSnapshot()
 })

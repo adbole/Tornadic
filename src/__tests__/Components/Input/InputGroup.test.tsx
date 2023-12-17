@@ -4,7 +4,7 @@ import { Button, InputGroup } from "Components"
 
 
 test("Matches default snapshot", () => {
-    const comp = render(
+    const { container } = render(
         <InputGroup>
             <Button>Test</Button>
             <Button>Test</Button>
@@ -12,11 +12,11 @@ test("Matches default snapshot", () => {
         </InputGroup>
     )
 
-    expect(comp).toMatchSnapshot()
+    expect(container).toMatchSnapshot()
 })
 
 test("Matches uniform snapshot", () => {
-    const comp = render(
+    const { container } = render(
         <InputGroup isUniform>
             <Button>Test</Button>
             <Button>Test</Button>
@@ -24,11 +24,11 @@ test("Matches uniform snapshot", () => {
         </InputGroup>
     )
 
-    expect(comp).toMatchSnapshot()
+    expect(container).toMatchSnapshot()
 })
 
 test("Matches hasGap snapshot", () => {
-    const comp = render(
+    const { container } = render(
         <InputGroup hasGap>
             <Button>Test</Button>
             <Button>Test</Button>
@@ -36,11 +36,11 @@ test("Matches hasGap snapshot", () => {
         </InputGroup>
     )
 
-    expect(comp).toMatchSnapshot()
+    expect(container).toMatchSnapshot()
 })
 
 test("Matches hasGap and uniform snapshot", () => {
-    const comp = render(
+    const { container } = render(
         <InputGroup hasGap isUniform>
             <Button>Test</Button>
             <Button>Test</Button>
@@ -48,7 +48,7 @@ test("Matches hasGap and uniform snapshot", () => {
         </InputGroup>
     )
 
-    expect(comp).toMatchSnapshot()
+    expect(container).toMatchSnapshot()
 })
 
 test("Children using inputBorderRadius are given 0 radius on non-gap", () => {

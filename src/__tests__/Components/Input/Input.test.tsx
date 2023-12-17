@@ -4,7 +4,7 @@ import { Input } from "Components";
 
 
 test("Matches snapshot", () => {
-    const comp = render(<Input />)
+    const { container } = render(<Input />)
 
-    expect(comp).toMatchSnapshot()
+    expect(container).toMatchSnapshot()
 })

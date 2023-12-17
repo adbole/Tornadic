@@ -4,7 +4,7 @@ import { ToggleButton } from "Components"
 
 
 test("Matches default snapshot", () => {
-    const comp = render(
+    const { container } = render(
         <ToggleButton 
             label="MyToggleButton"
             name="MyToggleButtonName"
@@ -12,7 +12,7 @@ test("Matches default snapshot", () => {
         />
     )
 
-    expect(comp).toMatchSnapshot()
+    expect(container).toMatchSnapshot()
 })
 
 test("Unchecked by default", () => {
