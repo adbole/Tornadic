@@ -7,6 +7,12 @@ const testIds = {
     Widget: { WidgetSection: "WIDGET_SECTION", },
     Wind: { WindIndicator: "WIND_INDICATOR", },
     SearchInput: { Skeleton: "SEARCH_INPUT_SKELETON", },
+    Chart: {
+        Axes_X: "CHART_AXES_X",
+        Axes_Y: "CHART_AXES_Y",
+        Axes_X_Grid: "CHART_AXES_X_GRID",
+        Axes_Y_Grid: "CHART_AXES_Y_GRID",
+    }
 } as const
 
 export default testIds

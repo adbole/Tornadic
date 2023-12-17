@@ -1,4 +1,5 @@
 import React from 'react';
+import testIds from '__tests__/__constants__/testIDs';
 import * as d3 from 'd3';
 
 import { useChart } from './ChartContext';
@@ -62,11 +63,19 @@ export default function Axes() {
 
     return (
         <>
-            <g ref={xAxis} style={{ font: "16px system-ui" }}/>
-            <g ref={yAxis} style={{ font: "16px system-ui" }}/>
+            <g
+                ref={xAxis} 
+                style={{ font: "16px system-ui" }} 
+                data-testid={testIds.Chart.Axes_X}
+            />
+            <g 
+                ref={yAxis} 
+                style={{ font: "16px system-ui" }}
+                data-testid={testIds.Chart.Axes_Y}
+            />
 
-            <g ref={xGrid} />
-            <g ref={yGrid} />
+            <g ref={xGrid} data-testid={testIds.Chart.Axes_X_Grid}/>
+            <g ref={yGrid} data-testid={testIds.Chart.Axes_Y_Grid}/>
         </>
     );
 }

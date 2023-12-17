@@ -94,7 +94,7 @@ export default function ChartContextProvider({ view, day, children }: {
     }, [weather, view, day])
 
     const x = React.useMemo<d3.ScaleTime<number, number> | d3.ScaleBand<Date> | null>(() => {
-        if(!chart || !width) return null;
+        if(width === null) return null;
 
         const range = [margin.left, width - margin.right]
 
@@ -114,10 +114,10 @@ export default function ChartContextProvider({ view, day, children }: {
                 .domain(xDomain)
                 .range(range)
         )
-    }, [width, chart, dataPoints, view])
+    }, [width, dataPoints, view])
 
     const y = React.useMemo<d3.ScaleLinear<number, number> | null>(() => {
-        if(!chart || !height) return null;
+        if(height === null) return null;
 
         const yValues = dataPoints.flatMap(point => point.y2 ? [point.y1, point.y2] : point.y1)
         const yDomain = getMinMax(d3.extent(yValues) as [number, number], view)
@@ -127,7 +127,7 @@ export default function ChartContextProvider({ view, day, children }: {
                 .domain(yDomain)
                 .range([height - margin.bottom, margin.top])
         )
-    }, [height, chart, dataPoints, view])
+    }, [height, dataPoints, view])
 
     React.useEffect(() => {
         if(!chart) return;
@@ -149,7 +149,7 @@ export default function ChartContextProvider({ view, day, children }: {
         window.addEventListener('resize', onResize)
 
         return () => window.removeEventListener('resize', onResize)
-    }, [chart, dataPoints])
+    }, [chart])
 
     const value = React.useMemo(() => {
         if(!chart || x === null || y === null) return null;

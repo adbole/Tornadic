@@ -52,10 +52,12 @@ export default function Line({
 
         path.current = node
         
+        // ?. and ?? used to satisfy jsdom lack of SVG support.
+        // should be visually tested to ensure it works as expected.
         d3.select(node)
             .attr("d", line(dataPoints))
-            .attr("stroke-dashoffset", node.getTotalLength())
-            .attr("stroke-dasharray", node.getTotalLength())
+            .attr("stroke-dashoffset", node?.getTotalLength?.() ?? 0)
+            .attr("stroke-dasharray", node?.getTotalLength?.() ?? 0)
             .transition()
             .ease(d3.easeSinInOut)
             .duration(1000)

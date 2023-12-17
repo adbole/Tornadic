@@ -87,11 +87,6 @@ afterEach(() => {
     vi.unstubAllGlobals();
 });
 
-vi.mock("recharts", async (importOriginal) => ({
-    ...(await importOriginal() as any),
-    ResponsiveContainer: (props: any) => <div {...props} />,
-}))
-
 expect.extend({
     toHaveLocalItemValue<K extends keyof StorageKeysAndTypes>(received: Storage, key: K, value: StorageKeysAndTypes[K]) {
         const pass = received.getItem(key) === JSON.stringify(value);
