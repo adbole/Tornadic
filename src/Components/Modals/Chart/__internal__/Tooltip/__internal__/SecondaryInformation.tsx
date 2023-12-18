@@ -45,7 +45,7 @@ export default function SecondaryInformation({ day, hoverIndex }: { day: number;
         if(property === "uv_index" || property === "us_aqi") {
             const level = property === "uv_index" ? get_uv : get_aq
 
-            if(hoverIndex !== -1) {
+            if(hoverIndex > -1) {
                 const weatherIndex = (day * 24) + hoverIndex
                 return level(weather.getForecast(property, weatherIndex))
             }
@@ -58,17 +58,17 @@ export default function SecondaryInformation({ day, hoverIndex }: { day: number;
 
         let string = `${label}: `;
 
-        if(hoverIndex !== -1) {
+        if(hoverIndex > -1) {
             const weatherIndex = (day * 24) + hoverIndex
             string += trunc(weather.getForecast(property, weatherIndex)).toString()
         }
         else if(day === 0) {
             string += trunc(weather.getForecast(property)).toString()
         }
-        else return getLowHigh(weather, property, day)
+        else return `${label} ${getLowHigh(weather, property, day)}`
 
         return string + weather.getForecastUnit(property)
     }, [day, view, weather, hoverIndex])
 
-    return <h3>{secondaryInformation}</h3>
+    return secondaryInformation ? <h3>{secondaryInformation}</h3> : null
 }

@@ -1,4 +1,3 @@
-import React from "react";
 import { Global } from "@emotion/react";
 
 import { useBooleanState } from "Hooks";
@@ -6,7 +5,7 @@ import { useBooleanState } from "Hooks";
 import { useWeather } from "Contexts/WeatherContext";
 
 import { Button, LocationInput } from "Components/Input";
-import Modal, { ModalContent, ModalTitle } from "Components/Modals/Modal";
+import Modal, { ModalContent } from "Components/Modals/Modal";
 import Settings from "Components/Modals/Settings";
 import { Gear } from "svgs/widget";
 

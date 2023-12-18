@@ -14,7 +14,7 @@ export default function PrimaryInformation({ day, hoverIndex }: { day: number; h
     const mainInformation = React.useMemo(() => {
         let string: string | undefined = undefined;
 
-        if(hoverIndex !== -1) {
+        if(hoverIndex > -1) {
             string = trunc(dataPoints[hoverIndex].y1).toString()
         }
         else if(day === 0) {
@@ -22,8 +22,8 @@ export default function PrimaryInformation({ day, hoverIndex }: { day: number; h
         }
         else return getLowHigh(weather, view, day)
 
-        return string && string + weather.getForecastUnit(view)
+        return string + weather.getForecastUnit(view)
     }, [day, view, weather, hoverIndex, dataPoints])
 
-    return <h1>{mainInformation}</h1>
+    return mainInformation ? <h1>{mainInformation}</h1> : null
 }
