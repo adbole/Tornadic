@@ -15,8 +15,7 @@ export default function PrimaryInformation({ day, hoverIndex }: { day: number; h
         let string: string | undefined = undefined;
 
         if(hoverIndex !== -1) {
-            const dataPoint = dataPoints[hoverIndex]
-            string = trunc(dataPoint.y1).toString()
+            string = trunc(dataPoints[hoverIndex].y1).toString()
         }
         else if(day === 0) {
             string = trunc(weather.getForecast(view)).toString()

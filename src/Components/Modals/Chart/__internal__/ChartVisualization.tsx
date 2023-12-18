@@ -47,14 +47,12 @@ function* getAQGradient(value: number) {
 /* eslint-enable no-fallthrough */
 
 export default function ChartVisualization() {
-    const { chart, view, dataPoints } = useChart()
+    const { view, dataPoints } = useChart()
     const settings = useReadLocalStorage("userSettings")
 
     const gradientId = React.useId()
 
     const visual = React.useMemo(() => {
-        if(!chart) return null;
-                
         switch(view) {
             case "precipitation": 
                 return <Bar yProp="y1" fill="#0078ef" />
@@ -80,7 +78,7 @@ export default function ChartVisualization() {
                 )
             }
         }
-    }, [chart, view, gradientId])
+    }, [view, gradientId])
 
     const gradient = React.useMemo(() => {
         if(view === "temperature_2m" && settings) {

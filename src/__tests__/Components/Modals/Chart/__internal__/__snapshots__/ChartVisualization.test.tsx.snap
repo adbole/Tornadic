@@ -1,0 +1,240 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Gradient tests > When get_aqi returns Hazardous, gradient falls through all values 1`] = `
+.emotion-0 {
+  position: relative;
+  border: 1px solid #ffffff19;
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+<div>
+  <svg
+    class="emotion-0 emotion-1"
+    preserveAspectRatio="xMidYMid meet"
+    viewBox="0 0 0 0"
+  >
+    <g>
+      y1
+      <defs>
+        <lineargradient
+          id=":rd:"
+          x1="0"
+          x2="0"
+          y1="0"
+          y2="1"
+        >
+          <stop
+            offset="0%"
+            stop-color="#6D0000"
+          />
+          <stop
+            offset="20%"
+            stop-color="#8400FF"
+          />
+          <stop
+            offset="40%"
+            stop-color="#FF2204"
+          />
+          <stop
+            offset="60%"
+            stop-color="#FF9431"
+          />
+          <stop
+            offset="80%"
+            stop-color="#FFF501"
+          />
+          <stop
+            offset="100%"
+            stop-color="#00FF66"
+          />
+        </lineargradient>
+      </defs>
+    </g>
+  </svg>
+</div>
+`;
+
+exports[`Gradient tests > When get_uv returns Extreme, gradient falls through all values 1`] = `
+.emotion-0 {
+  position: relative;
+  border: 1px solid #ffffff19;
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+<div>
+  <svg
+    class="emotion-0 emotion-1"
+    preserveAspectRatio="xMidYMid meet"
+    viewBox="0 0 0 0"
+  >
+    <g>
+      y1
+      <defs>
+        <lineargradient
+          id=":rc:"
+          x1="0"
+          x2="0"
+          y1="0"
+          y2="1"
+        >
+          <stop
+            offset="0%"
+            stop-color="#FF00D6"
+          />
+          <stop
+            offset="25%"
+            stop-color="#FF2204"
+          />
+          <stop
+            offset="50%"
+            stop-color="#FF9431"
+          />
+          <stop
+            offset="75%"
+            stop-color="#FFF501"
+          />
+          <stop
+            offset="100%"
+            stop-color="#00FF66"
+          />
+        </lineargradient>
+      </defs>
+    </g>
+  </svg>
+</div>
+`;
+
+exports[`Gradient tests > When view is temperature_2m, gradient is created 1`] = `
+.emotion-0 {
+  position: relative;
+  border: 1px solid #ffffff19;
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+<div>
+  <svg
+    class="emotion-0 emotion-1"
+    preserveAspectRatio="xMidYMid meet"
+    viewBox="0 0 0 0"
+  >
+    <g>
+      y1
+      <defs>
+        <lineargradient
+          id=":r9:"
+          x1="0"
+          x2="0"
+          y1="0"
+          y2="1"
+        >
+          <stop
+            offset="0%"
+            stop-color="hsl(99.16666666666666deg, 100%, 50%)"
+          />
+          <stop
+            offset="100%"
+            stop-color="hsl(117.29166666666666deg, 100%, 50%)"
+          />
+        </lineargradient>
+      </defs>
+      y2
+    </g>
+  </svg>
+</div>
+`;
+
+exports[`Gradient tests > When view is us_aqi, gradient is created 1`] = `
+.emotion-0 {
+  position: relative;
+  border: 1px solid #ffffff19;
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+<div>
+  <svg
+    class="emotion-0 emotion-1"
+    preserveAspectRatio="xMidYMid meet"
+    viewBox="0 0 0 0"
+  >
+    <g>
+      y1
+      <defs>
+        <lineargradient
+          id=":rb:"
+          x1="0"
+          x2="0"
+          y1="0"
+          y2="1"
+        >
+          <stop
+            offset="100%"
+            stop-color="#00FF66"
+          />
+        </lineargradient>
+      </defs>
+    </g>
+  </svg>
+</div>
+`;
+
+exports[`Gradient tests > When view is uv_index, gradient is created 1`] = `
+.emotion-0 {
+  position: relative;
+  border: 1px solid #ffffff19;
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+<div>
+  <svg
+    class="emotion-0 emotion-1"
+    preserveAspectRatio="xMidYMid meet"
+    viewBox="0 0 0 0"
+  >
+    <g>
+      y1
+      <defs>
+        <lineargradient
+          id=":ra:"
+          x1="0"
+          x2="0"
+          y1="0"
+          y2="1"
+        >
+          <stop
+            offset="50%"
+            stop-color="#FF9431"
+          />
+          <stop
+            offset="75%"
+            stop-color="#FFF501"
+          />
+          <stop
+            offset="100%"
+            stop-color="#00FF66"
+          />
+        </lineargradient>
+      </defs>
+    </g>
+  </svg>
+</div>
+`;

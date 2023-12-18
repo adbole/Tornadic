@@ -26,7 +26,6 @@ export default function Line({
             .x((d: DataPoint) => xScale(d.x))
             .y((d: DataPoint) => y(d[yProp] as number))
             .defined((d: DataPoint) => d[yProp] != null && !isNaN(d[yProp] as number))
-        
     }, [x, y, yProp] )
 
     React.useEffect(() => {
@@ -43,8 +42,6 @@ export default function Line({
             .duration(500)
             .ease(d3.easeSinInOut)
             .attr("d", line(dataPoints))
-    
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dataPoints, line])
 
     const onMount = React.useCallback((node: SVGPathElement | null) => {

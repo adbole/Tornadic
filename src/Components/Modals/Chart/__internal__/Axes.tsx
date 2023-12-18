@@ -6,7 +6,7 @@ import { useChart } from './ChartContext';
 
 
 export default function Axes() {
-    const { chart, x, y } = useChart();
+    const { x, y } = useChart();
 
     const xAxis = React.useRef<SVGGElement>(null)
     const yAxis = React.useRef<SVGGElement>(null)
@@ -59,7 +59,7 @@ export default function Axes() {
         d3.selectAll([yGrid.current, yAxis.current])
             .attr('transform', `translate(${x.range()[0]}, 0)`)
 
-    }, [chart, x, y])
+    }, [x, y])
 
     return (
         <>

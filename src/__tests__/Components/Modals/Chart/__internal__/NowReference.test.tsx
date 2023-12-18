@@ -5,7 +5,6 @@ import { render } from "@testing-library/react";
 import { ChartContext, NowReference } from "Components/Modals/Chart/__internal__";
 
 
-
 mockDate()
 
 vi.mock("Contexts/WeatherContext", () => useWeather)

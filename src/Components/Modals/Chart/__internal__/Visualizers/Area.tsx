@@ -39,7 +39,7 @@ export default function Area({
             .attr("d", area(dataPoints))
     }, [dataPoints, area])
 
-    const onMount = React.useCallback((node: SVGRectElement | null) => {
+    const onRender = React.useCallback((node: SVGRectElement | null) => {
         if(!node) return;
 
         d3.select(node)
@@ -53,7 +53,7 @@ export default function Area({
         <>
 
             <clipPath id={clipId}>
-                <rect ref={onMount} x={x.range()[0]} width={0} height={y.range()[0]}/>
+                <rect ref={onRender} x={x.range()[0]} width={0} height={y.range()[0]}/>
             </clipPath>
             <path ref={path} {...SVGProps} clipPath={`url(#${clipId})`}/>
         </>

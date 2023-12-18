@@ -43,7 +43,7 @@ export default function Bar({
                 ,
                 remove => remove.remove()
             )
-    })
+    }, [dataPoints, x, y, yProp])
 
     return <g ref={group} {...SVGProps}/>
 }
