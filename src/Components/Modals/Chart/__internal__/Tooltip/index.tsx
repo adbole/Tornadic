@@ -14,7 +14,8 @@ const Container = styled.div({
     justifyContent: "center",
     position: "absolute",
     height: "100px",
-    padding: "10px"
+    padding: "10px",
+    whiteSpace: "nowrap"
 })
 
 function getTime(scale: d3.ScaleTime<number, number, never> | d3.ScaleBand<Date>, x: number) {
@@ -24,7 +25,8 @@ function getTime(scale: d3.ScaleTime<number, number, never> | d3.ScaleBand<Date>
 
     const bandScale = scale as d3.ScaleBand<Date>
 
-    const index = Math.max(Math.round(x / bandScale.step()) - 1, 0)
+    const unclamped = Math.round(x / bandScale.step()) - 1
+    const index = Math.min(Math.max(unclamped, 0), scale.domain().length - 1)
     return scale.domain()[index]
 }
 
@@ -48,7 +50,6 @@ export default function Tooltip({ day }: { day: number }) {
 
         function onMouseEnter() {
             div.current!.style.alignItems = "center"
-            referenceLine.current!.style.display = "block"
         }
 
         function onMouseMove(event: MouseEvent | TouchEvent) {
@@ -77,8 +78,6 @@ export default function Tooltip({ day }: { day: number }) {
             const selection = d3.select(referenceLine.current!)
                 .attr("y1", y.range()[0])
                 .attr("y2", y.range()[1])
-                .attr("x1", x(dataPoint.x) as number)
-                .attr("x2", x(dataPoint.x) as number)
 
             const xPos = x(dataPoint.x) as number
 
@@ -94,14 +93,13 @@ export default function Tooltip({ day }: { day: number }) {
                     .attr("x1", xPos)
                     .attr("x2", xPos)
             }
-
+            
             setHoverIndex(index);
         }
 
         function onMouseLeave() {
             div.current!.style.alignItems = "flex-start"
             div.current!.style.left = "0px"
-            referenceLine.current!.style.display = "none"
 
             setHoverIndex(-1);
         }
@@ -125,14 +123,19 @@ export default function Tooltip({ day }: { day: number }) {
 
     return (
         <g>
-            <foreignObject width="100%" height="100px" >
+            <foreignObject width="100%" height="100px">
                 <Container ref={div}>
                     <Time day={day} hoverIndex={hoverIndex} />
                     <PrimaryInformation day={day} hoverIndex={hoverIndex} />
                     <SecondaryInformation day={day} hoverIndex={hoverIndex} />
                 </Container>
             </foreignObject>
-            <line ref={referenceLine} stroke="#fff" strokeWidth={2}/>
+            <line 
+                ref={referenceLine} 
+                stroke="#fff" 
+                strokeWidth={2}
+                style={{ display: hoverIndex === -1 ? "none" : "block" }}
+            />
         </g>
     )
 }

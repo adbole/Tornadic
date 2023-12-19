@@ -29,9 +29,7 @@ vi.mock("Components/Modals/Chart/__internal__/Visualizers", () => ({
 }))
 
 afterEach(() => {
-    mocks.area.mockClear()
-    mocks.bar.mockClear()
-    mocks.line.mockClear()
+    vi.clearAllMocks()
 })
 
 describe("Visualizer tests", () => {
