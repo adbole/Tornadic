@@ -16,7 +16,7 @@ type TooltipInternalProps = {
 }
 
 const mocks = vi.hoisted(() => {
-    const mock = ({ day, hoverIndex }: TooltipInternalProps) => (JSON.stringify({ day, hoverIndex }))
+    const mock = (_: TooltipInternalProps) => <></>
 
     return {
         primary: vi.fn(mock),
@@ -44,10 +44,10 @@ test.each([
         </ChartContext>
     )
 
-    const obj = JSON.stringify({ day, hoverIndex: -1 } as TooltipInternalProps)
-    expect.soft(mocks.primary).toHaveLastReturnedWith(obj)
-    expect.soft(mocks.secondary).toHaveLastReturnedWith(obj)
-    expect.soft(mocks.time).toHaveLastReturnedWith(obj)
+    const obj = expect.objectContaining({ day, hoverIndex: -1 } as TooltipInternalProps)
+    expect.soft(mocks.primary).toHaveBeenLastCalledWith(obj, {})
+    expect.soft(mocks.secondary).toHaveBeenLastCalledWith(obj, {})
+    expect.soft(mocks.time).toHaveBeenLastCalledWith(obj, {})
 })
 
 test.each([
@@ -104,21 +104,21 @@ test("Hover passes a hoverIndex based on the mouse position", () => {
         fireEvent.mouseMove(graph, { clientX: 20, clientY: 0 })
     })
 
-    const obj = JSON.stringify({ day: 0, hoverIndex: -1 } as TooltipInternalProps)
-    expect.soft(mocks.primary).not.toHaveLastReturnedWith(obj)
-    expect.soft(mocks.secondary).not.toHaveLastReturnedWith(obj)
-    expect.soft(mocks.time).not.toHaveLastReturnedWith(obj)
+    const obj = expect.objectContaining({ day: 0, hoverIndex: -1 } as TooltipInternalProps)
+    expect.soft(mocks.primary).not.toHaveBeenLastCalledWith(obj, {})
+    expect.soft(mocks.secondary).not.toHaveBeenLastCalledWith(obj, {})
+    expect.soft(mocks.time).not.toHaveBeenLastCalledWith(obj, {})
 
-    const returnedObj = mocks.primary.mock.results.slice(-1)[0].value
+    const lastCall = mocks.primary.mock.lastCall
 
     act(() => {
         fireEvent.mouseEnter(graph)
         fireEvent.mouseMove(graph, { clientX: 30, clientY: 0 })
     })
 
-    expect.soft(mocks.primary).not.toHaveLastReturnedWith(returnedObj)
-    expect.soft(mocks.secondary).not.toHaveLastReturnedWith(returnedObj)
-    expect.soft(mocks.time).not.toHaveLastReturnedWith(returnedObj)
+    expect.soft(mocks.primary).not.toHaveBeenLastCalledWith(lastCall)
+    expect.soft(mocks.secondary).not.toHaveBeenLastCalledWith(lastCall)
+    expect.soft(mocks.time).not.toHaveBeenLastCalledWith(lastCall)
 })
 
 test("If no data exists for a view on a day, then 'No Data' is displayed", () => {
@@ -131,4 +131,4 @@ test("If no data exists for a view on a day, then 'No Data' is displayed", () =>
     expect(screen.getByText("No Data")).toBeInTheDocument()
 })
 
-test.todo("Test for positioning of tooltip not possible, requires manual testing (vitest browser mode to automate?)")
+test.todo("Test for positioning of tooltip not possible, requires manual testing (until vitest browser mode to automate?)")

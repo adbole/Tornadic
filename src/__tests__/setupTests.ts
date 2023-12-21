@@ -6,7 +6,6 @@ import {
     singleAlert
 } from "__tests__/__mocks__"
 import { createSerializer, matchers } from "@emotion/jest"
-import type { Mock } from "vitest";
 import { vi } from "vitest";
 import createFetchMock from "vitest-fetch-mock";
 
@@ -63,7 +62,7 @@ beforeEach(() => {
 })
 
 afterEach(() => {
-    (window.requestAnimationFrame as Mock).mockRestore();
+    vi.mocked(window.requestAnimationFrame).mockRestore();
 })
 
 //Dialog Mocks
@@ -80,7 +79,7 @@ beforeEach(() => {
 })
 
 afterEach(() => {
-    (HTMLDialogElement.prototype.showModal as Mock).mockRestore();
+    vi.mocked(HTMLDialogElement.prototype.showModal).mockRestore();
 })
 
 afterEach(() => {

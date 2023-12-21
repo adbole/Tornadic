@@ -50,7 +50,7 @@ export default function Chart({
     showView,
     showDay = 0,
     ...modalProps
-}: { showView: ChartViews; showDay?: number } & ModalProps) {
+}: { showView: ChartViews; showDay?: number } & Omit<ModalProps, "children">) {
     const { weather } = useWeather();
     const [view, setView] = React.useState(showView);
     const [day, setDay] = React.useState(showDay);
