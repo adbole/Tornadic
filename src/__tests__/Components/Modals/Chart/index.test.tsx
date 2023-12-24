@@ -16,13 +16,16 @@ vi.mock("Contexts/WeatherContext", () => useWeather);
 const mocks = vi.hoisted(() => ({
     ChartContext: vi.fn(
         ({ children }: { view: ChartViews; day: number; children: React.ReactNode }) => (
-            <>{children}</>
+            <>
+                <p>ChartContext</p>
+                {children}
+            </>
         )
     ),
     Axes: () => <p>Axes</p>,
     ChartVisualization: () => <p>ChartVisualization</p>,
-    NowReference: vi.fn((_: { isShown: boolean }) => <></>),
-    Tooltip: vi.fn((_: { day: number }) => <></>),
+    NowReference: vi.fn((_: { isShown: boolean }) => <p>NowReference</p>),
+    Tooltip: vi.fn((_: { day: number }) => <p>Tooltip</p>),
 }));
 
 vi.mock("Components/Modals/Chart/__internal__", () => ({
@@ -32,6 +35,10 @@ vi.mock("Components/Modals/Chart/__internal__", () => ({
     NowReference: mocks.NowReference,
     Tooltip: mocks.Tooltip,
 }));
+
+afterEach(() => {
+    vi.clearAllMocks()
+})
 
 test("Doesn't render a modal if isOpen is false", () => {
     render(<Chart isOpen={false} showView="temperature_2m" onClose={() => undefined}/>);
@@ -75,6 +82,16 @@ test("Renders a select with options for each view", () => {
 
     expect.soft(options).toHaveLength(9);
     options.forEach((option, i) => expect.soft(option).toHaveValue(expectedValues[i]));
+})
+
+test("Renders all the components", () => {
+    render(<Chart isOpen={true} showView="temperature_2m" onClose={() => undefined}/>);
+
+    expect.soft(screen.getByText("ChartContext")).toBeInTheDocument();
+    expect.soft(screen.getByText("NowReference")).toBeInTheDocument();
+    expect.soft(screen.getByText("Tooltip")).toBeInTheDocument();
+    expect.soft(screen.getByText("ChartVisualization")).toBeInTheDocument();
+    expect.soft(screen.getByText("Axes")).toBeInTheDocument();
 })
 
 describe.each(

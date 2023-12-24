@@ -24,10 +24,12 @@ export default function Home() {
         () => !isZoomed && setIsZoomedTrue(),
         [isZoomed, setIsZoomedTrue]
     );
-    const unZoom = (e: React.MouseEvent<HTMLButtonElement>) => {
+
+    const unZoom = React.useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
         e.stopPropagation();
         setIsZoomedFalse();
-    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     React.useEffect(() => {
         const container = map.getContainer();

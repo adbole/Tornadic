@@ -22,6 +22,33 @@ type ControlPortalProps = {
     children: React.ReactNode;
 };
 
+type Dictionary = {
+    [index: string]: HTMLDivElement;
+};
+
+// Register custom positions
+L.Map.include({
+    _initControlPos() {
+        const corners = (this._controlCorners = {} as Dictionary);
+        const l = "leaflet-";
+        const container = (this._controlContainer = L.DomUtil.create(
+            "div",
+            l + "control-container",
+            this._container
+        ));
+
+        function createCorner(vSide: string, hSide: string) {
+            const className = l + vSide + " " + l + hSide;
+
+            corners[vSide + hSide] = L.DomUtil.create("div", className, container);
+        }
+
+        Object.keys(Position)
+            .map(key => key.toLowerCase().split("_"))
+            .forEach(([vSide, hSide]) => createCorner(vSide, hSide));
+    },
+});
+
 export default function ControlPortal({ position, children }: ControlPortalProps) {
     const [portalRoot, setPortalRoot] = useNullableState<Element>();
 

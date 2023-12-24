@@ -1,5 +1,4 @@
 import { AttributionControl, MapContainer, TileLayer, ZoomControl } from "react-leaflet";
-import L from "leaflet";
 
 import { Map } from "svgs/widget";
 
@@ -14,34 +13,6 @@ import {
 } from "./__internal__";
 import RadarWidget from "./style";
 
-
-type Dictionary = {
-    [index: string]: HTMLDivElement;
-};
-
-L.Map.include({
-    _initControlPos() {
-        const corners = (this._controlCorners = {} as Dictionary);
-        const l = "leaflet-";
-        const container = (this._controlContainer = L.DomUtil.create(
-            "div",
-            l + "control-container",
-            this._container
-        ));
-
-        function createCorner(vSide: string, hSide: string) {
-            const className = l + vSide + " " + l + hSide;
-
-            corners[vSide + hSide] = L.DomUtil.create("div", className, container);
-        }
-
-        createCorner("top", "left");
-        createCorner("top", "right");
-        createCorner("bottom", "left");
-        createCorner("bottom", "right");
-        createCorner("bottom", "center");
-    },
-});
 
 /**
  * Displays a small Radar widget that can then be clicked to zoom to fullscreen.

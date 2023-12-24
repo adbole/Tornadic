@@ -38,7 +38,7 @@ export default function AlertPolygons() {
                     return (
                         <GeoJSON
                             key={alert.get("id")}
-                            data={alert as any}
+                            data={alert as unknown as GeoJSON.GeoJsonObject}
                             eventHandlers={{ click: onClick }}
                             style={{ color: alertColors[backgroundName].background }}
                         />
