@@ -4,7 +4,7 @@ import { Global } from "@emotion/react";
 
 import { useAnimation, useSameClick } from "Hooks";
 
-import Dialog, { CloseButton } from "./style";
+import Dialog from "./style";
 
 
 export type ModalProps = {
@@ -50,6 +50,11 @@ export default function Modal({ isOpen, children, onClose, className }: ModalPro
                     stage={stage}
                     onCancel={e => {
                         e.preventDefault();
+                        closeModal();
+                    }}
+                    onClose={() => {
+                        //Ensure the modal doesn't close normally
+                        dialogRef.current?.showModal()
                         closeModal();
                     }}
                     className={className}

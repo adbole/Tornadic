@@ -1,14 +1,7 @@
 import { MapContainer } from "react-leaflet";
-import useWeather from "__tests__/__mocks__/useWeather";
-import { mockDate } from "__tests__/__utils__";
 import { render, screen } from "@testing-library/react";
 
 import { ControlPortal, Position } from "Components/Radar/__internal__";
-
-
-mockDate()
-
-vi.mock("Contexts/WeatherContext", () => useWeather)
 
 
 const positions = Object.entries(Position) as [string, Position][]

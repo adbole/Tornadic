@@ -64,31 +64,46 @@ test("When isOpen is changed, the dialog is shown or hidden", () => {
     expect.soft(screen.getByText("Test Content")).toBeInTheDocument()
 })
 
-test("When the dialog's backdrop is clicked, onClose is called", () => {
-    render(<TestComponent defaultOpen={true}/>);
-
-    expect.soft(screen.getByRole("dialog")).toBeInTheDocument()
-
-    act(() => {
-        fireEvent.mouseDown(screen.getByRole("dialog"))
-        fireEvent.mouseUp(screen.getByRole("dialog"))
+describe("Closing", () => {
+    test("When the dialog's backdrop is clicked, onClose is called", () => {
+        render(<TestComponent defaultOpen={true}/>);
+    
+        expect.soft(screen.getByRole("dialog")).toBeInTheDocument()
+    
+        act(() => {
+            fireEvent.mouseDown(screen.getByRole("dialog"))
+            fireEvent.mouseUp(screen.getByRole("dialog"))
+        })
+    
+        expect.soft(screen.queryByRole("dialog")).not.toBeInTheDocument()
+        expect.soft(onClose).toHaveBeenCalledOnce()
     })
-
-    expect.soft(screen.queryByRole("dialog")).not.toBeInTheDocument()
-    expect.soft(onClose).toHaveBeenCalledOnce()
-})
-
-test("When the dialog's canceled event is fired, onClose is called", () => {
-    render(<TestComponent defaultOpen={true}/>);
-
-    expect.soft(screen.getByRole("dialog")).toBeInTheDocument()
-
-    act(() => {
-        screen.getByRole("dialog").dispatchEvent(new Event("cancel"))
+    
+    test("When the dialog's canceled event is fired, onClose is called", () => {
+        render(<TestComponent defaultOpen={true}/>);
+    
+        expect.soft(screen.getByRole("dialog")).toBeInTheDocument()
+    
+        act(() => {
+            screen.getByRole("dialog").dispatchEvent(new Event("cancel"))
+        })
+    
+        expect.soft(screen.queryByRole("dialog")).not.toBeInTheDocument()
+        expect.soft(onClose).toHaveBeenCalledOnce()
     })
-
-    expect.soft(screen.queryByRole("dialog")).not.toBeInTheDocument()
-    expect.soft(onClose).toHaveBeenCalledOnce()
+    
+    test("When the dialog's close event is fired, onClose is called", () => {
+        render(<TestComponent defaultOpen={true}/>);
+    
+        expect.soft(screen.getByRole("dialog")).toBeInTheDocument()
+    
+        act(() => {
+            screen.getByRole("dialog").dispatchEvent(new Event("close"))
+        })
+    
+        expect.soft(screen.queryByRole("dialog")).not.toBeInTheDocument()
+        expect.soft(onClose).toHaveBeenCalledOnce()
+    })
 })
 
 test("If the mouse was dragged to the backdrop, onClose is not called", () => {

@@ -18,7 +18,6 @@ export default function Home() {
     const [isZoomed, setIsZoomedTrue, setIsZoomedFalse] = useBooleanState(false);
 
     const map = useMap();
-    const containerId = React.useId();
 
     const zoom = React.useCallback(
         () => !isZoomed && setIsZoomedTrue(),
@@ -37,7 +36,7 @@ export default function Home() {
         container.style.position = "";
         container.addEventListener("click", zoom);
         return () => container.removeEventListener("click", zoom);
-    }, [map, zoom, containerId]);
+    }, [map, zoom]);
 
     React.useEffect(() => {
         map.getContainer().classList.toggle("zoom-radar", isZoomed);

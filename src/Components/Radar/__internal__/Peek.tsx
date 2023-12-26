@@ -50,9 +50,7 @@ export default function Peek() {
                 latitude={latlng?.lat}
                 longitude={latlng?.lng}
                 isOpen={modalOpen}
-                onClose={() => {
-                    hideModal();
-                }}
+                onClose={hideModal}
             />
         </>
     );
