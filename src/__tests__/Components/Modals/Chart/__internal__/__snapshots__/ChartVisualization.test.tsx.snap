@@ -72,27 +72,27 @@ exports[`Gradient tests > When view is us_aqi, gradient is created 1`] = `
           y2="-40"
         >
           <stop
-            offset="0"
+            offset="-14.666666666666666"
             stop-color="#6D0000"
           />
           <stop
-            offset="0"
+            offset="-8"
             stop-color="#8400FF"
           />
           <stop
-            offset="0"
+            offset="-4.666666666666667"
             stop-color="#FF2204"
           />
           <stop
-            offset="0"
+            offset="-3"
             stop-color="#FF9431"
           />
           <stop
-            offset="0"
+            offset="-1.3333333333333335"
             stop-color="#FFF501"
           />
           <stop
-            offset="0"
+            offset="0.33333333333333337"
             stop-color="#00FF66"
           />
         </lineargradient>
@@ -135,19 +135,19 @@ exports[`Gradient tests > When view is uv_index, gradient is created 1`] = `
             stop-color="#FF00D6"
           />
           <stop
-            offset="0"
+            offset="0.09090909090909094"
             stop-color="#FF2204"
           />
           <stop
-            offset="0"
+            offset="0.36363636363636365"
             stop-color="#FF9431"
           />
           <stop
-            offset="0"
+            offset="0.5454545454545454"
             stop-color="#FFF501"
           />
           <stop
-            offset="0"
+            offset="0.8181818181818181"
             stop-color="#00FF66"
           />
         </lineargradient>
