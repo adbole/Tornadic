@@ -2,52 +2,49 @@ import React from "react";
 
 import { useReadLocalStorage } from "Hooks";
 
-import { get_aq, get_uv, toHSL } from "ts/Helpers";
+import type { AQLevel, UVLevel } from "ts/Helpers";
+import { getAQMaxValue, getUVMaxValue, Normalize, toHSL } from "ts/Helpers";
 
 import { useChart } from "./ChartContext";
 import { Area, Bar, Line } from "./Visualizers";
 
 /* eslint-disable no-fallthrough */
 //Fallthrough here is intentional to allow for the gradient be built up.
-function* getUVGradient(value: number) {
-    const uv = get_uv(value);
 
-    switch (uv) {
-        case "Extreme":
-            yield <stop offset="0%" stopColor="#FF00D6" key="Extreme" />;
-        case "Very High":
-            yield <stop offset="25%" stopColor="#FF2204" key="Very High" />;
-        case "High":
-            yield <stop offset="50%" stopColor="#FF9431" key="High" />;
-        case "Moderate":
-            yield <stop offset="75%" stopColor="#FFF501" key="Moderate" />;
-        case "Low":
-            yield <stop offset="100%" stopColor="#00FF66" key="Low" />;
-    }
+function UVGradient() {
+    const { y } = useChart()
+    const getOffset = (key: UVLevel) => Normalize.Decimal(y(getUVMaxValue(key)), y.range()[1], y.range()[0]);
+
+    return (
+        <>
+            <stop offset={getOffset("Extreme")} stopColor="#FF00D6" key="Extreme" />
+            <stop offset={getOffset("Very High")} stopColor="#FF2204" key="Very High" />
+            <stop offset={getOffset("High")} stopColor="#FF9431" key="High" />
+            <stop offset={getOffset("Moderate")} stopColor="#FFF501" key="Moderate" />
+            <stop offset={getOffset("Low")} stopColor="#00FF66" key="Low" />
+        </>
+    )
 }
 
-function* getAQGradient(value: number) {
-    const aq = get_aq(value);
+function AQGradient() {
+    const { y } = useChart()
+    const getOffset = (key: AQLevel) => Normalize.Decimal(y(getAQMaxValue(key)), y.range()[1], y.range()[0]);
 
-    switch (aq) {
-        case "Hazardous":
-            yield <stop offset="0%" stopColor="#6D0000" key="Hazardous" />;
-        case "Very Unhealthy":
-            yield <stop offset="20%" stopColor="#8400FF" key="Very Unhealthy" />;
-        case "Unhealthy":
-            yield <stop offset="40%" stopColor="#FF2204" key="Unhealthy" />;
-        case "Unhealthy*":
-            yield <stop offset="60%" stopColor="#FF9431" key="Unhealthy*" />;
-        case "Moderate":
-            yield <stop offset="80%" stopColor="#FFF501" key="Moderate" />;
-        case "Good":
-            yield <stop offset="100%" stopColor="#00FF66" key="Good" />;
-    }
+    return (
+        <>
+            <stop offset={getOffset("Hazardous")} stopColor="#6D0000" key="Hazardous" />
+            <stop offset={getOffset("Very Unhealthy")} stopColor="#8400FF" key="Very Unhealthy" />
+            <stop offset={getOffset("Unhealthy")} stopColor="#FF2204" key="Unhealthy" />
+            <stop offset={getOffset("Unhealthy*")} stopColor="#FF9431" key="Unhealthy*" />
+            <stop offset={getOffset("Moderate")} stopColor="#FFF501" key="Moderate" />
+            <stop offset={getOffset("Good")} stopColor="#00FF66" key="Good" />
+        </>
+    );
 }
 /* eslint-enable no-fallthrough */
 
 export default function ChartVisualization() {
-    const { view, dataPoints } = useChart()
+    const { view, dataPoints, y } = useChart()
     const settings = useReadLocalStorage("userSettings")
 
     const gradientId = React.useId()
@@ -95,19 +92,17 @@ export default function ChartVisualization() {
             )
         }
         else if(view === "uv_index" || view === "us_aqi") {
-            const max = Math.max(...dataPoints.map(point => point.y1))
-    
             return (
                 <defs>
-                    <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1">
-                        {[...view === "uv_index" ? getUVGradient(max) : getAQGradient(max)]}
+                    <linearGradient id={gradientId} gradientUnits="userSpaceOnUse" x1="0" y1={y.range()[1]} x2="0" y2={y.range()[0]}>
+                        {view === "uv_index" ? <UVGradient /> : <AQGradient />}
                     </linearGradient>
                 </defs>
             )
         }
 
         return null;
-    }, [dataPoints, gradientId, settings, view])
+    }, [dataPoints, gradientId, settings, view, y])
 
     return (
         <g>
