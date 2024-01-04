@@ -3,12 +3,11 @@ import { Popup, useMap } from "react-leaflet";
 import styled from "@emotion/styled";
 import type L from "leaflet";
 
-import { useBooleanState, useNullableState } from "Hooks";
+import { useNullableState } from "Hooks";
 
 import PeekModal from "Components/Modals/Peek";
 
 import { vars } from "ts/StyleMixins";
-
 
 
 const HoldPopup = styled(Popup)({
@@ -22,15 +21,13 @@ const HoldPopup = styled(Popup)({
     "> .leaflet-popup-content-wrapper": { display: "none" }
 })
 
-
 /**
  * A modal displaying some weather information for the given location
  */
 export default function Peek() {
     const map = useMap();
     const [position, setPosition, unsetPosition] = useNullableState<L.LatLng>();
-    const [latlng, setLatLng] = useNullableState<L.LatLng>();
-    const [modalOpen, showModal, hideModal] = useBooleanState(false);
+    const [latlng, setLatLng, unsetLatLng] = useNullableState<L.LatLng>();
 
     const timeout = React.useRef<NodeJS.Timeout>();
 
@@ -41,7 +38,6 @@ export default function Peek() {
         timeout.current = setTimeout(() => {
             unsetPosition()
             setLatLng(pos);
-            showModal();
         }, 1000);
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [map])
@@ -96,8 +92,8 @@ export default function Peek() {
             <PeekModal
                 latitude={latlng?.lat}
                 longitude={latlng?.lng}
-                isOpen={modalOpen}
-                onClose={hideModal}
+                isOpen={Boolean(latlng)}
+                onClose={unsetLatLng}
             />
         </>
     );
