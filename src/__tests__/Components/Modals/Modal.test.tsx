@@ -13,15 +13,14 @@ const onClose = vi.fn();
 function TestComponent({ defaultOpen = false }: { defaultOpen?: boolean }) {
     const [isOpen, setTrue, setFalse] = useBooleanState(defaultOpen);
 
+    onClose.mockImplementation(setFalse)
+
     return (
         <>
             <button onClick={setTrue}>Open Modal</button>
             <Modal 
                 isOpen={isOpen} 
-                onClose={() => {
-                    setFalse();
-                    onClose();
-                }}
+                onClose={onClose}
             >
                 <ModalTitle>Test Modal</ModalTitle>
                 <ModalContent>Test Content</ModalContent>
