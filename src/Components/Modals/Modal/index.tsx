@@ -16,6 +16,11 @@ export type ModalProps = {
 
 /**
  * A base modal to display simple information using the ModalContext
+ * The modal can't be closed through setting isOpen to false. 
+ * Instead, the modal should be closed by its defined ways or by causing
+ * onCancel or onClose to be called which can be done through forms.
+ * 
+ * onClose should typically set the state controlling isOpen to false
  */
 export default function Modal({ isOpen, children, onClose, className }: ModalProps) {
     const [openModal, closeModal, stage, shouldMount] = useAnimation(isOpen, 1000);
@@ -26,9 +31,9 @@ export default function Modal({ isOpen, children, onClose, className }: ModalPro
         if (isOpen) openModal();
     }, [isOpen, openModal]);
 
-    React.useLayoutEffect(() => {
-        if (!shouldMount && isOpen) onClose();
-    }, [onClose, shouldMount, isOpen]);
+    React.useEffect(() => {
+        if (!shouldMount && stage === "leave") onClose();
+    }, [onClose, shouldMount, stage]);
 
     useSameClick(dialogRef, (e: MouseEvent) => {
         const target = e.target as HTMLElement;
