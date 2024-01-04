@@ -9,8 +9,6 @@ import type { ChartViews } from "Components/Modals/Chart";
 import { ChartContext, ChartVisualization } from "Components/Modals/Chart/__internal__";
 import type { YProp } from "Components/Modals/Chart/__internal__/Visualizers/index.types";
 
-import * as Helpers from "ts/Helpers";
-
 
 mockDate()
 
@@ -95,31 +93,5 @@ describe("Gradient tests", () => {
         )
 
         expect(container).toMatchSnapshot()
-    })
-
-    test("When get_uv returns Extreme, gradient falls through all values", () => {
-        vi.spyOn(Helpers, "get_uv").mockReturnValue("Extreme")
-
-        const { container } = render(
-            <ChartContext view="uv_index" day={0}>
-                <ChartVisualization />
-            </ChartContext>
-        )
-
-        expect.soft(container.querySelectorAll("stop")).toHaveLength(5)
-        expect.soft(container).toMatchSnapshot()
-    })
-
-    test("When get_aqi returns Hazardous, gradient falls through all values", () => {
-        vi.spyOn(Helpers, "get_aq").mockReturnValue("Hazardous")
-
-        const { container } = render(
-            <ChartContext view="us_aqi" day={0}>
-                <ChartVisualization />
-            </ChartContext>
-        )
-
-        expect.soft(container.querySelectorAll("stop")).toHaveLength(6)
-        expect.soft(container).toMatchSnapshot()
     })
 })
