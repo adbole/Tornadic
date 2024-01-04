@@ -6,9 +6,7 @@ import { ControlPortal, Position } from "Components/Radar/__internal__";
 
 const positions = Object.entries(Position) as [string, Position][]
 
-test.each(positions)("Renders the children in the %s position", (_, position) => {
-    console.log(position)
-    
+test.each(positions)("Renders the children in the %s position", (_, position) => {    
     render(
         <MapContainer>
             <ControlPortal position={position}>

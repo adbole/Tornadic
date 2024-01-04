@@ -13,8 +13,6 @@ vi.mock("Contexts/WeatherContext", () => useWeather)
 vi.mock("d3", async (importOriginal) => {
     const original = await importOriginal() as any
 
-    console.log(original)
-
     return {
         ...original,
         selection: vi.fn(original.selection)
