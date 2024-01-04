@@ -143,7 +143,7 @@ export default function RainViewer() {
             //If frame hasn't been added as a layer yet do so now
             if (!loadedLayers[index]) {
                 const color = active === RadarTypes.LayerTypes.Radar ? 6 : 0;
-                loadedLayers[index] = new L.TileLayer(
+                loadedLayers[index] = L.tileLayer(
                     data!.host + frame.path + "/512/{z}/{x}/{y}/" + color + "/1_0.png",
                     {
                         opacity: 0.0,
@@ -194,7 +194,7 @@ export default function RainViewer() {
             const activeData = data.availableLayers[active];
 
             //Determine how to load the frame after one
-            const preLoadDirection = loadPos - activeData.layerAnimPos > 0 ? 1 : -1;
+            const preLoadDirection = loadPos - activeData.layerAnimPos >= 0 ? 1 : -1;
 
             changeRadarPos(loadPos, false); //Load frame
             changeRadarPos(loadPos + preLoadDirection, true); //Preload the next frame
@@ -290,6 +290,7 @@ export default function RainViewer() {
     React.useEffect(() => {
         if (!data) return;
 
+        console.log(active)
         data.activeLayerData = data.availableLayers[active];
         showFrame(data.activeLayerData.layerAnimPos);
     }, [active, data, showFrame]);

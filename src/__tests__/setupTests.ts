@@ -3,6 +3,7 @@ import {
     apiWeatherGov_points,
     forecast,
     geocoding,
+    rainviewer,
     singleAlert
 } from "__tests__/__mocks__"
 import { createSerializer, matchers } from "@emotion/jest"
@@ -33,6 +34,8 @@ beforeEach(() => {
             return { body: JSON.stringify(singleAlert), headers: { expires: new Date().toISOString() } }
         else if(req.url.match(/^https:\/\/api.weather.gov\/points\/.*$/))
             return JSON.stringify(apiWeatherGov_points)
+        else if(req.url.match(/api.rainviewer.com/))
+            return JSON.stringify(rainviewer())
        
         return { status: 404 }
     })
