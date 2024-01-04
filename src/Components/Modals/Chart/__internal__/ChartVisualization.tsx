@@ -3,15 +3,19 @@ import React from "react";
 import { useReadLocalStorage } from "Hooks";
 
 import type { AQLevel, UVLevel } from "ts/Helpers";
-import { getAQMaxValue, getUVMaxValue, Normalize, toHSL } from "ts/Helpers";
+import { getAQMaxValue, getUVMaxValue, toHSL } from "ts/Helpers";
 
 import { useChart } from "./ChartContext";
 import { Area, Bar, Line } from "./Visualizers";
 
 
 function UVGradient() {
-    const { y } = useChart()
-    const getOffset = (key: UVLevel) => Normalize.Decimal(y(getUVMaxValue(key)), y.range()[1], y.range()[0]);
+    const { y } = useChart();
+
+    if(y.domain().includes(NaN)) return null;
+
+    const yCopy = y.copy().range([0, 1])
+    const getOffset = (key: UVLevel) => 1- yCopy(getUVMaxValue(key));
 
     return (
         <>
@@ -26,7 +30,11 @@ function UVGradient() {
 
 function AQGradient() {
     const { y } = useChart()
-    const getOffset = (key: AQLevel) => Normalize.Decimal(y(getAQMaxValue(key)), y.range()[1], y.range()[0]);
+
+    if(y.domain().includes(NaN)) return null;
+
+    const yCopy = y.copy().range([0, 1])
+    const getOffset = (key: AQLevel) => 1 - yCopy(getAQMaxValue(key));
 
     return (
         <>

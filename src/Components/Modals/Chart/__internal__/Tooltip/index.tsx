@@ -25,8 +25,10 @@ function getTime(scale: d3.ScaleTime<number, number, never> | d3.ScaleBand<Date>
 
     const bandScale = scale as d3.ScaleBand<Date>
 
-    const unclamped = Math.round(x / bandScale.step()) - 1
-    const index = Math.min(Math.max(unclamped, 0), scale.domain().length - 1)
+    const [min, max] = bandScale.range()
+    const range = d3.range(min, max, bandScale.step())
+
+    const index = Math.min(Math.max(d3.bisect(range, x) - 1, 0), scale.domain().length)
     return scale.domain()[index]
 }
 
@@ -48,13 +50,17 @@ export default function Tooltip({ day }: { day: number }) {
             return;
         };
 
-        function onMouseEnter() {
+        function onEnter() {
             div.current!.style.alignItems = "center"
         }
 
-        function onMouseMove(event: MouseEvent | TouchEvent) {
-            const mousePosition = d3.pointer(event instanceof TouchEvent ? event.touches[0] : event)
-            const time = getTime(x, mousePosition[0])
+        function onMove(event: MouseEvent | TouchEvent) {
+            const [mouseXPos] = d3.pointer(
+                event instanceof TouchEvent ? event.touches[0] : event,
+                event.currentTarget
+            )
+
+            const time = getTime(x, mouseXPos)
             const bisectDate = d3.bisector((d: DataPoint) => d.x).center
             const index = bisectDate(dataPoints, time);
 
@@ -62,7 +68,7 @@ export default function Tooltip({ day }: { day: number }) {
             const divWidth = div.current!.getBoundingClientRect().width
             const parentWidth = div.current!.parentElement!.getBoundingClientRect().width
             
-            let newLeft = mousePosition[0] - (divWidth / 2);
+            let newLeft = mouseXPos - (divWidth / 2);
 
             if(newLeft + divWidth > parentWidth) { 
                 newLeft = parentWidth - divWidth
@@ -97,7 +103,7 @@ export default function Tooltip({ day }: { day: number }) {
             setHoverIndex(index);
         }
 
-        function onMouseLeave() {
+        function onLeave() {
             div.current!.style.alignItems = "flex-start"
             div.current!.style.left = "0px"
 
@@ -105,9 +111,9 @@ export default function Tooltip({ day }: { day: number }) {
         }
 
         chart
-            .on("touchstart mouseenter", onMouseEnter)
-            .on("touchmove mousemove", onMouseMove)
-            .on("touchend mouseleave", onMouseLeave)
+            .on("touchstart mouseenter", onEnter)
+            .on("touchmove mousemove", onMove)
+            .on("touchend mouseleave", onLeave)
 
     }, [chart, x, y, dataPoints])
 
