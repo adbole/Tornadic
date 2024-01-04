@@ -5,6 +5,7 @@ import eslint from "vite-plugin-eslint";
 import { VitePWA } from "vite-plugin-pwa";
 import svgr from "vite-plugin-svgr";
 import tsConfigPaths from "vite-tsconfig-paths";
+import { configDefaults } from "vitest/dist/config";
 
 
 export default defineConfig({
@@ -60,6 +61,13 @@ export default defineConfig({
         environment: "jsdom",
         globalSetup: "./src/__tests__/globals.ts",
         setupFiles: "./src/__tests__/setupTests.ts",
-        coverage: { provider: "v8" },
+        coverage: { 
+            provider: "v8",
+            exclude: [
+                ...configDefaults.coverage.exclude,
+                "build/**/*",
+                "src/ts/global.types.ts"
+            ]
+        },
     }
 });

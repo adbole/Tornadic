@@ -47,7 +47,9 @@ export default function Area({
             .duration(1000)
             .ease(d3.easeSinInOut)
             .attr("width", x.range()[1] - x.range()[0])
-    }, [x])
+            .on("end", () => d3.select(node).attr("width", "100%"))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     return (
         <>

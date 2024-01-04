@@ -8,8 +8,6 @@ import { getAQMaxValue, getUVMaxValue, Normalize, toHSL } from "ts/Helpers";
 import { useChart } from "./ChartContext";
 import { Area, Bar, Line } from "./Visualizers";
 
-/* eslint-disable no-fallthrough */
-//Fallthrough here is intentional to allow for the gradient be built up.
 
 function UVGradient() {
     const { y } = useChart()
@@ -41,7 +39,6 @@ function AQGradient() {
         </>
     );
 }
-/* eslint-enable no-fallthrough */
 
 export default function ChartVisualization() {
     const { view, dataPoints, y } = useChart()
