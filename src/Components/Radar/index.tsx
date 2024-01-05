@@ -1,8 +1,9 @@
 import { AttributionControl, MapContainer, TileLayer, ZoomControl } from "react-leaflet";
 
+import { RADAR_PANE } from "Hooks/useRainViewer";
+
 import { Map } from "svgs/widget";
 
-import RadarContextProvider, { RADAR_PANE } from "./__internal__/RadarContext";
 import {
     AlertPolygons,
     ControlPortal,
@@ -57,7 +58,7 @@ function Radar() {
                     <Opacity defaultOpacity={0.8} targetPane={RADAR_PANE}/>
                 </ControlPortal>
                 <Peek />
-                <RadarContextProvider />
+                <RainViewer />
             </MapContainer>
         </RadarWidget>
     );
