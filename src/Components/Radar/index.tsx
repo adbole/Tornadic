@@ -2,11 +2,13 @@ import { AttributionControl, MapContainer, TileLayer, ZoomControl } from "react-
 
 import { Map } from "svgs/widget";
 
+import RadarContextProvider, { RADAR_PANE } from "./__internal__/RadarContext";
 import {
     AlertPolygons,
     ControlPortal,
     Home,
     Locate,
+    Opacity,
     Peek,
     Position,
     RainViewer,
@@ -52,9 +54,10 @@ function Radar() {
                 <ControlPortal position={Position.TOP_RIGHT}>
                     <Home />
                     <Locate />
+                    <Opacity defaultOpacity={0.8} targetPane={RADAR_PANE}/>
                 </ControlPortal>
-                <RainViewer />
                 <Peek />
+                <RadarContextProvider />
             </MapContainer>
         </RadarWidget>
     );

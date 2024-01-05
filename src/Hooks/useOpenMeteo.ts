@@ -32,7 +32,7 @@ export default function useOpenMeteo(
         ]);
 
         return new Weather(forecast, airquality, settings!);
-    }, { refreshInterval: () => 3.6e6 - (new Date().getTime() % 3.6e6) });
+    }, { refreshInterval: () => 3.6e6 - (Date.now() % 3.6e6) });
 
     return {
         weather,

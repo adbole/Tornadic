@@ -7,6 +7,7 @@ export { default as useNWS } from "./useNWS"
 export { default as useOnlineOffline } from "./useOnlineOffline";
 export { default as useOpenMeteo } from "./useOpenMeteo";
 export { default as usePermission } from "./usePermission";
+export { default as useRainViewer } from "./useRainViewer";
 export { default as useReadLocalStorage } from "./useReadLocalStorage";
 export { default as useSameClick } from "./useSameClick";
 export { default as useUserLocation } from "./useUserLocation";

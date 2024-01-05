@@ -43,7 +43,8 @@ export default function useUserLocation() {
                         longitude,
                     });
                 },
-                () => setStatus("denied")
+                () => setStatus("denied"),
+                { timeout: 1000 * 20 } 
             );
         } else {
             if (!userLocation.coords) setStatus("no_value");

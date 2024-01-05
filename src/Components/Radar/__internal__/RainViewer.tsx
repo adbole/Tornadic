@@ -341,9 +341,6 @@ export default function RainViewer() {
                         </Timeline>
                     </Playback>
                 </ControlPortal>
-                <ControlPortal position={Position.TOP_RIGHT}>
-                    <Opacity value={opacity} setOpacity={setOpacity} />
-                </ControlPortal>
             </>
         );
     }

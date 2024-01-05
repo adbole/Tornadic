@@ -1,4 +1,5 @@
 import React from "react";
+import { useMap } from "react-leaflet";
 import styled from "@emotion/styled";
 
 import { useBooleanState } from "Hooks";
@@ -11,20 +12,30 @@ const Container = styled.div({
     ">p": { textAlign: "center" },
 });
 
-export default function Opacity({
-    value,
-    setOpacity,
-}: {
-    value: number;
-    setOpacity: (x: number) => void;
+export default function Opacity({ 
+    defaultOpacity, 
+    targetPane
+}: { 
+    defaultOpacity: number ,
+    targetPane: string
 }) {
-    const [hover, setHoverTrue, setHoverFalse] = useBooleanState(false);
+    const map = useMap();
 
+    const [hover, setHoverTrue, setHoverFalse] = useBooleanState(false);
+    const [value, setOpacity] = React.useState(defaultOpacity);
+    
     //Fallback for touch devices
     React.useEffect(() => {
         document.body.addEventListener("click", setHoverFalse);
         return () => document.body.removeEventListener("click", setHoverFalse);
     }, [setHoverFalse]);
+
+    React.useEffect(() => {
+        const pane = map.getPane(targetPane);
+        if(!pane) return;
+
+        pane.style.opacity = value.toString();
+    }, [map, targetPane, value])
 
     return (
         <div
