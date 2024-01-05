@@ -32,7 +32,21 @@ export default function Opacity({
 
     React.useEffect(() => {
         const pane = map.getPane(targetPane);
-        if(!pane) return;
+        if(!pane) {
+            const observer = new MutationObserver((_, observer) => {
+                const pane = map.getPane(targetPane);
+                
+                if(!pane) return;
+
+                pane.style.opacity = value.toString();
+
+                observer.disconnect();
+            })
+
+            observer.observe(map.getContainer(), { childList: true, subtree: true });
+
+            return;
+        };
 
         pane.style.opacity = value.toString();
     }, [map, targetPane, value])

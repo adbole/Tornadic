@@ -30,7 +30,7 @@ enum LayerTypes {
 
 type AvailableLayer = {
     frames: Tile[]; //Frames available to show
-    loadedLayers: L.TileLayer[]; //Layers representing a frame
+    tileLayers: (L.TileLayer | undefined)[]; //Layers representing a frame
     layerGroup: L.LayerGroup; //Layer group that houses the layers
     currentLayerIndex: number; //Where in the animation we currently are
 };
@@ -42,7 +42,7 @@ const mod =(x: number, div: number) =>
 
 const generateNewLayer = (frames: Tile[]): AvailableLayer => ({
     frames,
-    loadedLayers: [],
+    tileLayers: [],
     layerGroup: L.layerGroup([], { pane: RADAR_PANE }),
     currentLayerIndex: 0,
 })
@@ -62,7 +62,10 @@ export default function useRainViewer() {
 
             return response;
         },
-        { refreshInterval: () => expires.current - Date.now() }
+        { 
+            refreshInterval: () => expires.current - Date.now(),
+            revalidateOnFocus: false
+        }
     )
 
     const availableLayers: Record<LayerTypes, AvailableLayer> | null = React.useMemo(() => {
@@ -117,7 +120,7 @@ export default function useRainViewer() {
             if(!availableLayers) return;
             const activeData = availableLayers[active];
 
-            const loadedLayers = activeData.loadedLayers;
+            const loadedLayers = activeData.tileLayers;
             const frame = activeData.frames[index];
 
             //If frame hasn't been added as a layer yet do so now
@@ -134,8 +137,8 @@ export default function useRainViewer() {
             }
 
             //If the layer of the frame hasn't been added yet do so now
-            if (!map.hasLayer(loadedLayers[index])) {
-                activeData.layerGroup.addLayer(loadedLayers[index]);
+            if (!map.hasLayer(loadedLayers[index]!)) {
+                activeData.layerGroup.addLayer(loadedLayers[index]!);
             }
         },
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -148,7 +151,7 @@ export default function useRainViewer() {
             const activeData = availableLayers[active];
 
             const activeFrames = activeData.frames;
-            const activeLayers = activeData.loadedLayers;
+            const activeLayers = activeData.tileLayers;
 
             //In the event of overflow or underflow of the position(index) relative to the length of activeFrames,
             //perform a modulo operation to correct the error.
@@ -161,10 +164,10 @@ export default function useRainViewer() {
             if (preloadOnly) return;
 
             if (activeLayers[activeData.currentLayerIndex]) {
-                activeLayers[activeData.currentLayerIndex].setOpacity(0);
+                activeLayers[activeData.currentLayerIndex]!.setOpacity(0);
             }
 
-            activeLayers[position].setOpacity(1);
+            activeLayers[position]!.setOpacity(1);
             activeData.currentLayerIndex = position;
         },
         [data, addLayer, active, availableLayers]

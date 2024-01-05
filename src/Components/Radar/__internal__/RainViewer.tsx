@@ -1,11 +1,15 @@
 import React from "react"
 
-import { useRainViewer } from "Hooks";
+import { useBooleanState, useRainViewer } from "Hooks";
 
+import { Button } from "Components/Input";
+import { Spinner } from "svgs";
+import { Pause, Play } from "svgs/radar";
+
+import { varNames } from "ts/StyleMixins";
 import getTimeFormatted from "ts/TimeConversion";
 
 import ControlPortal, { Position } from "./ControlPortal";
-import PlayPauseButton from "./PlayPauseButton";
 import { Datalist, Message, Option,Playback, Slider, Time, Timeline } from "./RainViewer.style";
 
 
@@ -23,12 +27,31 @@ export default function RainViewer() {
 
     const animationTimer = React.useRef<NodeJS.Timeout | null>(null);
 
+    const awaitResume = React.useRef<boolean>(false);
+    const [loadingLayer, setLoadingLayerTrue, setLoadingLayerFalse] = useBooleanState(false);
+    const [isPlaying, setIsPlayingTrue, setIsPlayingFalse] = useBooleanState(false);
+
     React.useEffect(() => {
         if(!availableLayers) return;
 
-        showFrame(availableLayers[active].currentLayerIndex);
-        setCurrentFrame(availableLayers[active].currentLayerIndex);
-    }, [active, availableLayers, showFrame])
+        const currentLayer = availableLayers[active]
+        const currentTile = currentLayer.tileLayers[currentLayer.currentLayerIndex];
+
+        if(!currentTile) return;
+
+        if(currentTile.isLoading()) setLoadingLayerTrue();
+
+        currentTile.on("loading", setLoadingLayerTrue);
+        currentTile.on("load", setLoadingLayerFalse);
+        currentTile.on("remove", setLoadingLayerFalse);
+
+        return () => {
+            currentTile.off("loading", setLoadingLayerTrue);
+            currentTile.off("load", setLoadingLayerFalse);
+            currentTile.off("remove", setLoadingLayerFalse);
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [active, availableLayers, currentFrame])
 
     //Play will show the next frame every 0.5s.
     const play = React.useCallback(() => {
@@ -46,11 +69,31 @@ export default function RainViewer() {
         if (animationTimer.current) {
             clearTimeout(animationTimer.current);
             animationTimer.current = null;
+            awaitResume.current = false;
             return true; // We are now paused
         }
 
         return false; //Failed to pause
     }, [availableLayers]);
+
+    React.useEffect(() => {
+        if(loadingLayer && pause()) {
+            awaitResume.current = true;
+        }
+        else if(!loadingLayer && awaitResume.current) {
+            awaitResume.current = false;
+            play();
+        }
+    }, [loadingLayer, pause, play])
+
+    React.useEffect(() => {
+        if(!availableLayers) return;
+
+        if(pause()) play();
+
+        showFrame(availableLayers[active].currentLayerIndex);
+        setCurrentFrame(availableLayers[active].currentLayerIndex);
+    }, [active, availableLayers, showFrame, pause, play])
     
     if(isLoading) return (
         <ControlPortal position={Position.BOTTOM_CENTER}>
@@ -72,7 +115,32 @@ export default function RainViewer() {
                 <Time>
                     {getTimeDisplay(activeData.frames[activeData.currentLayerIndex].time)}
                 </Time>
-                <PlayPauseButton play={play} pause={pause} />
+                <Button
+                    varient="transparent"
+                    onClick={(e: React.MouseEvent) => {
+                        e.stopPropagation();
+
+                        if(loadingLayer) {
+                            //CLick will pause no matter what during load
+                            awaitResume.current = false;
+                            setIsPlayingFalse();
+                        }
+                        else if (pause()) {
+                            setIsPlayingFalse();
+                        } else {
+                            setIsPlayingTrue();
+                            play();
+                        }
+                    }}
+                    style={{ [varNames.svgSize]: "1.5rem" }}
+                    title={isPlaying ? "Pause" : "Play"}
+                >
+                    {
+                        loadingLayer 
+                        ? <Spinner /> 
+                        : isPlaying ? <Pause /> : <Play />
+                    }
+                </Button>
                 <Timeline>
                     <Slider
                         type="range"

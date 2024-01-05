@@ -55,7 +55,7 @@ function Radar() {
                 <ControlPortal position={Position.TOP_RIGHT}>
                     <Home />
                     <Locate />
-                    <Opacity defaultOpacity={0.8} targetPane={RADAR_PANE}/>
+                    <Opacity defaultOpacity={0.75} targetPane={RADAR_PANE}/>
                 </ControlPortal>
                 <Peek />
                 <RainViewer />
