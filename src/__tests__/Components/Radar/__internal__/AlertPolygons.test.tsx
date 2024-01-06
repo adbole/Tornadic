@@ -22,7 +22,7 @@ vi.mock("Contexts/WeatherContext", () => ({
     ...useWeather,
     useWeather: () => ({
         ...useWeather.useWeather(),
-        nationAlerts: multiAlert.features.map(alert => new NWSAlert(alert as unknown as NWSAlert))
+        alerts: multiAlert.features.map(alert => new NWSAlert(alert as unknown as NWSAlert))
     })
 }))
 

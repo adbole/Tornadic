@@ -57,20 +57,20 @@ export default {
             "geometry": {
                 "type": "Point",
                 "coordinates": [
-                    -97.54327,
-                    35.546389
+                    -97.5,
+                    35.5
                 ]
             },
             "properties": {
-                "city": "Nichols Hills",
+                "city": "Oklahoma City",
                 "state": "OK",
                 "distance": {
                     "unitCode": "wmoUnit:m",
-                    "value": 4828.9540806785
+                    "value": 3863.867032188
                 },
                 "bearing": {
                     "unitCode": "wmoUnit:degree_(angle)",
-                    "value": 141
+                    "value": 18
                 }
             }
         },

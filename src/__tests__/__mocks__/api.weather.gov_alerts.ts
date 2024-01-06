@@ -53,7 +53,8 @@ export const single = {
                     ]
                 },
                 "affectedZones": [
-                    "https://api.weather.gov/zones/county/NMC051"
+                    "https://api.weather.gov/zones/county/NMC051",
+                    "https://api.weather.gov/zones/forecast/OKZ025"
                 ],
                 "references": [],
                 "sent": "2023-09-12T20:12:00-06:00",
@@ -147,7 +148,8 @@ export const all = {
                     ]
                 },
                 "affectedZones": [
-                    "https://api.weather.gov/zones/county/MDC031"
+                    "https://api.weather.gov/zones/county/MDC031",
+                    "https://api.weather.gov/zones/forecast/OKZ025"
                 ],
                 "references": [],
                 "sent": "2023-09-13T02:15:36+00:00",
@@ -222,7 +224,8 @@ export const all = {
                     "https://api.weather.gov/zones/forecast/SCZ048",
                     "https://api.weather.gov/zones/forecast/SCZ049",
                     "https://api.weather.gov/zones/forecast/SCZ050",
-                    "https://api.weather.gov/zones/forecast/SCZ051"
+                    "https://api.weather.gov/zones/forecast/SCZ051",
+                    "https://api.weather.gov/zones/forecast/OKZ025"
                 ],
                 "references": [
                     {
@@ -321,7 +324,8 @@ export const all = {
                     ]
                 },
                 "affectedZones": [
-                    "https://api.weather.gov/zones/county/NMC051"
+                    "https://api.weather.gov/zones/county/NMC051",
+                    "https://api.weather.gov/zones/forecast/OKZ025"
                 ],
                 "references": [],
                 "sent": "2023-09-12T20:12:00-06:00",

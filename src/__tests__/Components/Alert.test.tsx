@@ -15,8 +15,27 @@ mockDate()
 
 vi.mock("Contexts/WeatherContext")
 
+beforeEach(() => {
+    vi.clearAllMocks()
+})
+
 test("renders nothing if no alerts are active", () => {
     vi.mocked(useWeather).mockReturnValueOnce(mockUseWeather.useWeather())
+
+    render(<Alert />);
+
+    expect.soft(screen.queryByTestId(testIds.Widget.WidgetSection)).not.toBeInTheDocument()
+})
+
+test("renders nothing if no relevant alerts are active", () => {
+    const singleAlertCopy = structuredClone(singleAlert)
+    singleAlertCopy.features[0].properties.affectedZones = []
+    const alerts = singleAlertCopy.features.map(alert => new NWSAlert(alert as unknown as NWSAlert))
+
+    vi.mocked(useWeather).mockReturnValueOnce({
+        ...mockUseWeather.useWeather(),
+        alerts
+    })
 
     render(<Alert />);
 
@@ -35,12 +54,14 @@ test("shows the current active alert if only one alert is active", () => {
 
     render(<Alert />);
 
-    expect.soft(screen.getByText(alert.get("event"))).toBeInTheDocument()
-    expect.soft(screen.getByText(alert.get("sent"))).toBeInTheDocument()
-    expect.soft(screen.getByText(alert.get("expires"))).toBeInTheDocument()
+    expect.soft(screen.queryByText(alert.get("event"))).toBeInTheDocument()
+    expect.soft(screen.queryByText(alert.get("sent"))).toBeInTheDocument()
+    expect.soft(screen.queryByText(alert.get("expires"))).toBeInTheDocument()
 
 })
 
+//Alert always filters out alerts that don't affect the current forecast zone.
+//Therefore .not.toBeInTheDocument() is used to check that the excess alerts are not shown.
 test("if multiple alerts are active, shows the highest priority and number of other alerts", () => {
     const alerts = multiAlert.features.map(alert => new NWSAlert(alert as unknown as NWSAlert))
     
@@ -56,11 +77,12 @@ test("if multiple alerts are active, shows the highest priority and number of ot
         alerts[0]
     )
 
-    expect.soft(screen.getByText(alert.get("event"))).toBeInTheDocument()
-    expect.soft(screen.getByText(alert.get("sent"))).toBeInTheDocument()
-    expect.soft(screen.getByText(alert.get("expires"))).toBeInTheDocument()
+    expect.soft(screen.queryByText(alert.get("event"))).toBeInTheDocument()
+    expect.soft(screen.queryByText(alert.get("sent"))).toBeInTheDocument()
+    expect.soft(screen.queryByText(alert.get("expires"))).toBeInTheDocument()
 
-    expect.soft(screen.getByText(`+${alerts.length - 1} more alert(s)`)).toBeInTheDocument()
+    expect.soft(screen.queryByText(`+2 more alert(s)`)).toBeInTheDocument()
+    expect.soft(screen.queryByText(`${alerts.length - 1} more alert(s)`)).not.toBeInTheDocument()
 })
 
 test("clicking the widget opens the alert modal", () => {
@@ -77,6 +99,7 @@ test("clicking the widget opens the alert modal", () => {
         screen.getByTestId(testIds.Widget.WidgetSection).click()
     })
 
-    expect(screen.getByRole("dialog")).toBeInTheDocument()
-    expect(screen.getByText(`${alerts.length} Weather Alerts`)).toBeInTheDocument()
+    expect.soft(screen.queryByRole("dialog")).toBeInTheDocument()
+    expect.soft(screen.queryByText(`3 Weather Alerts`)).toBeInTheDocument()
+    expect.soft(screen.queryByText(`${alerts.length} Weather Alerts`)).not.toBeInTheDocument()
 })

@@ -5,7 +5,7 @@
 
 import React from "react";
 
-import { useNWS, useOpenMeteo, useReadLocalStorage } from "Hooks";
+import { useNWS, useOpenMeteo } from "Hooks";
 
 import { throwError } from "ts/Helpers";
 import type NWSAlert from "ts/NWSAlert";
@@ -16,7 +16,6 @@ const WeatherContext = React.createContext<{
     weather: Weather;
     point: GridPoint;
     alerts: NWSAlert[];
-    nationAlerts: NWSAlert[];
 } | null>(null);
 
 export const useWeather = () =>
@@ -36,7 +35,6 @@ export default function WeatherContextProvider({
 }) {
     const { weather, isLoading: openLoading } = useOpenMeteo(latitude, longitude);
     const { point, alerts, isLoading: nwsLoading } = useNWS(latitude, longitude);
-    const { radarAlertMode } = useReadLocalStorage("userSettings")!;
 
     const value = React.useMemo(() => {
         if (!weather || !point || !alerts) return null;
@@ -44,14 +42,9 @@ export default function WeatherContextProvider({
         return {
             weather,
             point,
-            alerts: radarAlertMode
-                ? alerts.filter(alert =>
-                      alert.get("affectedZones").includes(point.properties.forecastZone)
-                  )
-                : alerts,
-            nationAlerts: alerts,
+            alerts
         };
-    }, [weather, point, alerts, radarAlertMode]);
+    }, [weather, point, alerts]);
 
     const isLoading = openLoading || nwsLoading;
 
@@ -63,6 +56,7 @@ export default function WeatherContextProvider({
 }
 
 //Modified WeatherContext only providing alert information
+//Not in use yet
 export function AlertProvider({
     latitude,
     longitude,
@@ -75,21 +69,15 @@ export function AlertProvider({
     children: React.ReactNode;
 }) {
     const { point, alerts, isLoading } = useNWS(latitude, longitude);
-    const { radarAlertMode } = useReadLocalStorage("userSettings")!;
 
     const value = React.useMemo(() => {
         if (!point || !alerts) return null;
 
         return {
             point,
-            alerts: radarAlertMode
-                ? alerts.filter(alert =>
-                      alert.get("affectedZones").includes(point.properties.forecastZone)
-                  )
-                : alerts,
-            nationAlerts: alerts,
+            alerts
         };
-    }, [point, alerts, radarAlertMode]);
+    }, [point, alerts]);
 
     return !isLoading && value ? (
         <WeatherContext.Provider value={value as any}>{children}</WeatherContext.Provider>
