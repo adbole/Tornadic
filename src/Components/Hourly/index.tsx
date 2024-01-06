@@ -44,7 +44,7 @@ function DaySeperator({ day }: { day: string }) {
  * @returns The Hourly widget
  */
 export default function Hourly() {
-    const { weather, alerts } = useWeather();
+    const { weather } = useWeather();
     const [modalOpen, showModal, hideModal] = useBooleanState(false);
     const listRef = React.useRef<HTMLOListElement | null>(null);
 
@@ -57,7 +57,6 @@ export default function Hourly() {
                 widgetIcon={<Clock />}
                 onClick={showModal}
                 size="widget-wide"
-                moveOver={alerts.length > 0}
             >
                 <List ref={listRef} className="flex-list drag-scroll">
                     {[...weather.getFutureValues()].map((forecast, index) => {

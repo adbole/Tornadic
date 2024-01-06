@@ -1,13 +1,17 @@
 import styled from "@emotion/styled";
 
+import AlertWidget from "Components/Alert/style"
 import Widget from "Components/Widget";
 
 import { mediaQueries } from "ts/StyleMixins";
 
 
-export default styled(Widget)(({ moveOver }: { moveOver: boolean }) => ({
+export default styled(Widget)(() => ({
     [mediaQueries.max("medium")]: { gridColumn: "span 2" },
-    [mediaQueries.min("large")]: [{ gridColumn: "span 6" }, moveOver && { gridColumn: "span 4" }],
+    [mediaQueries.min("large")]: { 
+        gridColumn: "span 6",
+        [`${AlertWidget} + &`]: { gridColumn: "span 4" },
+    },
 }));
 
 export const List = styled.ol({
