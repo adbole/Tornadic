@@ -1,5 +1,5 @@
 import { mockDate, setLocalStorageItem } from "__tests__/__utils__";
-import { act, cleanup, render, renderHook, screen } from "@testing-library/react"
+import { act, render, renderHook, screen } from "@testing-library/react"
 
 import DEFAULTS from "Hooks/useLocalStorage.config";
 

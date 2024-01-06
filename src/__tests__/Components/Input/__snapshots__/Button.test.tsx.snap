@@ -42,46 +42,6 @@ exports[`Matches default primary snapshot 1`] = `
 </div>
 `;
 
-exports[`Matches the text snapshot 1`] = `
-.emotion-0 {
-  -webkit-transition: filter 0.3s ease;
-  transition: filter 0.3s ease;
-  -webkit-filter: brightness(100%);
-  filter: brightness(100%);
-  border: none;
-  border-radius: var(--input-border-radius);
-  font-size: inherit;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
-  margin: 5px 0px;
-  color: inherit;
-}
-
-.emotion-0:hover,
-.emotion-0:focus {
-  cursor: pointer;
-}
-
-.emotion-0:active,
-.emotion-0:disabled {
-  -webkit-filter: brightness(70%);
-  filter: brightness(70%);
-}
-
-.emotion-0:hover,
-.emotion-0:focus {
-  cursor: pointer;
-}
-
-<div>
-  <button
-    class="emotion-0 emotion-1"
-    type="button"
-  >
-    Test
-  </button>
-</div>
-`;
-
 exports[`Matches the transparent snapshot 1`] = `
 .emotion-0 {
   -webkit-transition: filter 0.3s ease;

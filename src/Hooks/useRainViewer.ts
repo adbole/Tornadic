@@ -6,7 +6,7 @@ import useSWR from "swr";
 import { fetchData } from "ts/Fetch";
 
 
-export type Tile = Readonly<{
+type Tile = Readonly<{
     time: number;
     path: string;
 }>;
@@ -58,7 +58,8 @@ export default function useRainViewer() {
         async (url) => {
             const response = await fetchData<ApiResponse>(url, "Cannot get RainViewer data");
 
-            expires.current = response.radar.nowcast.slice(-1)[0].time * 1000;
+            const nowcast = response.radar.nowcast;
+            expires.current = nowcast[nowcast.length - 1].time * 1000;
 
             return response;
         },
@@ -77,6 +78,7 @@ export default function useRainViewer() {
         }
 
         availableLayers.Radar.currentLayerIndex = data.radar.past.length - 1;
+        availableLayers.Satellite.currentLayerIndex = data.satellite.infrared.length - 1;
 
         return availableLayers;
     }, [data])
@@ -95,8 +97,8 @@ export default function useRainViewer() {
         const satelliteLayerGroup = availableLayers.Satellite.layerGroup;
 
         const layersControl = L.control.layers({
-            "Radar": radarLayerGroup,
-            "Satellite": satelliteLayerGroup
+            [LayerTypes.Radar]: radarLayerGroup,
+            [LayerTypes.Satellite]: satelliteLayerGroup
         }).addTo(map);
 
         availableLayers[active].layerGroup.addTo(map);
@@ -117,17 +119,17 @@ export default function useRainViewer() {
 
     const addLayer = React.useCallback(
         (index: number) => {
-            if(!availableLayers) return;
+            if (!availableLayers) return;
             const activeData = availableLayers[active];
 
             const loadedLayers = activeData.tileLayers;
             const frame = activeData.frames[index];
 
-            //If frame hasn't been added as a layer yet do so now
+            // If frame hasn't been added as a layer yet, do so now
             if (!loadedLayers[index]) {
                 const color = active === LayerTypes.Radar ? 6 : 0;
                 loadedLayers[index] = L.tileLayer(
-                    data!.host + frame.path + "/512/{z}/{x}/{y}/" + color + "/1_0.png",
+                    `${data!.host}${frame.path}/512/{z}/{x}/{y}/${color}/1_1.png`,
                     {
                         opacity: 0.0,
                         zIndex: frame.time,
@@ -136,7 +138,7 @@ export default function useRainViewer() {
                 );
             }
 
-            //If the layer of the frame hasn't been added yet do so now
+            // If the layer of the frame hasn't been added yet, do so now
             if (!map.hasLayer(loadedLayers[index]!)) {
                 activeData.layerGroup.addLayer(loadedLayers[index]!);
             }

@@ -1,5 +1,5 @@
-import { MapContainer } from "react-leaflet";
-import { act, fireEvent, render, screen } from "@testing-library/react";
+import { MapContainer, useMap } from "react-leaflet";
+import { act, fireEvent, render, renderHook, screen } from "@testing-library/react";
 
 import { Opacity } from "Components/Radar/__internal__";
 
@@ -9,10 +9,28 @@ vi.mock("svgs/radar", async (importOriginal) => ({
     CircleSlashes: () => <span>CircleSlashes</span>,
 }))
 
+function WrapperInteraction({ children }: { children: React.ReactNode }) {
+    return (
+        <MapContainer>
+            {children}
+            <Opacity defaultOpacity={0.8} targetPane="tilePane"/>
+        </MapContainer>
+    )
+}
+
+function WrapperWait({ children }: { children: React.ReactNode }) {
+    return (
+        <MapContainer>
+            <Opacity defaultOpacity={0.8} targetPane="radar"/>
+            {children}
+        </MapContainer>
+    )
+}
+
 test("Shows a svg when not hovered", () => {
     render(
         <MapContainer>
-            <Opacity value={100} setOpacity={() => undefined }/>
+            <Opacity defaultOpacity={0.8} targetPane="tilePane"/>
         </MapContainer>
     )
 
@@ -22,7 +40,7 @@ test("Shows a svg when not hovered", () => {
 test("Shows a slider when hovered and resets on leave", () => {
     render(
         <MapContainer>
-            <Opacity value={0.37} setOpacity={() => undefined }/>
+            <Opacity defaultOpacity={0.37} targetPane="tilePane"/>
         </MapContainer>
     )
 
@@ -45,7 +63,7 @@ test("Shows a slider when hovered and resets on leave", () => {
 test("Slider hides when elsewhere is clicked", () => {
     render(
         <MapContainer>
-            <Opacity value={0.37} setOpacity={() => undefined }/>
+            <Opacity defaultOpacity={0.37} targetPane="tilePane"/>
         </MapContainer>
     )
 
@@ -65,14 +83,8 @@ test("Slider hides when elsewhere is clicked", () => {
     expect.soft(screen.queryByText("CircleSlashes")).toBeInTheDocument();
 })
 
-test("Calls setOpacity with the given value", () => {
-    const setOpacity = vi.fn();
-
-    render(
-        <MapContainer>
-            <Opacity value={0.37} setOpacity={setOpacity}/>
-        </MapContainer>
-    )
+test("Sets the target pane's opacity when slider is changed", () => {
+    const { result: { current: map } } = renderHook(useMap, { wrapper: WrapperInteraction });
 
     const div = screen.getByText("CircleSlashes").parentElement as HTMLDivElement;
 
@@ -86,7 +98,28 @@ test("Calls setOpacity with the given value", () => {
         fireEvent.change(slider, { target: { value: 50 } })
     })
 
-    expect.soft(setOpacity).toHaveBeenCalledWith(0.5);
+    expect.soft(map.getPane("tilePane")).toHaveStyle({ opacity: "0.5" });
+})
+
+test("If the target pane doesn't exist, then a mutation observer waits for its creation", () => {
+    const { result: { current: map } } = renderHook(useMap, { wrapper: WrapperWait });
+    
+    expect.soft(map.getPane("radar")).not.toBeTruthy();
+    map.createPane("radar");
+
+    const div = screen.getByText("CircleSlashes").parentElement as HTMLDivElement;
+
+    act(() => {
+        fireEvent.mouseEnter(div);
+    })
+
+    const slider = screen.queryByRole("slider") as HTMLInputElement;
+
+    act(() => {
+        fireEvent.change(slider, { target: { value: 50 } })
+    })
+
+    expect.soft(map.getPane("radar")).toHaveStyle({ opacity: "0.5" });
 })
 
 test("Clicking the div stops propagation", () => {
@@ -95,7 +128,7 @@ test("Clicking the div stops propagation", () => {
     render(
         <MapContainer>
             <div onClick={myClick}>
-                <Opacity value={0.37} setOpacity={() => undefined }/>
+                <Opacity defaultOpacity={0.8} targetPane="tile"/>
             </div>
         </MapContainer>
     )
