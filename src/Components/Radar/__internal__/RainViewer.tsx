@@ -14,12 +14,16 @@ import { Message, Playback, Slider, Tick,TickArray, Time, Timeline } from "./Rai
 
 
 const getTimeDisplay = (time: number) => 
-    `${Date.now() > time * 1000 ? "Past" : "Forecast"}: ${getTimeFormatted(
+    `${Date.now() >= time * 1000 ? "Past" : "Forecast"}: ${getTimeFormatted(
         time * 1000,
         "hourMinute"
     )}`;
 
 export default function RainViewer() {
+    //showFrame will change the currentLayerIndex of the active layer,
+    //therefore when calling showFrame and setCurrentFrame, always call showFrame first to stay up to date.
+    //Tests will expect this behavior.
+    
     const { availableLayers, active, showFrame, isLoading } = useRainViewer()
     const [currentFrame, setCurrentFrame] = React.useState<number>(0)
 
@@ -131,7 +135,7 @@ export default function RainViewer() {
                         }
                     }}
                     style={{ [varNames.svgSize]: "1.5rem" }}
-                    title={isPlaying ? "Pause" : "Play"}
+                    title={loadingLayer ? "Loading" : isPlaying ? "Pause" : "Play"}
                 >
                     {
                         loadingLayer 
@@ -146,8 +150,13 @@ export default function RainViewer() {
                         max={activeData.frames.length - 1}
                         value={currentFrame}
                         onChange={e => {
+                            if(isPlaying) {
+                                pause();
+                                setIsPlayingFalse();
+                            }
+
                             showFrame(e.currentTarget.valueAsNumber);
-                            setCurrentFrame(activeData.currentLayerIndex)
+                            setCurrentFrame(activeData.currentLayerIndex);
                         }}
                     />
                     <TickArray>

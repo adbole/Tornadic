@@ -30,7 +30,9 @@ const constructSatellitePath = (path: string) => `${rainviewerObj.host}${path}/5
 beforeEach(() => {
     vi.clearAllMocks()
     vi.useFakeTimers()
-    vi.setSystemTime(rainviewerObj.radar.past.slice(-1)[0].time * 1000)
+
+    const past = rainviewerObj.radar.past
+    vi.setSystemTime(past[past.length - 1].time * 1000)
 })
 
 afterEach(() => {

@@ -25,15 +25,10 @@ const BaseLayer = styled(TileLayer)({ filter: "invert(1) hue-rotate(180deg)" });
  * @returns The Radar widget
  */
 function Radar() {
-    const defaultCent: L.LatLngExpression = {
-        lat: 35.5,
-        lng: -97.5,
-    };
-
     return (
         <RadarWidget size="widget-large" widgetTitle="Radar" widgetIcon={<Map />}>
             <MapContainer
-                center={defaultCent}
+                center={[35.5, -97.5]}
                 zoom={10}
                 zoomControl={false}
                 attributionControl={false}
