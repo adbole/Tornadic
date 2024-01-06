@@ -78,7 +78,7 @@ function removeExpiredAlerts(alerts: NWSAlert[]) {
             references.length ||
             expiredReferences?.length
         ) {
-            for (let i = index; i < alerts.length; ++i) {
+            for (let i = index + 1; i < alerts.length; ++i) {
                 const id = alerts[i].get("id");
 
                 if (
