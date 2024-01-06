@@ -63,14 +63,15 @@ export default function Peek() {
 
         map.on("mousedown", onMouseDown);
         map.getContainer().addEventListener("touchstart", onTouchStart);
-
         map.on("mouseup mousemove", onUp);
-
         map.getContainer().addEventListener("touchend", onUp);
         map.getContainer().addEventListener("touchmove", onUp);
+
+        map.on("contextmenu", () => undefined);
         return () => {
             map.off("mousedown", onMouseDown);
             map.off("mouseup mousemove", onUp);
+            map.off("contextmenu");
 
             map.getContainer().removeEventListener("touchend", onUp);
             map.getContainer().removeEventListener("touchmove", onUp);

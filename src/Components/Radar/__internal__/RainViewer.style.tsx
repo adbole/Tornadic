@@ -19,6 +19,7 @@ export const Playback = styled.div([
 export const Time = styled.p({
     gridColumn: "span 2",
     textAlign: "center",
+    marginBottom: "5px"
 });
 
 export const Timeline = styled.div({
@@ -48,12 +49,14 @@ export const Slider = styled.input({
     },
 });
 
-export const Datalist = styled.datalist({
+export const TickArray = styled.div({
     display: "flex",
     justifyContent: "space-between",
+    padding: "5px 5px",
+    height: "100%"
 });
 
-export const Option = styled.option({
+export const Tick = styled.div({
     padding: "0px 1px",
     background: "rgba(136, 136, 136, 0.5)",
     borderRadius: vars.borderRadius,

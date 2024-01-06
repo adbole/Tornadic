@@ -10,7 +10,7 @@ import { varNames } from "ts/StyleMixins";
 import getTimeFormatted from "ts/TimeConversion";
 
 import ControlPortal, { Position } from "./ControlPortal";
-import { Datalist, Message, Option,Playback, Slider, Time, Timeline } from "./RainViewer.style";
+import { Message, Playback, Slider, Tick,TickArray, Time, Timeline } from "./RainViewer.style";
 
 
 const getTimeDisplay = (time: number) => 
@@ -22,8 +22,6 @@ const getTimeDisplay = (time: number) =>
 export default function RainViewer() {
     const { availableLayers, active, showFrame, isLoading } = useRainViewer()
     const [currentFrame, setCurrentFrame] = React.useState<number>(0)
-
-    const radarList = React.useId();
 
     const animationTimer = React.useRef<NodeJS.Timeout | null>(null);
 
@@ -144,7 +142,6 @@ export default function RainViewer() {
                 <Timeline>
                     <Slider
                         type="range"
-                        list={radarList}
                         min={0}
                         max={activeData.frames.length - 1}
                         value={currentFrame}
@@ -153,11 +150,11 @@ export default function RainViewer() {
                             setCurrentFrame(activeData.currentLayerIndex)
                         }}
                     />
-                    <Datalist id={radarList}>
-                        {activeData.frames.map((frame, index) => (
-                            <Option key={frame.time} value={index} />
+                    <TickArray>
+                        {activeData.frames.map((frame) => (
+                            <Tick key={frame.time} />
                         ))}
-                    </Datalist>
+                    </TickArray>
                 </Timeline>
             </Playback>
         </ControlPortal>

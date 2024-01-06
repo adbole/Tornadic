@@ -1,4 +1,5 @@
 import { AttributionControl, MapContainer, TileLayer, ZoomControl } from "react-leaflet";
+import styled from "@emotion/styled";
 
 import { RADAR_PANE } from "Hooks/useRainViewer";
 
@@ -16,6 +17,8 @@ import {
 } from "./__internal__";
 import RadarWidget from "./style";
 
+
+const BaseLayer = styled(TileLayer)({ filter: "invert(1) hue-rotate(180deg)" });
 
 /**
  * Displays a small Radar widget that can then be clicked to zoom to fullscreen.
@@ -37,7 +40,7 @@ function Radar() {
                 scrollWheelZoom={false}
                 dragging={false}
             >
-                <TileLayer
+                <BaseLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors | <a href="https://www.rainviewer.com/api.html">RainViewer</a>'
                     url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />

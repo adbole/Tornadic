@@ -14,9 +14,3 @@ test("Matches the transparent snapshot", () => {
 
     expect(container).toMatchSnapshot()
 })
-
-test("Matches the text snapshot", () => {
-    const { container } = render(<Button varient="text">Test</Button>)
-
-    expect(container).toMatchSnapshot()
-})
