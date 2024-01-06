@@ -56,5 +56,3 @@ test.each(valueExpected)(
         expect.soft(nightCondition.icon.name).toBe(nightIcon.name);
     }
 );
-
-test.todo("Add background checks");
