@@ -67,7 +67,8 @@ export default defineConfig({
                 ...configDefaults.coverage.exclude,
                 "build/**/*",
                 "src/ts/global.types.ts",
-                "src/index.tsx"
+                "src/index.tsx",
+                "**/style.tsx"
             ]
         },
     }
