@@ -186,7 +186,6 @@ describe("Expired Alerts", () => {
 
         const { result } = renderNWS(1, 1);
     
-        console.log(multiAlertCopy.features.map(alert => alert.properties.messageType))
         fetchMock.mockOnce(JSON.stringify(multiAlertCopy))
         
         await act(async () => {
