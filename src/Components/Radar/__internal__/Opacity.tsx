@@ -1,4 +1,5 @@
 import React from "react";
+import { useMap } from "react-leaflet";
 import styled from "@emotion/styled";
 
 import { useBooleanState } from "Hooks";
@@ -12,19 +13,43 @@ const Container = styled.div({
 });
 
 export default function Opacity({
-    value,
-    setOpacity,
+    defaultOpacity,
+    targetPane,
 }: {
-    value: number;
-    setOpacity: (x: number) => void;
+    defaultOpacity: number;
+    targetPane: string;
 }) {
+    const map = useMap();
+
     const [hover, setHoverTrue, setHoverFalse] = useBooleanState(false);
+    const [value, setOpacity] = React.useState(defaultOpacity);
 
     //Fallback for touch devices
     React.useEffect(() => {
         document.body.addEventListener("click", setHoverFalse);
         return () => document.body.removeEventListener("click", setHoverFalse);
     }, [setHoverFalse]);
+
+    React.useEffect(() => {
+        const pane = map.getPane(targetPane);
+        if (!pane) {
+            const observer = new MutationObserver((_, observer) => {
+                const pane = map.getPane(targetPane);
+
+                if (!pane) return;
+
+                pane.style.opacity = value.toString();
+
+                observer.disconnect();
+            });
+
+            observer.observe(map.getContainer(), { childList: true, subtree: true });
+
+            return;
+        }
+
+        pane.style.opacity = value.toString();
+    }, [map, targetPane, value]);
 
     return (
         <div

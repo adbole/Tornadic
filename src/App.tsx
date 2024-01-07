@@ -1,6 +1,3 @@
-import React from "react";
-import styled from "@emotion/styled";
-
 import { useBooleanState, useLocalStorage, useOnlineOffline, useUserLocation } from "Hooks";
 
 import WeatherContext from "Contexts/WeatherContext";
@@ -9,6 +6,7 @@ import {
     Alert,
     Button,
     Daily,
+    FetchErrorHandler,
     HazardLevel,
     Hourly,
     LocationInput,
@@ -21,21 +19,17 @@ import {
     Simple,
     Skeleton,
     SunTime,
+    Toast,
     Wind,
 } from "Components";
-import FetchErrorHandler from "Components/FetchErrorHandler";
-import Toast from "Components/Toast";
+import { Base as DailyBase } from "Components/Daily/style";
+import { Base as HourlyBase } from "Components/Hourly/style";
+import { Base as NowBase } from "Components/Now/style";
+import { Base as RadarBase } from "Components/Radar/style";
 import { Spinner, WifiOff } from "svgs";
 import { Cursor } from "svgs/radar";
 import * as WidgetIcons from "svgs/widget";
 
-import { mediaQueries } from "ts/StyleMixins";
-
-
-const NowSkeleton = styled(Skeleton)({ [mediaQueries.max("medium")]: { gridColumn: "1 / -1" } });
-const HourlySkeleton = styled(Skeleton)({ [mediaQueries.min("large")]: { gridColumn: "span 6" } });
-const RadarSkeleton = styled(Skeleton)({ [mediaQueries.min("medium")]: { gridArea: "r" } });
-const DailySkeleton = styled(Skeleton)({ [mediaQueries.min("medium")]: { gridArea: "d" } });
 
 function LocationRequest() {
     const [modalOpen, showModal, hideModal] = useBooleanState(false);
@@ -61,10 +55,10 @@ function LocationRequest() {
 function AppLoader() {
     return (
         <>
-            <NowSkeleton size="widget-large" />
-            <HourlySkeleton size="widget-wide" />
-            <DailySkeleton size="widget-large" />
-            <RadarSkeleton size="widget-large" />
+            <Skeleton css={NowBase} size="widget-large" />
+            <Skeleton css={HourlyBase} size="widget-wide" />
+            <Skeleton css={DailyBase} size="widget-large" />
+            <Skeleton css={RadarBase} size="widget-large" />
             {Array.from({ length: 8 }, (_, i) => (
                 <Skeleton key={i} />
             ))}
@@ -76,12 +70,9 @@ function AppLoader() {
 function App() {
     const online = useOnlineOffline();
     const { latitude, longitude, status } = useUserLocation();
-    const [settings, setSettings] = useLocalStorage("userSettings");
 
-    React.useEffect(() => {
-        setSettings(settings); // Save Defaults
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    //useLocalStorage here causes the default value to be set for useReadLocalStorage
+    useLocalStorage("userSettings");
 
     if (!online) {
         return (
@@ -92,7 +83,7 @@ function App() {
         );
     }
 
-    if (status !== "getting_current" && status !== "OK") {
+    if (status !== "getting_current" && (latitude === undefined || longitude === undefined)) {
         return <LocationRequest />;
     }
 
@@ -104,8 +95,6 @@ function App() {
             </MessageScreen>
         );
     }
-
-    if (!latitude || !longitude) return null;
 
     return (
         <FetchErrorHandler

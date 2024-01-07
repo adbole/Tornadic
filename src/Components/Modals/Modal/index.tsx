@@ -16,25 +16,24 @@ export type ModalProps = {
 
 /**
  * A base modal to display simple information using the ModalContext
+ * The modal can't be closed through setting isOpen to false.
+ * Instead, the modal should be closed by its defined ways or by causing
+ * onCancel or onClose to be called which can be done through forms.
+ *
+ * onClose should typically set the state controlling isOpen to false
  */
 export default function Modal({ isOpen, children, onClose, className }: ModalProps) {
     const [openModal, closeModal, stage, shouldMount] = useAnimation(isOpen, 1000);
 
-    const dialogRef = React.useRef<HTMLDialogElement>(null);
+    const dialogRef = React.useRef<HTMLDialogElement | null>(null);
 
     React.useEffect(() => {
-        if (isOpen) {
-            openModal();
-        }
+        if (isOpen) openModal();
     }, [isOpen, openModal]);
 
-    React.useLayoutEffect(() => {
-        if (shouldMount) {
-            dialogRef.current?.showModal();
-        } else {
-            onClose();
-        }
-    }, [onClose, shouldMount]);
+    React.useEffect(() => {
+        if (!shouldMount && stage === "leave") onClose();
+    }, [onClose, shouldMount, stage]);
 
     useSameClick(dialogRef, (e: MouseEvent) => {
         const target = e.target as HTMLElement;
@@ -42,15 +41,25 @@ export default function Modal({ isOpen, children, onClose, className }: ModalPro
         if (target === dialogRef.current) closeModal();
     });
 
+    const ref = React.useCallback((el: HTMLDialogElement | null) => {
+        el?.showModal();
+        dialogRef.current = el;
+    }, []);
+
     return shouldMount
         ? ReactDOM.createPortal(
               <>
                   <Global styles={{ body: { overflow: "hidden" } }} />
                   <Dialog
-                      ref={dialogRef}
+                      ref={ref}
                       stage={stage}
                       onCancel={e => {
                           e.preventDefault();
+                          closeModal();
+                      }}
+                      onClose={() => {
+                          //Ensure the modal doesn't close normally
+                          dialogRef.current?.showModal();
                           closeModal();
                       }}
                       className={className}

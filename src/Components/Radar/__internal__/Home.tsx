@@ -18,16 +18,17 @@ export default function Home() {
     const [isZoomed, setIsZoomedTrue, setIsZoomedFalse] = useBooleanState(false);
 
     const map = useMap();
-    const containerId = React.useId();
 
     const zoom = React.useCallback(
         () => !isZoomed && setIsZoomedTrue(),
         [isZoomed, setIsZoomedTrue]
     );
-    const unZoom = (e: React.MouseEvent<HTMLButtonElement>) => {
+
+    const unZoom = React.useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
         e.stopPropagation();
         setIsZoomedFalse();
-    };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     React.useEffect(() => {
         const container = map.getContainer();
@@ -35,7 +36,7 @@ export default function Home() {
         container.style.position = "";
         container.addEventListener("click", zoom);
         return () => container.removeEventListener("click", zoom);
-    }, [map, zoom, containerId]);
+    }, [map, zoom]);
 
     React.useEffect(() => {
         map.getContainer().classList.toggle("zoom-radar", isZoomed);

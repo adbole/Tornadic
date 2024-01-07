@@ -1,0 +1,54 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Matches default snapshot 1`] = `
+.emotion-0 {
+  display: none;
+}
+
+.emotion-0:checked+.emotion-3 {
+  background-color: var(--primary);
+}
+
+.emotion-2 {
+  -webkit-transition: filter 0.3s ease;
+  transition: filter 0.3s ease;
+  -webkit-filter: brightness(100%);
+  filter: brightness(100%);
+  display: inline-block;
+  width: 100%;
+  padding: 5px;
+  background-color: var(--background-layer);
+  border-radius: var(--input-border-radius);
+  text-align: center;
+  -webkit-transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease;
+}
+
+.emotion-2:hover,
+.emotion-2:focus {
+  cursor: pointer;
+}
+
+.emotion-2:active,
+.emotion-2:disabled {
+  -webkit-filter: brightness(70%);
+  filter: brightness(70%);
+}
+
+<div>
+  <div>
+    <input
+      class="emotion-0 emotion-1"
+      id=":r0:"
+      name="MyToggleButtonName"
+      type="radio"
+    />
+    <label
+      class="emotion-2 emotion-3"
+      for=":r0:"
+    >
+      MyToggleButton
+    </label>
+  </div>
+</div>
+`;

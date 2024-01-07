@@ -1,5 +1,6 @@
 export { default as Alert } from "./Alert";
 export { default as Daily } from "./Daily";
+export { default as FetchErrorHandler } from "./FetchErrorHandler";
 export { default as HazardLevel } from "./HazardLevel";
 export { default as Hourly } from "./Hourly";
 export * from "./Input";
@@ -13,4 +14,5 @@ export { default as Radar } from "./Radar";
 export { default as Simple } from "./Simple";
 export { default as Skeleton } from "./Skeleton";
 export { default as SunTime } from "./SunTime";
+export { default as Toast } from "./Toast";
 export { default as Wind } from "./Wind";

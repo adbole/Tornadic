@@ -49,14 +49,20 @@ export default class Weather {
         this.forecast = this.configureForecast(forecast, settings);
         this.airQuality = airQuality;
 
-        this.nowIndex = this.forecast.hourly.time.indexOf(this.forecast.current_weather.time);
+        this.nowIndex =
+            this.forecast.hourly.time.findIndex(time => new Date(time).getTime() > Date.now()) - 1;
+
+        if (this.nowIndex < 0) {
+            console.error("Cannot find current time in forecast data");
+            throw new Error("Cannot find current time in forecast data");
+        }
     }
 
     private configureForecast(forecast: Forecast, settings: UserSettings) {
         const visibilityDivisor = settings.precipitation === "inch" ? 5280 : 1000;
 
         //All data point arrays have the same length, so one loop is sufficient
-        for (let i = 0; i < forecast.hourly.time.length; ++i) {
+        for (let i = 0; i < this.hourLength; ++i) {
             //Convert units
             forecast.hourly.surface_pressure[i] /= 33.864;
             forecast.hourly.visibility[i] /= visibilityDivisor;
@@ -99,7 +105,9 @@ export default class Weather {
      * Gets 48 hours of future values
      */
     *getFutureValues(): Generator<HourInfo> {
-        for (let i = this.nowIndex + 1; i < this.nowIndex + 49; ++i) {
+        const start = this.nowIndex + 1;
+
+        for (let i = start; i < start + 48; ++i) {
             const conditionInfo = new WeatherCondition(
                 this.getForecast("weathercode", i),
                 this.isDay(i)
@@ -120,7 +128,7 @@ export default class Weather {
     }
 
     *getDailyValues(): Generator<DayInfo> {
-        for (let i = 0; i < this.forecast.daily.time.length; ++i) {
+        for (let i = 0; i < this.dayLength; ++i) {
             const isDay = i === 0 ? this.isDay() : true;
 
             const weatherCode =
@@ -181,7 +189,7 @@ export default class Weather {
         return this.airQuality.hourly[key] as CombinedHourly[K];
     }
 
-    getAllDays<K extends keyof Forecast["daily"]>(prop: K, day: number = 0): Forecast["daily"][K] {
+    getAllDays<K extends keyof Forecast["daily"]>(prop: K): Forecast["daily"][K] {
         return this.forecast.daily[prop];
     }
 

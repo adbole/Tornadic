@@ -65,7 +65,7 @@ export default css`
         background-blend-mode: difference, normal;
     }
 
-    svg:not(.recharts-surface) {
+    svg {
         display: inline-block;
         width: ${vars.svgSize};
     }
@@ -119,10 +119,6 @@ export default css`
         ${mediaQueries.max("small")} {
             gap: 10px;
             grid-template-columns: repeat(2, 1fr);
-
-            > section + section {
-                border-top: 1px solid #ffffff3d;
-            }
         }
     }
 

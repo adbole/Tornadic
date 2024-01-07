@@ -11,8 +11,6 @@
     "rules": {
         "eqeqeq": "error",
         "object-shorthand": "error",
-        "object-curly-newline": ["error", { "multiline": true }],
-        "@typescript-eslint/object-curly-spacing": ["error", "always"],
         "prefer-const": "error",
         "no-else-return": "error",
 

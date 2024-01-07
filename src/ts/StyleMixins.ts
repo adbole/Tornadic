@@ -73,7 +73,7 @@ export const alertColors = {
         background: "gray",
         foreground: "black",
     },
-};
+} as const;
 
 export const darkBackBlur = css({
     backgroundColor: "rgba(0, 0, 0, 0.75)",

@@ -23,6 +23,7 @@ async function getQueryResults(query: string) {
         `https://geocoding-api.open-meteo.com/v1/search?name=${query}`,
         ""
     );
+
     return (data.results ?? [])
         .filter(result => result.country_code === "US")
         .map(result => ({
@@ -41,6 +42,7 @@ export default function LocationInput() {
 
     return (
         <SearchInput
+            placeHolder="Enter a location"
             onGetResults={query => getQueryResults(query)}
             onSelect={({ latitude, longitude }) =>
                 setUserLocation({
@@ -52,7 +54,7 @@ export default function LocationInput() {
                 })
             }
         >
-            {locationPermission !== "denied" && (
+            {locationPermission !== "denied" && navigator.geolocation && (
                 <Button
                     onClick={() => setUserLocation({ useCurrent: true })}
                     title="Use Current Location"

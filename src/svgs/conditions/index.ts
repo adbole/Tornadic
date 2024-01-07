@@ -1,11 +1,13 @@
-export { ReactComponent as Drizzle } from "./cloud-drizzle-fill.svg";
-export { ReactComponent as Fog } from "./cloud-fog-fill.svg";
-export { ReactComponent as Lightning } from "./cloud-lightning-rain-fill.svg";
-export { ReactComponent as CloudMoon } from "./cloud-moon-fill.svg";
-export { ReactComponent as Rain } from "./cloud-rain-fill.svg";
-export { ReactComponent as Cloud } from "./cloud-single-fill.svg";
-export { ReactComponent as CloudSun } from "./cloud-sun-fill.svg";
-export { ReactComponent as Clouds } from "./clouds-fill.svg";
-export { ReactComponent as Moon } from "./moon-fill.svg";
-export { ReactComponent as Snow } from "./snow.svg";
-export { ReactComponent as Sun } from "./sun-fill.svg";
+/// <reference types="vite-plugin-svgr/client" />
+
+export { default as Drizzle } from "./cloud-drizzle-fill.svg?react";
+export { default as Fog } from "./cloud-fog-fill.svg?react";
+export { default as Lightning } from "./cloud-lightning-rain-fill.svg?react";
+export { default as CloudMoon } from "./cloud-moon-fill.svg?react";
+export { default as Rain } from "./cloud-rain-fill.svg?react";
+export { default as Cloud } from "./cloud-single-fill.svg?react";
+export { default as CloudSun } from "./cloud-sun-fill.svg?react";
+export { default as Clouds } from "./clouds-fill.svg?react";
+export { default as Moon } from "./moon-fill.svg?react";
+export { default as Snow } from "./snow.svg?react";
+export { default as Sun } from "./sun-fill.svg?react";

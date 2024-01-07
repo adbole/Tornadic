@@ -4,7 +4,7 @@ import { interactable, vars } from "ts/StyleMixins";
 
 
 type ButtonProps = {
-    varient?: "primary" | "text" | "transparent";
+    varient?: "primary" | "transparent";
 };
 
 const Button = styled.button(({ varient = "primary" }: ButtonProps) => [

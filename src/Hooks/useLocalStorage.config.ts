@@ -4,24 +4,24 @@ declare global {
         userLocation: UserLocation;
     }
 
-    type UserSettings = {
+    type UserSettings = Readonly<{
         tempUnit: "fahrenheit" | "celsius";
         windspeed: "kmh" | "mph" | "kn";
         precipitation: "mm" | "inch";
         radarAlertMode: boolean;
-    };
+    }>;
 
-    type UserLocation = {
+    type UserLocation = Readonly<{
         coords?: {
-            latitude: number;
-            longitude: number;
+            readonly latitude: number;
+            readonly longitude: number;
         };
         useCurrent: boolean;
-    };
+    }>;
 }
 
 type LocalStorageDefaults = {
-    [K in keyof StorageKeysAndTypes]: StorageKeysAndTypes[K];
+    readonly [K in keyof StorageKeysAndTypes]: StorageKeysAndTypes[K];
 };
 
 const DEFAULTS: LocalStorageDefaults = {

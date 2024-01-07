@@ -2,6 +2,8 @@
 export class Normalize {
     //Normalizes a value to be between 0 and 1 given it and the minimum and maximum values possible
     static Decimal(x: number, min: number, max: number) {
+        x = Math.max(Math.min(x, max), min);
+
         return (x - min) / (max - min);
     }
 
@@ -28,7 +30,25 @@ export function get_aq(aq: number): AQLevel {
     return "Hazardous";
 }
 
+export function getAQMaxValue(aq: AQLevel): number {
+    switch (aq) {
+        case "Good":
+            return 50;
+        case "Moderate":
+            return 100;
+        case "Unhealthy*":
+            return 150;
+        case "Unhealthy":
+            return 200;
+        case "Very Unhealthy":
+            return 300;
+        case "Hazardous":
+            return 500;
+    }
+}
+
 export type UVLevel = "Low" | "Moderate" | "High" | "Very High" | "Extreme";
+
 export function get_uv(uv: number): UVLevel {
     if (uv <= 2) return "Low";
     else if (uv <= 5) return "Moderate";
@@ -37,12 +57,26 @@ export function get_uv(uv: number): UVLevel {
     return "Extreme";
 }
 
+export function getUVMaxValue(uv: UVLevel): number {
+    switch (uv) {
+        case "Low":
+            return 2;
+        case "Moderate":
+            return 5;
+        case "High":
+            return 7;
+        case "Very High":
+            return 10;
+        case "Extreme":
+            return 11;
+    }
+}
+
 //Converts the given Fahrenheit temperature to a hsl color
 export function toHSL(temp: number, unit: UserSettings["tempUnit"]) {
-    const bound = unit === "fahrenheit" ? 120 : 45;
-    const clampedValue = Math.max(Math.min(temp, bound), 0);
+    const max = unit === "fahrenheit" ? 120 : 45;
 
-    return `hsl(${250 * ((bound - clampedValue) / bound)}deg, 100%, 50%)`;
+    return `hsl(${250 * (1 - Normalize.Decimal(temp, 0, max))}deg, 100%, 50%)`;
 }
 
 //Throws an error. For use in expressions where throw isn't allowed.
@@ -52,5 +86,3 @@ export const throwError = (msg: string) => {
 
 //Helper method to ensure that a string matches a property on a type
 export const nameof = <T>(name: Extract<keyof T, string>): string => name;
-
-export const cleanClass = (className: string) => className.replace(/  +/, " ").trim();

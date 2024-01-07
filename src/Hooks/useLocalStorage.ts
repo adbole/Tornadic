@@ -9,7 +9,7 @@ declare global {
     interface StorageKeysAndTypes {}
 
     interface WindowEventMap {
-        [LOCAL_STORAGE_EVENT]: CustomEvent;
+        [LOCAL_STORAGE_EVENT]: CustomEvent<keyof StorageKeysAndTypes>;
     }
 }
 
@@ -23,7 +23,10 @@ export default function useLocalStorage<K extends keyof StorageKeysAndTypes>(
 
     const read = React.useCallback((): StorageKeysAndTypes[K] => {
         try {
-            const value = window.localStorage.getItem(key);
+            const value = localStorage.getItem(key);
+
+            if (!value) localStorage.setItem(key, JSON.stringify(defaultValue));
+
             return value ? JSON.parse(value) : defaultValue;
         } catch {
             console.error(`Failed to get ${key} from localStroage`);
@@ -38,7 +41,7 @@ export default function useLocalStorage<K extends keyof StorageKeysAndTypes>(
             try {
                 const newValue = value instanceof Function ? value(storedValue) : value;
 
-                window.localStorage.setItem(key, JSON.stringify(newValue));
+                localStorage.setItem(key, JSON.stringify(newValue));
                 setStoredValue(newValue);
 
                 window.dispatchEvent(new CustomEvent(LOCAL_STORAGE_EVENT, { detail: key }));

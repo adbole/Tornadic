@@ -16,29 +16,23 @@ export default function useOpenMeteo(
 } {
     const settings = useReadLocalStorage("userSettings");
     const urls = React.useMemo(() => {
-        if (latitude && longitude && settings) return getUrls(latitude, longitude, settings);
+        if (latitude !== undefined && longitude !== undefined && settings)
+            return getUrls(latitude, longitude, settings);
     }, [latitude, longitude, settings]);
 
-    const timeout = React.useRef<NodeJS.Timeout>();
+    const key = urls ? [urls.airQualityURL, urls.forecastURL] : null;
+    const { data: weather, isLoading } = useSWR<Weather, string>(
+        key,
+        async () => {
+            const [forecast, airquality] = await Promise.all([
+                fetchData<Forecast>(urls!.forecastURL, "Cannot get Open-Meteo forecast"),
+                fetchData<AirQuality>(urls!.airQualityURL, "Cannot get Open-Meteo air quality"),
+            ]);
 
-    const key = urls ? "Open-Meteo" : null;
-    const {
-        data: weather,
-        isLoading,
-        mutate,
-    } = useSWR<Weather, string>(key, async () => {
-        clearTimeout(timeout.current);
-
-        const [forecast, airquality] = await Promise.all([
-            fetchData<Forecast>(urls!.forecastURL, "Cannot get Open-Meteo forecast"),
-            fetchData<AirQuality>(urls!.airQualityURL, "Cannot get Open-Meteo air quality"),
-        ]);
-
-        const ms = 3.6e6 - (new Date().getTime() % 3.6e6);
-        timeout.current = setTimeout(() => mutate(), ms);
-
-        return new Weather(forecast, airquality, settings!);
-    });
+            return new Weather(forecast, airquality, settings!);
+        },
+        { refreshInterval: () => 3.6e6 - (Date.now() % 3.6e6) }
+    );
 
     return {
         weather,

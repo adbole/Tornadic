@@ -1,8 +1,4 @@
 import React from "react";
-import type { YAxisProps } from "recharts";
-import { CartesianGrid, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
-
-import { useReadLocalStorage } from "Hooks";
 
 import { useWeather } from "Contexts/WeatherContext";
 
@@ -11,10 +7,9 @@ import type { ModalProps } from "Components/Modals/Modal";
 import { ModalTitle } from "Components/Modals/Modal";
 
 import getTimeFormatted from "ts/TimeConversion";
-import type Weather from "ts/Weather";
 import type { CombinedHourly } from "ts/Weather";
 
-import { ChartDisplay, CustomTooltip, getDataVisual } from "./__internal__";
+import { Axes, ChartContext, ChartVisualization, NowReference, Tooltip } from "./__internal__";
 import ChartModal, { ChartContent, Option } from "./style";
 
 
@@ -46,72 +41,28 @@ const CHART_VIEWS_TITLES: {
 } as const;
 
 export type DataPoint = {
-    property: ChartViews;
-    name: string;
-    primaryKey: number;
-    secondaryKey: number | null;
+    x: Date;
+    y1: number;
+    y2: number | null;
 };
-
-//Gets the data for the given day and property
-function getData(weather: Weather, property: ChartViews, day: number) {
-    const data: DataPoint[] = [];
-
-    for (let i = 24 * day; i < 24 * (day + 1); ++i) {
-        data.push({
-            property,
-            name: getTimeFormatted(weather.getForecast("time", i), "hour"),
-            primaryKey: weather.getForecast(property, i),
-            secondaryKey: getSecondaryKey(i),
-        });
-    }
-
-    return data;
-
-    //Some properties have secondary values
-    function getSecondaryKey(i: number) {
-        switch (property) {
-            case "temperature_2m":
-                return weather.getForecast("apparent_temperature", i);
-            case "windspeed_10m":
-                return weather.getForecast("windgusts_10m", i);
-            default:
-                return null;
-        }
-    }
-}
-
-function getMinMax([min, max]: [number, number], property: ChartViews): [number, number] {
-    switch (property) {
-        case "surface_pressure":
-            return [min - 0.3, max + 0.3];
-        case "precipitation":
-            return [0, Math.max(0.5, max + 0.25)];
-        case "relativehumidity_2m":
-            return [0, 100];
-        case "uv_index":
-            return [0, Math.max(11, max)];
-        default:
-            return [Math.floor(min / 10) * 10, Math.ceil(max / 10) * 10 + 10];
-    }
-}
 
 export default function Chart({
     showView,
     showDay = 0,
     ...modalProps
-}: { showView: ChartViews; showDay?: number } & ModalProps) {
+}: { showView: ChartViews; showDay?: number } & Omit<ModalProps, "children">) {
     const { weather } = useWeather();
     const [view, setView] = React.useState(showView);
     const [day, setDay] = React.useState(showDay);
 
     const radioId = React.useId();
-    const timeRef = React.useRef<HTMLSpanElement>(null);
 
-    const settings = useReadLocalStorage("userSettings")!;
-
-    const chartData = React.useMemo(() => getData(weather, view, day), [weather, view, day]);
-
-    React.useEffect(() => setDay(showDay), [showDay]);
+    //Ensure the current prop values are used when opened
+    React.useEffect(() => {
+        setView(showView);
+        setDay(showDay);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [modalProps.isOpen]);
 
     //Autosize the select element for style points
     const setWidth = React.useCallback((element: HTMLSelectElement) => {
@@ -120,33 +71,13 @@ export default function Chart({
         const canvasContext = document.createElement("canvas").getContext("2d")!;
         canvasContext.font = getComputedStyle(element).font;
 
-        //Incase textContent is null Temperature is default since its the largest option
+        //In case textContent is null Temperature is default since its the largest option
         const width = canvasContext.measureText(
             element.children[element.selectedIndex].textContent ?? "Temperature"
         ).width;
 
         element.style.width = Math.round(width) + 30 + "px";
     }, []);
-
-    const setTimeText = React.useCallback(
-        (s: string) => {
-            if (!timeRef.current) return;
-
-            timeRef.current.innerText = s;
-        },
-        [timeRef]
-    );
-
-    const onMouseMove = React.useCallback(
-        (e: any) => (e.activeLabel ? setTimeText(", " + e.activeLabel) : setTimeText("")),
-        [setTimeText]
-    );
-    const onMouseLeave = React.useCallback(() => setTimeText(""), [setTimeText]);
-
-    const yAxisProps: YAxisProps = {
-        width: 50,
-        domain: ([dataMin, dataMax]) => getMinMax([dataMin, dataMax], view),
-    };
 
     return (
         <ChartModal {...modalProps}>
@@ -156,7 +87,7 @@ export default function Chart({
                     title="Current Chart"
                     onChange={e => {
                         setView(e.currentTarget.value as ChartViews);
-                        setWidth(e.target);
+                        setWidth(e.currentTarget);
                     }}
                     value={view}
                 >
@@ -180,47 +111,15 @@ export default function Chart({
                     ))}
                 </InputGroup>
 
-                <p>
-                    {getTimeFormatted(weather.getForecast("time", day * 24), "date")}
-                    <span ref={timeRef} />
-                </p>
+                <p>{getTimeFormatted(weather.getForecast("time", day * 24), "date")}</p>
 
-                <ResponsiveContainer width="100%" height="100%">
-                    <ChartDisplay
-                        property={view}
-                        data={chartData}
-                        margin={{ top: 0, left: 0, right: 0, bottom: 0 }}
-                        onMouseMove={onMouseMove}
-                        onMouseLeave={onMouseLeave}
-                    >
-                        {getDataVisual(weather.getForecastUnit(view), view, chartData, settings)}
-                        <CartesianGrid stroke="#ffffff19" />
-                        <XAxis dataKey="name" interval={5} textAnchor="start" />
-                        {view === CHART_VIEWS_TITLES.Temperature ||
-                        view === CHART_VIEWS_TITLES.Dewpoint ||
-                        view === CHART_VIEWS_TITLES.Humidity ? (
-                            <YAxis {...yAxisProps} unit={weather.getForecastUnit(view)} />
-                        ) : (
-                            <YAxis
-                                {...yAxisProps}
-                                tickFormatter={(value: number) =>
-                                    (Math.round(value * 10) / 10).toString()
-                                }
-                            />
-                        )}
-
-                        <Tooltip
-                            wrapperStyle={{ outline: "none" }}
-                            position={{ x: "auto" as any, y: 10 }}
-                            content={<CustomTooltip />}
-                        />
-                        {day === 0 && (
-                            <ReferenceLine
-                                x={getTimeFormatted(weather.getForecast("time"), "hour")}
-                            />
-                        )}
-                    </ChartDisplay>
-                </ResponsiveContainer>
+                <ChartContext view={view} day={day}>
+                    <Axes />
+                    <ChartVisualization />
+                    <NowReference isShown={!day} />
+                    <Tooltip day={day} />
+                    <line x1={0} x2="100%" y1={100} y2={100} stroke="#ffffff19" strokeWidth={1} />
+                </ChartContext>
             </ChartContent>
         </ChartModal>
     );

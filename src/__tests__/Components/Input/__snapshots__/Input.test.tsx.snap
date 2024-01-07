@@ -1,0 +1,19 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Matches snapshot 1`] = `
+.emotion-0 {
+  border-radius: var(--input-border-radius);
+  background-color: var(--background-layer);
+  border: none;
+  outline: none;
+  color: white;
+  font-size: inherit;
+  padding: 5px;
+}
+
+<div>
+  <input
+    class="emotion-0 emotion-1"
+  />
+</div>
+`;

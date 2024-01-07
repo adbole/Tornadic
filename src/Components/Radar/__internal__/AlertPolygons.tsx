@@ -14,7 +14,7 @@ import { alertColors } from "ts/StyleMixins";
  * @returns Polygons representing every alert in the current WeatherData
  */
 export default function AlertPolygons() {
-    const { nationAlerts: alerts } = useWeather();
+    const { alerts } = useWeather();
     const map = useMap();
 
     const [modalOpen, showModal, hideModal] = useBooleanState(false);
@@ -38,7 +38,7 @@ export default function AlertPolygons() {
                     return (
                         <GeoJSON
                             key={alert.get("id")}
-                            data={alert as any}
+                            data={alert as unknown as GeoJSON.GeoJsonObject}
                             eventHandlers={{ click: onClick }}
                             style={{ color: alertColors[backgroundName].background }}
                         />

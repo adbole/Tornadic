@@ -16,7 +16,7 @@ export default function useNWS(
     isLoading: boolean;
 } {
     const { radarAlertMode } = useReadLocalStorage("userSettings") || {};
-    const timeout = React.useRef<NodeJS.Timeout>();
+    const expires = React.useRef<number>(0);
 
     const { data: point, isLoading: pointLoading } = useSWR(
         latitude && longitude ? `https://api.weather.gov/points/${latitude},${longitude}` : null,
@@ -38,27 +38,27 @@ export default function useNWS(
         return base;
     }, [point, radarAlertMode]);
 
-    const {
-        data: alerts,
-        isLoading: alertsLoading,
-        mutate,
-    } = useSWR(alertEndpoint, async url => {
-        clearTimeout(timeout.current);
+    const { data: alerts, isLoading: alertsLoading } = useSWR(
+        alertEndpoint,
+        async url => {
+            expires.current = 0;
 
-        const response = await fetchDataAndHeaders<{ features: NWSAlert[] }>(
-            url,
-            "Cannot get alerts form NWS"
-        );
+            const response = await fetchDataAndHeaders<{ features: NWSAlert[] }>(
+                url,
+                "Cannot get alerts form NWS"
+            );
 
-        const expiresHeader = new Date(response.headers.get("expires")!);
+            const expiresHeader = new Date(response.headers.get("expires")!);
 
-        //5s buffer added to ensure a request isn't made so soon that the same expires
-        //header is retreived again causing mutliple requests per refresh.
-        const expiresAfter = expiresHeader.getTime() - new Date().getTime() + 5000;
-        timeout.current = setTimeout(() => mutate(), expiresAfter);
+            //5s buffer added to ensure a request isn't made so soon that the same expires
+            //header is retreived again causing mutliple requests per refresh.
+            const expiresAfter = expiresHeader.getTime() - Date.now() + 5000;
+            expires.current = expiresAfter;
 
-        return removeExpiredAlerts(response.data.features.map(alert => new NWSAlert(alert)));
-    });
+            return removeExpiredAlerts(response.data.features.map(alert => new NWSAlert(alert)));
+        },
+        { refreshInterval: () => expires.current }
+    );
 
     return {
         point,
@@ -79,7 +79,7 @@ function removeExpiredAlerts(alerts: NWSAlert[]) {
             references.length ||
             expiredReferences?.length
         ) {
-            for (let i = index; i < alerts.length; ++i) {
+            for (let i = index + 1; i < alerts.length; ++i) {
                 const id = alerts[i].get("id");
 
                 if (

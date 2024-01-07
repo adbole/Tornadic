@@ -1,0 +1,142 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Matches screenshot 1`] = `
+.emotion-0 * {
+  margin: 0;
+  font-family: system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Open Sans","Helvetica Neue",sans-serif!important;
+  font-weight: 400;
+  box-sizing: border-box!important;
+  overflow-wrap: break-word;
+}
+
+.emotion-0:root {
+  --background: #2c2c2c;
+  --background-layer: #363636;
+  --primary: #2668f7;
+  --watch: #FFF501;
+  --advise: #FF9431;
+  --warn: #C31700;
+  --statment: #8F00FF;
+  --border-radius: 15px;
+  --input-border-radius: 10px;
+  --svg-size: 1rem;
+  --z-layer-1: 1;
+  --z-layer-2: 2;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 16px;
+}
+
+.emotion-0 *::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+.emotion-0 *::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.emotion-0 *::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 5px;
+}
+
+.emotion-0 body {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  min-height: 100vh;
+  background: radial-gradient(111% 111% at 74.29% -11%, #a93300 0%, #083434 100%),linear-gradient(127.43deg, #00d5c8 0%, #2200aa 100%);
+  background-blend-mode: difference,normal;
+}
+
+.emotion-0 svg {
+  display: inline-block;
+  width: var(--svg-size);
+}
+
+.emotion-0 p,
+.emotion-0 h1 {
+  margin: 0;
+  line-height: 1;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+}
+
+.emotion-0 p>svg,
+.emotion-0 h1>svg {
+  vertical-align: middle;
+}
+
+.emotion-0 #root {
+  display: grid;
+  grid-auto-rows: 150px;
+  grid-auto-flow: dense;
+  width: 100%;
+  max-width: 1800px;
+  padding: 10px;
+  gap: 20px;
+}
+
+@media screen and (min-width: 1100px) {
+  .emotion-0 #root {
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-areas: "n n . . . ." "n n . . . ." "d d . . r r" "d d . . r r";
+  }
+}
+
+@media screen and (min-width: 1400px) {
+  .emotion-0 #root {
+    grid-template-columns: repeat(8, 1fr);
+    grid-template-areas: "n n . . . . . ." "n n . . . . . ." "d d . . r r r r" "d d . . r r r r";
+  }
+}
+
+@media screen and (max-width: 1100px) {
+  .emotion-0 #root {
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-areas: none;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .emotion-0 #root {
+    gap: 10px;
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.emotion-0 #toast-root {
+  position: fixed;
+  z-index: var(--z-layer-2);
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  bottom: 0px;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  max-width: 100vw;
+  padding: 10px;
+  gap: 10px;
+}
+
+<div>
+  <div
+    class="emotion-0"
+  />
+</div>
+`;

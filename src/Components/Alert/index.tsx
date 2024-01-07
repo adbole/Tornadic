@@ -8,8 +8,12 @@ import AlertWidget, { AlertInformation, ExcessAlerts } from "./style";
 
 
 function Alert() {
-    const { alerts } = useWeather();
+    const { alerts: unfilteredAlerts, point } = useWeather();
     const [modalOpen, showModal, hideModal] = useBooleanState(false);
+
+    const alerts = unfilteredAlerts.filter(alert =>
+        alert.get("affectedZones").includes(point.properties.forecastZone)
+    );
 
     //If no alerts are active then don't display this component.
     if (!alerts.length) return null;

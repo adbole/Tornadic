@@ -19,7 +19,7 @@ export type WeatherConditionType =
     | "Thunderstorms and Hail";
 
 //Different Intesities a WMO code can have.
-type Intesity = "Light" | "Moderate" | "Heavy" | "";
+export type Intesity = "Light" | "Moderate" | "Heavy" | "";
 
 /**
  * Converts a WMO code into three parts to be rendered, the message (type), intesity (if applicable), and the icon.
@@ -103,8 +103,6 @@ export default class WeatherCondition {
                 case 5:
                 case 7:
                     return "Heavy";
-                default:
-                    return "";
             }
         } else if (this.weathercode >= 80 && this.weathercode <= 86) {
             switch (this.weathercode) {
@@ -116,8 +114,6 @@ export default class WeatherCondition {
                 case 82:
                 case 86:
                     return "Heavy";
-                default:
-                    return "";
             }
         }
 

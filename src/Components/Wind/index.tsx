@@ -1,3 +1,5 @@
+import testIds from "__tests__/__constants__/testIDs";
+
 import { useBooleanState } from "Hooks";
 
 import { useWeather } from "Contexts/WeatherContext";
@@ -67,6 +69,7 @@ export default function Wind() {
                                     180 + weather.getForecast("winddirection_10m")
                                 }deg)`,
                             }}
+                            data-testid={testIds.Wind.WindIndicator}
                         >
                             <path
                                 fill="#0078ef"

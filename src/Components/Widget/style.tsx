@@ -5,6 +5,15 @@ import { vars } from "ts/StyleMixins";
 import type { WidgetSize } from ".";
 
 
+export const WidgetTitle = styled.h1({
+    display: "flex",
+    flexDirection: "row",
+    gap: "5px",
+
+    fontSize: "1rem",
+    marginBottom: "10px",
+});
+
 export default styled.section<{
     size: WidgetSize;
     isTemplate?: boolean;
@@ -17,18 +26,10 @@ export default styled.section<{
         padding: "10px",
         overflow: "hidden",
 
-        ".widget-title": {
-            display: "flex",
-            flexDirection: "row",
-            gap: "5px",
-
-            fontSize: "1rem",
-            marginBottom: "10px",
-        },
-
-        backdropFilter: "saturate(130%)",
+        backdropFilter: "blur(10px)",
+        boxShadow: "inset 0 0 0 200px rgba(255, 255, 255, 0.01)",
+        border: "1px solid rgba(255, 255, 255, 0.1)",
         borderRadius: vars.borderRadius,
-        boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.25)",
     },
     size === "widget-large" && {
         minHeight: "300px",
@@ -36,5 +37,5 @@ export default styled.section<{
         gridRow: "span 2",
     },
     size === "widget-wide" && { gridColumn: "span 2" },
-    !isTemplate && { "> :not(.widget-title)": { flex: 1 } },
+    !isTemplate && { [`> :not(${WidgetTitle})`]: { flex: 1 } },
 ]);

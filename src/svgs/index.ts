@@ -1,3 +1,5 @@
-export { ReactComponent as ExclamationTriangle } from "./exclamation-triangle-fill.svg";
-export { ReactComponent as Spinner } from "./spinner.svg";
-export { ReactComponent as WifiOff } from "./wifi-off.svg";
+/// <reference types="vite-plugin-svgr/client" />
+
+export { default as ExclamationTriangle } from "./exclamation-triangle-fill.svg?react";
+export { default as Spinner } from "./spinner.svg?react";
+export { default as WifiOff } from "./wifi-off.svg?react";

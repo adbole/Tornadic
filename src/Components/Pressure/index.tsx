@@ -25,7 +25,7 @@ function getTrendIcon(weather: Weather) {
     if (total > 0.02) return <Up />;
     else if (total < -0.02) return <Down />;
 
-    return <Down />;
+    return <span>=</span>;
 }
 
 export default function Pressure() {

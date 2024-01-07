@@ -1,4 +1,3 @@
-import React from "react";
 import { Global } from "@emotion/react";
 
 import { useBooleanState } from "Hooks";
@@ -31,8 +30,12 @@ export default function Now({ displayOnly }: { displayOnly?: boolean }) {
 
     return (
         <>
-            {!displayOnly && <Global styles={{ body: { background: gradient } }} />}
-            <NowWidget size="widget-large" isTemplate style={{ background: gradient }}>
+            {!displayOnly && (
+                <Global
+                    styles={{ body: { background: gradient, backgroundAttachment: "fixed" } }}
+                />
+            )}
+            <NowWidget size="widget-large" isTemplate>
                 {!displayOnly && (
                     <Button
                         varient="transparent"

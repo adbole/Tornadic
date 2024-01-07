@@ -1,6 +1,7 @@
 import React from "react";
+import testIds from "__tests__/__constants__/testIDs";
 
-import Container from "./style";
+import Container, { WidgetTitle } from "./style";
 
 
 export type WidgetSize = "widget-large" | "widget-wide" | "";
@@ -31,11 +32,18 @@ const Widget = React.forwardRef<HTMLDivElement, WidgetProps>((props, ref) => {
     } = props;
 
     return (
-        <Container size={size} isTemplate={isTemplate} ref={ref} className={className} {...excess}>
+        <Container
+            size={size}
+            isTemplate={isTemplate}
+            ref={ref}
+            className={className}
+            {...excess}
+            data-testid={testIds.Widget.WidgetSection}
+        >
             {widgetTitle && widgetIcon && (
-                <h1 className="widget-title">
+                <WidgetTitle>
                     {widgetIcon} {widgetTitle}
-                </h1>
+                </WidgetTitle>
             )}
             {children}
         </Container>
