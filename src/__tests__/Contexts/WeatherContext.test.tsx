@@ -81,7 +81,11 @@ describe("render", () => {
 
 describe("hook", () => {
     test("throws error when used outside of provider", () => {
+        vi.spyOn(console, "error").mockImplementation(() => undefined)
+
         expect(() => renderHook(useWeather)).toThrowError()
+
+        vi.mocked(console.error).mockRestore()
     })
 
     test("returns the data when used inside provider", async () => {

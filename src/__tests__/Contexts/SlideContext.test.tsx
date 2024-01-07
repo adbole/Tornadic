@@ -21,7 +21,11 @@ test("Provided children is shown", () => {
 })
 
 test("Using useSlide outside of SlideContextProvider throws an error", () => {
+    vi.spyOn(console, "error").mockImplementation(() => undefined)
+
     expect(() => renderHook(useSlide)).toThrowError();
+
+    vi.mocked(console.error).mockRestore()
 })
 
 test("slideTo sets secondaryContent", () => {

@@ -42,6 +42,8 @@ test("Renders bars for y1 prop", () => {
 })
 
 test("Render fails if scale isn't a band scale", () => {
+    vi.spyOn(console, "error").mockImplementation(() => undefined)
+
     expect(() => (
         render(
             <ChartContext view="temperature_2m" day={0}>
@@ -49,4 +51,6 @@ test("Render fails if scale isn't a band scale", () => {
             </ChartContext>
         )
     )).toThrow()
+
+    vi.mocked(console.error).mockRestore()
 })
