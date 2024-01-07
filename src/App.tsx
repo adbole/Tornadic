@@ -9,6 +9,7 @@ import {
     Alert,
     Button,
     Daily,
+    FetchErrorHandler,
     HazardLevel,
     Hourly,
     LocationInput,
@@ -21,10 +22,9 @@ import {
     Simple,
     Skeleton,
     SunTime,
-    Wind,
+    Toast,
+    Wind
 } from "Components";
-import FetchErrorHandler from "Components/FetchErrorHandler";
-import Toast from "Components/Toast";
 import { Spinner, WifiOff } from "svgs";
 import { Cursor } from "svgs/radar";
 import * as WidgetIcons from "svgs/widget";
@@ -89,7 +89,7 @@ function App() {
         );
     }
 
-    if (status !== "getting_current" && status !== "OK") {
+    if (status !== "getting_current" && (latitude === undefined || longitude === undefined)) {
         return <LocationRequest />;
     }
 
@@ -101,8 +101,6 @@ function App() {
             </MessageScreen>
         );
     }
-
-    if (!latitude || !longitude) return null;
 
     return (
         <FetchErrorHandler
