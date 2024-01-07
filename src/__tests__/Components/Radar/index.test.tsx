@@ -1,3 +1,4 @@
+import testIds from "__tests__/__constants__/testIDs"
 import { render, screen } from "@testing-library/react"
 
 import { Radar } from "Components"
@@ -90,7 +91,8 @@ test("Matches Snapshot", () => {
 })
 
 test("Radar has grid-area r down to medium screens", () => {
-    const { container } = render(<Radar />)
+    render(<Radar />)
 
-    expect.soft(container.firstChild).toHaveStyleRule("grid-area", "r", { media: mediaQueries.min("medium") })
+    expect(screen.getByTestId(testIds.Widget.WidgetSection))
+        .toHaveStyleRule("grid-area", "r", { media: mediaQueries.min("medium") })
 })

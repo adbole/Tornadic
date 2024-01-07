@@ -11,19 +11,12 @@ export const Base = css({
     gap: "10px",
     fontSize: "1.5rem",
     padding: "60px 0px",
+    
+    [mediaQueries.max("medium")]: { gridColumn: "1 / -1" },
+    [mediaQueries.min("medium")]: { gridArea: "n" },
 });
 
-export default styled(Widget)(Base, {
-    "#root > &": {
-        [mediaQueries.max("medium")]: {
-            background: "none",
-            backdropFilter: "none",
-            boxShadow: "none",
-            gridColumn: "1 / -1",
-        },
-        [mediaQueries.min("medium")]: { gridArea: "n" },
-    },
-});
+export default styled(Widget)(Base);
 
 export const Temperature = styled.h1({
     position: "relative",

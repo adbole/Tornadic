@@ -1,6 +1,3 @@
-import React from "react";
-import styled from "@emotion/styled";
-
 import { useBooleanState, useLocalStorage, useOnlineOffline, useUserLocation } from "Hooks";
 
 import WeatherContext from "Contexts/WeatherContext";
@@ -25,17 +22,14 @@ import {
     Toast,
     Wind
 } from "Components";
+import { Base as DailyBase } from "Components/Daily/style";
+import { Base as HourlyBase } from "Components/Hourly/style";
+import { Base as NowBase } from "Components/Now/style";
+import { Base as RadarBase } from "Components/Radar/style";
 import { Spinner, WifiOff } from "svgs";
 import { Cursor } from "svgs/radar";
 import * as WidgetIcons from "svgs/widget";
 
-import { mediaQueries } from "ts/StyleMixins";
-
-
-const NowSkeleton = styled(Skeleton)({ [mediaQueries.max("medium")]: { gridColumn: "1 / -1" } });
-const HourlySkeleton = styled(Skeleton)({ [mediaQueries.min("large")]: { gridColumn: "span 6" } });
-const RadarSkeleton = styled(Skeleton)({ [mediaQueries.min("medium")]: { gridArea: "r" } });
-const DailySkeleton = styled(Skeleton)({ [mediaQueries.min("medium")]: { gridArea: "d" } });
 
 function LocationRequest() {
     const [modalOpen, showModal, hideModal] = useBooleanState(false);
@@ -61,10 +55,10 @@ function LocationRequest() {
 function AppLoader() {
     return (
         <>
-            <NowSkeleton size="widget-large" />
-            <HourlySkeleton size="widget-wide" />
-            <DailySkeleton size="widget-large" />
-            <RadarSkeleton size="widget-large" />
+            <Skeleton css={NowBase} size="widget-large" />
+            <Skeleton css={HourlyBase} size="widget-wide" />
+            <Skeleton css={DailyBase} size="widget-large" />
+            <Skeleton css={RadarBase} size="widget-large" />
             {Array.from({ length: 8 }, (_, i) => (
                 <Skeleton key={i} />
             ))}

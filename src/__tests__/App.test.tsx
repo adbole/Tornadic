@@ -1,6 +1,10 @@
 import { act, fireEvent, render, screen } from "@testing-library/react";
 
 import App from "App";
+import { Base as DailyBase } from "Components/Daily/style";
+import { Base as HourlyBase } from "Components/Hourly/style";
+import { Base as NowBase } from "Components/Now/style";
+import { Base as RadarBase } from "Components/Radar/style";
 
 
 type FetchErrorHandlerProps = { 
@@ -48,7 +52,9 @@ vi.mock("Components", async (importOriginal) => ({
     Simple: ({ icon, title, property }: { icon: React.ReactNode, title: string, property: string }) => (
         <div>{icon} - {title} - {property}</div>
     ),
-    Skeleton: () => <div>Skeleton</div>,
+    Skeleton: ({ className, size }: { className: string, size: string }) => (
+        <div className={className}>Skeleton - {size}</div>
+    ),
     SunTime: () => <div>SunTime</div>,
     Toast: ({ isOpen, action, children }: { 
         isOpen: boolean, 
@@ -233,5 +239,26 @@ test("The weather context is provided with skeletonRender", () => {
 
     render(<App />);
 
-    expect.soft(screen.queryAllByText("Skeleton")).toHaveLength(13);
+    const skeletons = screen.queryAllByText(/Skeleton/);
+
+    expect(skeletons).toHaveLength(13);
+
+    //Verify the widgets use the correct skeleton size and base classes
+    //See each base class' component for responsive size tests
+    
+    expect.soft(skeletons[0].className).toContain(NowBase.name)
+    expect.soft(skeletons[0].textContent).toContain("widget-large")
+
+    expect.soft(skeletons[1].className).toContain(HourlyBase.name)
+    expect.soft(skeletons[1].textContent).toContain("widget-wide")
+
+    expect.soft(skeletons[2].className).toContain(DailyBase.name)
+    expect.soft(skeletons[2].textContent).toContain("widget-large")
+
+    expect.soft(skeletons[3].className).toContain(RadarBase.name)
+    expect.soft(skeletons[3].textContent).toContain("widget-large")
+
+    expect.soft(screen.getAllByText("Skeleton -")).toHaveLength(8)
+
+    expect.soft(skeletons[skeletons.length - 1].textContent).toContain("widget-wide")
 })

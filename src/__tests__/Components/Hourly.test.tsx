@@ -1,3 +1,4 @@
+import testIds from "__tests__/__constants__/testIDs";
 import useWeather from "__tests__/__mocks__/useWeather";
 import { mockDate, setLocalStorageItem } from "__tests__/__utils__";
 import { act, fireEvent, render, screen } from "@testing-library/react";
@@ -5,7 +6,9 @@ import { act, fireEvent, render, screen } from "@testing-library/react";
 import DEFAULTS from "Hooks/useLocalStorage.config";
 
 import { Hourly } from "Components";
+import AlertWidget from "Components/Alert/style"
 
+import { mediaQueries } from "ts/StyleMixins";
 import getTimeFormatted from "ts/TimeConversion";
 
 
@@ -72,5 +75,29 @@ describe("interaction tests", () => {
 
         expect.soft(element.scrollLeft).toBeLessThan(0)
         expect.soft(screen.queryByRole("dialog")).not.toBeInTheDocument()
+    })
+})
+
+describe("Responsive", () => {
+    beforeEach(() => {
+        render(<Hourly />);
+    })
+
+    test("By default the widget spans 2", () => {
+        expect(screen.getByTestId(testIds.Widget.WidgetSection))
+            .toHaveStyleRule("grid-column", "span 2")
+    })
+
+    test("Down to large, the widget spans 6", () => {
+        expect(screen.getByTestId(testIds.Widget.WidgetSection))
+            .toHaveStyleRule("grid-column", "span 6", { media: mediaQueries.min("large") })
+    })
+
+    test("Down to large, the widget spans 4 if the alert widget precedes it", () => {
+        expect(screen.getByTestId(testIds.Widget.WidgetSection))
+            .toHaveStyleRule("grid-column", "span 4", { 
+                target: `${AlertWidget}+`,
+                media: mediaQueries.min("large") 
+            })
     })
 })

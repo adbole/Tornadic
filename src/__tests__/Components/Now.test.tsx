@@ -1,9 +1,12 @@
+import testIds from "__tests__/__constants__/testIDs";
 import { apiWeatherGov_points } from "__tests__/__mocks__";
 import useWeather from "__tests__/__mocks__/useWeather";
 import { matchBrokenText, mockDate } from "__tests__/__utils__";
 import { act, cleanup, render, screen } from "@testing-library/react";
 
 import { Now } from "Components";
+
+import { mediaQueries } from "ts/StyleMixins";
 
 
 const location = apiWeatherGov_points.properties.relativeLocation.properties.city;
@@ -53,4 +56,20 @@ test("displayOnly hides the gear icon and disables the location modal", () => {
     })
 
     expect.soft(screen.queryByRole("dialog")).not.toBeInTheDocument()
+})
+
+describe("Responsive", () => {
+    beforeEach(() => {
+        render(<Now />)
+    })
+
+    test("Up to medium, takes up full width of grid", () => {
+        expect(screen.getByTestId(testIds.Widget.WidgetSection))
+            .toHaveStyleRule("grid-column", "1/-1", {  media: mediaQueries.max("medium") })
+    })
+
+    test("Down to medium, posititioned in area n", () => {
+        expect(screen.getByTestId(testIds.Widget.WidgetSection))
+            .toHaveStyleRule("grid-area", "n", {  media: mediaQueries.min("medium") })
+    })
 })
