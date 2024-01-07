@@ -16,11 +16,11 @@ test("renders the current wind speed and direction", () => {
 
     render(<Wind />);
 
-    expect.soft(screen.getByText(matchBrokenText("WindSVG Wind"))).toBeInTheDocument()
-    expect.soft(screen.getByText(weather.getForecast("windspeed_10m").toFixed(0))).toBeInTheDocument()
-    expect.soft(screen.getByText(weather.getForecastUnit("windspeed_10m"))).toBeInTheDocument()
+    expect.soft(screen.queryByText(matchBrokenText("WindSVG Wind"))).toBeInTheDocument()
+    expect.soft(screen.queryByText(weather.getForecast("windspeed_10m").toFixed(0))).toBeInTheDocument()
+    expect.soft(screen.queryByText(weather.getForecastUnit("windspeed_10m"))).toBeInTheDocument()
 
-    expect.soft(screen.getByTestId(testIds.Wind.WindIndicator))
+    expect.soft(screen.queryByTestId(testIds.Wind.WindIndicator))
         .toHaveStyle(`transform: rotate(${weather.getForecast("winddirection_10m") + 180}deg)`)
 })
 
@@ -33,7 +33,7 @@ test("clicking the component opens the wind chart", () => {
         screen.getByTestId(testIds.Widget.WidgetSection).click()
     })
 
-    expect.soft(screen.getByRole("dialog")).toBeInTheDocument()
+    expect.soft(screen.queryByRole("dialog")).toBeInTheDocument()
     expect.soft(screen.getByRole<HTMLOptionElement>("option", { name: "Windspeed" } ).selected).toBeTruthy()
-    expect.soft(screen.getAllByLabelText(/.+?/)[0]).toBeChecked()
+    expect.soft(screen.queryAllByLabelText(/.+?/)[0]).toBeChecked()
 })

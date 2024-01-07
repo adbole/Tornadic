@@ -127,8 +127,8 @@ test("When the onGetResults function returns results, they are displayed", async
         await vi.runOnlyPendingTimersAsync();
     })
 
-    expect.soft(screen.getByRole("list")).toBeInTheDocument()
-    expect.soft(screen.getAllByText("test")).toHaveLength(2)
+    expect.soft(screen.queryByRole("list")).toBeInTheDocument()
+    expect.soft(screen.queryAllByText("test")).toHaveLength(2)
 })
 
 test("When the onGetResults function returns no results, a message is displayed", async () => {
@@ -146,7 +146,7 @@ test("When the onGetResults function returns no results, a message is displayed"
         await vi.runOnlyPendingTimersAsync();
     })
 
-    expect.soft(screen.getByText("No Results")).toBeInTheDocument()
+    expect.soft(screen.queryByText("No Results")).toBeInTheDocument()
 })
 
 test("Clicking a result calls the onSelect function with the payload", async () => {

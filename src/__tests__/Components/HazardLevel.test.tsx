@@ -20,11 +20,11 @@ test("renders airquality", () => {
 
     render(<HazardLevel hazard="us_aqi"/>);
 
-    expect.soft(screen.getByText(/Air Quality/)).toBeInTheDocument()
-    expect.soft(screen.getByText(/Lungs/)).toBeInTheDocument()
-    expect.soft(screen.getByText(weather.getForecast("us_aqi").toFixed(0))).toBeInTheDocument()
+    expect.soft(screen.queryByText(/Air Quality/)).toBeInTheDocument()
+    expect.soft(screen.queryByText(/Lungs/)).toBeInTheDocument()
+    expect.soft(screen.queryByText(weather.getForecast("us_aqi").toFixed(0))).toBeInTheDocument()
 
-    expect.soft(screen.getByTestId(testIds.HazardLevel.SVG_GROUP))
+    expect.soft(screen.queryByTestId(testIds.HazardLevel.SVG_GROUP))
         .toHaveStyle("transform: rotate(48.16deg)")
 })
 
@@ -37,9 +37,9 @@ test("shows the airquality chart if clicked", () => {
         screen.getByTestId(testIds.Widget.WidgetSection).click()
     })
 
-    expect.soft(screen.getByRole("dialog")).toBeInTheDocument()
+    expect.soft(screen.queryByRole("dialog")).toBeInTheDocument()
     expect.soft(screen.getByRole<HTMLOptionElement>("option", { name: "Air Quality" } ).selected).toBeTruthy()
-    expect.soft(screen.getAllByLabelText(/.+?/)[0]).toBeChecked()
+    expect.soft(screen.queryAllByLabelText(/.+?/)[0]).toBeChecked()
 })
 
 test("renders uv index", () => {
@@ -47,11 +47,11 @@ test("renders uv index", () => {
 
     render(<HazardLevel hazard="uv_index"/>);
 
-    expect.soft(screen.getByText(/UV Index/)).toBeInTheDocument()
-    expect.soft(screen.getByText(/Sun/)).toBeInTheDocument()
-    expect.soft(screen.getByText(weather.getForecast("uv_index").toFixed(0))).toBeInTheDocument()
+    expect.soft(screen.queryByText(/UV Index/)).toBeInTheDocument()
+    expect.soft(screen.queryByText(/Sun/)).toBeInTheDocument()
+    expect.soft(screen.queryByText(weather.getForecast("uv_index").toFixed(0))).toBeInTheDocument()
 
-    expect.soft(screen.getByTestId(testIds.HazardLevel.SVG_GROUP))
+    expect.soft(screen.queryByTestId(testIds.HazardLevel.SVG_GROUP))
         .toHaveStyle("transform: rotate(20deg)")
 })
 
@@ -64,7 +64,7 @@ test("shows the uv index chart if clicked", () => {
         screen.getByTestId(testIds.Widget.WidgetSection).click()
     })
 
-    expect.soft(screen.getByRole("dialog")).toBeInTheDocument()
+    expect.soft(screen.queryByRole("dialog")).toBeInTheDocument()
     expect.soft(screen.getByRole<HTMLOptionElement>("option", { name: "UV Index" } ).selected).toBeTruthy()
-    expect.soft(screen.getAllByLabelText(/.+?/)[0]).toBeChecked()
+    expect.soft(screen.queryAllByLabelText(/.+?/)[0]).toBeChecked()
 })

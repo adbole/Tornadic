@@ -72,7 +72,7 @@ test("When a location is typed, the results are fetched and displayed", async ()
 
     US.forEach(result => {
         const regex = new RegExp(`${result.latitude}, ${result.longitude}`)
-        expect.soft(screen.getByText(regex)).toBeInTheDocument()
+        expect.soft(screen.queryByText(regex)).toBeInTheDocument()
     })
 
     nonUS.forEach(result => {

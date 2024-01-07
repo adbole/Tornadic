@@ -10,7 +10,7 @@ import Widget from "Components/Widget"
 test("renders normally", () => {
     render(<Widget>Test</Widget>)
 
-    expect.soft(screen.getByText("Test")).toBeInTheDocument()
+    expect.soft(screen.queryByText("Test")).toBeInTheDocument()
 })
 
 test("passes extra props to the section", () => {
@@ -23,8 +23,8 @@ describe("rendering title and icon", () => {
     test("renders with a title and icon if given both", () => {
         render(<Widget widgetTitle="Title" widgetIcon={<span>Icon</span>}>Test</Widget>)
     
-        expect.soft(screen.getByText("Title")).toBeInTheDocument()
-        expect.soft(screen.getByText("Icon")).toBeInTheDocument()
+        expect.soft(screen.queryByText("Title")).toBeInTheDocument()
+        expect.soft(screen.queryByText("Icon")).toBeInTheDocument()
     })
     
     test("doesn't render title if icon is missing", () => {

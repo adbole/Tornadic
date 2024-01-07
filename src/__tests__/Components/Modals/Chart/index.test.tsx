@@ -87,11 +87,11 @@ test("Renders a select with options for each view", () => {
 test("Renders all the components", () => {
     render(<Chart isOpen={true} showView="temperature_2m" onClose={() => undefined}/>);
 
-    expect.soft(screen.getByText("ChartContext")).toBeInTheDocument();
-    expect.soft(screen.getByText("NowReference")).toBeInTheDocument();
-    expect.soft(screen.getByText("Tooltip")).toBeInTheDocument();
-    expect.soft(screen.getByText("ChartVisualization")).toBeInTheDocument();
-    expect.soft(screen.getByText("Axes")).toBeInTheDocument();
+    expect.soft(screen.queryByText("ChartContext")).toBeInTheDocument();
+    expect.soft(screen.queryByText("NowReference")).toBeInTheDocument();
+    expect.soft(screen.queryByText("Tooltip")).toBeInTheDocument();
+    expect.soft(screen.queryByText("ChartVisualization")).toBeInTheDocument();
+    expect.soft(screen.queryByText("Axes")).toBeInTheDocument();
 })
 
 describe.each(
@@ -116,7 +116,7 @@ describe.each(
         const toggle = screen.getByLabelText<HTMLInputElement>(getTimeFormatted(day, "weekday"));
 
         expect.soft(toggle).toBeChecked();
-        expect.soft(screen.getByText(getTimeFormatted(day, "date"))).toBeInTheDocument();
+        expect.soft(screen.queryByText(getTimeFormatted(day, "date"))).toBeInTheDocument();
     })
 
     test("Day is passed to children", () => {
@@ -153,7 +153,7 @@ describe.each(
 
         act(() => toggle.click());
 
-        expect.soft(screen.getByText(getTimeFormatted(day, "date"))).toBeInTheDocument();
+        expect.soft(screen.queryByText(getTimeFormatted(day, "date"))).toBeInTheDocument();
         expect.soft(mocks.ChartContext).toHaveBeenLastCalledWith(expect.objectContaining({ view: "temperature_2m", day: i }), {});
         expect.soft(mocks.NowReference).toHaveBeenLastCalledWith({ isShown: !i }, {})
         expect.soft(mocks.Tooltip).toHaveBeenLastCalledWith({ day: i }, {})

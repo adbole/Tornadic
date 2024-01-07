@@ -79,7 +79,7 @@ describe("Home Button", () => {
         expect.soft(unzoomButton).toBeInTheDocument()
         expect.soft(unzoomButton).toHaveClass("leaflet-custom-control", "leaflet-control")
 
-        expect.soft(screen.getByText("Grid")).toBeInTheDocument()
+        expect.soft(screen.queryByText("Grid")).toBeInTheDocument()
     })
 
     test("Clicking the button unzooms", () => {

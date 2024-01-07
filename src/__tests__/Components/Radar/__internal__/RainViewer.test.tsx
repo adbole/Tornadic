@@ -95,7 +95,7 @@ describe("Playback", () => {
             await vi.advanceTimersByTimeAsync(500)
         })
 
-        expect.soft(screen.getByText("Forecast: 8:30 PM")).toBeInTheDocument()
+        expect.soft(screen.queryByText("Forecast: 8:30 PM")).toBeInTheDocument()
         expect.soft(slider.valueAsNumber).toBe(rainviewerObj.radar.past.length + 1)
 
         act(() => {
@@ -160,7 +160,7 @@ describe("Playback", () => {
             await vi.advanceTimersByTimeAsync(1500)
         })
 
-        expect.soft(screen.getByText("Past: 6:10 PM")).toBeInTheDocument()
+        expect.soft(screen.queryByText("Past: 6:10 PM")).toBeInTheDocument()
         expect.soft(screen.getByRole<HTMLInputElement>("slider").valueAsNumber)
             .toBe(0)
     })

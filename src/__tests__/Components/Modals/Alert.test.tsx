@@ -36,29 +36,29 @@ test("If alert length is one show the alert", () => {
 
     const alert = singleAlert[0]
 
-    expect.soft(screen.getByRole("dialog")).toBeInTheDocument()
-    expect.soft(screen.getByText(alert.get("event"))).toBeInTheDocument()
-    expect.soft(screen.getByText(alert.get("senderName"))).toBeInTheDocument()
-    expect.soft(screen.getByText(matchBrokenText(`Issued: ${alert.get("sent")}`))).toBeInTheDocument()
-    expect.soft(screen.getByText(matchBrokenText(`Effective: ${alert.get("effective")}`))).toBeInTheDocument()
-    expect.soft(screen.getByText(alert.get("instruction").replace("\n", " "))).toBeInTheDocument()
+    expect.soft(screen.queryByRole("dialog")).toBeInTheDocument()
+    expect.soft(screen.queryByText(alert.get("event"))).toBeInTheDocument()
+    expect.soft(screen.queryByText(alert.get("senderName"))).toBeInTheDocument()
+    expect.soft(screen.queryByText(matchBrokenText(`Issued: ${alert.get("sent")}`))).toBeInTheDocument()
+    expect.soft(screen.queryByText(matchBrokenText(`Effective: ${alert.get("effective")}`))).toBeInTheDocument()
+    expect.soft(screen.queryByText(alert.get("instruction").replace("\n", " "))).toBeInTheDocument()
 })
 
 test("If alert length is greater than one show the alert list", () => {
     render(<Alert alerts={multiAlert} isOpen={true} onClose={() => undefined}/>)
 
-    expect.soft(screen.getByRole("dialog")).toBeInTheDocument()
+    expect(screen.queryByRole("dialog")).toBeInTheDocument()
 
     multiAlert.forEach(alert => {
-        expect.soft(screen.getByText(alert.get("event"))).toBeInTheDocument()
-        expect.soft(screen.getByText(alert.get("sent"))).toBeInTheDocument()
+        expect.soft(screen.queryByText(alert.get("event"))).toBeInTheDocument()
+        expect.soft(screen.queryByText(alert.get("sent"))).toBeInTheDocument()
     })
 })
 
 test("Clicking on an alert in the list shows the alert", () => {
     render(<Alert alerts={multiAlert} isOpen={true} onClose={() => undefined}/>)
 
-    expect.soft(screen.getByRole("dialog")).toBeInTheDocument()
+    expect(screen.queryByRole("dialog")).toBeInTheDocument()
 
     const alert = multiAlert[0]
 
@@ -66,7 +66,7 @@ test("Clicking on an alert in the list shows the alert", () => {
         screen.getByText(alert.get("event")).click()
     })
 
-    expect.soft(screen.getByText(alert.get("senderName"))).toBeInTheDocument()
-    expect.soft(screen.getByText(matchBrokenText(`Effective: ${alert.get("effective")}`))).toBeInTheDocument()
-    expect.soft(screen.getByText(alert.get("instruction").replace("\n", " "))).toBeInTheDocument()
+    expect.soft(screen.queryByText(alert.get("senderName"))).toBeInTheDocument()
+    expect.soft(screen.queryByText(matchBrokenText(`Effective: ${alert.get("effective")}`))).toBeInTheDocument()
+    expect.soft(screen.queryByText(alert.get("instruction").replace("\n", " "))).toBeInTheDocument()
 })

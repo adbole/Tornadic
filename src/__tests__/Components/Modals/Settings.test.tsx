@@ -29,19 +29,19 @@ test("Renders nothing if isOpen is false", () => {
 test("Renders a dialog if isOpen is true using showModal", () => {
     render(<Settings isOpen={true} onClose={vi.fn()} />);
 
-    expect.soft(screen.getByRole("dialog")).toBeInTheDocument()
-    expect.soft(screen.getByText("Settings")).toBeInTheDocument()
-    expect.soft(screen.getByText("Save")).toBeDisabled()
+    expect.soft(screen.queryByRole("dialog")).toBeInTheDocument()
+    expect.soft(screen.queryByText("Settings")).toBeInTheDocument()
+    expect.soft(screen.queryByText("Save")).toBeDisabled()
 })
 
 describe("Changing Settings", () => {
     test("Default settings are checked", () => {
         render(<Settings isOpen={true} onClose={vi.fn()} />);
 
-        expect.soft(screen.getByLabelText("Fahrenheit")).toBeChecked()
-        expect.soft(screen.getByLabelText("Inches")).toBeChecked()
-        expect.soft(screen.getByLabelText("mph")).toBeChecked()
-        expect.soft(screen.getByLabelText("Radar Alert Mode")).not.toBeChecked()
+        expect.soft(screen.queryByLabelText("Fahrenheit")).toBeChecked()
+        expect.soft(screen.queryByLabelText("Inches")).toBeChecked()
+        expect.soft(screen.queryByLabelText("mph")).toBeChecked()
+        expect.soft(screen.queryByLabelText("Radar Alert Mode")).not.toBeChecked()
 
         expect.soft(localStorage).toHaveLocalItemValue("userSettings", DEFAULTS.userSettings)
     })
@@ -76,7 +76,7 @@ describe("Changing Settings", () => {
         })
 
         expect.soft(changeTo).toBeChecked()
-        expect.soft(screen.getByLabelText(defaultLabel)).not.toBeChecked()
+        expect.soft(screen.queryByLabelText(defaultLabel)).not.toBeChecked()
 
         saveAndCheck({ 
             ...defaults,
@@ -121,14 +121,14 @@ describe("Changing Settings", () => {
             screen.getByLabelText("Celsius").click()
         })
 
-        expect.soft(screen.getByLabelText("Celsius")).toBeChecked()
+        expect.soft(screen.queryByLabelText("Celsius")).toBeChecked()
         expect.soft(saveBtn).not.toBeDisabled()
 
         act(() => {
             screen.getByLabelText("Fahrenheit").click()
         })
 
-        expect.soft(screen.getByLabelText("Fahrenheit")).toBeChecked()
+        expect.soft(screen.queryByLabelText("Fahrenheit")).toBeChecked()
         expect.soft(saveBtn).toBeDisabled()
     })
 })

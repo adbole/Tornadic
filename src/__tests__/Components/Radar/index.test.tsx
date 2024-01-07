@@ -29,10 +29,7 @@ const mocks = vi.hoisted(() => ({
     Opacity: vi.fn(() => <span>Opacity</span>),
 }))
 
-vi.mock("svgs/widget", async (importOriginal) => ({
-    ...(await importOriginal() as any),
-    Map: () => <span>Map</span>,
-}))
+vi.mock("svgs/widget", () => ({ Map: () => <span>Map</span>, }))
 
 vi.mock("react-leaflet", async (importOriginal) => ({
     ...(await importOriginal() as any),

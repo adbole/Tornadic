@@ -18,10 +18,10 @@ vi.mock("Contexts/WeatherContext", () => useWeather)
 test("Displays current weather information", () => {
     render(<Now />);
 
-    expect.soft(screen.getByText(location)).toBeInTheDocument()
-    expect.soft(screen.getByText("66")).toBeInTheDocument()
-    expect.soft(screen.getByText("Partly Cloudy")).toBeInTheDocument()
-    expect.soft(screen.getByText(matchBrokenText("Feels like 68"))).toBeInTheDocument()
+    expect.soft(screen.queryByText(location)).toBeInTheDocument()
+    expect.soft(screen.queryByText("66")).toBeInTheDocument()
+    expect.soft(screen.queryByText("Partly Cloudy")).toBeInTheDocument()
+    expect.soft(screen.queryByText(matchBrokenText("Feels like 68"))).toBeInTheDocument()
 })
 
 test("Clicking on the location name opens the location modal", () => {

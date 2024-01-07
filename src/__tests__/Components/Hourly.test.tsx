@@ -43,8 +43,8 @@ test("Displays the correct seperators", () => {
     const afterTomorrow = getTimeFormatted(new Date(today.getDate() + 2), "weekday");
 
     //If this breaks check getTimeFormatted tests or verify data
-    expect.soft(screen.getByText(tomorrow)).toBeInTheDocument()
-    expect.soft(screen.getByText(afterTomorrow)).toBeInTheDocument()
+    expect.soft(screen.queryByText(tomorrow)).toBeInTheDocument()
+    expect.soft(screen.queryByText(afterTomorrow)).toBeInTheDocument()
 })
 
 describe("interaction tests", () => {
@@ -55,7 +55,7 @@ describe("interaction tests", () => {
             screen.getByRole("list").click()
         })
 
-        expect.soft(screen.getByRole("dialog")).toBeInTheDocument()
+        expect.soft(screen.queryByRole("dialog")).toBeInTheDocument()
         expect.soft(screen.getByText<HTMLOptionElement>("Temperature").selected).toBeTruthy()
         expect.soft(screen.getAllByLabelText(/.+?/)[0]).toBeChecked()
     })

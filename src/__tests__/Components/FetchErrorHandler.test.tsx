@@ -54,8 +54,8 @@ test("Does not show error if no error has occurred", async () => {
         await vi.runOnlyPendingTimersAsync();
     })
 
-    expect.soft(screen.getByText("Error: false")).toBeInTheDocument()
-    expect.soft(screen.getByText("TestComponent")).toBeInTheDocument()
+    expect.soft(screen.queryByText("Error: false")).toBeInTheDocument()
+    expect.soft(screen.queryByText("TestComponent")).toBeInTheDocument()
 })
 
 test("Shows error if an error has occurred", async () => {
@@ -67,8 +67,8 @@ test("Shows error if an error has occurred", async () => {
         await vi.runOnlyPendingTimersAsync();
     })
 
-    expect.soft(screen.getByText("Error: true")).toBeInTheDocument()
-    expect.soft(screen.getByText("TestComponent")).toBeInTheDocument()
+    expect.soft(screen.queryByText("Error: true")).toBeInTheDocument()
+    expect.soft(screen.queryByText("TestComponent")).toBeInTheDocument()
 })
 
 test("Retry function recalls the fetch with the same key", async () => {

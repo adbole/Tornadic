@@ -23,34 +23,34 @@ test("clicking on the widget opens the chart modal to the pressure", () => {
         screen.getByRole("heading").click()
     })
 
-    expect.soft(screen.getByRole("dialog")).toBeInTheDocument()
+    expect.soft(screen.queryByRole("dialog")).toBeInTheDocument()
     expect.soft(screen.getByText<HTMLOptionElement>("Pressure").selected).toBeTruthy()
-    expect.soft(screen.getAllByLabelText(/.+?/)[0]).toBeChecked()
+    expect.soft(screen.queryAllByLabelText(/.+?/)[0]).toBeChecked()
 })
 
 test("Shows the current pressure", () => {
     const weather = useWeather.useWeather().weather
     render(<Pressure />);
 
-    expect.soft(screen.getByText("Meter")).toBeInTheDocument()
-    expect.soft(screen.getByText("Air Pressure")).toBeInTheDocument()
+    expect.soft(screen.queryByText("Meter")).toBeInTheDocument()
+    expect.soft(screen.queryByText("Air Pressure")).toBeInTheDocument()
 
-    expect.soft(screen.getByText(weather.getForecast("surface_pressure").toFixed(2))).toBeInTheDocument()
-    expect.soft(screen.getByText(weather.getForecastUnit("surface_pressure"))).toBeInTheDocument()
+    expect.soft(screen.queryByText(weather.getForecast("surface_pressure").toFixed(2))).toBeInTheDocument()
+    expect.soft(screen.queryByText(weather.getForecastUnit("surface_pressure"))).toBeInTheDocument()
 })
 
 describe("shows the pressure trend", () => {
     test("Equal", () => {
         render(<Pressure />);
 
-        expect.soft(screen.getByText("=")).toBeInTheDocument()
+        expect.soft(screen.queryByText("=")).toBeInTheDocument()
     })
 
     test("Down", () => {
         vi.setSystemTime(forecast().hourly.time[16]);
         render(<Pressure />);
 
-        expect.soft(screen.getByText("Down")).toBeInTheDocument()
+        expect.soft(screen.queryByText("Down")).toBeInTheDocument()
     })
 
     test("Up", () => {
@@ -58,6 +58,6 @@ describe("shows the pressure trend", () => {
 
         render(<Pressure />);
 
-        expect.soft(screen.getByText("Up")).toBeInTheDocument()
+        expect.soft(screen.queryByText("Up")).toBeInTheDocument()
     })
 })

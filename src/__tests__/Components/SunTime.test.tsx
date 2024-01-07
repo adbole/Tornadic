@@ -25,7 +25,7 @@ test("shows sunrise if the current time is before it", () => {
     expect.soft(
         screen.getByRole("heading", { name: getTimeFormatted(forecast().daily.sunrise[0], "hourMinute") })
     ).toBeInTheDocument()
-    expect.soft(screen.getByText("SunriseSVG")).toBeInTheDocument()
+    expect.soft(screen.queryByText("SunriseSVG")).toBeInTheDocument()
 })
 
 test("shows sunset if the current time is before it", () => {
@@ -36,7 +36,7 @@ test("shows sunset if the current time is before it", () => {
     expect.soft(
         screen.getByRole("heading", { name: getTimeFormatted(forecast().daily.sunset[0], "hourMinute") })
     ).toBeInTheDocument()
-    expect.soft(screen.getByText("SunsetSVG")).toBeInTheDocument()
+    expect.soft(screen.queryByText("SunsetSVG")).toBeInTheDocument()
 })
 
 test("shows the sunrise of the next day if the current time is after today's sunset", () => {

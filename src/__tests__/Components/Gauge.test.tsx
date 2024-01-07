@@ -8,8 +8,8 @@ test("renders the provided 'gauge' and any children", () => {
         <Gauge gague={<div>Gauge</div>}>Child</Gauge>
     );
 
-    expect.soft(screen.getByText("Child")).toBeInTheDocument();
-    expect.soft(screen.getByText("Gauge")).toBeInTheDocument();
+    expect.soft(screen.queryByText("Child")).toBeInTheDocument();
+    expect.soft(screen.queryByText("Gauge")).toBeInTheDocument();
 })
 
 test("passes widget props to the Widget", () => {
@@ -19,6 +19,6 @@ test("passes widget props to the Widget", () => {
         </Gauge>
     )
 
-    expect.soft(screen.getByText(/Title/)).toBeInTheDocument()
-    expect.soft(screen.getByText(/Icon/)).toBeInTheDocument()
+    expect.soft(screen.queryByText(/Title/)).toBeInTheDocument()
+    expect.soft(screen.queryByText(/Icon/)).toBeInTheDocument()
 })

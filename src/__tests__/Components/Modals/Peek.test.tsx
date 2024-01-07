@@ -103,7 +103,7 @@ test("Renders nothing if isOpen is false", () => {
 test("Renders a dialog if isOpen is true", () => {
     render(<Peek isOpen={true} onClose={vi.fn()} />);
 
-    expect.soft(screen.getByRole("dialog")).toBeInTheDocument()
+    expect.soft(screen.queryByRole("dialog")).toBeInTheDocument()
 
     cleanup()
 })
@@ -116,8 +116,8 @@ describe("FetchErrorHandler", () => {
     
         render(<Peek isOpen={true} onClose={vi.fn()} />);
     
-        expect.soft(screen.getByTestId(mockFetchErrorHanlder)).toBeInTheDocument()
-        expect.soft(screen.getByText("Couldn't get weather info")).toBeInTheDocument()
+        expect.soft(screen.queryByTestId(mockFetchErrorHanlder)).toBeInTheDocument()
+        expect.soft(screen.queryByText("Couldn't get weather info")).toBeInTheDocument()
     
         const retryBtn = screen.getByText("Try Again")
     
@@ -135,7 +135,7 @@ describe("FetchErrorHandler", () => {
     
         render(<Peek isOpen={true} onClose={vi.fn()} />);
     
-        expect.soft(screen.getByTestId(mockFetchErrorHanlder)).toBeInTheDocument()
+        expect.soft(screen.queryByTestId(mockFetchErrorHanlder)).toBeInTheDocument()
     
         expect.soft(screen.getByText("Couldn't get weather info").parentElement).toHaveStyle({ display: "none" })
     })
@@ -156,9 +156,9 @@ describe("WeatherContext", () => {
     afterAll(cleanup)
 
     test("Renders the WeatherContext with the correct props", () => {
-        expect.soft(screen.getByTestId(mockWeatherContext)).toBeInTheDocument()
-        expect.soft(screen.getByText("Lat: 365")).toBeInTheDocument()
-        expect.soft(screen.getByText("Long: 405")).toBeInTheDocument()
+        expect.soft(screen.queryByTestId(mockWeatherContext)).toBeInTheDocument()
+        expect.soft(screen.queryByText("Lat: 365")).toBeInTheDocument()
+        expect.soft(screen.queryByText("Long: 405")).toBeInTheDocument()
     })
 
     test("Renders the correct skeletons with the proper styles", () => {
@@ -180,14 +180,14 @@ describe("WeatherContext", () => {
     })
 
     test("Renders Now with displayOnly set to true", () => {
-        expect.soft(screen.getByTestId(mockNow)).toBeInTheDocument()
-        expect.soft(screen.getByText("Display Only: true")).toBeInTheDocument()
+        expect.soft(screen.queryByTestId(mockNow)).toBeInTheDocument()
+        expect.soft(screen.queryByText("Display Only: true")).toBeInTheDocument()
     })
 
     test("Renders Alert, Wind, Pressure", () => {
-        expect.soft(screen.getByTestId(mockAlert)).toBeInTheDocument()
-        expect.soft(screen.getByTestId(mockWind)).toBeInTheDocument()
-        expect.soft(screen.getByTestId(mockPressure)).toBeInTheDocument()
+        expect.soft(screen.queryByTestId(mockAlert)).toBeInTheDocument()
+        expect.soft(screen.queryByTestId(mockWind)).toBeInTheDocument()
+        expect.soft(screen.queryByTestId(mockPressure)).toBeInTheDocument()
     })
 
     test("Renders the Simple widgets with the correct props", () => {
@@ -212,7 +212,7 @@ describe("WeatherContext", () => {
     })
 
     test("Renders the HazardLevel widgets with the correct props", () => {
-        expect.soft(screen.getByText("Hazard: us_aqi")).toBeInTheDocument()
-        expect.soft(screen.getByText("Hazard: uv_index")).toBeInTheDocument()
+        expect.soft(screen.queryByText("Hazard: us_aqi")).toBeInTheDocument()
+        expect.soft(screen.queryByText("Hazard: uv_index")).toBeInTheDocument()
     })
 })  

@@ -41,7 +41,7 @@ test("reset unsets secondaryContent", async () => {
         result.current.slideTo(<div data-testid={secondary} />)
     })
 
-    expect.soft(screen.getByTestId(secondary)).toBeInTheDocument()
+    expect.soft(screen.queryByTestId(secondary)).toBeInTheDocument()
 
     act(() => {
         result.current.reset()

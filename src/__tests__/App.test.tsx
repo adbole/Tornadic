@@ -77,8 +77,7 @@ vi.mock("Contexts/WeatherContext", async (importOriginal) => ({
     default: componentMocks.WeatherContext,
 }));
 
-vi.mock("svgs", async (importOriginal) => ({
-    ...(await importOriginal() as any),
+vi.mock("svgs", () => ({
     Spinner: () => <div>Spinner</div>,
     WifiOff: () => <div>WifiOff</div>,
 }));
@@ -88,8 +87,7 @@ vi.mock("svgs/radar", async (importOriginal) => ({
     Cursor: () => <div>Cursor</div>,
 }));
 
-vi.mock("svgs/widget", async (importOriginal) => ({
-    ...(await importOriginal() as any),
+vi.mock("svgs/widget", () => ({
     Droplet: () => <>Droplet</>,
     Thermometer: () => <>Thermometer</>,
     Moisture: () => <>Moisture</>,
