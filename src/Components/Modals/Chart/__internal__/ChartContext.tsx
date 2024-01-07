@@ -1,33 +1,33 @@
-import React from 'react';
-import styled from '@emotion/styled';
-import * as d3 from 'd3';
+import React from "react";
+import styled from "@emotion/styled";
+import * as d3 from "d3";
 
-import { useWeather } from 'Contexts/WeatherContext';
+import { useWeather } from "Contexts/WeatherContext";
 
-import { throwError } from 'ts/Helpers';
-import { vars } from 'ts/StyleMixins';
+import { throwError } from "ts/Helpers";
+import { vars } from "ts/StyleMixins";
 
-import type { ChartViews, DataPoint } from '..';
+import type { ChartViews, DataPoint } from "..";
 
 
 const ChartContext = React.createContext<{
-    chart: d3.Selection<SVGSVGElement, unknown, null, undefined>,
-    x: d3.ScaleTime<number, number, never> | d3.ScaleBand<Date>,
-    y: d3.ScaleLinear<number, number, never>,
-    dataPoints: DataPoint[],
-    view: ChartViews
-} | null>(null)
+    chart: d3.Selection<SVGSVGElement, unknown, null, undefined>;
+    x: d3.ScaleTime<number, number, never> | d3.ScaleBand<Date>;
+    y: d3.ScaleLinear<number, number, never>;
+    dataPoints: DataPoint[];
+    view: ChartViews;
+} | null>(null);
 
 export const margin = {
     top: 120,
     right: 10,
     bottom: 40,
     left: 40,
-}
+};
 
-export const useChart = () => 
+export const useChart = () =>
     React.useContext(ChartContext) ??
-    throwError('useChart must be used within a ChartContextProvider')
+    throwError("useChart must be used within a ChartContextProvider");
 
 const ResponsiveSVG = styled.svg({
     position: "relative",
@@ -36,9 +36,9 @@ const ResponsiveSVG = styled.svg({
     overflow: "hidden",
     width: "100%",
     height: "100%",
-    display: "block"
-})
-    
+    display: "block",
+});
+
 function getMinMax([min, max]: [number, number], property: ChartViews): [number, number] {
     switch (property) {
         case "surface_pressure":
@@ -57,124 +57,128 @@ function getMinMax([min, max]: [number, number], property: ChartViews): [number,
 function getY2Property(view: ChartViews) {
     switch (view) {
         case "temperature_2m":
-            return "apparent_temperature"
+            return "apparent_temperature";
         case "windspeed_10m":
-            return "windgusts_10m"
-        default: 
-            return null
+            return "windgusts_10m";
+        default:
+            return null;
     }
 }
 
-export default function ChartContextProvider({ view, day, children }: { 
-    view: ChartViews,
-    day: number,
-    children: React.ReactNode 
+export default function ChartContextProvider({
+    view,
+    day,
+    children,
+}: {
+    view: ChartViews;
+    day: number;
+    children: React.ReactNode;
 }) {
-    const [chart, setChart] = React.useState<d3.Selection<SVGSVGElement, unknown, null, undefined> | null>(null)
-    const { weather } = useWeather()
+    const [chart, setChart] = React.useState<d3.Selection<
+        SVGSVGElement,
+        unknown,
+        null,
+        undefined
+    > | null>(null);
+    const { weather } = useWeather();
 
-    const [width, setWidth] = React.useState<number | null>(null)
-    const [height, setHeight] = React.useState<number | null>(null)
+    const [width, setWidth] = React.useState<number | null>(null);
+    const [height, setHeight] = React.useState<number | null>(null);
 
     const dataPoints = React.useMemo(() => {
         const from = day * 24;
-        const to = from + 24
+        const to = from + 24;
 
-        const x = weather.getAllForecast("time").slice(from, to).map(time => new Date(time))
-        const y1 = weather.getAllForecast(view).slice(from, to)
+        const x = weather
+            .getAllForecast("time")
+            .slice(from, to)
+            .map(time => new Date(time));
+        const y1 = weather.getAllForecast(view).slice(from, to);
 
-        const y2Prop = getY2Property(view)
-        const y2 = y2Prop ? weather.getAllForecast(y2Prop).slice(from, to) : null
+        const y2Prop = getY2Property(view);
+        const y2 = y2Prop ? weather.getAllForecast(y2Prop).slice(from, to) : null;
 
         return x.map((x, i) => ({
             x,
             y1: y1[i],
-            y2: y2?.[i] ?? null
-        }))
-    }, [weather, view, day])
+            y2: y2?.[i] ?? null,
+        }));
+    }, [weather, view, day]);
 
     const x = React.useMemo<d3.ScaleTime<number, number> | d3.ScaleBand<Date> | null>(() => {
-        if(width === null) return null;
+        if (width === null) return null;
 
-        const range = [margin.left, width - margin.right]
+        const range = [margin.left, width - margin.right];
 
-        if(view === "precipitation") {
-            return (
-                d3.scaleBand<Date>()
-                    .domain(dataPoints.map(point => point.x))
-                    .range(range)
-                    .padding(0.1)
-            )
-        }
-        
-        const xDomain = d3.extent(dataPoints, d => d.x) as [Date, Date]
-
-        return (
-            d3.scaleTime()
-                .domain(xDomain)
+        if (view === "precipitation") {
+            return d3
+                .scaleBand<Date>()
+                .domain(dataPoints.map(point => point.x))
                 .range(range)
-        )
-    }, [width, dataPoints, view])
+                .padding(0.1);
+        }
+
+        const xDomain = d3.extent(dataPoints, d => d.x) as [Date, Date];
+
+        return d3.scaleTime().domain(xDomain).range(range);
+    }, [width, dataPoints, view]);
 
     const y = React.useMemo<d3.ScaleLinear<number, number> | null>(() => {
-        if(height === null) return null;
+        if (height === null) return null;
 
-        const yValues = dataPoints.flatMap(point => point.y2 ? [point.y1, point.y2] : point.y1)
-        const yDomain = getMinMax(d3.extent(yValues) as [number, number], view)
+        const yValues = dataPoints.flatMap(point => (point.y2 ? [point.y1, point.y2] : point.y1));
+        const yDomain = getMinMax(d3.extent(yValues) as [number, number], view);
 
-        return (
-            d3.scaleLinear()
-                .domain(yDomain)
-                .range([height - margin.bottom, margin.top])
-        )
-    }, [height, dataPoints, view])
+        return d3
+            .scaleLinear()
+            .domain(yDomain)
+            .range([height - margin.bottom, margin.top]);
+    }, [height, dataPoints, view]);
 
     React.useEffect(() => {
-        if(!chart) return;
+        if (!chart) return;
 
         const onResize = () => {
-            const boundingRect = chart.node()!.getBoundingClientRect()
+            const boundingRect = chart.node()!.getBoundingClientRect();
 
-            const width = boundingRect.width
-            const height = boundingRect.height
+            const width = boundingRect.width;
+            const height = boundingRect.height;
 
-            setWidth(width)
-            setHeight(height)
+            setWidth(width);
+            setHeight(height);
 
-            chart.attr('viewBox', `0 0 ${width ?? 1200} ${height ?? 600}`)
-        }
+            chart.attr("viewBox", `0 0 ${width ?? 1200} ${height ?? 600}`);
+        };
 
-        onResize()
+        onResize();
 
-        window.addEventListener('resize', onResize)
+        window.addEventListener("resize", onResize);
 
-        return () => window.removeEventListener('resize', onResize)
-    }, [chart])
+        return () => window.removeEventListener("resize", onResize);
+    }, [chart]);
 
     const value = React.useMemo(() => {
-        if(!chart || x === null || y === null) return null;
+        if (!chart || x === null || y === null) return null;
 
         return {
             chart,
             x,
             y,
             dataPoints,
-            view
-        }
-    }, [chart, x, y, dataPoints, view])
+            view,
+        };
+    }, [chart, x, y, dataPoints, view]);
 
     return (
         <ChartContext.Provider value={value}>
-            <ResponsiveSVG 
-                preserveAspectRatio='xMidYMid meet' 
-                ref={(element) => {
-                    if(!chart && element)
-                        setChart(d3.select(element))
+            <ResponsiveSVG
+                preserveAspectRatio="xMidYMid meet"
+                ref={element => {
+                    if (!chart && element) setChart(d3.select(element));
                 }}
             >
                 {value && children}
             </ResponsiveSVG>
-            
         </ChartContext.Provider>
-    )
+    );
 }

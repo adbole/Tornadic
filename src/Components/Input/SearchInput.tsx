@@ -81,7 +81,7 @@ function SearchInput<T>({ children, placeHolder, onGetResults, onSelect }: Props
                 <SearchResults>
                     {Array.from({ length: 5 }, (_, i) => (
                         <li key={i}>
-                            <TextLoader data-testid={testIds.SearchInput.Skeleton}/>
+                            <TextLoader data-testid={testIds.SearchInput.Skeleton} />
                         </li>
                     ))}
                 </SearchResults>

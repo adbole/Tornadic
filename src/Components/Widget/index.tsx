@@ -32,11 +32,11 @@ const Widget = React.forwardRef<HTMLDivElement, WidgetProps>((props, ref) => {
     } = props;
 
     return (
-        <Container 
-            size={size} 
-            isTemplate={isTemplate} 
-            ref={ref} 
-            className={className} 
+        <Container
+            size={size}
+            isTemplate={isTemplate}
+            ref={ref}
+            className={className}
             {...excess}
             data-testid={testIds.Widget.WidgetSection}
         >

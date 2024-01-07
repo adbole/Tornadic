@@ -1,18 +1,18 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 
-import AlertWidget from "Components/Alert/style"
+import AlertWidget from "Components/Alert/style";
 import Widget from "Components/Widget";
 
 import { mediaQueries } from "ts/StyleMixins";
 
 
 export const Base = css({
-    [mediaQueries.min("large")]: { 
+    [mediaQueries.min("large")]: {
         gridColumn: "span 6",
         [`${AlertWidget} + &`]: { gridColumn: "span 4" },
-    }
-})
+    },
+});
 
 export default styled(Widget)(Base);
 

@@ -12,17 +12,17 @@ const NOW_INDEX = 21;
 //These objects will be modified by weather, this makes testing easier as it ensures
 //the methods are accessing the objects as expected since the referenced values should be the same.
 //Exact values don't matter for these tests, only conversion tests use unique objects.
-const forecastObj = forecast()
-const airqualityObj = airquality()
+const forecastObj = forecast();
+const airqualityObj = airquality();
 
 const weatherTest = test.extend<{
-    weather: Weather
-}>({ 
+    weather: Weather;
+}>({
     weather: async ({ task }, use) => {
         const weather = new Weather(forecastObj, airqualityObj, DEFAULTS.userSettings);
 
-        await use(weather)
-    }
+        await use(weather);
+    },
 });
 
 mockDate();
@@ -102,8 +102,7 @@ weatherTest("getAllForecast returns the array for each key", ({ weather }) => {
         ([key, arr]) => arr === weather.getAllForecast(key as any)
     );
 
-    const airQualityResult =
-        airqualityObj.hourly.us_aqi === weather.getAllForecast("us_aqi");
+    const airQualityResult = airqualityObj.hourly.us_aqi === weather.getAllForecast("us_aqi");
 
     expect(forecastResult && airQualityResult).toBe(true);
 });
@@ -196,27 +195,31 @@ describe("configureForecast properly sets and converts units based on settings",
 
         const sourceForecast = forecast();
 
-        expect.soft(
-            sourceForecast.hourly.visibility.every(
-                (value, index) => value / 5280 === mi.getForecast("visibility", index)
+        expect
+            .soft(
+                sourceForecast.hourly.visibility.every(
+                    (value, index) => value / 5280 === mi.getForecast("visibility", index)
+                )
             )
-        ).toBe(true);
+            .toBe(true);
 
-        expect.soft(
-            sourceForecast.hourly.visibility.every(
-                (value, index) => value / 1000 === km.getForecast("visibility", index)
+        expect
+            .soft(
+                sourceForecast.hourly.visibility.every(
+                    (value, index) => value / 1000 === km.getForecast("visibility", index)
+                )
             )
-        ).toBe(true);
+            .toBe(true);
     });
 
     test("surface_pressure is converted as expected", () => {
-        const weather = new Weather(forecast(), airquality(), DEFAULTS.userSettings)
-        const sourceForecast = forecast()
+        const weather = new Weather(forecast(), airquality(), DEFAULTS.userSettings);
+        const sourceForecast = forecast();
 
         expect(
             sourceForecast.hourly.surface_pressure.every(
                 (value, index) => value / 33.864 === weather.getForecast("surface_pressure", index)
             )
-        ).toBe(true)
-    })
+        ).toBe(true);
+    });
 });

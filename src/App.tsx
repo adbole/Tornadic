@@ -20,7 +20,7 @@ import {
     Skeleton,
     SunTime,
     Toast,
-    Wind
+    Wind,
 } from "Components";
 import { Base as DailyBase } from "Components/Daily/style";
 import { Base as HourlyBase } from "Components/Hourly/style";
@@ -70,7 +70,7 @@ function AppLoader() {
 function App() {
     const online = useOnlineOffline();
     const { latitude, longitude, status } = useUserLocation();
-    
+
     //useLocalStorage here causes the default value to be set for useReadLocalStorage
     useLocalStorage("userSettings");
 

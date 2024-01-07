@@ -19,7 +19,7 @@ export const Playback = styled.div([
 export const Time = styled.p({
     gridColumn: "span 2",
     textAlign: "center",
-    marginBottom: "5px"
+    marginBottom: "5px",
 });
 
 export const Timeline = styled.div({
@@ -53,7 +53,7 @@ export const TickArray = styled.div({
     display: "flex",
     justifyContent: "space-between",
     padding: "5px 5px",
-    height: "100%"
+    height: "100%",
 });
 
 export const Tick = styled.div({
@@ -66,5 +66,5 @@ export const Message = styled.h3({
     padding: "0.75rem",
     width: "100%",
     maxWidth: "300px",
-    textAlign: "center"
-})
+    textAlign: "center",
+});

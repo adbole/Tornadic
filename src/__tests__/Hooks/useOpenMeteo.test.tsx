@@ -16,14 +16,14 @@ function Wrapper({ children }: { children: React.ReactNode }) {
     );
 }
 
-const renderOpenMeteo = (lat?: number, long?: number) => 
+const renderOpenMeteo = (lat?: number, long?: number) =>
     renderHook(() => useOpenMeteo(lat, long), { wrapper: Wrapper });
 
-mockDate()
+mockDate();
 
 afterEach(() => {
     errorCaller.mockReset();
-})
+});
 
 describe("no requests", () => {
     test("when no params are passed", () => {
@@ -59,8 +59,8 @@ describe("data fetching", () => {
         //This is irrelavent to this test and the following ensures it initializes properly to supress it.
         await act(async () => {
             await vi.runOnlyPendingTimersAsync();
-        })
-    })
+        });
+    });
 
     test("gets the data when all params are passed and settings set", async () => {
         setLocalStorageItem("userSettings", DEFAULTS.userSettings);
@@ -68,10 +68,10 @@ describe("data fetching", () => {
 
         expect.soft(fetchMock).toHaveBeenCalledTimes(2);
         expect.soft(result.current.isLoading).toBe(true);
-        
+
         await act(async () => {
             await vi.runOnlyPendingTimersAsync();
-        })
+        });
 
         expect.soft(result.current.isLoading).toBe(false);
         expect.soft(result.current.weather).toBeDefined();
@@ -87,12 +87,12 @@ describe("data fetching", () => {
 
         await act(async () => {
             await vi.runOnlyPendingTimersAsync();
-        })
+        });
 
         expect.soft(errorCaller).toHaveBeenCalled();
         expect.soft(result.current.isLoading).toBe(false);
         expect.soft(result.current.weather).toBeUndefined();
-    })
+    });
 
     test("data is refreshed at the next hour", async () => {
         setLocalStorageItem("userSettings", DEFAULTS.userSettings);
@@ -102,14 +102,14 @@ describe("data fetching", () => {
 
         await act(async () => {
             await vi.advanceTimersByTimeAsync(3.6e6 - (new Date().getTime() % 3.6e6));
-        })
+        });
 
         expect.soft(fetchMock).toHaveBeenCalledTimes(4);
 
         await act(async () => {
             await vi.advanceTimersByTimeAsync(3.6e6 - (new Date().getTime() % 3.6e6));
-        })
+        });
 
         expect.soft(fetchMock).toHaveBeenCalledTimes(6);
-    })
+    });
 });

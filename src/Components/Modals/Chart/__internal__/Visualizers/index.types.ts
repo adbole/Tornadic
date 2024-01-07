@@ -1,4 +1,4 @@
-import type { DataPoint } from "../.."
+import type { DataPoint } from "../..";
 
 
-export type YProp = keyof Pick<DataPoint, "y1" | "y2">
+export type YProp = keyof Pick<DataPoint, "y1" | "y2">;

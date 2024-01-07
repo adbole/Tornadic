@@ -12,10 +12,10 @@ import { Area, Bar, Line } from "./Visualizers";
 function UVGradient() {
     const { y } = useChart();
 
-    if(y.domain().includes(NaN)) return null;
+    if (y.domain().includes(NaN)) return null;
 
-    const yCopy = y.copy().range([0, 1])
-    const getOffset = (key: UVLevel) => 1- yCopy(getUVMaxValue(key));
+    const yCopy = y.copy().range([0, 1]);
+    const getOffset = (key: UVLevel) => 1 - yCopy(getUVMaxValue(key));
 
     return (
         <>
@@ -25,15 +25,15 @@ function UVGradient() {
             <stop offset={getOffset("Moderate")} stopColor="#FFF501" key="Moderate" />
             <stop offset={getOffset("Low")} stopColor="#00FF66" key="Low" />
         </>
-    )
+    );
 }
 
 function AQGradient() {
-    const { y } = useChart()
+    const { y } = useChart();
 
-    if(y.domain().includes(NaN)) return null;
+    if (y.domain().includes(NaN)) return null;
 
-    const yCopy = y.copy().range([0, 1])
+    const yCopy = y.copy().range([0, 1]);
     const getOffset = (key: AQLevel) => 1 - yCopy(getAQMaxValue(key));
 
     return (
@@ -49,44 +49,31 @@ function AQGradient() {
 }
 
 export default function ChartVisualization() {
-    const { view, dataPoints, y } = useChart()
-    const settings = useReadLocalStorage("userSettings")
+    const { view, dataPoints, y } = useChart();
+    const settings = useReadLocalStorage("userSettings");
 
-    const gradientId = React.useId()
+    const gradientId = React.useId();
 
     const visual = React.useMemo(() => {
-        switch(view) {
-            case "precipitation": 
-                return <Bar yProp="y1" fill="#0078ef" />
+        switch (view) {
+            case "precipitation":
+                return <Bar yProp="y1" fill="#0078ef" />;
             case "us_aqi":
             case "uv_index":
             case "temperature_2m": {
-                return (
-                    <Area 
-                        yProp="y1" 
-                        fill={`url(#${gradientId})`}
-                        fillOpacity={0.75}
-                    />
-                )
+                return <Area yProp="y1" fill={`url(#${gradientId})`} fillOpacity={0.75} />;
             }
             default: {
-                return (
-                    <Line 
-                        yProp="y1" 
-                        fill="none"
-                        stroke="#0078ef" 
-                        strokeWidth={2}
-                    />
-                )
+                return <Line yProp="y1" fill="none" stroke="#0078ef" strokeWidth={2} />;
             }
         }
-    }, [view, gradientId])
+    }, [view, gradientId]);
 
     const gradient = React.useMemo(() => {
-        if(view === "temperature_2m" && settings) {
-            const max = Math.max(...dataPoints.map(point => point.y1))
-            const min = Math.min(...dataPoints.map(point => point.y1))
-    
+        if (view === "temperature_2m" && settings) {
+            const max = Math.max(...dataPoints.map(point => point.y1));
+            const min = Math.min(...dataPoints.map(point => point.y1));
+
             return (
                 <defs>
                     <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1">
@@ -94,34 +81,32 @@ export default function ChartVisualization() {
                         <stop offset="100%" stopColor={toHSL(min, settings.tempUnit)} />
                     </linearGradient>
                 </defs>
-            )
-        }
-        else if(view === "uv_index" || view === "us_aqi") {
+            );
+        } else if (view === "uv_index" || view === "us_aqi") {
             return (
                 <defs>
-                    <linearGradient id={gradientId} gradientUnits="userSpaceOnUse" x1="0" y1={y.range()[1]} x2="0" y2={y.range()[0]}>
+                    <linearGradient
+                        id={gradientId}
+                        gradientUnits="userSpaceOnUse"
+                        x1="0"
+                        y1={y.range()[1]}
+                        x2="0"
+                        y2={y.range()[0]}
+                    >
                         {view === "uv_index" ? <UVGradient /> : <AQGradient />}
                     </linearGradient>
                 </defs>
-            )
+            );
         }
 
         return null;
-    }, [dataPoints, gradientId, settings, view, y])
+    }, [dataPoints, gradientId, settings, view, y]);
 
     return (
         <g>
             {visual}
             {gradient}
-            {
-                dataPoints[0].y2 && 
-                <Line
-                    yProp="y2" 
-                    fill="none"
-                    stroke="#fff" 
-                    strokeWidth={2}
-                />
-            }
+            {dataPoints[0].y2 && <Line yProp="y2" fill="none" stroke="#fff" strokeWidth={2} />}
         </g>
     );
 }

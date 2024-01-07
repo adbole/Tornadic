@@ -42,7 +42,7 @@ export default function WeatherContextProvider({
         return {
             weather,
             point,
-            alerts
+            alerts,
         };
     }, [weather, point, alerts]);
 
@@ -75,7 +75,7 @@ export function AlertProvider({
 
         return {
             point,
-            alerts
+            alerts,
         };
     }, [point, alerts]);
 

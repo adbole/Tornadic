@@ -30,7 +30,11 @@ export default function Now({ displayOnly }: { displayOnly?: boolean }) {
 
     return (
         <>
-            {!displayOnly && <Global styles={{ body: { background: gradient, backgroundAttachment: "fixed" } }} />}
+            {!displayOnly && (
+                <Global
+                    styles={{ body: { background: gradient, backgroundAttachment: "fixed" } }}
+                />
+            )}
             <NowWidget size="widget-large" isTemplate>
                 {!displayOnly && (
                     <Button

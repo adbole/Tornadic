@@ -27,7 +27,7 @@ export default function Home() {
     const unZoom = React.useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
         e.stopPropagation();
         setIsZoomedFalse();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     React.useEffect(() => {

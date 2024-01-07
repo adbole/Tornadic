@@ -10,8 +10,8 @@ const useWeather = {
     useWeather: () => ({
         weather: new Weather(forecast(), airquality(), DEFAULTS.userSettings),
         point: apiWeatherGov_points as GridPoint,
-        alerts: []
-    })
-}
+        alerts: [],
+    }),
+};
 
 export default useWeather;

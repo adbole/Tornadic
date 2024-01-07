@@ -107,7 +107,7 @@ export default function Settings({ ...modalProps }: ModalProps) {
                                 ...queue,
                             });
 
-                            setQueue({} as any)
+                            setQueue({} as any);
                         }
                     }}
                 >

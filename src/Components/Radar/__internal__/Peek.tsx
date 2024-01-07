@@ -18,8 +18,8 @@ const HoldPopup = styled(Popup)({
     backdropFilter: "blur(5px)",
     border: "1px solid white",
     pointerEvents: "none",
-    "> .leaflet-popup-content-wrapper": { display: "none" }
-})
+    "> .leaflet-popup-content-wrapper": { display: "none" },
+});
 
 /**
  * A modal displaying some weather information for the given location
@@ -31,24 +31,24 @@ export default function Peek() {
 
     const timeout = React.useRef<NodeJS.Timeout>();
 
-    const beginHold = React.useCallback((pos: L.LatLng) => {
-        if (!map.dragging.enabled()) return;
+    const beginHold = React.useCallback(
+        (pos: L.LatLng) => {
+            if (!map.dragging.enabled()) return;
 
-        setPosition(pos);
-        timeout.current = setTimeout(() => {
-            unsetPosition()
-            setLatLng(pos);
-        }, 1000);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [map])
+            setPosition(pos);
+            timeout.current = setTimeout(() => {
+                unsetPosition();
+                setLatLng(pos);
+            }, 1000);
+        },
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        [map]
+    );
 
     React.useEffect(() => {
         const onMouseDown = (e: L.LeafletMouseEvent) => beginHold(e.latlng);
         function onTouchStart({ touches: [touch] }: TouchEvent) {
-            const latlng = map.containerPointToLatLng([
-                touch.clientX,
-                touch.clientY,
-            ]);
+            const latlng = map.containerPointToLatLng([touch.clientX, touch.clientY]);
 
             beginHold(latlng);
         }
@@ -58,7 +58,7 @@ export default function Peek() {
 
             clearTimeout(timeout.current);
             timeout.current = undefined;
-            unsetPosition()
+            unsetPosition();
         }
 
         map.on("mousedown", onMouseDown);
@@ -76,20 +76,12 @@ export default function Peek() {
             map.getContainer().removeEventListener("touchend", onUp);
             map.getContainer().removeEventListener("touchmove", onUp);
         };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [map, beginHold]);
 
     return (
         <>
-            {
-                position && (
-                    <HoldPopup 
-                        position={position} 
-                        closeButton={false}
-                        offset={[0, 50]}
-                    />
-                )
-            }
+            {position && <HoldPopup position={position} closeButton={false} offset={[0, 50]} />}
             <PeekModal
                 latitude={latlng?.lat}
                 longitude={latlng?.lng}

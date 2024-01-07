@@ -30,8 +30,8 @@ const ListContent = styled(ModalContent)({ "> :not(last-of-type)": { marginBotto
  * @returns An alert modal showing a single alert if alerts.length = 1 otherwise shows a list
  */
 export default function AlertModal({ alerts, ...modalProps }: { alerts: NWSAlert[] } & ModalProps) {
-    if(alerts.length === 0) {
-        console.error("AlertModal called with no alerts")
+    if (alerts.length === 0) {
+        console.error("AlertModal called with no alerts");
         return null;
     }
 

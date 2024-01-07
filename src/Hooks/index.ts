@@ -3,7 +3,7 @@ export { default as useBooleanState } from "./useBooleanState";
 export { default as useDragScroll } from "./useDragScroll";
 export { default as useLocalStorage } from "./useLocalStorage";
 export { default as useNullableState } from "./useNullableState";
-export { default as useNWS } from "./useNWS"
+export { default as useNWS } from "./useNWS";
 export { default as useOnlineOffline } from "./useOnlineOffline";
 export { default as useOpenMeteo } from "./useOpenMeteo";
 export { default as usePermission } from "./usePermission";

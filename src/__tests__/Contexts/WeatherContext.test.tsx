@@ -1,9 +1,9 @@
 import { mockDate, setLocalStorageItem } from "__tests__/__utils__";
-import { act, render, renderHook, screen } from "@testing-library/react"
+import { act, render, renderHook, screen } from "@testing-library/react";
 
 import DEFAULTS from "Hooks/useLocalStorage.config";
 
-import WeatherProvider, { useWeather } from "Contexts/WeatherContext"
+import WeatherProvider, { useWeather } from "Contexts/WeatherContext";
 
 
 const skeleton = "SKELETON";
@@ -18,83 +18,91 @@ function Wrapper({ children }: { children: React.ReactNode }) {
         >
             {children}
         </WeatherProvider>
-    )
+    );
 }
 
-const renderWeather = () => renderHook(useWeather, { wrapper: Wrapper })
+const renderWeather = () => renderHook(useWeather, { wrapper: Wrapper });
 
-mockDate()
+mockDate();
 
 beforeEach(() => {
-    setLocalStorageItem("userSettings", DEFAULTS.userSettings)
-})
+    setLocalStorageItem("userSettings", DEFAULTS.userSettings);
+});
 
 describe("render", () => {
     beforeEach(() => {
-        render(<Wrapper><div data-testid={child} /></Wrapper>)
-    })
+        render(
+            <Wrapper>
+                <div data-testid={child} />
+            </Wrapper>
+        );
+    });
 
     test("renders skeleton when loading without any data", async () => {
-        expect(screen.getByTestId(skeleton)).toBeInTheDocument()
-        
+        expect(screen.getByTestId(skeleton)).toBeInTheDocument();
+
         //Weather will throw an error relating to not being able to find current time for forecast
         //This is irrelavent to this test and the following ensures it initializes properly to supress it.
         await act(async () => {
-            await vi.runOnlyPendingTimersAsync(); 
-        })
-    })
+            await vi.runOnlyPendingTimersAsync();
+        });
+    });
 
     test("child appears when data is loaded", async () => {
         await act(async () => {
-            await vi.runOnlyPendingTimersAsync(); 
-        })
+            await vi.runOnlyPendingTimersAsync();
+        });
 
-        expect(screen.getByTestId(child)).toBeInTheDocument()
-    })
+        expect(screen.getByTestId(child)).toBeInTheDocument();
+    });
 
     test("keeps skeleton up if any fetch throws", async () => {
-        fetchMock.mockReject()
+        fetchMock.mockReject();
 
-        render(<Wrapper><div data-testid={child} /></Wrapper>)
-
-        await act(async () => {
-            await vi.runOnlyPendingTimersAsync(); 
-        })
-
-        expect(screen.getByTestId(skeleton)).toBeInTheDocument()
-    })
-
-    test("keeps children up if any fetch throws during data update", async () => {        
-        await act(async () => {
-            await vi.runOnlyPendingTimersAsync(); 
-        })
-
-        fetchMock.mockReject()
+        render(
+            <Wrapper>
+                <div data-testid={child} />
+            </Wrapper>
+        );
 
         await act(async () => {
-            await vi.runOnlyPendingTimersAsync(); 
-        })
+            await vi.runOnlyPendingTimersAsync();
+        });
 
-        expect(screen.getByTestId(child)).toBeInTheDocument()
-    })
-})
+        expect(screen.getByTestId(skeleton)).toBeInTheDocument();
+    });
+
+    test("keeps children up if any fetch throws during data update", async () => {
+        await act(async () => {
+            await vi.runOnlyPendingTimersAsync();
+        });
+
+        fetchMock.mockReject();
+
+        await act(async () => {
+            await vi.runOnlyPendingTimersAsync();
+        });
+
+        expect(screen.getByTestId(child)).toBeInTheDocument();
+    });
+});
 
 describe("hook", () => {
     test("throws error when used outside of provider", () => {
-        vi.spyOn(console, "error").mockImplementation(() => undefined)
+        vi.spyOn(console, "error").mockImplementation(() => undefined);
 
-        expect(() => renderHook(useWeather)).toThrowError()
+        expect(() => renderHook(useWeather)).toThrowError();
 
-        vi.mocked(console.error).mockRestore()
-    })
+        vi.mocked(console.error).mockRestore();
+    });
 
     test("returns the data when used inside provider", async () => {
-        const { result } = renderWeather()
+        const { result } = renderWeather();
 
         await act(async () => {
-            await vi.runOnlyPendingTimersAsync(); 
-        })
+            await vi.runOnlyPendingTimersAsync();
+        });
 
-        expect(result.current.weather).toBeTruthy()
-    })
-})
+        expect(result.current.weather).toBeTruthy();
+    });
+});

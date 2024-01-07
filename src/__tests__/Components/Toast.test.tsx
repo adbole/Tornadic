@@ -5,15 +5,15 @@ import Toast from "Components/Toast";
 
 
 function TestComponent({ isOpen }: { isOpen: boolean }) {
-    const [open, setOpen] = React.useState(isOpen)
+    const [open, setOpen] = React.useState(isOpen);
 
     return (
         <>
-            <div id="toast-root"/>
+            <div id="toast-root" />
             <button onClick={() => setOpen(true)}>Open Toast</button>
-            <Toast 
-                isOpen={open} 
-                action={{  
+            <Toast
+                isOpen={open}
+                action={{
                     content: "Dismiss",
                     onClick: () => setOpen(false),
                 }}
@@ -27,38 +27,38 @@ function TestComponent({ isOpen }: { isOpen: boolean }) {
 describe("toast-root", () => {
     test("When toast-root doesn't exist, the toast doesn't render", () => {
         render(<Toast isOpen={true}>My Toast</Toast>);
-    
-        expect(screen.queryByText("My Toast")).not.toBeInTheDocument()
-    })
-    
+
+        expect(screen.queryByText("My Toast")).not.toBeInTheDocument();
+    });
+
     test("When toast-root exists, the toast doesn't render if closed", () => {
         render(
             <>
-                <div id="toast-root"/>
+                <div id="toast-root" />
                 <Toast isOpen={false}>My Toast</Toast>
             </>
         );
-    
-        expect(screen.queryByText("My Toast")).not.toBeInTheDocument()
-    })
-    
+
+        expect(screen.queryByText("My Toast")).not.toBeInTheDocument();
+    });
+
     test("When toast-root exists, the toast renders if open", () => {
         render(
             <>
-                <div id="toast-root"/>
+                <div id="toast-root" />
                 <Toast isOpen={true}>My Toast</Toast>
             </>
         );
-    
-        expect(screen.queryByText("My Toast")).toBeInTheDocument()
-    })
-})
+
+        expect(screen.queryByText("My Toast")).toBeInTheDocument();
+    });
+});
 
 describe("Action", () => {
     test("When the action is provided a button is rendered", () => {
         render(
             <>
-                <div id="toast-root"/>
+                <div id="toast-root" />
                 <Toast
                     isOpen={true}
                     action={{
@@ -69,18 +69,18 @@ describe("Action", () => {
                     My Toast
                 </Toast>
             </>
-        )
+        );
 
-        expect(screen.queryByRole("button")).toBeInTheDocument()
-        expect(screen.queryByText("Dismiss")).toBeInTheDocument()
-    })
+        expect(screen.queryByRole("button")).toBeInTheDocument();
+        expect(screen.queryByText("Dismiss")).toBeInTheDocument();
+    });
 
     test("When the button is clicked, the function provided by action is called", () => {
-        const onClick = vi.fn()
+        const onClick = vi.fn();
 
         render(
             <>
-                <div id="toast-root"/>
+                <div id="toast-root" />
                 <Toast
                     isOpen={true}
                     action={{
@@ -91,38 +91,38 @@ describe("Action", () => {
                     My Toast
                 </Toast>
             </>
-        )
+        );
 
         act(() => {
-            screen.getByRole("button").click()
-        })
+            screen.getByRole("button").click();
+        });
 
-        expect(onClick).toHaveBeenCalled()
-    })
-})
+        expect(onClick).toHaveBeenCalled();
+    });
+});
 
 describe("Interaction", () => {
     test("When the toast has isOpen set to true, it opens", () => {
-        render(<TestComponent isOpen={false}/>)
-    
-        expect(screen.queryByText("My Toast")).not.toBeInTheDocument()
-    
+        render(<TestComponent isOpen={false} />);
+
+        expect(screen.queryByText("My Toast")).not.toBeInTheDocument();
+
         act(() => {
-            screen.getByRole("button").click()
-        })
-    
-        expect(screen.queryByText("My Toast")).toBeInTheDocument()
-    })
+            screen.getByRole("button").click();
+        });
+
+        expect(screen.queryByText("My Toast")).toBeInTheDocument();
+    });
 
     test("When the toast has isOpen set to false, it closes", () => {
-        render(<TestComponent isOpen={true}/>)
-    
-        expect(screen.queryByText("My Toast")).toBeInTheDocument()
-    
+        render(<TestComponent isOpen={true} />);
+
+        expect(screen.queryByText("My Toast")).toBeInTheDocument();
+
         act(() => {
-            screen.getByText("Dismiss").click()
-        })
-    
-        expect(screen.queryByText("My Toast")).not.toBeInTheDocument()
-    })
-})
+            screen.getByText("Dismiss").click();
+        });
+
+        expect(screen.queryByText("My Toast")).not.toBeInTheDocument();
+    });
+});

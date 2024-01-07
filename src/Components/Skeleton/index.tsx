@@ -12,12 +12,5 @@ export default function Skeleton({
     className?: string;
     size?: WidgetSize;
 }) {
-    return (
-        <SkeletonWidget 
-            id={id} 
-            className={className} 
-            size={size} 
-            children={null} 
-        />
-    )
+    return <SkeletonWidget id={id} className={className} size={size} children={null} />;
 }

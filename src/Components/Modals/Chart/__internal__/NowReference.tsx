@@ -7,22 +7,23 @@ import { useChart } from "./ChartContext";
 
 
 export default function NowReference({ isShown }: { isShown: boolean }) {
-    const { x, y } = useChart()
-    const { weather } = useWeather()    
+    const { x, y } = useChart();
+    const { weather } = useWeather();
 
-    const nowX = React.useMemo(() => 
-        x(new Date(weather.getForecast("time"))) as number
-        + ((x as d3.ScaleBand<Date>)?.bandwidth?.() ?? 0) / 2
+    const nowX = React.useMemo(
+        () =>
+            (x(new Date(weather.getForecast("time"))) as number) +
+            ((x as d3.ScaleBand<Date>)?.bandwidth?.() ?? 0) / 2,
         // eslint-disable-next-line react-hooks/exhaustive-deps
-        , [x, weather]
-    )
-    
-    if(!isShown) return null;
+        [x, weather]
+    );
+
+    if (!isShown) return null;
 
     return (
         <g>
-            <rect 
-                width={nowX - x.range()[0]} 
+            <rect
+                width={nowX - x.range()[0]}
                 height={y.range()[0] - y.range()[1]}
                 x={x.range()[0]}
                 y={y.range()[1]}
@@ -38,5 +39,5 @@ export default function NowReference({ isShown }: { isShown: boolean }) {
                 strokeWidth={1}
             />
         </g>
-    )
+    );
 }

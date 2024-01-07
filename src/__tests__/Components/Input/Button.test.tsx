@@ -4,13 +4,13 @@ import { Button } from "Components";
 
 
 test("Matches default primary snapshot", () => {
-    const { container } = render(<Button>Test</Button>)
+    const { container } = render(<Button>Test</Button>);
 
-    expect(container).toMatchSnapshot()
-})
+    expect(container).toMatchSnapshot();
+});
 
 test("Matches the transparent snapshot", () => {
-    const { container } = render(<Button varient="transparent">Test</Button>)
+    const { container } = render(<Button varient="transparent">Test</Button>);
 
-    expect(container).toMatchSnapshot()
-})
+    expect(container).toMatchSnapshot();
+});

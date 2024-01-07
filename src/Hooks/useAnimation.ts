@@ -49,7 +49,7 @@ export default function useAnimation(
 function requestTimeoutAnimationFrame(callback: () => void, timeout: number = 0) {
     const startTime = performance.now();
     const requestId: RequestId = {};
-    
+
     const call = () => {
         requestId.id = requestAnimationFrame(now => {
             const elapsed = now - startTime;

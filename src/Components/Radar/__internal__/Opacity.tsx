@@ -12,18 +12,18 @@ const Container = styled.div({
     ">p": { textAlign: "center" },
 });
 
-export default function Opacity({ 
-    defaultOpacity, 
-    targetPane
-}: { 
-    defaultOpacity: number ,
-    targetPane: string
+export default function Opacity({
+    defaultOpacity,
+    targetPane,
+}: {
+    defaultOpacity: number;
+    targetPane: string;
 }) {
     const map = useMap();
 
     const [hover, setHoverTrue, setHoverFalse] = useBooleanState(false);
     const [value, setOpacity] = React.useState(defaultOpacity);
-    
+
     //Fallback for touch devices
     React.useEffect(() => {
         document.body.addEventListener("click", setHoverFalse);
@@ -32,24 +32,24 @@ export default function Opacity({
 
     React.useEffect(() => {
         const pane = map.getPane(targetPane);
-        if(!pane) {
+        if (!pane) {
             const observer = new MutationObserver((_, observer) => {
                 const pane = map.getPane(targetPane);
-                
-                if(!pane) return;
+
+                if (!pane) return;
 
                 pane.style.opacity = value.toString();
 
                 observer.disconnect();
-            })
+            });
 
             observer.observe(map.getContainer(), { childList: true, subtree: true });
 
             return;
-        };
+        }
 
         pane.style.opacity = value.toString();
-    }, [map, targetPane, value])
+    }, [map, targetPane, value]);
 
     return (
         <div

@@ -1,6 +1,6 @@
-import { render, screen } from "@testing-library/react"
+import { render, screen } from "@testing-library/react";
 
-import { Button, InputGroup } from "Components"
+import { Button, InputGroup } from "Components";
 
 
 test("Matches default snapshot", () => {
@@ -10,10 +10,10 @@ test("Matches default snapshot", () => {
             <Button>Test</Button>
             <Button>Test</Button>
         </InputGroup>
-    )
+    );
 
-    expect(container).toMatchSnapshot()
-})
+    expect(container).toMatchSnapshot();
+});
 
 test("Matches uniform snapshot", () => {
     const { container } = render(
@@ -22,10 +22,10 @@ test("Matches uniform snapshot", () => {
             <Button>Test</Button>
             <Button>Test</Button>
         </InputGroup>
-    )
+    );
 
-    expect(container).toMatchSnapshot()
-})
+    expect(container).toMatchSnapshot();
+});
 
 test("Matches hasGap snapshot", () => {
     const { container } = render(
@@ -34,10 +34,10 @@ test("Matches hasGap snapshot", () => {
             <Button>Test</Button>
             <Button>Test</Button>
         </InputGroup>
-    )
+    );
 
-    expect(container).toMatchSnapshot()
-})
+    expect(container).toMatchSnapshot();
+});
 
 test("Matches hasGap and uniform snapshot", () => {
     const { container } = render(
@@ -46,19 +46,19 @@ test("Matches hasGap and uniform snapshot", () => {
             <Button>Test</Button>
             <Button>Test</Button>
         </InputGroup>
-    )
+    );
 
-    expect(container).toMatchSnapshot()
-})
+    expect(container).toMatchSnapshot();
+});
 
 test("Children using inputBorderRadius are given 0 radius on non-gap", () => {
     render(
         <InputGroup>
             <Button>Test</Button>
         </InputGroup>
-    )
+    );
 
-    const button = getComputedStyle(screen.getByRole("button"))
-    
-    expect(button.getPropertyValue("--input-border-radius")).toBe("0")
-})
+    const button = getComputedStyle(screen.getByRole("button"));
+
+    expect(button.getPropertyValue("--input-border-radius")).toBe("0");
+});

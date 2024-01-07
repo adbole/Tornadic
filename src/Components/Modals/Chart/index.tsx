@@ -61,7 +61,7 @@ export default function Chart({
     React.useEffect(() => {
         setView(showView);
         setDay(showDay);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [modalProps.isOpen]);
 
     //Autosize the select element for style points
@@ -116,16 +116,9 @@ export default function Chart({
                 <ChartContext view={view} day={day}>
                     <Axes />
                     <ChartVisualization />
-                    <NowReference isShown={!day}/>
-                    <Tooltip day={day}/>
-                    <line 
-                        x1={0} 
-                        x2="100%" 
-                        y1={100}
-                        y2={100} 
-                        stroke="#ffffff19" 
-                        strokeWidth={1}
-                    />
+                    <NowReference isShown={!day} />
+                    <Tooltip day={day} />
+                    <line x1={0} x2="100%" y1={100} y2={100} stroke="#ffffff19" strokeWidth={1} />
                 </ChartContext>
             </ChartContent>
         </ChartModal>

@@ -12,7 +12,7 @@ export const WidgetTitle = styled.h1({
 
     fontSize: "1rem",
     marginBottom: "10px",
-})
+});
 
 export default styled.section<{
     size: WidgetSize;
@@ -37,5 +37,5 @@ export default styled.section<{
         gridRow: "span 2",
     },
     size === "widget-wide" && { gridColumn: "span 2" },
-    !isTemplate && { [`> :not(${WidgetTitle})`] : { flex: 1 } },
+    !isTemplate && { [`> :not(${WidgetTitle})`]: { flex: 1 } },
 ]);

@@ -11,7 +11,7 @@ export const Base = css({
     gap: "10px",
     fontSize: "1.5rem",
     padding: "60px 0px",
-    
+
     [mediaQueries.max("medium")]: { gridColumn: "1 / -1" },
     [mediaQueries.min("medium")]: { gridArea: "n" },
 });

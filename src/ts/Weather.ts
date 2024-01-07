@@ -17,13 +17,15 @@ type BaseInfo = Readonly<{
 export type HourInfo = Readonly<{
     time: string;
     temperature: number;
-}> & BaseInfo;
+}> &
+    BaseInfo;
 
 export type DayInfo = Readonly<{
     day: string;
     temperature_low: number;
     temperature_high: number;
-}> & BaseInfo;
+}> &
+    BaseInfo;
 
 export type CombinedHourly = Forecast["hourly"] & Omit<AirQuality["hourly"], "time">;
 
@@ -47,12 +49,11 @@ export default class Weather {
         this.forecast = this.configureForecast(forecast, settings);
         this.airQuality = airQuality;
 
-        this.nowIndex = this.forecast.hourly.time.findIndex(
-            (time) => new Date(time).getTime() > Date.now() 
-        ) - 1;
+        this.nowIndex =
+            this.forecast.hourly.time.findIndex(time => new Date(time).getTime() > Date.now()) - 1;
 
         if (this.nowIndex < 0) {
-            console.error("Cannot find current time in forecast data")
+            console.error("Cannot find current time in forecast data");
             throw new Error("Cannot find current time in forecast data");
         }
     }
@@ -104,7 +105,7 @@ export default class Weather {
      * Gets 48 hours of future values
      */
     *getFutureValues(): Generator<HourInfo> {
-        const start = this.nowIndex + 1
+        const start = this.nowIndex + 1;
 
         for (let i = start; i < start + 48; ++i) {
             const conditionInfo = new WeatherCondition(

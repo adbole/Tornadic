@@ -16,23 +16,23 @@ export default function useOpenMeteo(
 } {
     const settings = useReadLocalStorage("userSettings");
     const urls = React.useMemo(() => {
-        if (latitude !== undefined && longitude !== undefined && settings) 
+        if (latitude !== undefined && longitude !== undefined && settings)
             return getUrls(latitude, longitude, settings);
     }, [latitude, longitude, settings]);
 
     const key = urls ? [urls.airQualityURL, urls.forecastURL] : null;
-    const {
-        data: weather,
-        isLoading,
-    } = useSWR<Weather, string>(key, async () => {
+    const { data: weather, isLoading } = useSWR<Weather, string>(
+        key,
+        async () => {
+            const [forecast, airquality] = await Promise.all([
+                fetchData<Forecast>(urls!.forecastURL, "Cannot get Open-Meteo forecast"),
+                fetchData<AirQuality>(urls!.airQualityURL, "Cannot get Open-Meteo air quality"),
+            ]);
 
-        const [forecast, airquality] = await Promise.all([
-            fetchData<Forecast>(urls!.forecastURL, "Cannot get Open-Meteo forecast"),
-            fetchData<AirQuality>(urls!.airQualityURL, "Cannot get Open-Meteo air quality"),
-        ]);
-
-        return new Weather(forecast, airquality, settings!);
-    }, { refreshInterval: () => 3.6e6 - (Date.now() % 3.6e6) });
+            return new Weather(forecast, airquality, settings!);
+        },
+        { refreshInterval: () => 3.6e6 - (Date.now() % 3.6e6) }
+    );
 
     return {
         weather,

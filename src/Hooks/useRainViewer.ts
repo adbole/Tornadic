@@ -37,25 +37,24 @@ type AvailableLayer = {
 
 export const RADAR_PANE = "radar";
 
-const mod =(x: number, div: number) => 
-    x - div * Math.floor(x / div);
+const mod = (x: number, div: number) => x - div * Math.floor(x / div);
 
 const generateNewLayer = (frames: Tile[]): AvailableLayer => ({
     frames,
     tileLayers: [],
     layerGroup: L.layerGroup([], { pane: RADAR_PANE }),
     currentLayerIndex: 0,
-})
+});
 
 export default function useRainViewer() {
     const expires = React.useRef(0);
-    
-    const map = useMap()
-    const [active, setActive] = React.useState<LayerTypes>(LayerTypes.Radar)
+
+    const map = useMap();
+    const [active, setActive] = React.useState<LayerTypes>(LayerTypes.Radar);
 
     const { data, isLoading } = useSWR<ApiResponse>(
         "https://api.rainviewer.com/public/weather-maps.json",
-        async (url) => {
+        async url => {
             const response = await fetchData<ApiResponse>(url, "Cannot get RainViewer data");
 
             const nowcast = response.radar.nowcast;
@@ -63,43 +62,45 @@ export default function useRainViewer() {
 
             return response;
         },
-        { 
+        {
             refreshInterval: () => expires.current - Date.now(),
-            revalidateOnFocus: false
+            revalidateOnFocus: false,
         }
-    )
+    );
 
     const availableLayers: Record<LayerTypes, AvailableLayer> | null = React.useMemo(() => {
-        if(!data) return null;
+        if (!data) return null;
 
         const availableLayers: Record<LayerTypes, AvailableLayer> = {
             Radar: generateNewLayer(data.radar.past.concat(data.radar.nowcast)),
-            Satellite: generateNewLayer(data.satellite.infrared)
-        }
+            Satellite: generateNewLayer(data.satellite.infrared),
+        };
 
         availableLayers.Radar.currentLayerIndex = data.radar.past.length - 1;
         availableLayers.Satellite.currentLayerIndex = data.satellite.infrared.length - 1;
 
         return availableLayers;
-    }, [data])
+    }, [data]);
 
     //Layers control logic and cleanup on availableLayers change
     React.useEffect(() => {
-        if(!availableLayers) return () => {};
+        if (!availableLayers) return () => {};
 
-        if(!map.getPane("radar")) {
+        if (!map.getPane("radar")) {
             const pane = map.createPane("radar");
-            pane.style.zIndex = "250"
+            pane.style.zIndex = "250";
             pane.style.pointerEvents = "none";
         }
 
         const radarLayerGroup = availableLayers.Radar.layerGroup;
         const satelliteLayerGroup = availableLayers.Satellite.layerGroup;
 
-        const layersControl = L.control.layers({
-            [LayerTypes.Radar]: radarLayerGroup,
-            [LayerTypes.Satellite]: satelliteLayerGroup
-        }).addTo(map);
+        const layersControl = L.control
+            .layers({
+                [LayerTypes.Radar]: radarLayerGroup,
+                [LayerTypes.Satellite]: satelliteLayerGroup,
+            })
+            .addTo(map);
 
         availableLayers[active].layerGroup.addTo(map);
 
@@ -111,11 +112,11 @@ export default function useRainViewer() {
             layersControl.remove();
             radarLayerGroup.remove();
             satelliteLayerGroup.remove();
-            
-            map.off("baselayerchange", updateLayer)
-        }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [availableLayers, map])
+
+            map.off("baselayerchange", updateLayer);
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [availableLayers, map]);
 
     const addLayer = React.useCallback(
         (index: number) => {
@@ -192,7 +193,7 @@ export default function useRainViewer() {
     return {
         availableLayers,
         active,
-        showFrame, 
-        isLoading
-    }
+        showFrame,
+        isLoading,
+    };
 }

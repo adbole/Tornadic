@@ -16,10 +16,10 @@ export type ModalProps = {
 
 /**
  * A base modal to display simple information using the ModalContext
- * The modal can't be closed through setting isOpen to false. 
+ * The modal can't be closed through setting isOpen to false.
  * Instead, the modal should be closed by its defined ways or by causing
  * onCancel or onClose to be called which can be done through forms.
- * 
+ *
  * onClose should typically set the state controlling isOpen to false
  */
 export default function Modal({ isOpen, children, onClose, className }: ModalProps) {
@@ -49,23 +49,23 @@ export default function Modal({ isOpen, children, onClose, className }: ModalPro
     return shouldMount
         ? ReactDOM.createPortal(
               <>
-                <Global styles={{ body: { overflow: "hidden" } }} />
-                <Dialog
-                    ref={ref}
-                    stage={stage}
-                    onCancel={e => {
-                        e.preventDefault();
-                        closeModal();
-                    }}
-                    onClose={() => {
-                        //Ensure the modal doesn't close normally
-                        dialogRef.current?.showModal()
-                        closeModal();
-                    }}
-                    className={className}
-                >
-                    {children}
-                </Dialog>
+                  <Global styles={{ body: { overflow: "hidden" } }} />
+                  <Dialog
+                      ref={ref}
+                      stage={stage}
+                      onCancel={e => {
+                          e.preventDefault();
+                          closeModal();
+                      }}
+                      onClose={() => {
+                          //Ensure the modal doesn't close normally
+                          dialogRef.current?.showModal();
+                          closeModal();
+                      }}
+                      className={className}
+                  >
+                      {children}
+                  </Dialog>
               </>,
               document.body
           )

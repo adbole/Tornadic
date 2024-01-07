@@ -25,7 +25,7 @@ export default function useLocalStorage<K extends keyof StorageKeysAndTypes>(
         try {
             const value = localStorage.getItem(key);
 
-            if(!value) localStorage.setItem(key, JSON.stringify(defaultValue));
+            if (!value) localStorage.setItem(key, JSON.stringify(defaultValue));
 
             return value ? JSON.parse(value) : defaultValue;
         } catch {

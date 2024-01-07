@@ -1,56 +1,55 @@
-import { act, render, renderHook, screen } from "@testing-library/react"
+import { act, render, renderHook, screen } from "@testing-library/react";
 
-import SlideContextProvider, { useSlide } from "Contexts/SlideContext"
+import SlideContextProvider, { useSlide } from "Contexts/SlideContext";
 
 
-const child = "CHILD"
-const secondary = "SECONDARY"
+const child = "CHILD";
+const secondary = "SECONDARY";
 
 function Wrapper() {
     return (
         <SlideContextProvider>
-            <div data-testid={child}/>
+            <div data-testid={child} />
         </SlideContextProvider>
-    )
+    );
 }
 
 test("Provided children is shown", () => {
-    render(<Wrapper />)
+    render(<Wrapper />);
 
-    expect(screen.getByTestId(child)).toBeInTheDocument()
-})
+    expect(screen.getByTestId(child)).toBeInTheDocument();
+});
 
 test("Using useSlide outside of SlideContextProvider throws an error", () => {
-    vi.spyOn(console, "error").mockImplementation(() => undefined)
+    vi.spyOn(console, "error").mockImplementation(() => undefined);
 
     expect(() => renderHook(useSlide)).toThrowError();
 
-    vi.mocked(console.error).mockRestore()
-})
+    vi.mocked(console.error).mockRestore();
+});
 
 test("slideTo sets secondaryContent", () => {
-    const { result } = renderHook(() => useSlide(), { wrapper: SlideContextProvider })
+    const { result } = renderHook(() => useSlide(), { wrapper: SlideContextProvider });
 
     act(() => {
-        result.current.slideTo(<div data-testid={secondary} />)
-    })
+        result.current.slideTo(<div data-testid={secondary} />);
+    });
 
-    expect(screen.getByTestId(secondary)).toBeInTheDocument()
-})
+    expect(screen.getByTestId(secondary)).toBeInTheDocument();
+});
 
 test("reset unsets secondaryContent", async () => {
-    const { result } = renderHook(() => useSlide(), { wrapper: SlideContextProvider })
+    const { result } = renderHook(() => useSlide(), { wrapper: SlideContextProvider });
 
     act(() => {
-        result.current.slideTo(<div data-testid={secondary} />)
-    })
+        result.current.slideTo(<div data-testid={secondary} />);
+    });
 
-    expect.soft(screen.queryByTestId(secondary)).toBeInTheDocument()
+    expect.soft(screen.queryByTestId(secondary)).toBeInTheDocument();
 
     act(() => {
-        result.current.reset()
-    })
+        result.current.reset();
+    });
 
-    expect.soft(screen.queryByTestId(secondary)).not.toBeInTheDocument()
-
-})
+    expect.soft(screen.queryByTestId(secondary)).not.toBeInTheDocument();
+});

@@ -1,4 +1,4 @@
-import React from "react"
+import React from "react";
 
 import { useBooleanState, useRainViewer } from "Hooks";
 
@@ -10,10 +10,10 @@ import { varNames } from "ts/StyleMixins";
 import getTimeFormatted from "ts/TimeConversion";
 
 import ControlPortal, { Position } from "./ControlPortal";
-import { Message, Playback, Slider, Tick,TickArray, Time, Timeline } from "./RainViewer.style";
+import { Message, Playback, Slider, Tick, TickArray, Time, Timeline } from "./RainViewer.style";
 
 
-const getTimeDisplay = (time: number) => 
+const getTimeDisplay = (time: number) =>
     `${Date.now() >= time * 1000 ? "Past" : "Forecast"}: ${getTimeFormatted(
         time * 1000,
         "hourMinute"
@@ -23,9 +23,9 @@ export default function RainViewer() {
     //showFrame will change the currentLayerIndex of the active layer,
     //therefore when calling showFrame and setCurrentFrame, always call showFrame first to stay up to date.
     //Tests will expect this behavior.
-    
-    const { availableLayers, active, showFrame, isLoading } = useRainViewer()
-    const [currentFrame, setCurrentFrame] = React.useState<number>(0)
+
+    const { availableLayers, active, showFrame, isLoading } = useRainViewer();
+    const [currentFrame, setCurrentFrame] = React.useState<number>(0);
 
     const animationTimer = React.useRef<NodeJS.Timeout | null>(null);
 
@@ -34,14 +34,14 @@ export default function RainViewer() {
     const [isPlaying, setIsPlayingTrue, setIsPlayingFalse] = useBooleanState(false);
 
     React.useEffect(() => {
-        if(!availableLayers) return;
+        if (!availableLayers) return;
 
-        const currentLayer = availableLayers[active]
+        const currentLayer = availableLayers[active];
         const currentTile = currentLayer.tileLayers[currentLayer.currentLayerIndex];
 
-        if(!currentTile) return;
+        if (!currentTile) return;
 
-        if(currentTile.isLoading()) setLoadingLayerTrue();
+        if (currentTile.isLoading()) setLoadingLayerTrue();
 
         currentTile.on("loading", setLoadingLayerTrue);
         currentTile.on("load", setLoadingLayerFalse);
@@ -51,13 +51,13 @@ export default function RainViewer() {
             currentTile.off("loading", setLoadingLayerTrue);
             currentTile.off("load", setLoadingLayerFalse);
             currentTile.off("remove", setLoadingLayerFalse);
-        }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [active, availableLayers, currentFrame])
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [active, availableLayers, currentFrame]);
 
     //Play will show the next frame every 0.5s.
     const play = React.useCallback(() => {
-        if(!availableLayers) return;
+        if (!availableLayers) return;
 
         showFrame(availableLayers[active].currentLayerIndex + 1);
         setCurrentFrame(availableLayers[active].currentLayerIndex);
@@ -79,55 +79,53 @@ export default function RainViewer() {
     }, [availableLayers]);
 
     React.useEffect(() => {
-        if(loadingLayer && pause()) {
+        if (loadingLayer && pause()) {
             awaitResume.current = true;
-        }
-        else if(!loadingLayer && awaitResume.current) {
+        } else if (!loadingLayer && awaitResume.current) {
             awaitResume.current = false;
             play();
         }
-    }, [loadingLayer, pause, play])
+    }, [loadingLayer, pause, play]);
 
     React.useEffect(() => {
-        if(!availableLayers) return;
+        if (!availableLayers) return;
 
-        if(pause()) play();
+        if (pause()) play();
 
         showFrame(availableLayers[active].currentLayerIndex);
         setCurrentFrame(availableLayers[active].currentLayerIndex);
-    }, [active, availableLayers, showFrame, pause, play])
-    
-    if(isLoading) return (
-        <ControlPortal position={Position.BOTTOM_CENTER}>
-            <Message className="leaflet-control">Loading Radar...</Message>
-        </ControlPortal>
-    );
+    }, [active, availableLayers, showFrame, pause, play]);
 
-    if(!availableLayers) return (
-        <ControlPortal position={Position.BOTTOM_CENTER}>
-            <Message className="leaflet-control">Radar Unavailable</Message>
-        </ControlPortal>
-    )
+    if (isLoading)
+        return (
+            <ControlPortal position={Position.BOTTOM_CENTER}>
+                <Message className="leaflet-control">Loading Radar...</Message>
+            </ControlPortal>
+        );
+
+    if (!availableLayers)
+        return (
+            <ControlPortal position={Position.BOTTOM_CENTER}>
+                <Message className="leaflet-control">Radar Unavailable</Message>
+            </ControlPortal>
+        );
 
     const activeData = availableLayers[active];
 
     return (
         <ControlPortal position={Position.BOTTOM_CENTER}>
             <Playback className="leaflet-control">
-                <Time>
-                    {getTimeDisplay(activeData.frames[activeData.currentLayerIndex].time)}
-                </Time>
+                <Time>{getTimeDisplay(activeData.frames[activeData.currentLayerIndex].time)}</Time>
                 <Button
                     varient="transparent"
                     onClick={(e: React.MouseEvent) => {
                         e.stopPropagation();
 
-                        if(loadingLayer) {
+                        if (loadingLayer) {
                             //CLick will pause no matter what during load
                             awaitResume.current = false;
                             setIsPlayingFalse();
-                        }
-                        else if (pause()) {
+                        } else if (pause()) {
                             setIsPlayingFalse();
                         } else {
                             setIsPlayingTrue();
@@ -137,11 +135,7 @@ export default function RainViewer() {
                     style={{ [varNames.svgSize]: "1.5rem" }}
                     title={loadingLayer ? "Loading" : isPlaying ? "Pause" : "Play"}
                 >
-                    {
-                        loadingLayer 
-                        ? <Spinner /> 
-                        : isPlaying ? <Pause /> : <Play />
-                    }
+                    {loadingLayer ? <Spinner /> : isPlaying ? <Pause /> : <Play />}
                 </Button>
                 <Timeline>
                     <Slider
@@ -150,7 +144,7 @@ export default function RainViewer() {
                         max={activeData.frames.length - 1}
                         value={currentFrame}
                         onChange={e => {
-                            if(isPlaying) {
+                            if (isPlaying) {
                                 pause();
                                 setIsPlayingFalse();
                             }
@@ -160,12 +154,12 @@ export default function RainViewer() {
                         }}
                     />
                     <TickArray>
-                        {activeData.frames.map((frame) => (
+                        {activeData.frames.map(frame => (
                             <Tick key={frame.time} />
                         ))}
                     </TickArray>
                 </Timeline>
             </Playback>
         </ControlPortal>
-    )
+    );
 }

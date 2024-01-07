@@ -122,7 +122,7 @@ const alertTypes = [
     "test",
     "child abduction emergency",
     "blue alert",
-]
+];
 
 export default class NWSAlert {
     private declare readonly type: string;

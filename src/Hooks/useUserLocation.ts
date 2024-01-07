@@ -10,13 +10,7 @@ import React from "react";
 import useReadLocalStorage from "./useReadLocalStorage";
 
 
-type Status =
-    | "no_value"
-    | "nav_not_supported"
-    | "denied"
-    | "loading"
-    | "OK"
-    | "getting_current";
+type Status = "no_value" | "nav_not_supported" | "denied" | "loading" | "OK" | "getting_current";
 
 export default function useUserLocation() {
     const userLocation = useReadLocalStorage("userLocation");
@@ -44,7 +38,7 @@ export default function useUserLocation() {
                     });
                 },
                 () => setStatus("denied"),
-                { timeout: 1000 * 20 } 
+                { timeout: 1000 * 20 }
             );
         } else {
             if (!userLocation.coords) setStatus("no_value");
