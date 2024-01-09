@@ -71,8 +71,9 @@ describe("Responsive", () => {
         );
     });
 
-    test("Down to medium, posititioned in area n", () => {
+    test("Down to medium, posititioned in area n within root", () => {
         expect(screen.getByTestId(testIds.Widget.WidgetSection)).toHaveStyleRule("grid-area", "n", {
+            target: "#root>",
             media: mediaQueries.min("medium"),
         });
     });

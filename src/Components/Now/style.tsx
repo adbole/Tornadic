@@ -13,7 +13,9 @@ export const Base = css({
     padding: "60px 0px",
 
     [mediaQueries.max("medium")]: { gridColumn: "1 / -1" },
-    [mediaQueries.min("medium")]: { gridArea: "n" },
+    "#root > &": {
+        [mediaQueries.min("medium")]: { gridArea: "n" }
+    },
 });
 
 export default styled(Widget)(Base);
