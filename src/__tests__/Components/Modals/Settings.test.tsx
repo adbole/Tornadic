@@ -62,6 +62,8 @@ describe("Changing Settings", () => {
                   precipitation: "mm",
                   windspeed: "kn",
                   radarAlertMode: false,
+                  preferGradient: false,
+                  highContrastForLive: false
               }
             : DEFAULTS.userSettings;
 
@@ -86,35 +88,45 @@ describe("Changing Settings", () => {
         );
     });
 
-    test.each([
-        ["Radar Alert Mode Off -> On", false, true],
-        ["Radar Alert Mode On -> Off", true, false],
-    ])(`%s`, (_, defaultState, newState) => {
-        const defaults: UserSettings = {
-            ...DEFAULTS.userSettings,
-            radarAlertMode: defaultState,
-        };
-
-        setLocalStorageItem("userSettings", defaults);
-        render(<Settings isOpen={true} onClose={vi.fn()} />);
-
-        const radar = screen.getByLabelText<HTMLInputElement>("Radar Alert Mode");
-        expect.soft(radar.checked).toBe(defaultState);
-
-        act(() => {
-            radar.click();
+    //Toggle Switches
+    describe.each([
+        ["Radar Alert Mode", "radarAlertMode"],
+        ["Prefer Gradients Over Live", "preferGradient"],
+        ["High Foreground Contrast", "highContrastForLive"]
+    ] as [string, keyof UserSettings][])
+    (`%s`, (label, prop) => {
+        test.each([
+            ["Off -> On", false, true],
+            ["On -> Off", true, false],
+        ] as [string, boolean, boolean][])
+        (`%s`, (_, defaultState, newState) => {
+            const defaults: UserSettings = {
+                ...DEFAULTS.userSettings,
+                [prop]: defaultState,
+            };
+    
+            setLocalStorageItem("userSettings", defaults);
+            render(<Settings isOpen={true} onClose={vi.fn()} />);
+    
+            const toggle = screen.getByLabelText<HTMLInputElement>(label);
+            expect.soft(toggle.checked).toBe(defaultState);
+    
+            act(() => {
+                toggle.click();
+            });
+    
+            expect.soft(toggle.checked).toBe(newState);
+    
+            saveAndCheck(
+                {
+                    ...defaults,
+                    [prop]: newState,
+                },
+                defaults
+            );
         });
-
-        expect.soft(radar.checked).toBe(newState);
-
-        saveAndCheck(
-            {
-                ...defaults,
-                radarAlertMode: newState,
-            },
-            defaults
-        );
     });
+
 
     test("Save button is disabled if settings are reverted to default before save", () => {
         render(<Settings isOpen={true} onClose={vi.fn()} />);
