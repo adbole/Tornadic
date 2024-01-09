@@ -6,7 +6,7 @@ import { Canvas } from "@react-three/fiber";
 
 import { useWeather } from "Contexts/WeatherContext";
 
-import { Clouds, RainSnow, Stars, Thunder } from "./__internal__";
+import { Clouds, Gradient, RainSnow, Stars, Thunder } from "./__internal__";
 
 
 const StyledCanvas = styled(Canvas)({
@@ -37,8 +37,13 @@ export default function Background() {
 
     return (
         <>
-            {rayleigh === 1 && <Global styles={{  "#root": { color: "#3f3f3f" } }} />}
-            <StyledCanvas style={{ position: "fixed" }} gl={{ toneMappingExposure: exposure }}>
+            {/* Style wise white looks better, but this should be an option for those who want it along with the future Gradient Preferred settings */}
+            {/* {rayleigh === 1 && <Global styles={{  "#root": { color: "#3f3f3f" } }} />} */}
+            <StyledCanvas 
+                style={{ position: "fixed" }} 
+                gl={{ toneMappingExposure: exposure }} 
+                fallback={<Gradient isDay={weather.isDay()} condition={condition}/>}
+            >
                 <Sky 
                     rayleigh={rayleigh}
                     inclination={elevation}
