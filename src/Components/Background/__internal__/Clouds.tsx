@@ -21,6 +21,7 @@ export default function Clouds({ isDay, condition }: { isDay: boolean, condition
         switch(condition) {
             case "Overcast":
             case "Rain":
+            case "Freezing Rain":
             case "Snow":
             case "Snow Grains":
             case "Thunderstorms":
