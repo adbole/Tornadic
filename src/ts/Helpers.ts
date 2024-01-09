@@ -86,3 +86,7 @@ export const throwError = (msg: string) => {
 
 //Helper method to ensure that a string matches a property on a type
 export const nameof = <T>(name: Extract<keyof T, string>): string => name;
+
+
+export const randomBetween = (min: number, max: number) => 
+    Math.random() * (max - min) + min

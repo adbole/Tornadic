@@ -4,7 +4,7 @@ import { mockDate } from "__tests__/__utils__";
 import DEFAULTS from "Hooks/useLocalStorage.config";
 
 import Weather from "ts/Weather";
-import type { WeatherConditionType } from "ts/WeatherCondition";
+import type WeatherCondition from "ts/WeatherCondition";
 
 //NOW INDEX FOR MOCK IS 21
 const NOW_INDEX = 21;
@@ -34,7 +34,7 @@ weatherTest("isDay returns the correct day value", ({ weather }) => {
 weatherTest("getNow returns an object of values representing now", ({ weather }) => {
     const now = weather.getNow();
 
-    expect.soft(now.conditionInfo.type).toEqual<WeatherConditionType>("Partly Cloudy");
+    expect.soft(now.conditionInfo.type).toEqual<WeatherCondition["type"]>("Partly Cloudy");
     expect
         .soft(now.feelsLike)
         .toEqual(forecastObj.hourly.apparent_temperature[NOW_INDEX].toFixed(0));

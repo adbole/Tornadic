@@ -4,6 +4,7 @@ import WeatherContext from "Contexts/WeatherContext";
 
 import {
     Alert,
+    Background,
     Button,
     Daily,
     FetchErrorHandler,
@@ -111,6 +112,8 @@ function App() {
             )}
         >
             <WeatherContext latitude={latitude} longitude={longitude} skeletonRender={AppLoader}>
+                <Background />
+
                 <Now />
                 <Alert />
                 <Hourly />

@@ -6,10 +6,13 @@
         default-src 'self';
         img-src 
             'self'
+            https://rawcdn.githack.com
+            https://raw.githubusercontent.com
             https://tilecache.rainviewer.com
             https://tile.openstreetmap.org
             data:;
         script-src 'self'; 
+        worker-src 'self' blob:;
         script-src-elem 'self';
         style-src 'self' 'unsafe-inline'; 
         object-src 'none';

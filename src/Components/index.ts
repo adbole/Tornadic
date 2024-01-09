@@ -1,4 +1,5 @@
 export { default as Alert } from "./Alert";
+export { default as Background } from "./Background";
 export { default as Daily } from "./Daily";
 export { default as FetchErrorHandler } from "./FetchErrorHandler";
 export { default as HazardLevel } from "./HazardLevel";

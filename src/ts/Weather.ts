@@ -4,7 +4,6 @@
 
 import getTimeFormatted from "ts/TimeConversion";
 
-import type { WeatherConditionType } from "./WeatherCondition";
 import WeatherCondition from "./WeatherCondition";
 
 
@@ -193,7 +192,7 @@ export default class Weather {
         return this.forecast.daily[prop];
     }
 
-    private static hasChanceOfRain(condition: WeatherConditionType, precip_prop: number) {
+    private static hasChanceOfRain(condition: WeatherCondition["type"], precip_prop: number) {
         switch (condition) {
             case "Clear":
             case "Mostly Clear":

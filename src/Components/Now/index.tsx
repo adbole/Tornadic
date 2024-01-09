@@ -1,5 +1,3 @@
-import { Global } from "@emotion/react";
-
 import { useBooleanState } from "Hooks";
 
 import { useWeather } from "Contexts/WeatherContext";
@@ -24,17 +22,9 @@ export default function Now({ displayOnly }: { displayOnly?: boolean }) {
     const [settingsOpen, showSettings, hideSettings] = useBooleanState(false);
 
     const now = weather.getNow();
-    const background = now.conditionInfo.background;
-
-    const gradient = `linear-gradient(to bottom, ${background[0]}, ${background[1]})`;
 
     return (
         <>
-            {!displayOnly && (
-                <Global
-                    styles={{ body: { background: gradient, backgroundAttachment: "fixed" } }}
-                />
-            )}
             <NowWidget size="widget-large" isTemplate>
                 {!displayOnly && (
                     <Button

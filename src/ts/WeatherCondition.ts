@@ -1,7 +1,7 @@
 import * as Conditions from "svgs/conditions";
 
 
-export type WeatherConditionType =
+type WeatherConditionType =
     | "Clear"
     | "Mostly Clear"
     | "Partly Cloudy"
@@ -19,7 +19,7 @@ export type WeatherConditionType =
     | "Thunderstorms and Hail";
 
 //Different Intesities a WMO code can have.
-export type Intesity = "Light" | "Moderate" | "Heavy" | "";
+type Intesity = "Light" | "Moderate" | "Heavy" | "";
 
 /**
  * Converts a WMO code into three parts to be rendered, the message (type), intesity (if applicable), and the icon.
