@@ -12,10 +12,6 @@ mockDate();
 
 vi.mock("Contexts/WeatherContext", () => useWeather);
 
-beforeEach(() => {
-    vi.clearAllMocks();
-});
-
 describe.each([
     "dewpoint_2m",
     "precipitation",

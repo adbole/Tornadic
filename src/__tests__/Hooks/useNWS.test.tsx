@@ -22,10 +22,6 @@ function Wrapper({ children }: { children: React.ReactNode }) {
 const renderNWS = (lat?: number, long?: number) =>
     renderHook(() => useNWS(lat, long), { wrapper: Wrapper });
 
-beforeEach(() => {
-    vi.clearAllMocks();
-});
-
 test("no request are made if nothing is passed", () => {
     const { result } = renderNWS();
 

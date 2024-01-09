@@ -27,7 +27,6 @@ const constructSatellitePath = (path: string) =>
     `${rainviewerObj.host}${path}/512/{z}/{x}/{y}/0/1_1.png`;
 
 beforeEach(() => {
-    vi.clearAllMocks();
     vi.useFakeTimers();
 
     const past = rainviewerObj.radar.past;

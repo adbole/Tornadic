@@ -31,10 +31,6 @@ vi.mock("Components/Modals/Chart/__internal__/Tooltip/__internal__", () => ({
     Time: mocks.time,
 }));
 
-afterEach(() => {
-    vi.clearAllMocks();
-});
-
 test.each([0, 1])("No hover passes hoverindex -1 and day %i", day => {
     render(
         <ChartContext view="temperature_2m" day={day}>

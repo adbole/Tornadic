@@ -71,5 +71,6 @@ export default defineConfig({
                 "**/style.tsx"
             ]
         },
+        clearMocks: true,
     }
 });

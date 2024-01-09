@@ -17,10 +17,6 @@ vi.mock("svgs/radar", async importOriginal => ({
     LocationDot: () => <span>LocationDot</span>,
 }));
 
-beforeEach(() => {
-    vi.clearAllMocks();
-});
-
 function Wrapper({ children }: { children: React.ReactNode }) {
     return (
         <MapContainer>

@@ -128,10 +128,6 @@ vi.mock("Hooks", async importOriginal => ({
     useUserLocation: hookMocks.useUserLocation,
 }));
 
-beforeEach(() => {
-    vi.clearAllMocks();
-});
-
 test("When the app is offline, a message is shown", () => {
     hookMocks.useOnlineOffline.mockReturnValueOnce(false);
 
