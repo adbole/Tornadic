@@ -1,11 +1,12 @@
-import React, { Suspense } from "react";
+import React from "react";
+import { Global } from "@emotion/react";
 import styled from "@emotion/styled";
 import { Sky } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 
 import { useWeather } from "Contexts/WeatherContext";
 
-import { Clouds, RainSnow, Thunder } from "./__internal__";
+import { Clouds, RainSnow, Stars, Thunder } from "./__internal__";
 
 
 const StyledCanvas = styled(Canvas)({
@@ -35,8 +36,9 @@ export default function Background() {
     }, [weather, condition])
 
     return (
-        <StyledCanvas style={{ position: "fixed" }} gl={{ toneMappingExposure: exposure }}>
-            <Suspense fallback={null}>
+        <>
+            {rayleigh === 1 && <Global styles={{  "#root": { color: "#3f3f3f" } }} />}
+            <StyledCanvas style={{ position: "fixed" }} gl={{ toneMappingExposure: exposure }}>
                 <Sky 
                     rayleigh={rayleigh}
                     inclination={elevation}
@@ -48,7 +50,8 @@ export default function Background() {
                 <Clouds isDay={weather.isDay()} condition={condition} />
                 <RainSnow condition={condition} />
                 <Thunder condition={condition} />
-            </Suspense>
-        </StyledCanvas>
+                <Stars isDay={weather.isDay()} condition={condition} />
+            </StyledCanvas>
+        </>
     );
 }

@@ -44,13 +44,11 @@ export default function RainSnow({ condition }: { condition: WeatherCondition["t
         }
 
         for(let i = 0; i < amount; i++) {
-            const rainDrop = new Vector3(
+            vertices.push(new Vector3(
                 randomBetween(-200, 200),
                 randomBetween(-250, 250),
                 randomBetween(-100, -20)
-            )
-
-            vertices.push(rainDrop)
+            ))
         }
 
         return new BufferGeometry().setFromPoints(vertices)

@@ -28,7 +28,7 @@ export default function Thunderstorm({ condition }: { condition: WeatherConditio
         if(!flash.current) return
 
         if(doFlash.current || flash.current.power > 100) {
-            if(flash.current.power < 100) {
+            if(flash.current.power < 50) {
                 flash.current.position.set(
                     randomBetween(-width, width),
                     randomBetween(5, 10),
@@ -36,7 +36,7 @@ export default function Thunderstorm({ condition }: { condition: WeatherConditio
                 )
             }
 
-            flash.current.power = 50 + Math.random() * 500
+            flash.current.power = Math.random() * 500
         }
         else flash.current.power = 0;
     })
@@ -55,7 +55,6 @@ export default function Thunderstorm({ condition }: { condition: WeatherConditio
             doFlash.current = false
             clearInterval(interval)
         }
-    
     })
 
     return (

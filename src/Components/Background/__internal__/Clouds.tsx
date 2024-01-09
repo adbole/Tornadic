@@ -59,7 +59,7 @@ export default function Clouds({ isDay, condition }: { isDay: boolean, condition
                 segments={segments}
                 opacity={opacity}
                 growth={5}
-                speed={0.1}
+                speed={0.2}
                 bounds={[30, 1, 1]}
             />
         </group>
