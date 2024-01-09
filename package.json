@@ -17,8 +17,7 @@
         "react-dom": "^18.2.0",
         "react-leaflet": "^4.0.1",
         "swr": "^2.2.1",
-        "typescript": "^5.0.4",
-        "web-vitals": "^2.1.4"
+        "typescript": "^5.0.4"
     },
     "scripts": {
         "start": "vite",
