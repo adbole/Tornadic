@@ -18,7 +18,7 @@ export default function Gradient({ isDay, condition }: { isDay: boolean, conditi
             case "Snow":
             case "Snow Grains":
             case "Snow Showers":
-                return ["#797c87", "acb7bd"];
+                return ["#797c87", "#acb7bd"];
             default:
                 return isDay ? ["#7a98b2", "#bfc5c6"] : ["#1a1b1c", "#1a1b1c"]
         }

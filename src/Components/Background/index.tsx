@@ -1,8 +1,10 @@
 import React from "react";
-import { Global } from "@emotion/react";
+import { css,Global } from "@emotion/react";
 import styled from "@emotion/styled";
 import { Sky } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
+
+import { useReadLocalStorage } from "Hooks";
 
 import { useWeather } from "Contexts/WeatherContext";
 
@@ -15,8 +17,11 @@ const StyledCanvas = styled(Canvas)({
     zIndex: -1,
 });
 
+const highContrast = css({ "#root": { color: "#3f3f3f" } })
+
 export default function Background() {
     const { weather } = useWeather();
+    const settings = useReadLocalStorage("userSettings")
 
     const condition = React.useMemo(() => weather.getNow().conditionInfo.type, [weather]);
 
@@ -35,10 +40,26 @@ export default function Background() {
         
     }, [weather, condition])
 
+    if(!settings || settings.preferGradient) {
+        return (
+            <>
+                <Gradient isDay={weather.isDay()} condition={condition}/>
+                {
+                    rayleigh === 1 && 
+                    settings?.highContrastForLive && 
+                    <Global styles={highContrast} />
+                }
+            </>
+        )
+    }
+
     return (
         <>
-            {/* Style wise white looks better, but this should be an option for those who want it along with the future Gradient Preferred settings */}
-            {/* {rayleigh === 1 && <Global styles={{  "#root": { color: "#3f3f3f" } }} />} */}
+            {
+                rayleigh === 1 && 
+                settings.highContrastForLive && 
+                <Global styles={highContrast} />
+            }
             <StyledCanvas 
                 style={{ position: "fixed" }} 
                 gl={{ toneMappingExposure: exposure }} 

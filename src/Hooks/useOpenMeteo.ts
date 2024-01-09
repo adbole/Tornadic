@@ -20,7 +20,7 @@ export default function useOpenMeteo(
             return getUrls(latitude, longitude, settings);
     }, [latitude, longitude, settings]);
 
-    const key = urls ? [urls.airQualityURL, urls.forecastURL] : null;
+    const key = urls ? JSON.stringify(urls) : null;
     const { data: weather, isLoading } = useSWR<Weather, string>(
         key,
         async () => {
