@@ -2,6 +2,7 @@ import useWeather from "__tests__/__mocks__/useWeather";
 import { mockDate } from "__tests__/__utils__";
 import { act, fireEvent, render, screen } from "@testing-library/react";
 
+import type { ChartViews } from "Components/Modals/Chart";
 import { ChartContext } from "Components/Modals/Chart/__internal__";
 import Tooltip from "Components/Modals/Chart/__internal__/Tooltip";
 
@@ -95,9 +96,12 @@ test.each([
     }
 );
 
-test("Hover passes a hoverIndex based on the mouse position", () => {
+test.each([
+    "temperature_2m",
+    "precipitation"
+] as ChartViews[])("%s: Hover passes a hoverIndex based on the mouse position", (view) => {
     const { container } = render(
-        <ChartContext view="temperature_2m" day={0}>
+        <ChartContext view={view} day={0}>
             <Tooltip day={0} />
         </ChartContext>
     );
