@@ -20,36 +20,6 @@ exports[`Day > Rain 1`] = `"body{background:linear-gradient(to bottom, #0f1c50, 
 
 exports[`Day > Rain Showers 1`] = `"body{background:linear-gradient(to bottom, #0f1c50, #8da3bd);};label:Gradient;"`;
 
-exports[`Day > Renders Clear 1`] = `"body{background:linear-gradient(to bottom, #7a98b2, #bfc5c6);};label:Gradient;"`;
-
-exports[`Day > Renders Drizzle 1`] = `"body{background:linear-gradient(to bottom, #0f1c50, #8da3bd);};label:Gradient;"`;
-
-exports[`Day > Renders Foggy 1`] = `"body{background:linear-gradient(to bottom, #7a98b2, #bfc5c6);};label:Gradient;"`;
-
-exports[`Day > Renders Freezing Drizzle 1`] = `"body{background:linear-gradient(to bottom, #0f1c50, #8da3bd);};label:Gradient;"`;
-
-exports[`Day > Renders Freezing Rain 1`] = `"body{background:linear-gradient(to bottom, #0f1c50, #8da3bd);};label:Gradient;"`;
-
-exports[`Day > Renders Mostly Clear 1`] = `"body{background:linear-gradient(to bottom, #7a98b2, #bfc5c6);};label:Gradient;"`;
-
-exports[`Day > Renders Overcast 1`] = `"body{background:linear-gradient(to bottom, #acb7bd, #73bae1);};label:Gradient;"`;
-
-exports[`Day > Renders Partly Cloudy 1`] = `"body{background:linear-gradient(to bottom, #7a98b2, #bfc5c6);};label:Gradient;"`;
-
-exports[`Day > Renders Rain 1`] = `"body{background:linear-gradient(to bottom, #0f1c50, #8da3bd);};label:Gradient;"`;
-
-exports[`Day > Renders Rain Showers 1`] = `"body{background:linear-gradient(to bottom, #0f1c50, #8da3bd);};label:Gradient;"`;
-
-exports[`Day > Renders Snow 1`] = `"body{background:linear-gradient(to bottom, #797c87, #acb7bd);};label:Gradient;"`;
-
-exports[`Day > Renders Snow Grains 1`] = `"body{background:linear-gradient(to bottom, #797c87, #acb7bd);};label:Gradient;"`;
-
-exports[`Day > Renders Snow Showers 1`] = `"body{background:linear-gradient(to bottom, #797c87, #acb7bd);};label:Gradient;"`;
-
-exports[`Day > Renders Thunderstorms 1`] = `"body{background:linear-gradient(to bottom, #4f5158, #8da3bd);};label:Gradient;"`;
-
-exports[`Day > Renders Thunderstorms and Hail 1`] = `"body{background:linear-gradient(to bottom, #4f5158, #8da3bd);};label:Gradient;"`;
-
 exports[`Day > Snow 1`] = `"body{background:linear-gradient(to bottom, #797c87, #acb7bd);};label:Gradient;"`;
 
 exports[`Day > Snow Grains 1`] = `"body{background:linear-gradient(to bottom, #797c87, #acb7bd);};label:Gradient;"`;
@@ -79,36 +49,6 @@ exports[`Night > Partly Cloudy 1`] = `"body{background:linear-gradient(to bottom
 exports[`Night > Rain 1`] = `"body{background:linear-gradient(to bottom, #0f1c50, #8da3bd);};label:Gradient;"`;
 
 exports[`Night > Rain Showers 1`] = `"body{background:linear-gradient(to bottom, #0f1c50, #8da3bd);};label:Gradient;"`;
-
-exports[`Night > Renders Clear 1`] = `"body{background:linear-gradient(to bottom, #1a1b1c, #1a1b1c);};label:Gradient;"`;
-
-exports[`Night > Renders Drizzle 1`] = `"body{background:linear-gradient(to bottom, #0f1c50, #8da3bd);};label:Gradient;"`;
-
-exports[`Night > Renders Foggy 1`] = `"body{background:linear-gradient(to bottom, #1a1b1c, #1a1b1c);};label:Gradient;"`;
-
-exports[`Night > Renders Freezing Drizzle 1`] = `"body{background:linear-gradient(to bottom, #0f1c50, #8da3bd);};label:Gradient;"`;
-
-exports[`Night > Renders Freezing Rain 1`] = `"body{background:linear-gradient(to bottom, #0f1c50, #8da3bd);};label:Gradient;"`;
-
-exports[`Night > Renders Mostly Clear 1`] = `"body{background:linear-gradient(to bottom, #1a1b1c, #1a1b1c);};label:Gradient;"`;
-
-exports[`Night > Renders Overcast 1`] = `"body{background:linear-gradient(to bottom, #2d3438, #1a1b1c);};label:Gradient;"`;
-
-exports[`Night > Renders Partly Cloudy 1`] = `"body{background:linear-gradient(to bottom, #1a1b1c, #1a1b1c);};label:Gradient;"`;
-
-exports[`Night > Renders Rain 1`] = `"body{background:linear-gradient(to bottom, #0f1c50, #8da3bd);};label:Gradient;"`;
-
-exports[`Night > Renders Rain Showers 1`] = `"body{background:linear-gradient(to bottom, #0f1c50, #8da3bd);};label:Gradient;"`;
-
-exports[`Night > Renders Snow 1`] = `"body{background:linear-gradient(to bottom, #797c87, #acb7bd);};label:Gradient;"`;
-
-exports[`Night > Renders Snow Grains 1`] = `"body{background:linear-gradient(to bottom, #797c87, #acb7bd);};label:Gradient;"`;
-
-exports[`Night > Renders Snow Showers 1`] = `"body{background:linear-gradient(to bottom, #797c87, #acb7bd);};label:Gradient;"`;
-
-exports[`Night > Renders Thunderstorms 1`] = `"body{background:linear-gradient(to bottom, #4f5158, #8da3bd);};label:Gradient;"`;
-
-exports[`Night > Renders Thunderstorms and Hail 1`] = `"body{background:linear-gradient(to bottom, #4f5158, #8da3bd);};label:Gradient;"`;
 
 exports[`Night > Snow 1`] = `"body{background:linear-gradient(to bottom, #797c87, #acb7bd);};label:Gradient;"`;
 
