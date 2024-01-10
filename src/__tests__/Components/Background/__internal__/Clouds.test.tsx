@@ -21,11 +21,7 @@ test.each([
 ])("Doesn't show if Condition is Clear at %s", async (_ ,isDay) => {
     const renderer = await RTTR.create(<Clouds isDay={isDay} condition="Clear" />)
 
-    console.log(renderer.scene.children)
-
-    expect(
-        renderer.scene.findByType("Group").props.visible
-    ).toBe(false)
+    expect(renderer.scene.findByType("Group").props.visible).toBe(false)
 })
 
 test.each([
@@ -34,9 +30,7 @@ test.each([
 ])("Ambient light has intensity %s at %s", async (_, isDay, intensity) => {
     const renderer = await RTTR.create(<Clouds isDay={isDay} condition="Clear" />)
 
-    expect(
-        renderer.scene.findByType("AmbientLight").props.intensity
-    ).toBe(intensity)
+    expect(renderer.scene.findByType("AmbientLight").props.intensity).toBe(intensity)
 })
 
 const commonProps = {

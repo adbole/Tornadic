@@ -41,6 +41,8 @@ export default function Thunderstorm({ condition }: { condition: WeatherConditio
         else flash.current.power = 0;
     })
 
+    // doFlash doesn't guarantee a flash, but it does prevent
+    // it from happening too often
     React.useEffect(() => {
         doFlash.current = false
         const interval = setInterval(() => {
@@ -55,7 +57,7 @@ export default function Thunderstorm({ condition }: { condition: WeatherConditio
             doFlash.current = false
             clearInterval(interval)
         }
-    })
+    }, [])
 
     return (
         <pointLight
