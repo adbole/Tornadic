@@ -10,6 +10,9 @@ export default function Gradient({ isDay, condition }: { isDay: boolean, conditi
             case "Overcast":
                 return isDay ? ["#acb7bd", "#73bae1"] : ["#2d3438", "#1a1b1c"];
             case "Rain":
+            case "Drizzle":
+            case "Freezing Drizzle":
+            case "Freezing Rain":
             case "Rain Showers":
                 return ["#0f1c50", "#8da3bd"];
             case "Thunderstorms":
