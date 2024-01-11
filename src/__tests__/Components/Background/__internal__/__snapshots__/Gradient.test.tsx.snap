@@ -1,0 +1,61 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Day > Clear 1`] = `"body{background:linear-gradient(to bottom, #7a98b2, #bfc5c6);};label:Gradient;"`;
+
+exports[`Day > Drizzle 1`] = `"body{background:linear-gradient(to bottom, #0f1c50, #8da3bd);};label:Gradient;"`;
+
+exports[`Day > Foggy 1`] = `"body{background:linear-gradient(to bottom, #7a98b2, #bfc5c6);};label:Gradient;"`;
+
+exports[`Day > Freezing Drizzle 1`] = `"body{background:linear-gradient(to bottom, #0f1c50, #8da3bd);};label:Gradient;"`;
+
+exports[`Day > Freezing Rain 1`] = `"body{background:linear-gradient(to bottom, #0f1c50, #8da3bd);};label:Gradient;"`;
+
+exports[`Day > Mostly Clear 1`] = `"body{background:linear-gradient(to bottom, #7a98b2, #bfc5c6);};label:Gradient;"`;
+
+exports[`Day > Overcast 1`] = `"body{background:linear-gradient(to bottom, #acb7bd, #73bae1);};label:Gradient;"`;
+
+exports[`Day > Partly Cloudy 1`] = `"body{background:linear-gradient(to bottom, #7a98b2, #bfc5c6);};label:Gradient;"`;
+
+exports[`Day > Rain 1`] = `"body{background:linear-gradient(to bottom, #0f1c50, #8da3bd);};label:Gradient;"`;
+
+exports[`Day > Rain Showers 1`] = `"body{background:linear-gradient(to bottom, #0f1c50, #8da3bd);};label:Gradient;"`;
+
+exports[`Day > Snow 1`] = `"body{background:linear-gradient(to bottom, #797c87, #acb7bd);};label:Gradient;"`;
+
+exports[`Day > Snow Grains 1`] = `"body{background:linear-gradient(to bottom, #797c87, #acb7bd);};label:Gradient;"`;
+
+exports[`Day > Snow Showers 1`] = `"body{background:linear-gradient(to bottom, #797c87, #acb7bd);};label:Gradient;"`;
+
+exports[`Day > Thunderstorms 1`] = `"body{background:linear-gradient(to bottom, #4f5158, #8da3bd);};label:Gradient;"`;
+
+exports[`Day > Thunderstorms and Hail 1`] = `"body{background:linear-gradient(to bottom, #4f5158, #8da3bd);};label:Gradient;"`;
+
+exports[`Night > Clear 1`] = `"body{background:linear-gradient(to bottom, #1a1b1c, #1a1b1c);};label:Gradient;"`;
+
+exports[`Night > Drizzle 1`] = `"body{background:linear-gradient(to bottom, #0f1c50, #8da3bd);};label:Gradient;"`;
+
+exports[`Night > Foggy 1`] = `"body{background:linear-gradient(to bottom, #1a1b1c, #1a1b1c);};label:Gradient;"`;
+
+exports[`Night > Freezing Drizzle 1`] = `"body{background:linear-gradient(to bottom, #0f1c50, #8da3bd);};label:Gradient;"`;
+
+exports[`Night > Freezing Rain 1`] = `"body{background:linear-gradient(to bottom, #0f1c50, #8da3bd);};label:Gradient;"`;
+
+exports[`Night > Mostly Clear 1`] = `"body{background:linear-gradient(to bottom, #1a1b1c, #1a1b1c);};label:Gradient;"`;
+
+exports[`Night > Overcast 1`] = `"body{background:linear-gradient(to bottom, #2d3438, #1a1b1c);};label:Gradient;"`;
+
+exports[`Night > Partly Cloudy 1`] = `"body{background:linear-gradient(to bottom, #1a1b1c, #1a1b1c);};label:Gradient;"`;
+
+exports[`Night > Rain 1`] = `"body{background:linear-gradient(to bottom, #0f1c50, #8da3bd);};label:Gradient;"`;
+
+exports[`Night > Rain Showers 1`] = `"body{background:linear-gradient(to bottom, #0f1c50, #8da3bd);};label:Gradient;"`;
+
+exports[`Night > Snow 1`] = `"body{background:linear-gradient(to bottom, #797c87, #acb7bd);};label:Gradient;"`;
+
+exports[`Night > Snow Grains 1`] = `"body{background:linear-gradient(to bottom, #797c87, #acb7bd);};label:Gradient;"`;
+
+exports[`Night > Snow Showers 1`] = `"body{background:linear-gradient(to bottom, #797c87, #acb7bd);};label:Gradient;"`;
+
+exports[`Night > Thunderstorms 1`] = `"body{background:linear-gradient(to bottom, #4f5158, #8da3bd);};label:Gradient;"`;
+
+exports[`Night > Thunderstorms and Hail 1`] = `"body{background:linear-gradient(to bottom, #4f5158, #8da3bd);};label:Gradient;"`;

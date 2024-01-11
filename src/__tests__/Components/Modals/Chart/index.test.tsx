@@ -36,10 +36,6 @@ vi.mock("Components/Modals/Chart/__internal__", () => ({
     Tooltip: mocks.Tooltip,
 }));
 
-afterEach(() => {
-    vi.clearAllMocks();
-});
-
 test("Doesn't render a modal if isOpen is false", () => {
     render(<Chart isOpen={false} showView="temperature_2m" onClose={() => undefined} />);
 

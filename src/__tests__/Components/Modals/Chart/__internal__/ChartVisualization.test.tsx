@@ -26,10 +26,6 @@ vi.mock("Components/Modals/Chart/__internal__/Visualizers", () => ({
     Line: mocks.line,
 }));
 
-afterEach(() => {
-    vi.clearAllMocks();
-});
-
 describe("Visualizer tests", () => {
     //[view, [y1Visuliazer, y2Visualizer], wrongVisualizers[]]
     test.each([

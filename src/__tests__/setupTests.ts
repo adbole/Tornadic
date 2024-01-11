@@ -13,6 +13,8 @@ import createFetchMock from "vitest-fetch-mock";
 import "vitest-canvas-mock";
 import "@testing-library/jest-dom/vitest";
 
+//@ts-expect-error
+global.IS_REACT_ACT_ENVIRONMENT = true;
 
 expect.addSnapshotSerializer(createSerializer());
 // @ts-expect-error with matchers type not being compatible

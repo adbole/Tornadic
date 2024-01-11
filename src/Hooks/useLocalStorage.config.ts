@@ -9,6 +9,8 @@ declare global {
         windspeed: "kmh" | "mph" | "kn";
         precipitation: "mm" | "inch";
         radarAlertMode: boolean;
+        preferGradient: boolean;
+        highContrastForLive: boolean
     }>;
 
     type UserLocation = Readonly<{
@@ -30,6 +32,8 @@ const DEFAULTS: LocalStorageDefaults = {
         windspeed: "mph",
         precipitation: "inch",
         radarAlertMode: false,
+        preferGradient: false,
+        highContrastForLive: false,
     },
     userLocation: { useCurrent: false },
 };

@@ -98,6 +98,22 @@ export default function Settings({ ...modalProps }: ModalProps) {
                     onChange={e => queueSetting("radarAlertMode", e.target.checked)}
                 />
 
+                <hr />
+
+                <h3>Background</h3>
+                <ToggleSwitch
+                    label="Prefer Gradients Over Live"
+                    title="Disables live backgrounds in favor of gradients. Recommended if live backgrounds are causing performance issues."
+                    defaultChecked={settings.preferGradient}
+                    onChange={e => queueSetting("preferGradient", e.target.checked)}
+                />
+                <ToggleSwitch
+                    label="High Foreground Contrast"
+                    title="Provides a higher contrast between the foreground and background during daytime."
+                    defaultChecked={settings.highContrastForLive}
+                    onChange={e => queueSetting("highContrastForLive", e.target.checked)}
+                />
+
                 <Button
                     disabled={isSaved}
                     onClick={() => {

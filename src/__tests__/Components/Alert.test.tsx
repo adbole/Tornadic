@@ -15,10 +15,6 @@ mockDate();
 
 vi.mock("Contexts/WeatherContext");
 
-beforeEach(() => {
-    vi.clearAllMocks();
-});
-
 test("renders nothing if no alerts are active", () => {
     vi.mocked(useWeather).mockReturnValueOnce(mockUseWeather.useWeather());
 

@@ -1,5 +1,6 @@
 import { mockDate, setLocalStorageItem } from "__tests__/__utils__";
 import { act, render, renderHook, screen } from "@testing-library/react";
+import { SWRConfig } from "swr";
 
 import DEFAULTS from "Hooks/useLocalStorage.config";
 
@@ -11,13 +12,15 @@ const child = "CHILD";
 
 function Wrapper({ children }: { children: React.ReactNode }) {
     return (
-        <WeatherProvider
-            latitude={1}
-            longitude={1}
-            skeletonRender={() => <div data-testid={skeleton} />}
-        >
-            {children}
-        </WeatherProvider>
+        <SWRConfig value={{ dedupingInterval: 0, provider: () => new Map() }}>
+            <WeatherProvider
+                latitude={1}
+                longitude={1}
+                skeletonRender={() => <div data-testid={skeleton} />}
+            >
+                {children}
+            </WeatherProvider>
+        </SWRConfig>
     );
 }
 
@@ -39,7 +42,7 @@ describe("render", () => {
     });
 
     test("renders skeleton when loading without any data", async () => {
-        expect(screen.getByTestId(skeleton)).toBeInTheDocument();
+        expect(screen.queryByTestId(skeleton)).toBeInTheDocument();
 
         //Weather will throw an error relating to not being able to find current time for forecast
         //This is irrelavent to this test and the following ensures it initializes properly to supress it.
@@ -53,23 +56,17 @@ describe("render", () => {
             await vi.runOnlyPendingTimersAsync();
         });
 
-        expect(screen.getByTestId(child)).toBeInTheDocument();
+        expect(screen.queryByTestId(child)).toBeInTheDocument();
     });
 
     test("keeps skeleton up if any fetch throws", async () => {
         fetchMock.mockReject();
 
-        render(
-            <Wrapper>
-                <div data-testid={child} />
-            </Wrapper>
-        );
-
         await act(async () => {
             await vi.runOnlyPendingTimersAsync();
         });
 
-        expect(screen.getByTestId(skeleton)).toBeInTheDocument();
+        expect(screen.queryByTestId(skeleton)).toBeInTheDocument();
     });
 
     test("keeps children up if any fetch throws during data update", async () => {
@@ -83,7 +80,7 @@ describe("render", () => {
             await vi.runOnlyPendingTimersAsync();
         });
 
-        expect(screen.getByTestId(child)).toBeInTheDocument();
+        expect(screen.queryByTestId(child)).toBeInTheDocument();
     });
 });
 

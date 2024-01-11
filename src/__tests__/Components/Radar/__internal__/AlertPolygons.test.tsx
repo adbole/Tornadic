@@ -33,10 +33,6 @@ vi.mock("react-leaflet", async importOriginal => ({
 
 vi.mock("Components/Modals/Alert", () => ({ default: mocks.AlertModal }));
 
-afterEach(() => {
-    vi.clearAllMocks();
-});
-
 test("Displays alerts with coords as polygons", () => {
     const alerts = multiAlert.features.map(alert => new NWSAlert(alert as unknown as NWSAlert));
     const noCoords = alerts.filter(alert => !alert.hasCoords());

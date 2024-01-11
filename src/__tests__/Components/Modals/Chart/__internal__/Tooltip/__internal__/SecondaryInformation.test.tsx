@@ -16,9 +16,6 @@ mockDate();
 vi.mock("Contexts/WeatherContext", () => useWeather);
 vi.spyOn(TooltipHelpers, "getLowHigh");
 
-beforeEach(() => {
-    vi.clearAllMocks();
-});
 
 test("When given a property that doesn't have secondaryInformation provided, returns null", () => {
     const { container } = render(

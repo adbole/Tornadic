@@ -10,7 +10,6 @@ import { RainViewer } from "Components/Radar/__internal__";
 const rainviewerObj = rainviewer();
 
 beforeEach(() => {
-    vi.clearAllMocks();
     vi.useFakeTimers();
 
     const past = rainviewerObj.radar.past;

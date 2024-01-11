@@ -5,6 +5,7 @@ import { Cursor } from "svgs/radar";
 import { fetchData } from "ts/Fetch";
 
 import Button from "./Button";
+import type { SearchResult } from "./SearchInput";
 import SearchInput from "./SearchInput";
 
 
@@ -18,7 +19,10 @@ type QueryResult = {
     admin1: string;
 };
 
-async function getQueryResults(query: string) {
+async function getQueryResults(query: string): Promise<SearchResult<{
+    latitude: number;
+    longitude: number;
+}>[]> {
     const data = await fetchData<{ results: QueryResult[] }>(
         `https://geocoding-api.open-meteo.com/v1/search?name=${query}`,
         ""

@@ -21,7 +21,6 @@ vi.mock("react-leaflet", async importOriginal => ({
 vi.spyOn(L.Map.prototype, "containerPointToLatLng").mockReturnValue(mocks.latLng);
 
 beforeEach(() => {
-    vi.clearAllMocks();
     vi.useFakeTimers();
 });
 

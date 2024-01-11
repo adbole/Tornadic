@@ -31,6 +31,7 @@ const componentMocks = vi.hoisted(() => ({
 vi.mock("Components", async importOriginal => ({
     ...((await importOriginal()) as any),
     Alert: () => <div>Alert</div>,
+    Background: () => <div>Background</div>,
     Daily: () => <div>Daily</div>,
     FetchErrorHandler: componentMocks.FetchErrorHandler,
     HazardLevel: ({ hazard }: { hazard: string }) => <div>HazardLevel - {hazard}</div>,
@@ -126,10 +127,6 @@ vi.mock("Hooks", async importOriginal => ({
     useOnlineOffline: hookMocks.useOnlineOffline,
     useUserLocation: hookMocks.useUserLocation,
 }));
-
-beforeEach(() => {
-    vi.clearAllMocks();
-});
 
 test("When the app is offline, a message is shown", () => {
     hookMocks.useOnlineOffline.mockReturnValueOnce(false);

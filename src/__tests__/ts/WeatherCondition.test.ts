@@ -1,13 +1,12 @@
 import * as Conditions from "svgs/conditions";
 
-import type { Intesity, WeatherConditionType } from "ts/WeatherCondition";
 import WeatherCondition from "ts/WeatherCondition";
 
 //[Weathercode, intensity, condition, icon day, icon night]
 const valueExpected: [
     number,
-    Intesity,
-    WeatherConditionType,
+    WeatherCondition["intensity"],
+    WeatherCondition["type"],
     React.ComponentType,
     React.ComponentType,
 ][] = [

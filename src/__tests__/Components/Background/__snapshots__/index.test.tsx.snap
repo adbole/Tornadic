@@ -1,0 +1,46 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Renders the correct components 1`] = `
+.emotion-0 {
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+
+<div
+  class="emotion-0 emotion-1"
+  style="position: fixed;"
+>
+  Canvas - 
+  <div>
+    Sky
+  </div>
+  <div>
+    Clouds - 
+    true
+     - 
+    Clear
+  </div>
+  <div>
+    RainSnow - 
+    Clear
+  </div>
+  <div>
+    Thunder - 
+    Clear
+  </div>
+  <div>
+    Stars - 
+    true
+     - 
+    Clear
+  </div>
+   - 
+  <div>
+    Gradient - 
+    true
+     - 
+    Clear
+  </div>
+</div>
+`;
