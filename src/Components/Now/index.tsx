@@ -43,7 +43,10 @@ export default function Now({ displayOnly }: { displayOnly?: boolean }) {
                     </Button>
                 )}
 
-                <p onClick={() => (displayOnly ? undefined : showLocationModal())}>
+                <p 
+                    onClick={() => (displayOnly ? undefined : showLocationModal())}
+                    style={!displayOnly ? { cursor: "pointer" } : undefined}
+                >
                     {point.properties.relativeLocation.properties.city}
                 </p>
 
