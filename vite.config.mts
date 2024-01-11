@@ -9,6 +9,7 @@ import { configDefaults } from "vitest/dist/config";
 
 
 export default defineConfig({
+    base: "./",
     build: { outDir: "build" },
     plugins: [
         react({ 

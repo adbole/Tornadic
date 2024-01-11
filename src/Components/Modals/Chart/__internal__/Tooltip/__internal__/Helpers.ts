@@ -15,5 +15,5 @@ export function getLowHigh(
     if (range[0] === undefined) return;
 
     const unit = weather.getForecastUnit(prop);
-    return `L: ${trunc(range[0])}${unit} H: ${range[1]}${unit}`;
+    return `L: ${trunc(range[0])}${unit} H: ${trunc(range[1])}${unit}`;
 }

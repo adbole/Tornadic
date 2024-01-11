@@ -1,6 +1,6 @@
 ![Tornadic Full Text Logo](https://github.com/adbole/Tornadic/blob/master/src/svgs/icon/tornadic-full.svg)
 
-<p align="center">A weather dashboard built using React for the Web</p>
+<p align="center">A responsive weather dashboard built using React</p>
 
 # Features
 - See weather data for your current location or one of your choosing.
