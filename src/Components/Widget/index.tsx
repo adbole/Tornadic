@@ -28,6 +28,7 @@ const Widget = React.forwardRef<HTMLDivElement, WidgetProps>((props, ref) => {
         widgetTitle,
         widgetIcon,
         isTemplate,
+        onClick,
         ...excess
     } = props;
 
@@ -39,6 +40,8 @@ const Widget = React.forwardRef<HTMLDivElement, WidgetProps>((props, ref) => {
             className={className}
             {...excess}
             data-testid={testIds.Widget.WidgetSection}
+            style={onClick && { cursor: "pointer" }}
+            onClick={onClick}
         >
             {widgetTitle && widgetIcon && (
                 <WidgetTitle>
