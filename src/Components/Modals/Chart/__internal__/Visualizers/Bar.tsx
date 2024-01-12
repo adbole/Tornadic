@@ -28,13 +28,14 @@ export default function Bar({
                 enter =>
                     enter
                         .append("rect")
-                        //Filter helps to remove wasted time on 0 values making animation occur faster
                         .attr("x", (d: DataPoint) => x(d.x) as number)
                         .attr("y", y(0))
                         .attr("width", xScale.bandwidth())
                         .transition()
                         .attr("height", (d: DataPoint) => y(0) - y(d[yProp] as number))
                         .attr("y", (d: DataPoint) => y(d[yProp] as number))
+                        //Filter helps to remove wasted time on 0 values making animation occur faster
+                        .filter((d: DataPoint) => d[yProp] !== 0)
                         .delay((_, i) => i * 50) as any,
                 update =>
                     update
