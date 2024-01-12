@@ -59,15 +59,41 @@ test("When isOpen is changed, the dialog is shown or hidden", () => {
     expect.soft(screen.queryByText("Test Content")).toBeInTheDocument();
 });
 
+test("While transitioning, the dialog cannot be closed by click", async () => {
+    vi.useFakeTimers();
+
+    render(<TestComponent defaultOpen={true} />);
+
+    await act(async () => {
+        await vi.advanceTimersByTimeAsync(500)
+        fireEvent.mouseDown(screen.getByRole("dialog"));
+        fireEvent.mouseUp(screen.getByRole("dialog"));
+    })
+
+    expect.soft(screen.queryByRole("dialog")).toBeInTheDocument();
+
+    await act(async () => {
+        await vi.advanceTimersByTimeAsync(500)
+    })
+
+    expect.soft(screen.queryByRole("dialog")).toBeInTheDocument();
+
+    vi.useRealTimers()
+})
+
 describe("Closing", () => {
-    test("When the dialog's backdrop is clicked, onClose is called", () => {
+    test("When the dialog's backdrop is clicked, onClose is called", async () => {
         render(<TestComponent defaultOpen={true} />);
 
         expect(screen.queryByRole("dialog")).toBeInTheDocument();
 
         act(() => {
-            fireEvent.mouseDown(screen.getByRole("dialog"));
-            fireEvent.mouseUp(screen.getByRole("dialog"));
+            const dialog = screen.getByRole("dialog");
+
+            //Animation must have ended for click to work
+            fireEvent.transitionEnd(dialog);
+            fireEvent.mouseDown(dialog);
+            fireEvent.mouseUp(dialog);
         });
 
         expect.soft(screen.queryByRole("dialog")).not.toBeInTheDocument();

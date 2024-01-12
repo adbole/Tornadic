@@ -26,6 +26,7 @@ export default function Modal({ isOpen, children, onClose, className }: ModalPro
     const [openModal, closeModal, stage, shouldMount] = useAnimation(isOpen, 1000);
 
     const dialogRef = React.useRef<HTMLDialogElement | null>(null);
+    const inTransition = React.useRef(isOpen);
 
     React.useEffect(() => {
         if (isOpen) openModal();
@@ -35,10 +36,24 @@ export default function Modal({ isOpen, children, onClose, className }: ModalPro
         if (!shouldMount && stage === "leave") onClose();
     }, [onClose, shouldMount, stage]);
 
+    React.useEffect(() => {
+        if (!dialogRef.current) return;
+
+        const ref = dialogRef.current;
+
+        ref.addEventListener("transitionstart", () => inTransition.current = true)
+        ref.addEventListener("transitionend", () => inTransition.current = false)
+
+        return () => {
+            ref.removeEventListener("transitionstart", () => inTransition.current = true)
+            ref.removeEventListener("transitionend", () => inTransition.current = false)
+        }
+    }, [shouldMount])
+
     useSameClick(dialogRef, (e: MouseEvent) => {
         const target = e.target as HTMLElement;
 
-        if (target === dialogRef.current) closeModal();
+        if (target === dialogRef.current && !inTransition.current) closeModal();
     });
 
     const ref = React.useCallback((el: HTMLDialogElement | null) => {

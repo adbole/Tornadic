@@ -27,6 +27,7 @@ export default styled.dialog<{
 
             opacity: 0,
             transition: "opacity 1s ease",
+            cursor: "pointer",
         },
         [mediaQueries.max("small")]: {
             maxWidth: "100%",
