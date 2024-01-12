@@ -3,6 +3,8 @@ import { act, render, screen } from "@testing-library/react";
 
 import Toast from "Components/Toast";
 
+import { vars } from "ts/StyleMixins";
+
 
 function TestComponent({ isOpen }: { isOpen: boolean }) {
     const [open, setOpen] = React.useState(isOpen);
@@ -13,10 +15,10 @@ function TestComponent({ isOpen }: { isOpen: boolean }) {
             <button onClick={() => setOpen(true)}>Open Toast</button>
             <Toast
                 isOpen={open}
-                action={{
+                actions={[{
                     content: "Dismiss",
                     onClick: () => setOpen(false),
-                }}
+                }]}
             >
                 My Toast
             </Toast>
@@ -54,17 +56,17 @@ describe("toast-root", () => {
     });
 });
 
-describe("Action", () => {
+describe("Actions", () => {
     test("When the action is provided a button is rendered", () => {
         render(
             <>
                 <div id="toast-root" />
                 <Toast
                     isOpen={true}
-                    action={{
+                    actions={[{
                         content: "Dismiss",
                         onClick: () => {},
-                    }}
+                    }]}
                 >
                     My Toast
                 </Toast>
@@ -83,10 +85,10 @@ describe("Action", () => {
                 <div id="toast-root" />
                 <Toast
                     isOpen={true}
-                    action={{
+                    actions={[{
                         content: "Dismiss",
                         onClick,
-                    }}
+                    }]}
                 >
                     My Toast
                 </Toast>
@@ -98,6 +100,37 @@ describe("Action", () => {
         });
 
         expect(onClick).toHaveBeenCalled();
+    });
+
+    test("When multiple actions are provided, multiple buttons are rendered", () => {
+        render(
+            <>
+                <div id="toast-root" />
+                <Toast
+                    isOpen={true}
+                    actions={[
+                        {
+                            content: "Dismiss",
+                            onClick: () => {},
+                        },
+                        {
+                            content: "Cancel",
+                            onClick: () => {},
+                        }
+                    ]}
+                >
+                    My Toast
+                </Toast>
+            </>
+        );
+
+        expect(screen.queryAllByRole("button")).toHaveLength(2);
+
+        expect(screen.queryByText("Dismiss")).toBeInTheDocument();
+        expect(screen.queryByText("Cancel")).toBeInTheDocument();
+
+        expect.soft(screen.getByText("Dismiss")).toHaveStyleRule("background-color", vars.primary);
+        expect.soft(screen.getByText("Cancel")).toHaveStyleRule("background-color", vars.backgroundLayer);
     });
 });
 

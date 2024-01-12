@@ -102,10 +102,12 @@ function App() {
             errorRender={(hasError, retry) => (
                 <Toast
                     isOpen={hasError}
-                    action={{
-                        content: "Try Again",
-                        onClick: retry,
-                    }}
+                    actions={[
+                        {
+                            content: "Try Again",
+                            onClick: retry,
+                        }
+                    ]}
                 >
                     Could not get weather data
                 </Toast>

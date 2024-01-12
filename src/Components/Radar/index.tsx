@@ -5,6 +5,8 @@ import { RADAR_PANE } from "Hooks/useRainViewer";
 
 import { Map } from "svgs/widget";
 
+import { vars } from "ts/StyleMixins";
+
 import {
     AlertPolygons,
     ControlPortal,
@@ -34,6 +36,7 @@ function Radar() {
                 attributionControl={false}
                 scrollWheelZoom={false}
                 dragging={false}
+                style={{ zIndex: vars.zLayer1 }}
             >
                 <BaseLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors | <a href="https://www.rainviewer.com/api.html">RainViewer</a>'

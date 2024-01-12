@@ -11,16 +11,16 @@ import Container from "./style";
 export default function Toast({
     isOpen,
     children,
-    action,
+    actions,
 }: {
     isOpen: boolean;
     children: React.ReactNode;
-    action?: {
+    actions?: {
         content: string;
         onClick: VoidFunction;
-    };
+    }[];
 }) {
-    const [open, close, stage, shouldMount] = useAnimation(isOpen, 5000);
+    const [open, close, stage, shouldMount] = useAnimation(isOpen, 1000);
     const [portalRoot, setPortalRoot] = useNullableState<HTMLElement>();
 
     React.useEffect(() => {
@@ -39,7 +39,21 @@ export default function Toast({
         ? ReactDOM.createPortal(
               <Container stage={stage}>
                   {children}
-                  {action && <Button onClick={action.onClick}>{action.content}</Button>}
+                  {
+                    actions && (
+                        <div>
+                            {actions.map(({content, onClick}, i) => (
+                                <Button 
+                                    onClick={onClick} 
+                                    key={content}
+                                    varient={i !== 0 ? "secondary" : "primary"} 
+                                >
+                                    {content}
+                                </Button>
+                            ))}
+                        </div>
+                    )
+                  }
               </Container>,
               portalRoot
           )

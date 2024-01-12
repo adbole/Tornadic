@@ -78,17 +78,17 @@ vi.mock("Components", async importOriginal => ({
     SunTime: () => <div>SunTime</div>,
     Toast: ({
         isOpen,
-        action,
+        actions,
         children,
     }: {
         isOpen: boolean;
-        action: { content: string; onClick: () => void };
+        actions: { content: string; onClick: () => void }[];
         children: React.ReactNode;
     }) =>
         isOpen && (
             <div>
                 Toast
-                <button onClick={action.onClick}>{action.content}</button>
+                {actions?.map(({ content, onClick }) => <button onClick={onClick} key={content}>{content}</button>)}
                 {children}
             </div>
         ),
