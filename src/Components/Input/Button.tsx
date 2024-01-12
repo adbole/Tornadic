@@ -4,8 +4,10 @@ import { interactable, vars } from "ts/StyleMixins";
 
 
 type ButtonProps = {
-    varient?: "primary" | "transparent";
+    varient?: "primary" | "transparent" | "secondary";
 };
+
+const padding = "5px 15px";
 
 const Button = styled.button(({ varient = "primary" }: ButtonProps) => [
     interactable,
@@ -21,7 +23,11 @@ const Button = styled.button(({ varient = "primary" }: ButtonProps) => [
     },
     varient === "primary" && {
         backgroundColor: vars.primary,
-        padding: "5px 15px",
+        padding
+    },
+    varient === "secondary" && {
+        backgroundColor: vars.backgroundLayer,
+        padding,
     },
     varient === "transparent" && {
         backgroundColor: "transparent",
