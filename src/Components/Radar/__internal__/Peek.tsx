@@ -1,5 +1,6 @@
 import React from "react";
 import { Popup, useMap } from "react-leaflet";
+import { Global } from "@emotion/react";
 import styled from "@emotion/styled";
 import type L from "leaflet";
 
@@ -81,7 +82,12 @@ export default function Peek() {
 
     return (
         <>
-            {position && <HoldPopup position={position} closeButton={false} offset={[0, 50]} />}
+            {position &&  (
+                <>
+                    <HoldPopup position={position} closeButton={false} offset={[0, 50]} />
+                    <Global styles={{ "body": { userSelect: "none" }}} />
+                </>
+            )}
             <PeekModal
                 latitude={latlng?.lat}
                 longitude={latlng?.lng}
