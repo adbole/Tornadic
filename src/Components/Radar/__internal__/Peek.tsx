@@ -36,6 +36,14 @@ export default function Peek() {
         (pos: L.LatLng) => {
             if (!map.dragging.enabled()) return;
 
+            if(timeout.current) {
+                clearTimeout(timeout.current);
+                timeout.current = undefined;
+                unsetPosition();
+
+                return;
+            }
+
             setPosition(pos);
             timeout.current = setTimeout(() => {
                 unsetPosition();
