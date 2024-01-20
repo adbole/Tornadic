@@ -63,7 +63,26 @@ describe.each([
             else fireEvent.touchStart(map.getContainer(), args);
         };
 
-        test("After a second the modal appears", async () => {
+        test("After 100ms the popup appears", () => {
+            const {
+                result: { current: map },
+            } = renderHook(useMap, { wrapper: Wrapper });
+
+            
+            act(() => {
+                fire(map);
+            });
+
+            expect.soft(mocks.popup).not.toHaveBeenCalled();
+
+            act(() => {
+                vi.advanceTimersByTime(100);
+            })
+
+            expect.soft(mocks.popup).toHaveBeenCalledOnce()
+        })
+
+        test("After a second the modal appears", () => {
             const {
                 result: { current: map },
             } = renderHook(useMap, { wrapper: Wrapper });

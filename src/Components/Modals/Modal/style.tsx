@@ -11,14 +11,18 @@ export default styled.dialog<{
     {
         display: "flex",
         flexDirection: "column",
-        color: "inherit",
+        overflow: "hidden",
+
         margin: "auto",
+        padding: 0,
         width: "500px",
+
+        color: "inherit",
         backgroundColor: vars.background,
         borderRadius: vars.borderRadius,
         border: "none",
-        padding: 0,
-        overflow: "hidden",
+        outline: "none",
+
         transform: "translateY(100vh)",
         transition: "transform 1s ease",
         "&::backdrop": {

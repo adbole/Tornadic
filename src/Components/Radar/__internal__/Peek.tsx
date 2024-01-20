@@ -19,6 +19,7 @@ const HoldPopup = styled(Popup)({
     backdropFilter: "blur(5px)",
     border: "1px solid white",
     pointerEvents: "none",
+    touchAction: "none",
     "> .leaflet-popup-content-wrapper": { display: "none" },
 });
 
@@ -44,11 +45,14 @@ export default function Peek() {
                 return;
             }
 
-            setPosition(pos);
             timeout.current = setTimeout(() => {
-                unsetPosition();
-                setLatLng(pos);
-            }, 1000);
+                setPosition(pos);
+
+                timeout.current = setTimeout(() => {
+                    unsetPosition();
+                    setLatLng(pos);
+                }, 900);
+            }, 100)
         },
         // eslint-disable-next-line react-hooks/exhaustive-deps
         [map]
@@ -71,19 +75,22 @@ export default function Peek() {
         }
 
         map.on("mousedown", onMouseDown);
-        map.getContainer().addEventListener("touchstart", onTouchStart);
         map.on("mouseup mousemove", onUp);
-        map.getContainer().addEventListener("touchend", onUp);
-        map.getContainer().addEventListener("touchmove", onUp);
-
         map.on("contextmenu", () => undefined);
+
+        const mapContainer = map.getContainer()
+        mapContainer.addEventListener("touchstart", onTouchStart);
+        mapContainer.addEventListener("touchend", onUp);
+        mapContainer.addEventListener("touchmove", onUp);
+
         return () => {
             map.off("mousedown", onMouseDown);
             map.off("mouseup mousemove", onUp);
             map.off("contextmenu");
 
-            map.getContainer().removeEventListener("touchend", onUp);
-            map.getContainer().removeEventListener("touchmove", onUp);
+            mapContainer.removeEventListener("touchstart", onTouchStart);
+            mapContainer.removeEventListener("touchend", onUp);
+            mapContainer.removeEventListener("touchmove", onUp);
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [map, beginHold]);
