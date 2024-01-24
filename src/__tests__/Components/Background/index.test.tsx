@@ -159,7 +159,7 @@ describe("High Contrast", () => {
 
 const sunny = [1, 0.75, 0.25]
 const cloudy = [5, 0.75, 0.1]
-const night = [0, 0.75, 0.25]
+const night = [0.01, 0.75, 0.2]
 
 describe.each([
     ["Day", true],

@@ -48,7 +48,7 @@ export default function Background() {
             }
         }
 
-        return [0, 0.75, 0.25];
+        return [0.01, 0.75, 0.2];
     }, [isDay, condition]);
 
     const gradient = React.useMemo(
