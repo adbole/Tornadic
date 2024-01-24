@@ -102,6 +102,7 @@ export default function useRainViewer() {
             })
             .addTo(map);
 
+        //Set Radar as default layer
         availableLayers[active].layerGroup.addTo(map);
 
         const updateLayer = (e: L.LayersControlEvent) => setActive(e.name as LayerTypes);

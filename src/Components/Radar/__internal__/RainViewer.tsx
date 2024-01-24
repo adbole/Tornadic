@@ -33,68 +33,83 @@ export default function RainViewer() {
     const [loadingLayer, setLoadingLayerTrue, setLoadingLayerFalse] = useBooleanState(false);
     const [isPlaying, setIsPlayingTrue, setIsPlayingFalse] = useBooleanState(false);
 
+    const getNextTile = () => {
+        if (!availableLayers) return undefined;
+
+        const currentLayer = availableLayers[active];
+        return currentLayer.tileLayers[
+            (currentLayer.currentLayerIndex + 1) % currentLayer.tileLayers.length
+        ];
+    }
+
     React.useEffect(() => {
         if (!availableLayers) return;
 
-        const currentLayer = availableLayers[active];
-        const currentTile = currentLayer.tileLayers[currentLayer.currentLayerIndex];
+        const nextTile = getNextTile();
+        if (!nextTile) return;
 
-        if (!currentTile) return;
+        if (nextTile.isLoading()) setLoadingLayerTrue();
 
-        if (currentTile.isLoading()) setLoadingLayerTrue();
-
-        currentTile.on("loading", setLoadingLayerTrue);
-        currentTile.on("load", setLoadingLayerFalse);
-        currentTile.on("remove", setLoadingLayerFalse);
+        nextTile.on("loading", setLoadingLayerTrue);
+        nextTile.on("load", setLoadingLayerFalse);
+        nextTile.on("remove", setLoadingLayerFalse);
 
         return () => {
-            currentTile.off("loading", setLoadingLayerTrue);
-            currentTile.off("load", setLoadingLayerFalse);
-            currentTile.off("remove", setLoadingLayerFalse);
+            nextTile.off("loading", setLoadingLayerTrue);
+            nextTile.off("load", setLoadingLayerFalse);
+            nextTile.off("remove", setLoadingLayerFalse);
         };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [active, availableLayers, currentFrame]);
 
     //Play will show the next frame every 0.5s.
     const play = React.useCallback(() => {
         if (!availableLayers) return;
 
+        if(getNextTile()?.isLoading() || awaitResume.current) {
+            awaitResume.current = true;
+            return;
+        }
+
+        setIsPlayingTrue();
         showFrame(availableLayers[active].currentLayerIndex + 1);
         setCurrentFrame(availableLayers[active].currentLayerIndex);
 
         animationTimer.current = setTimeout(play, 500);
-    }, [active, availableLayers, showFrame]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [active, availableLayers, showFrame, ]);
 
     const pause = React.useCallback(() => {
         if (!availableLayers) return true;
 
         if (animationTimer.current) {
             clearTimeout(animationTimer.current);
+
+            setIsPlayingFalse();
             animationTimer.current = null;
-            awaitResume.current = false;
-            return true; // We are now paused
         }
 
-        return false; //Failed to pause
-    }, [availableLayers]);
+    }, [availableLayers, setIsPlayingFalse]);
 
     React.useEffect(() => {
-        if (loadingLayer && pause()) {
-            awaitResume.current = true;
-        } else if (!loadingLayer && awaitResume.current) {
+        if(!loadingLayer && awaitResume.current) {
             awaitResume.current = false;
             play();
         }
-    }, [loadingLayer, pause, play]);
+    }, [loadingLayer, play]);
 
     React.useEffect(() => {
         if (!availableLayers) return;
 
-        if (pause()) play();
+        if (isPlaying) {
+            pause();
+            play();
+        };
 
         showFrame(availableLayers[active].currentLayerIndex);
         setCurrentFrame(availableLayers[active].currentLayerIndex);
-    }, [active, availableLayers, showFrame, pause, play]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [active, availableLayers, showFrame]);
 
     if (isLoading)
         return (
@@ -123,12 +138,11 @@ export default function RainViewer() {
 
                         if (loadingLayer) {
                             //CLick will pause no matter what during load
+                            pause();
                             awaitResume.current = false;
-                            setIsPlayingFalse();
-                        } else if (pause()) {
-                            setIsPlayingFalse();
+                        } else if (isPlaying) {
+                            pause();
                         } else {
-                            setIsPlayingTrue();
                             play();
                         }
                     }}
