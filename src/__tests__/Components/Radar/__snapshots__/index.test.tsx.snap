@@ -51,10 +51,17 @@ exports[`Matches Snapshot 1`] = `
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  -webkit-justify-content: center;
-  justify-content: center;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: auto;
+  gap: 10px;
+  padding: 10px;
+  max-width: 900px;
 }
 
 .emotion-1 .leaflet-control {
@@ -161,13 +168,23 @@ exports[`Matches Snapshot 1`] = `
           ControlPortal
         </span>
         <span>
+          Settings
+        </span>
+        <span>
           Home
         </span>
         <span>
           Locate
         </span>
+      </div>
+      <div
+        data-position="leaflet-bottom leaflet-center"
+      >
         <span>
-          Opacity
+          ControlPortal
+        </span>
+        <span>
+          Legend
         </span>
       </div>
       <span>

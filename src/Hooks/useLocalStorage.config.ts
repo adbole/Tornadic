@@ -1,6 +1,7 @@
 declare global {
     interface StorageKeysAndTypes {
         userSettings: UserSettings;
+        radarSettings: RadarSettings;
         userLocation: UserLocation;
     }
 
@@ -12,6 +13,12 @@ declare global {
         preferGradient: boolean;
         highContrastForLive: boolean
     }>;
+
+    type RadarSettings = Readonly<{
+        colorScheme: number;
+        smoothing: boolean;
+        snow: boolean;
+    }>
 
     type UserLocation = Readonly<{
         coords?: {
@@ -34,6 +41,11 @@ const DEFAULTS: LocalStorageDefaults = {
         radarAlertMode: false,
         preferGradient: false,
         highContrastForLive: false,
+    },
+    radarSettings: {
+        colorScheme: 6,
+        smoothing: true,
+        snow: false,
     },
     userLocation: { useCurrent: false },
 };

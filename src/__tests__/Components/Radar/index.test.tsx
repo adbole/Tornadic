@@ -40,7 +40,6 @@ const mocks = vi.hoisted(() => ({
             </div>
         )
     ),
-    Opacity: vi.fn(() => <span>Opacity</span>),
 }));
 
 vi.mock("svgs/widget", () => ({ Map: () => <span>Map</span> }));
@@ -58,28 +57,15 @@ vi.mock("Components/Radar/__internal__", async importOriginal => ({
     AlertPolygons: () => <span>AlertPolygons</span>,
     ControlPortal: mocks.ControlPortal,
     Home: () => <span>Home</span>,
+    Legend: () => <span>Legend</span>,
     Locate: () => <span>Locate</span>,
-    Opacity: mocks.Opacity,
     Peek: () => <span>Peek</span>,
     RainViewer: () => <span>RainViewer</span>,
+    Settings: () => <span>Settings</span>,
 }));
 
-test("Renders as expected", () => {
+test("Provides map with correct props", () => {
     render(<Radar />);
-
-    //Existance
-    expect.soft(screen.queryByText("MapContainer")).toBeInTheDocument();
-    expect.soft(screen.queryByText("TileLayer")).toBeInTheDocument();
-    expect.soft(screen.queryByText("ZoomControl")).toBeInTheDocument();
-    expect.soft(screen.queryByText("AttributionControl")).toBeInTheDocument();
-
-    expect.soft(screen.queryByText("AlertPolygons")).toBeInTheDocument();
-    expect.soft(screen.queryByText("ControlPortal")).toBeInTheDocument();
-    expect.soft(screen.queryByText("Home")).toBeInTheDocument();
-    expect.soft(screen.queryByText("Locate")).toBeInTheDocument();
-    expect.soft(screen.queryByText("Opacity")).toBeInTheDocument();
-    expect.soft(screen.queryByText("Peek")).toBeInTheDocument();
-    expect.soft(screen.queryByText("RainViewer")).toBeInTheDocument();
 
     //Map props
     expect.soft(mocks.MapContainer).toHaveBeenLastCalledWith(

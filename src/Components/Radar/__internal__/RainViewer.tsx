@@ -80,7 +80,7 @@ export default function RainViewer() {
     }, [active, availableLayers, showFrame, ]);
 
     const pause = React.useCallback(() => {
-        if (!availableLayers) return true;
+        if (!availableLayers) return;
 
         if (animationTimer.current) {
             clearTimeout(animationTimer.current);

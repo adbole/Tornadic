@@ -2,15 +2,33 @@ import React from "react";
 import { useMap } from "react-leaflet";
 import styled from "@emotion/styled";
 
-import { useBooleanState } from "Hooks";
-
-import { CircleSlashes } from "svgs/radar";
+import { vars } from "ts/StyleMixins";
 
 
 const Container = styled.div({
-    padding: "10px",
     ">p": { textAlign: "center" },
 });
+
+const Range = styled.input({
+    appearance: "none",
+    background: "transparent",
+    cursor: "pointer",
+    width: "100%",
+
+    "&::-webkit-slider-runnable-track": {
+        backgroundColor: "rgba(136, 136, 136, 0.5)",
+        borderRadius: vars.borderRadius,
+    },
+
+    "&::-webkit-slider-thumb": {
+        WebkitAppearance: "none",
+        appearance: "none",
+        height: "10px",
+        width: "10px",
+        borderRadius: vars.borderRadius,
+        backgroundColor: "#6498fa",
+    },
+})
 
 export default function Opacity({
     defaultOpacity,
@@ -21,14 +39,7 @@ export default function Opacity({
 }) {
     const map = useMap();
 
-    const [hover, setHoverTrue, setHoverFalse] = useBooleanState(false);
     const [value, setOpacity] = React.useState(defaultOpacity);
-
-    //Fallback for touch devices
-    React.useEffect(() => {
-        document.body.addEventListener("click", setHoverFalse);
-        return () => document.body.removeEventListener("click", setHoverFalse);
-    }, [setHoverFalse]);
 
     React.useEffect(() => {
         const pane = map.getPane(targetPane);
@@ -52,28 +63,18 @@ export default function Opacity({
     }, [map, targetPane, value]);
 
     return (
-        <div
-            className="leaflet-custom-control leaflet-control"
-            onClick={(e: React.MouseEvent<HTMLDivElement>) => e.stopPropagation()}
-            onMouseEnter={setHoverTrue}
-            onMouseLeave={setHoverFalse}
-        >
-            {!hover && <CircleSlashes />}
-            {hover && (
-                <Container>
-                    <p>Opacity: {(value * 100).toFixed(0)}</p>
-                    <input
-                        type="range"
-                        min={0}
-                        max={100}
-                        value={value * 100}
-                        step={1}
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                            setOpacity(e.currentTarget.valueAsNumber / 100)
-                        }
-                    />
-                </Container>
-            )}
-        </div>
+        <Container>
+            <p>Opacity: {(value * 100).toFixed(0)}</p>
+            <Range
+                type="range"
+                min={0}
+                max={100}
+                value={value * 100}
+                step={1}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    setOpacity(e.currentTarget.valueAsNumber / 100)
+                }
+            />
+        </Container>
     );
 }

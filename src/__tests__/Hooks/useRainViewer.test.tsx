@@ -1,5 +1,6 @@
 import { MapContainer, useMap } from "react-leaflet";
 import { rainviewer } from "__tests__/__mocks__";
+import { dispatchStorage, setLocalStorageItem } from "__tests__/__utils__";
 import { act, renderHook, screen } from "@testing-library/react";
 import L from "leaflet";
 import { SWRConfig } from "swr";
@@ -21,10 +22,10 @@ function Wrapper({ children }: { children: React.ReactNode }) {
 
 const renderRainViewer = () => renderHook(useRainViewer, { wrapper: Wrapper });
 
-const constructRadarPath = (path: string) =>
-    `${rainviewerObj.host}${path}/512/{z}/{x}/{y}/6/1_1.png`;
+const constructRadarPath = (path: string, color = 6, smoothing = 1, snow = 0) =>
+    `${rainviewerObj.host}${path}/512/{z}/{x}/{y}/${color}/${smoothing}_${snow}.png`;
 const constructSatellitePath = (path: string) =>
-    `${rainviewerObj.host}${path}/512/{z}/{x}/{y}/0/1_1.png`;
+    `${rainviewerObj.host}${path}/512/{z}/{x}/{y}/0/1_0.png`;
 
 beforeEach(() => {
     vi.useFakeTimers();
@@ -272,3 +273,63 @@ describe("showFrame", () => {
         });
     });
 });
+
+test("When settings change, availableLayers is updated and showFrame renders layers with new settings", async () => {
+    vi.spyOn(L.Map.prototype, "createPane");
+    vi.spyOn(L, "tileLayer");
+
+    const { result } = renderRainViewer();
+
+    await act(async () => {
+        await vi.runOnlyPendingTimersAsync();
+    });
+
+    const oldLayers = result.current.availableLayers;
+    result.current.showFrame(rainviewerObj.radar.past.length - 1);
+
+    expect.soft(L.tileLayer).toHaveBeenCalledTimes(2);
+    expect.soft(L.tileLayer).toHaveBeenCalledWith(
+        constructRadarPath(rainviewerObj.radar.past[rainviewerObj.radar.past.length - 1].path),
+        expect.objectContaining({
+            pane: RADAR_PANE,
+            opacity: 0.0,
+        })
+    );
+    expect.soft(L.tileLayer).toHaveBeenLastCalledWith(
+        constructRadarPath(rainviewerObj.radar.nowcast[0].path),
+        expect.objectContaining({
+            pane: RADAR_PANE,
+            opacity: 0.0,
+        })
+    );
+
+    act(() => {
+        setLocalStorageItem("radarSettings", {
+            colorScheme: 1,
+            smoothing: true,
+            snow: true,
+        })
+        dispatchStorage("radarSettings")
+    })
+
+    const newLayers = result.current.availableLayers;
+    result.current.showFrame(rainviewerObj.radar.past.length - 1);
+
+    expect.soft(oldLayers).not.toBe(newLayers);
+
+    expect.soft(L.tileLayer).toHaveBeenCalledTimes(4);
+    expect.soft(L.tileLayer).toHaveBeenCalledWith(
+        constructRadarPath(rainviewerObj.radar.past[rainviewerObj.radar.past.length - 1].path, 1, 1, 1),
+        expect.objectContaining({
+            pane: RADAR_PANE,
+            opacity: 0.0,
+        })
+    );
+    expect.soft(L.tileLayer).toHaveBeenLastCalledWith(
+        constructRadarPath(rainviewerObj.radar.nowcast[0].path, 1, 1, 1),
+        expect.objectContaining({
+            pane: RADAR_PANE,
+            opacity: 0.0,
+        })
+    );
+})

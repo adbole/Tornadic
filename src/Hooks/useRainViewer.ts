@@ -5,6 +5,8 @@ import useSWR from "swr";
 
 import { fetchData } from "ts/Fetch";
 
+import useLocalStorage from "./useLocalStorage";
+
 
 type Tile = Readonly<{
     time: number;
@@ -41,13 +43,16 @@ const mod = (x: number, div: number) => x - div * Math.floor(x / div);
 
 const generateNewLayer = (frames: Tile[]): AvailableLayer => ({
     frames,
-    tileLayers: [],
+    //While the layers could be accessed by laygroup.getLayers(), this array is used
+    ///to do the same, but to also preserve the order as it is in the frames array.
+    tileLayers: [], 
     layerGroup: L.layerGroup([], { pane: RADAR_PANE }),
     currentLayerIndex: 0,
 });
 
 export default function useRainViewer() {
     const expires = React.useRef(0);
+    const [settings] = useLocalStorage("radarSettings");
 
     const map = useMap();
     const [active, setActive] = React.useState<LayerTypes>(LayerTypes.Radar);
@@ -68,19 +73,25 @@ export default function useRainViewer() {
         }
     );
 
+    const oldLayers = React.useRef<Record<LayerTypes, AvailableLayer> | null>(null);
     const availableLayers: Record<LayerTypes, AvailableLayer> | null = React.useMemo(() => {
         if (!data) return null;
 
-        const availableLayers: Record<LayerTypes, AvailableLayer> = {
+        const layers: Record<LayerTypes, AvailableLayer> = {
             Radar: generateNewLayer(data.radar.past.concat(data.radar.nowcast)),
             Satellite: generateNewLayer(data.satellite.infrared),
         };
 
-        availableLayers.Radar.currentLayerIndex = data.radar.past.length - 1;
-        availableLayers.Satellite.currentLayerIndex = data.satellite.infrared.length - 1;
+        layers.Radar.currentLayerIndex = 
+            oldLayers.current?.Radar.currentLayerIndex ?? data.radar.past.length - 1;
 
-        return availableLayers;
-    }, [data]);
+        layers.Satellite.currentLayerIndex = 
+            oldLayers.current?.Satellite.currentLayerIndex ?? data.satellite.infrared.length - 1;
+
+        oldLayers.current = layers
+        return layers;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [data, settings]);
 
     //Layers control logic and cleanup on availableLayers change
     React.useEffect(() => {
@@ -127,11 +138,13 @@ export default function useRainViewer() {
             const loadedLayers = activeData.tileLayers;
             const frame = activeData.frames[index];
 
+            const { colorScheme: radarColorScheme, smoothing: radarSmoothing, snow: radarSnow } = settings;
+
             // If frame hasn't been added as a layer yet, do so now
             if (!loadedLayers[index]) {
-                const color = active === LayerTypes.Radar ? 6 : 0;
+                const color = active === LayerTypes.Radar ? radarColorScheme : 0;
                 loadedLayers[index] = L.tileLayer(
-                    `${data!.host}${frame.path}/512/{z}/{x}/{y}/${color}/1_1.png`,
+                    `${data!.host}${frame.path}/512/{z}/{x}/{y}/${color}/${Number(radarSmoothing)}_${Number(radarSnow)}.png`,
                     {
                         opacity: 0.0,
                         zIndex: frame.time,

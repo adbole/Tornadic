@@ -8,11 +8,9 @@ export const Playback = styled.div([
         display: "grid",
         gridTemplateColumns: "auto 1fr",
 
-        maxWidth: "900px",
         width: "100%",
         height: "fit-content",
         padding: "10px",
-        margin: "10px",
     },
 ]);
 
@@ -28,7 +26,6 @@ export const Timeline = styled.div({
 });
 
 export const Slider = styled.input({
-    WebkitAppearance: "none",
     appearance: "none",
     background: "transparent",
     cursor: "pointer",

@@ -22,7 +22,13 @@ export const Base = css({
         right: 0,
 
         display: "flex",
-        justifyContent: "center",
+        flexDirection: "column",
+        alignItems: "center",
+        margin: "auto",
+        gap: "10px",
+        padding: "10px",
+
+        maxWidth: "900px",
     },
     ".leaflet-control": [
         darkBackBlur,

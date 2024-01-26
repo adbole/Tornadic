@@ -1,7 +1,7 @@
 import { MapContainer, useMap } from "react-leaflet";
 import { act, fireEvent, render, renderHook, screen } from "@testing-library/react";
 
-import { Opacity } from "Components/Radar/__internal__";
+import Opacity from "Components/Radar/__internal__/Opacity";
 
 
 vi.mock("svgs/radar", async importOriginal => ({
@@ -27,72 +27,32 @@ function WrapperWait({ children }: { children: React.ReactNode }) {
     );
 }
 
-test("Shows a svg when not hovered", () => {
-    render(
+test("Matches snapshot", () => {
+    const { container } = render(
         <MapContainer>
             <Opacity defaultOpacity={0.8} targetPane="tilePane" />
         </MapContainer>
     );
 
-    expect(screen.queryByText("CircleSlashes")).toBeInTheDocument();
-});
+    expect(container).toMatchSnapshot();
+})
 
-test("Shows a slider when hovered and resets on leave", () => {
+test("Shows a slider and the current opacity", () => {
     render(
         <MapContainer>
             <Opacity defaultOpacity={0.37} targetPane="tilePane" />
         </MapContainer>
     );
 
-    const div = screen.getByText("CircleSlashes").parentElement as HTMLDivElement;
-
-    act(() => {
-        fireEvent.mouseEnter(div);
-    });
-
     expect.soft(screen.queryByText("Opacity: 37")).toBeInTheDocument();
     expect.soft(screen.queryByRole("slider")).toBeInTheDocument();
-
-    act(() => {
-        fireEvent.mouseLeave(div);
-    });
-
-    expect.soft(screen.queryByText("CircleSlashes")).toBeInTheDocument();
 });
 
-test("Slider hides when elsewhere is clicked", () => {
-    render(
-        <MapContainer>
-            <Opacity defaultOpacity={0.37} targetPane="tilePane" />
-        </MapContainer>
-    );
-
-    const div = screen.getByText("CircleSlashes").parentElement as HTMLDivElement;
-
-    act(() => {
-        fireEvent.mouseEnter(div);
-    });
-
-    expect.soft(screen.queryByText("Opacity: 37")).toBeInTheDocument();
-    expect.soft(screen.queryByRole("slider")).toBeInTheDocument();
-
-    act(() => {
-        fireEvent.click(document.body);
-    });
-
-    expect.soft(screen.queryByText("CircleSlashes")).toBeInTheDocument();
-});
 
 test("Sets the target pane's opacity when slider is changed", () => {
     const {
         result: { current: map },
     } = renderHook(useMap, { wrapper: WrapperInteraction });
-
-    const div = screen.getByText("CircleSlashes").parentElement as HTMLDivElement;
-
-    act(() => {
-        fireEvent.mouseEnter(div);
-    });
 
     const slider = screen.queryByRole("slider") as HTMLInputElement;
 
@@ -104,6 +64,8 @@ test("Sets the target pane's opacity when slider is changed", () => {
 });
 
 test("If the target pane doesn't exist, then a mutation observer waits for its creation", () => {
+    vi.spyOn(window.MutationObserver.prototype, "observe")
+
     const {
         result: { current: map },
     } = renderHook(useMap, { wrapper: WrapperWait });
@@ -111,35 +73,12 @@ test("If the target pane doesn't exist, then a mutation observer waits for its c
     expect.soft(map.getPane("radar")).not.toBeTruthy();
     map.createPane("radar");
 
-    const div = screen.getByText("CircleSlashes").parentElement as HTMLDivElement;
-
-    act(() => {
-        fireEvent.mouseEnter(div);
-    });
-
     const slider = screen.queryByRole("slider") as HTMLInputElement;
 
     act(() => {
         fireEvent.change(slider, { target: { value: 50 } });
     });
 
+    expect.soft(window.MutationObserver.prototype.observe).toHaveBeenCalledOnce();
     expect.soft(map.getPane("radar")).toHaveStyle({ opacity: "0.5" });
-});
-
-test("Clicking the div stops propagation", () => {
-    const myClick = vi.fn();
-
-    render(
-        <MapContainer>
-            <div onClick={myClick}>
-                <Opacity defaultOpacity={0.8} targetPane="tile" />
-            </div>
-        </MapContainer>
-    );
-
-    act(() => {
-        fireEvent.click(screen.getByText("CircleSlashes").parentElement as HTMLDivElement);
-    });
-
-    expect(myClick).not.toHaveBeenCalled();
 });

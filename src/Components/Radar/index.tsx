@@ -1,8 +1,6 @@
 import { AttributionControl, MapContainer, TileLayer, ZoomControl } from "react-leaflet";
 import styled from "@emotion/styled";
 
-import { RADAR_PANE } from "Hooks/useRainViewer";
-
 import { Map } from "svgs/widget";
 
 import { vars } from "ts/StyleMixins";
@@ -11,11 +9,12 @@ import {
     AlertPolygons,
     ControlPortal,
     Home,
+    Legend,
     Locate,
-    Opacity,
     Peek,
     Position,
     RainViewer,
+    Settings
 } from "./__internal__";
 import RadarWidget from "./style";
 
@@ -54,10 +53,16 @@ function Radar() {
                 {/* Custom Controls */}
                 <AlertPolygons />
                 <ControlPortal position={Position.TOP_RIGHT}>
+                    <Settings />
+
                     <Home />
                     <Locate />
-                    <Opacity defaultOpacity={0.75} targetPane={RADAR_PANE} />
                 </ControlPortal>
+                <ControlPortal position={Position.BOTTOM_CENTER}>
+                    <Legend />
+                </ControlPortal>
+
+
                 <Peek />
                 <RainViewer />
             </MapContainer>
