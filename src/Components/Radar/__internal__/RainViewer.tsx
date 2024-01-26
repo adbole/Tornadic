@@ -2,7 +2,7 @@ import React from "react";
 
 import { useBooleanState, useRainViewer } from "Hooks";
 
-import { Button } from "Components/Input";
+import { Button, Range } from "Components/Input";
 import { Spinner } from "svgs";
 import { Pause, Play } from "svgs/radar";
 
@@ -10,7 +10,7 @@ import { varNames } from "ts/StyleMixins";
 import getTimeFormatted from "ts/TimeConversion";
 
 import ControlPortal, { Position } from "./ControlPortal";
-import { Message, Playback, Slider, Tick, TickArray, Time, Timeline } from "./RainViewer.style";
+import { Message, Playback, Tick, TickArray, Time, Timeline } from "./RainViewer.style";
 
 
 const getTimeDisplay = (time: number) =>
@@ -152,8 +152,7 @@ export default function RainViewer() {
                     {loadingLayer ? <Spinner /> : isPlaying ? <Pause /> : <Play />}
                 </Button>
                 <Timeline>
-                    <Slider
-                        type="range"
+                    <Range
                         min={0}
                         max={activeData.frames.length - 1}
                         value={currentFrame}

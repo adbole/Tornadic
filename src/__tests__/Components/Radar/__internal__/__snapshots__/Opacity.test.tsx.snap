@@ -1,11 +1,7 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`Matches snapshot 1`] = `
-.emotion-0>p {
-  text-align: center;
-}
-
-.emotion-2 {
+.emotion-0 {
   -webkit-appearance: none;
   -moz-appearance: none;
   -ms-appearance: none;
@@ -15,12 +11,12 @@ exports[`Matches snapshot 1`] = `
   width: 100%;
 }
 
-.emotion-2::-webkit-slider-runnable-track {
+.emotion-0::-webkit-slider-runnable-track {
   background-color: rgba(136, 136, 136, 0.5);
   border-radius: var(--border-radius);
 }
 
-.emotion-2::-webkit-slider-thumb {
+.emotion-0::-webkit-slider-thumb {
   -webkit-appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -122,15 +118,15 @@ exports[`Matches snapshot 1`] = `
         </div>
       </div>
     </div>
-    <div
-      class="emotion-0 emotion-1"
-    >
-      <p>
+    <div>
+      <p
+        style="text-align: center;"
+      >
         Opacity: 
         80
       </p>
       <input
-        class="emotion-2 emotion-3"
+        class="emotion-0 emotion-1"
         max="100"
         min="0"
         step="1"

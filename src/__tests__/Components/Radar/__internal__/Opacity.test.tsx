@@ -4,11 +4,6 @@ import { act, fireEvent, render, renderHook, screen } from "@testing-library/rea
 import Opacity from "Components/Radar/__internal__/Opacity";
 
 
-vi.mock("svgs/radar", async importOriginal => ({
-    ...((await importOriginal()) as any),
-    CircleSlashes: () => <span>CircleSlashes</span>,
-}));
-
 function WrapperInteraction({ children }: { children: React.ReactNode }) {
     return (
         <MapContainer>

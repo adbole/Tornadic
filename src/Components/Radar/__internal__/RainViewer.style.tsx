@@ -25,27 +25,6 @@ export const Timeline = styled.div({
     flexDirection: "column",
 });
 
-export const Slider = styled.input({
-    appearance: "none",
-    background: "transparent",
-    cursor: "pointer",
-    width: "100%",
-
-    "&::-webkit-slider-runnable-track": {
-        backgroundColor: "rgba(136, 136, 136, 0.5)",
-        borderRadius: vars.borderRadius,
-    },
-
-    "&::-webkit-slider-thumb": {
-        WebkitAppearance: "none",
-        appearance: "none",
-        height: "10px",
-        width: "10px",
-        borderRadius: vars.borderRadius,
-        backgroundColor: "#6498fa",
-    },
-});
-
 export const TickArray = styled.div({
     display: "flex",
     justifyContent: "space-between",

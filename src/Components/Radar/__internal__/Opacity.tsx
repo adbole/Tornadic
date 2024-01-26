@@ -1,34 +1,8 @@
 import React from "react";
 import { useMap } from "react-leaflet";
-import styled from "@emotion/styled";
 
-import { vars } from "ts/StyleMixins";
+import { Range } from "Components/Input";
 
-
-const Container = styled.div({
-    ">p": { textAlign: "center" },
-});
-
-const Range = styled.input({
-    appearance: "none",
-    background: "transparent",
-    cursor: "pointer",
-    width: "100%",
-
-    "&::-webkit-slider-runnable-track": {
-        backgroundColor: "rgba(136, 136, 136, 0.5)",
-        borderRadius: vars.borderRadius,
-    },
-
-    "&::-webkit-slider-thumb": {
-        WebkitAppearance: "none",
-        appearance: "none",
-        height: "10px",
-        width: "10px",
-        borderRadius: vars.borderRadius,
-        backgroundColor: "#6498fa",
-    },
-})
 
 export default function Opacity({
     defaultOpacity,
@@ -63,10 +37,11 @@ export default function Opacity({
     }, [map, targetPane, value]);
 
     return (
-        <Container>
-            <p>Opacity: {(value * 100).toFixed(0)}</p>
+        <div>
+            <p style={{ textAlign: "center" }}>
+                Opacity: {(value * 100).toFixed(0)}
+            </p>
             <Range
-                type="range"
                 min={0}
                 max={100}
                 value={value * 100}
@@ -75,6 +50,6 @@ export default function Opacity({
                     setOpacity(e.currentTarget.valueAsNumber / 100)
                 }
             />
-        </Container>
+        </div>
     );
 }
