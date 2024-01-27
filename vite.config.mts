@@ -5,7 +5,7 @@ import eslint from "vite-plugin-eslint";
 import { VitePWA } from "vite-plugin-pwa";
 import svgr from "vite-plugin-svgr";
 import tsConfigPaths from "vite-tsconfig-paths";
-import { configDefaults } from "vitest/dist/config";
+import { configDefaults, coverageConfigDefaults } from "vitest/dist/config";
 
 
 export default defineConfig({

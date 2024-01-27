@@ -1,4 +1,4 @@
-import { forecast } from "__tests__/__mocks__";
+import { forecast } from "@test-mocks";
 
 
 export default function mockDate() {

@@ -42,7 +42,10 @@
                     "error",
                     {
                         "groups": [
-                            // Packages `react` related packages come first.
+                            //Anything relating to tests has priority
+                            ["^@test-(consts|mocks|utils)"],
+
+                            // Packages `react` related packages.
                             ["^react", "^@?\\w"],
                             // Internal packages.
                             ["^(Hooks)(/.*|$)"],

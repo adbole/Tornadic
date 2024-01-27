@@ -1,17 +1,17 @@
-import { airquality, apiWeatherGov_points, forecast } from "__tests__/__mocks__";
 
 import DEFAULTS from "Hooks/useLocalStorage.config";
 
 import Weather from "ts/Weather";
 
+import airquality from "./airquality";
+import apiWeatherGov_points from "./api.weather.gov_points";
+import forecast from "./forecast";
 
-const useWeather = {
-    ...[vi.importActual("Contexts/WeatherContext")],
-    useWeather: () => ({
-        weather: new Weather(forecast(), airquality(), DEFAULTS.userSettings),
-        point: apiWeatherGov_points as GridPoint,
-        alerts: [],
-    }),
-};
+
+const useWeather = () => ({
+    weather: new Weather(forecast(), airquality(), DEFAULTS.userSettings),
+    point: apiWeatherGov_points as GridPoint,
+    alerts: [],
+})
 
 export default useWeather;

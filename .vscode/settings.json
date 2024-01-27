@@ -20,5 +20,9 @@
     },
     "material-icon-theme.files.associations": {
         "*.types.ts": "typescript-def"
+    },
+    "explorer.fileNesting.patterns": {
+        "*.tsx": "${basename}.style.tsx, ${basename}.test.tsx",
+        "*.ts": "${basename}.test.ts, ${basename}.test.tsx",
     }
 }

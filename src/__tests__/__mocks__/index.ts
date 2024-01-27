@@ -4,3 +4,4 @@ export { default as apiWeatherGov_points } from "./api.weather.gov_points";
 export { default as forecast } from "./forecast";
 export { default as geocoding } from "./geocoding";
 export { default as rainviewer } from "./rainviewer";
+export { default as useWeather } from "./useWeather";

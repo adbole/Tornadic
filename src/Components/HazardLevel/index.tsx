@@ -1,6 +1,7 @@
+import testIds from "@test-consts/testIDs";
+
 import type { ReactNode } from "react";
 import React from "react";
-import testIds from "__tests__/__constants__/testIDs";
 
 import { useBooleanState } from "Hooks";
 

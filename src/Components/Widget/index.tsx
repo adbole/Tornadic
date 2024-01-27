@@ -1,5 +1,6 @@
+import testIds from "@test-consts/testIDs";
+
 import React from "react";
-import testIds from "__tests__/__constants__/testIDs";
 
 import Container, { WidgetTitle } from "./style";
 

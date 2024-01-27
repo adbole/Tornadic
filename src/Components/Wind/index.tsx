@@ -1,4 +1,4 @@
-import testIds from "__tests__/__constants__/testIDs";
+import testIds from "@test-consts/testIDs";
 
 import { useBooleanState } from "Hooks";
 

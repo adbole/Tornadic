@@ -5,7 +5,13 @@
     "module": "ESNext",                                
     "moduleResolution": "node",                       
     "lib": ["DOM", "DOM.Iterable", "WebWorker", "ESNext"],   
-    "baseUrl": "src",                                  
+    "baseUrl": "src",
+    "paths": {
+        "@test-consts": ["__tests__/__constants__"],
+        "@test-consts/*": ["__tests__/__constants__/*"],
+        "@test-utils": ["__tests__/__utils__"],
+        "@test-mocks": ["__tests__/__mocks__"]
+    },
     "esModuleInterop": true,                             
     "forceConsistentCasingInFileNames": true,
     "strict": true,

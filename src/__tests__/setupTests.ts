@@ -5,7 +5,8 @@ import {
     geocoding,
     rainviewer,
     singleAlert,
-} from "__tests__/__mocks__";
+} from "@test-mocks";
+
 import { createSerializer, matchers } from "@emotion/jest";
 import { vi } from "vitest";
 import createFetchMock from "vitest-fetch-mock";
