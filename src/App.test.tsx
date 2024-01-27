@@ -88,7 +88,11 @@ vi.mock("Components", async importOriginal => ({
         isOpen && (
             <div>
                 Toast
-                {actions?.map(({ content, onClick }) => <button onClick={onClick} key={content}>{content}</button>)}
+                {actions?.map(({ content, onClick }) => (
+                    <button onClick={onClick} key={content}>
+                        {content}
+                    </button>
+                ))}
                 {children}
             </div>
         ),

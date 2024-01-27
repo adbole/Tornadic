@@ -11,14 +11,14 @@ declare global {
         precipitation: "mm" | "inch";
         radarAlertMode: boolean;
         preferGradient: boolean;
-        highContrastForLive: boolean
+        highContrastForLive: boolean;
     }>;
 
     type RadarSettings = Readonly<{
         colorScheme: number;
         smoothing: boolean;
         snow: boolean;
-    }>
+    }>;
 
     type UserLocation = Readonly<{
         coords?: {

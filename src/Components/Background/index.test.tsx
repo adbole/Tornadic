@@ -11,99 +11,119 @@ import type WeatherCondition from "ts/WeatherCondition";
 import Background from ".";
 
 
-mockDate()
+mockDate();
 
-vi.mock("Contexts/WeatherContext", () => ({ useWeather }))
+vi.mock("Contexts/WeatherContext", () => ({ useWeather }));
 
 type DayCondition = {
-    isDay: boolean,
-    condition: string
-}
+    isDay: boolean;
+    condition: string;
+};
 
 type Condition = {
-    condition: string
-}
+    condition: string;
+};
 
 const mocks = vi.hoisted(() => ({
     Sky: vi.fn(() => <div>Sky</div>),
-    Canvas: vi.fn(({ children, className, style, fallback }: { 
-        children: React.ReactNode, 
-        className: string, 
-        style: React.CSSProperties,
-        fallback: React.ReactNode,
-    }) => (
-        <div className={className} style={style}>Canvas - {children} - {fallback}</div>
-    ))
-}))
+    Canvas: vi.fn(
+        ({
+            children,
+            className,
+            style,
+            fallback,
+        }: {
+            children: React.ReactNode;
+            className: string;
+            style: React.CSSProperties;
+            fallback: React.ReactNode;
+        }) => (
+            <div className={className} style={style}>
+                Canvas - {children} - {fallback}
+            </div>
+        )
+    ),
+}));
 
 vi.mock("@react-three/drei", () => ({
-    Sky: mocks.Sky
-}))
+    Sky: mocks.Sky,
+}));
 
 vi.mock("@react-three/fiber", () => ({
-    Canvas: mocks.Canvas
-}))
+    Canvas: mocks.Canvas,
+}));
 
 vi.mock("Components/Background/__internal__", () => ({
-    Clouds: ({ isDay, condition }: DayCondition) => <div>Clouds - {isDay.toString()} - {condition}</div>,
-    Gradient: ({ isDay, condition }: DayCondition) => <div>Gradient - {isDay.toString()} - {condition}</div>,
-    Stars: ({ isDay, condition }: DayCondition) => <div>Stars - {isDay.toString()} - {condition}</div>,
+    Clouds: ({ isDay, condition }: DayCondition) => (
+        <div>
+            Clouds - {isDay.toString()} - {condition}
+        </div>
+    ),
+    Gradient: ({ isDay, condition }: DayCondition) => (
+        <div>
+            Gradient - {isDay.toString()} - {condition}
+        </div>
+    ),
+    Stars: ({ isDay, condition }: DayCondition) => (
+        <div>
+            Stars - {isDay.toString()} - {condition}
+        </div>
+    ),
     RainSnow: ({ condition }: Condition) => <div>RainSnow - {condition}</div>,
     Thunder: ({ condition }: Condition) => <div>Thunder - {condition}</div>,
-}))
+}));
 
 beforeEach(() => {
-    vi.spyOn(Weather.prototype, "isDay").mockReturnValue(true)
+    vi.spyOn(Weather.prototype, "isDay").mockReturnValue(true);
     vi.spyOn(Weather.prototype, "getNow").mockReturnValue({
         conditionInfo: {
-            type: "Clear"
-        }
-    } as any)
-})
+            type: "Clear",
+        },
+    } as any);
+});
 
 afterEach(() => {
-    vi.mocked(Weather.prototype.isDay).mockRestore()
-    vi.mocked(Weather.prototype.getNow).mockRestore()
-})
-
+    vi.mocked(Weather.prototype.isDay).mockRestore();
+    vi.mocked(Weather.prototype.getNow).mockRestore();
+});
 
 test("Renders the correct components", () => {
-    setLocalStorageItem("userSettings", DEFAULTS.userSettings)
-    
-    render(<Background />)
+    setLocalStorageItem("userSettings", DEFAULTS.userSettings);
 
-    const canvas = screen.queryByText(/Canvas/)
+    render(<Background />);
 
-    expect(canvas).toBeInTheDocument()
-    expect.soft(canvas).toMatchSnapshot()
-})
+    const canvas = screen.queryByText(/Canvas/);
+
+    expect(canvas).toBeInTheDocument();
+    expect.soft(canvas).toMatchSnapshot();
+});
 
 describe("Gradient Fallback", () => {
     test("If there are no userSettings", () => {
-        render(<Background />)
+        render(<Background />);
 
-        expect.soft(screen.queryByText("Gradient - true - Clear")).toBeInTheDocument()
-    })
+        expect.soft(screen.queryByText("Gradient - true - Clear")).toBeInTheDocument();
+    });
 
     test("If userSettings preferGradient is true", () => {
-        setLocalStorageItem("userSettings", { 
-            ...DEFAULTS.userSettings, 
-            preferGradient: true 
-        })
+        setLocalStorageItem("userSettings", {
+            ...DEFAULTS.userSettings,
+            preferGradient: true,
+        });
 
-        render(<Background />)
+        render(<Background />);
 
-        expect.soft(screen.queryByText("Gradient - true - Clear")).toBeInTheDocument()
-    })
+        expect.soft(screen.queryByText("Gradient - true - Clear")).toBeInTheDocument();
+    });
 
     test("Provided to Canvas as fallback", () => {
-        setLocalStorageItem("userSettings", DEFAULTS.userSettings)
-        
-        render(<Background />)
+        setLocalStorageItem("userSettings", DEFAULTS.userSettings);
 
-        expect.soft(screen.queryByText("Gradient - true - Clear")).toBeInTheDocument()
-    })
-})
+        render(<Background />);
+
+        expect.soft(screen.queryByText("Gradient - true - Clear")).toBeInTheDocument();
+    });
+});
 
 describe("High Contrast", () => {
     test.each([
@@ -112,25 +132,26 @@ describe("High Contrast", () => {
         ["Prefers High Contrast and not Gradients", false, true],
         ["Doesn't prefer High Contrast and Gradients", false, false],
     ])("%s", (_, preferGradient, highContrastForLive) => {
-        setLocalStorageItem("userSettings", { 
-            ...DEFAULTS.userSettings, 
+        setLocalStorageItem("userSettings", {
+            ...DEFAULTS.userSettings,
             preferGradient,
-            highContrastForLive
-        })
+            highContrastForLive,
+        });
 
-        const { container: { firstChild } } = render(
+        const {
+            container: { firstChild },
+        } = render(
             <div id="root">
                 <Background />
             </div>
-        )
-        
-        if(highContrastForLive) {
-            expect(getComputedStyle(firstChild as Element).color).toBe("rgb(63, 63, 63)")
+        );
+
+        if (highContrastForLive) {
+            expect(getComputedStyle(firstChild as Element).color).toBe("rgb(63, 63, 63)");
+        } else {
+            expect(getComputedStyle(firstChild as Element).color).not.toBe("rgb(63, 63, 63)");
         }
-        else {
-            expect(getComputedStyle(firstChild as Element).color).not.toBe("rgb(63, 63, 63)")
-        }
-    })
+    });
 
     test.each([
         ["with Gradients", "Overcast", true],
@@ -138,29 +159,31 @@ describe("High Contrast", () => {
     ])("When rayleigh isn't 1 %s", (_, condition, preferGradient) => {
         vi.mocked(Weather.prototype.getNow).mockReturnValue({
             conditionInfo: {
-                type: condition
-            }
-        } as any)
-        
+                type: condition,
+            },
+        } as any);
+
         setLocalStorageItem("userSettings", {
             ...DEFAULTS.userSettings,
             preferGradient,
-            highContrastForLive: true
-        })
+            highContrastForLive: true,
+        });
 
-        const { container: { firstChild } } = render(
+        const {
+            container: { firstChild },
+        } = render(
             <div id="root">
                 <Background />
             </div>
-        )
+        );
 
-        expect(getComputedStyle(firstChild as Element).color).not.toBe("rgb(63, 63, 63)")
-    })
-})
+        expect(getComputedStyle(firstChild as Element).color).not.toBe("rgb(63, 63, 63)");
+    });
+});
 
-const sunny = [1, 0.75, 0.25]
-const cloudy = [5, 0.75, 0.1]
-const night = [0.01, 0.75, 0.2]
+const sunny = [1, 0.75, 0.25];
+const cloudy = [5, 0.75, 0.1];
+const night = [0.01, 0.75, 0.2];
 
 describe.each([
     ["Day", true],
@@ -183,15 +206,15 @@ describe.each([
         ["Thunderstorms", cloudy, night],
         ["Thunderstorms and Hail", cloudy, night],
     ] as [WeatherCondition["type"], number[], number[]][])("%s", (condition, day, night) => {
-        vi.mocked(Weather.prototype.isDay).mockReturnValue(isDay)
+        vi.mocked(Weather.prototype.isDay).mockReturnValue(isDay);
         vi.mocked(Weather.prototype.getNow).mockReturnValue({
             conditionInfo: {
-                type: condition
-            }
-        } as any)
-        setLocalStorageItem("userSettings", DEFAULTS.userSettings)
+                type: condition,
+            },
+        } as any);
+        setLocalStorageItem("userSettings", DEFAULTS.userSettings);
 
-        render(<Background />)
+        render(<Background />);
 
         expect(mocks.Sky).toHaveBeenLastCalledWith(
             expect.objectContaining({
@@ -200,18 +223,18 @@ describe.each([
                 mieCoefficient: 0.005,
                 mieDirectionalG: 0.99,
                 turbidity: 1,
-                azimuth: 0.25
+                azimuth: 0.25,
             }),
             expect.anything()
-        )
+        );
 
         expect(mocks.Canvas).toHaveBeenLastCalledWith(
             expect.objectContaining({
                 gl: {
-                    toneMappingExposure: isDay ? day[2] : night[2]
-                }
+                    toneMappingExposure: isDay ? day[2] : night[2],
+                },
             }),
             expect.anything()
-        )
-    })
-})
+        );
+    });
+});

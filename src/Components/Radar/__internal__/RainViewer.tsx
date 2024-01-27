@@ -40,7 +40,7 @@ export default function RainViewer() {
         return currentLayer.tileLayers[
             (currentLayer.currentLayerIndex + 1) % currentLayer.tileLayers.length
         ];
-    }
+    };
 
     React.useEffect(() => {
         if (!availableLayers) return;
@@ -59,14 +59,14 @@ export default function RainViewer() {
             nextTile.off("load", setLoadingLayerFalse);
             nextTile.off("remove", setLoadingLayerFalse);
         };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [active, availableLayers, currentFrame]);
 
     //Play will show the next frame every 0.5s.
     const play = React.useCallback(() => {
         if (!availableLayers) return;
 
-        if(getNextTile()?.isLoading() || awaitResume.current) {
+        if (getNextTile()?.isLoading() || awaitResume.current) {
             awaitResume.current = true;
             return;
         }
@@ -76,8 +76,8 @@ export default function RainViewer() {
         setCurrentFrame(availableLayers[active].currentLayerIndex);
 
         animationTimer.current = setTimeout(play, 500);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [active, availableLayers, showFrame, ]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [active, availableLayers, showFrame]);
 
     const pause = React.useCallback(() => {
         if (!availableLayers) return;
@@ -88,11 +88,10 @@ export default function RainViewer() {
             setIsPlayingFalse();
             animationTimer.current = null;
         }
-
     }, [availableLayers, setIsPlayingFalse]);
 
     React.useEffect(() => {
-        if(!loadingLayer && awaitResume.current) {
+        if (!loadingLayer && awaitResume.current) {
             awaitResume.current = false;
             play();
         }
@@ -104,11 +103,11 @@ export default function RainViewer() {
         if (isPlaying) {
             pause();
             play();
-        };
+        }
 
         showFrame(availableLayers[active].currentLayerIndex);
         setCurrentFrame(availableLayers[active].currentLayerIndex);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [active, availableLayers, showFrame]);
 
     if (isLoading)

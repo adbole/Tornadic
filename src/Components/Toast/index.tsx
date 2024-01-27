@@ -39,21 +39,19 @@ export default function Toast({
         ? ReactDOM.createPortal(
               <Container stage={stage}>
                   {children}
-                  {
-                    actions && (
-                        <div>
-                            {actions.map(({content, onClick}, i) => (
-                                <Button 
-                                    onClick={onClick} 
-                                    key={content}
-                                    varient={i !== 0 ? "secondary" : "primary"} 
-                                >
-                                    {content}
-                                </Button>
-                            ))}
-                        </div>
-                    )
-                  }
+                  {actions && (
+                      <div>
+                          {actions.map(({ content, onClick }, i) => (
+                              <Button
+                                  onClick={onClick}
+                                  key={content}
+                                  varient={i !== 0 ? "secondary" : "primary"}
+                              >
+                                  {content}
+                              </Button>
+                          ))}
+                      </div>
+                  )}
               </Container>,
               portalRoot
           )

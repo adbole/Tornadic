@@ -43,7 +43,7 @@ export default function Now({ displayOnly }: { displayOnly?: boolean }) {
                     </Button>
                 )}
 
-                <p 
+                <p
                     onClick={() => (displayOnly ? undefined : showLocationModal())}
                     style={!displayOnly ? { cursor: "pointer" } : undefined}
                 >

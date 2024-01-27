@@ -14,7 +14,7 @@ import {
     Peek,
     Position,
     RainViewer,
-    Settings
+    Settings,
 } from "./__internal__";
 import RadarWidget from "./style";
 
@@ -61,7 +61,6 @@ function Radar() {
                 <ControlPortal position={Position.BOTTOM_CENTER}>
                     <Legend />
                 </ControlPortal>
-
 
                 <Peek />
                 <RainViewer />

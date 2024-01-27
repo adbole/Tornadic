@@ -41,14 +41,14 @@ export default function Modal({ isOpen, children, onClose, className }: ModalPro
 
         const ref = dialogRef.current;
 
-        ref.addEventListener("transitionstart", () => inTransition.current = true)
-        ref.addEventListener("transitionend", () => inTransition.current = false)
+        ref.addEventListener("transitionstart", () => (inTransition.current = true));
+        ref.addEventListener("transitionend", () => (inTransition.current = false));
 
         return () => {
-            ref.removeEventListener("transitionstart", () => inTransition.current = true)
-            ref.removeEventListener("transitionend", () => inTransition.current = false)
-        }
-    }, [shouldMount])
+            ref.removeEventListener("transitionstart", () => (inTransition.current = true));
+            ref.removeEventListener("transitionend", () => (inTransition.current = false));
+        };
+    }, [shouldMount]);
 
     useSameClick(dialogRef, (e: MouseEvent) => {
         const target = e.target as HTMLElement;

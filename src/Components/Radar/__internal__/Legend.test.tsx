@@ -21,26 +21,26 @@ describe("Radar", () => {
     ])("%s", (_, colorScheme) => {
         setLocalStorageItem("radarSettings", {
             ...DEFAULTS.radarSettings,
-            colorScheme
-        })
-        const { container } = render(<Legend />)
-    
-        expect(container).toMatchSnapshot()
-    })
-})
+            colorScheme,
+        });
+        const { container } = render(<Legend />);
+
+        expect(container).toMatchSnapshot();
+    });
+});
 
 describe("Snow", () => {
     test.each([
         ["Black and White", 0],
-        ["Other", 1]
+        ["Other", 1],
     ])(`%s`, (_, colorScheme) => {
         setLocalStorageItem("radarSettings", {
             ...DEFAULTS.radarSettings,
             colorScheme,
-            snow: true
-        })
-        const { container } = render(<Legend />)
-    
-        expect(container).toMatchSnapshot()
-    })
-})
+            snow: true,
+        });
+        const { container } = render(<Legend />);
+
+        expect(container).toMatchSnapshot();
+    });
+});

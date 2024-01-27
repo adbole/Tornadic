@@ -64,7 +64,7 @@ describe("Changing Settings", () => {
                   windspeed: "kn",
                   radarAlertMode: false,
                   preferGradient: false,
-                  highContrastForLive: false
+                  highContrastForLive: false,
               }
             : DEFAULTS.userSettings;
 
@@ -93,31 +93,29 @@ describe("Changing Settings", () => {
     describe.each([
         ["Radar Alert Mode", "radarAlertMode"],
         ["Prefer Gradients Over Live", "preferGradient"],
-        ["High Foreground Contrast", "highContrastForLive"]
-    ] as [string, keyof UserSettings][])
-    (`%s`, (label, prop) => {
+        ["High Foreground Contrast", "highContrastForLive"],
+    ] as [string, keyof UserSettings][])(`%s`, (label, prop) => {
         test.each([
             ["Off -> On", false, true],
             ["On -> Off", true, false],
-        ] as [string, boolean, boolean][])
-        (`%s`, (_, defaultState, newState) => {
+        ] as [string, boolean, boolean][])(`%s`, (_, defaultState, newState) => {
             const defaults: UserSettings = {
                 ...DEFAULTS.userSettings,
                 [prop]: defaultState,
             };
-    
+
             setLocalStorageItem("userSettings", defaults);
             render(<Settings isOpen={true} onClose={vi.fn()} />);
-    
+
             const toggle = screen.getByLabelText<HTMLInputElement>(label);
             expect.soft(toggle.checked).toBe(defaultState);
-    
+
             act(() => {
                 toggle.click();
             });
-    
+
             expect.soft(toggle.checked).toBe(newState);
-    
+
             saveAndCheck(
                 {
                     ...defaults,
@@ -127,7 +125,6 @@ describe("Changing Settings", () => {
             );
         });
     });
-
 
     test("Save button is disabled if settings are reverted to default before save", () => {
         render(<Settings isOpen={true} onClose={vi.fn()} />);

@@ -65,21 +65,21 @@ test("While transitioning, the dialog cannot be closed by click", async () => {
     render(<TestComponent defaultOpen={true} />);
 
     await act(async () => {
-        await vi.advanceTimersByTimeAsync(500)
+        await vi.advanceTimersByTimeAsync(500);
         fireEvent.mouseDown(screen.getByRole("dialog"));
         fireEvent.mouseUp(screen.getByRole("dialog"));
-    })
+    });
 
     expect.soft(screen.queryByRole("dialog")).toBeInTheDocument();
 
     await act(async () => {
-        await vi.advanceTimersByTimeAsync(500)
-    })
+        await vi.advanceTimersByTimeAsync(500);
+    });
 
     expect.soft(screen.queryByRole("dialog")).toBeInTheDocument();
 
-    vi.useRealTimers()
-})
+    vi.useRealTimers();
+});
 
 describe("Closing", () => {
     test("When the dialog's backdrop is clicked, onClose is called", async () => {

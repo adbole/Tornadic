@@ -45,7 +45,7 @@ const generateNewLayer = (frames: Tile[]): AvailableLayer => ({
     frames,
     //While the layers could be accessed by laygroup.getLayers(), this array is used
     ///to do the same, but to also preserve the order as it is in the frames array.
-    tileLayers: [], 
+    tileLayers: [],
     layerGroup: L.layerGroup([], { pane: RADAR_PANE }),
     currentLayerIndex: 0,
 });
@@ -82,15 +82,15 @@ export default function useRainViewer() {
             Satellite: generateNewLayer(data.satellite.infrared),
         };
 
-        layers.Radar.currentLayerIndex = 
+        layers.Radar.currentLayerIndex =
             oldLayers.current?.Radar.currentLayerIndex ?? data.radar.past.length - 1;
 
-        layers.Satellite.currentLayerIndex = 
+        layers.Satellite.currentLayerIndex =
             oldLayers.current?.Satellite.currentLayerIndex ?? data.satellite.infrared.length - 1;
 
-        oldLayers.current = layers
+        oldLayers.current = layers;
         return layers;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [data, settings]);
 
     //Layers control logic and cleanup on availableLayers change
@@ -138,13 +138,19 @@ export default function useRainViewer() {
             const loadedLayers = activeData.tileLayers;
             const frame = activeData.frames[index];
 
-            const { colorScheme: radarColorScheme, smoothing: radarSmoothing, snow: radarSnow } = settings;
+            const {
+                colorScheme: radarColorScheme,
+                smoothing: radarSmoothing,
+                snow: radarSnow,
+            } = settings;
 
             // If frame hasn't been added as a layer yet, do so now
             if (!loadedLayers[index]) {
                 const color = active === LayerTypes.Radar ? radarColorScheme : 0;
                 loadedLayers[index] = L.tileLayer(
-                    `${data!.host}${frame.path}/512/{z}/{x}/{y}/${color}/${Number(radarSmoothing)}_${Number(radarSnow)}.png`,
+                    `${data!.host}${frame.path}/512/{z}/{x}/{y}/${color}/${Number(
+                        radarSmoothing
+                    )}_${Number(radarSnow)}.png`,
                     {
                         opacity: 0.0,
                         zIndex: frame.time,

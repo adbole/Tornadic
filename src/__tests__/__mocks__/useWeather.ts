@@ -1,4 +1,3 @@
-
 import DEFAULTS from "Hooks/useLocalStorage.config";
 
 import Weather from "ts/Weather";
@@ -12,6 +11,6 @@ const useWeather = () => ({
     weather: new Weather(forecast(), airquality(), DEFAULTS.userSettings),
     point: apiWeatherGov_points as GridPoint,
     alerts: [],
-})
+});
 
 export default useWeather;

@@ -309,9 +309,9 @@ test("When settings change, availableLayers is updated and showFrame renders lay
             colorScheme: 1,
             smoothing: true,
             snow: true,
-        })
-        dispatchStorage("radarSettings")
-    })
+        });
+        dispatchStorage("radarSettings");
+    });
 
     const newLayers = result.current.availableLayers;
     result.current.showFrame(rainviewerObj.radar.past.length - 1);
@@ -320,7 +320,12 @@ test("When settings change, availableLayers is updated and showFrame renders lay
 
     expect.soft(L.tileLayer).toHaveBeenCalledTimes(4);
     expect.soft(L.tileLayer).toHaveBeenCalledWith(
-        constructRadarPath(rainviewerObj.radar.past[rainviewerObj.radar.past.length - 1].path, 1, 1, 1),
+        constructRadarPath(
+            rainviewerObj.radar.past[rainviewerObj.radar.past.length - 1].path,
+            1,
+            1,
+            1
+        ),
         expect.objectContaining({
             pane: RADAR_PANE,
             opacity: 0.0,
@@ -333,4 +338,4 @@ test("When settings change, availableLayers is updated and showFrame renders lay
             opacity: 0.0,
         })
     );
-})
+});

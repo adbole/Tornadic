@@ -7,7 +7,6 @@ import FetchErrorHandler from "Components/FetchErrorHandler";
 
 import Peek from ".";
 
-
 //Peek acts as a mini version of the application as a whole, so tests here
 //are only checking that the correct components are rendered and get proper props
 //hence all the mocks
@@ -151,8 +150,8 @@ describe("FetchErrorHandler", () => {
 
 describe("WeatherContext", () => {
     beforeEach(() => {
-        render(<Peek isOpen={true} onClose={vi.fn()} latitude={365} longitude={405} />)
-    })
+        render(<Peek isOpen={true} onClose={vi.fn()} latitude={365} longitude={405} />);
+    });
 
     test("Renders the WeatherContext with the correct props", () => {
         expect.soft(screen.queryByTestId(mockWeatherContext)).toBeInTheDocument();

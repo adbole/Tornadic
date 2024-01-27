@@ -23,7 +23,7 @@ const Button = styled.button(({ varient = "primary" }: ButtonProps) => [
     },
     varient === "primary" && {
         backgroundColor: vars.primary,
-        padding
+        padding,
     },
     varient === "secondary" && {
         backgroundColor: vars.backgroundLayer,

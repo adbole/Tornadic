@@ -7,12 +7,12 @@ import Gradient from "./Gradient";
 
 const mocks = vi.hoisted(() => ({
     Global: vi.fn(),
-}))
+}));
 
-vi.mock("@emotion/react", async (importOriginal) => ({
-    ...(await importOriginal() as any),
+vi.mock("@emotion/react", async importOriginal => ({
+    ...((await importOriginal()) as any),
     Global: mocks.Global,
-}))
+}));
 
 describe.each([
     ["Day", true],
@@ -33,12 +33,10 @@ describe.each([
         "Snow Grains",
         "Snow Showers",
         "Thunderstorms",
-        "Thunderstorms and Hail"
-    ] as WeatherCondition["type"][])("%s", (condition) => {
-        render(
-            <Gradient isDay={isDay} condition={condition} />
-        )
+        "Thunderstorms and Hail",
+    ] as WeatherCondition["type"][])("%s", condition => {
+        render(<Gradient isDay={isDay} condition={condition} />);
 
-        expect(mocks.Global.mock.lastCall[0].styles.styles).toMatchSnapshot()
-    })
-})
+        expect(mocks.Global.mock.lastCall[0].styles.styles).toMatchSnapshot();
+    });
+});

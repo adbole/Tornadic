@@ -25,7 +25,7 @@ export default styled.div<{ stage: AnimationStage }>(({ stage }) => [
         [`${Button}`]: { margin: 0 },
         [`${Button} + ${Button}`]: {
             marginLeft: "5px",
-        }
+        },
     },
     stage === "enter" && { transform: "translateY(0)" },
 ]);

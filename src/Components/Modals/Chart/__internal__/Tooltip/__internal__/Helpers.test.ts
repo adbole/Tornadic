@@ -1,10 +1,7 @@
 import { useWeather } from "@test-mocks";
 import { mockDate } from "@test-utils";
 
-import {
-    getLowHigh,
-    trunc,
-} from "./Helpers";
+import { getLowHigh, trunc } from "./Helpers";
 
 
 mockDate();

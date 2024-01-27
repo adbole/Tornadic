@@ -31,7 +31,7 @@ test("Clicking on the location name opens the location modal", () => {
         screen.getByText(location).click();
     });
 
-    expect.soft(screen.getByText(location)).toHaveStyle({ cursor: "pointer" })
+    expect.soft(screen.getByText(location)).toHaveStyle({ cursor: "pointer" });
     expect.soft(screen.getByRole("dialog")).toBeInTheDocument();
 
     cleanup();
@@ -51,7 +51,7 @@ test("displayOnly hides the gear icon and disables the location modal", () => {
     render(<Now displayOnly={true} />);
 
     expect.soft(screen.queryByRole("button")).not.toBeInTheDocument();
-    expect.soft(screen.getByText(location)).not.toHaveStyle({ cursor: "pointer" })
+    expect.soft(screen.getByText(location)).not.toHaveStyle({ cursor: "pointer" });
 
     act(() => {
         screen.getByText(location).click();

@@ -18,7 +18,6 @@ mockDate();
 vi.mock("Contexts/WeatherContext", () => ({ useWeather }));
 vi.spyOn(TooltipHelpers, "getLowHigh");
 
-
 test("When given a property that doesn't have secondaryInformation provided, returns null", () => {
     const { container } = render(
         <ChartContext view="visibility" day={0}>

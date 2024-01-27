@@ -13,8 +13,8 @@ import { vars } from "ts/StyleMixins";
 const DataAttributation = styled.div({
     textAlign: "center",
 
-    "a": { color: vars.primary }
-})
+    a: { color: vars.primary },
+});
 
 export default function Settings({ ...modalProps }: ModalProps) {
     const [settings, setSettings] = useLocalStorage("userSettings");
@@ -139,13 +139,15 @@ export default function Settings({ ...modalProps }: ModalProps) {
                     Save
                 </Button>
 
-                <hr/>
+                <hr />
 
                 <DataAttributation>
                     <h3>Weather Data Providers</h3>
                     <a href="https://open-meteo.com/">Open-Meteo</a>
-                    <br/>
-                    <a href="https://www.weather.gov/documentation/services-web-api">National Weather Service</a>
+                    <br />
+                    <a href="https://www.weather.gov/documentation/services-web-api">
+                        National Weather Service
+                    </a>
                 </DataAttributation>
             </ModalContent>
         </Modal>

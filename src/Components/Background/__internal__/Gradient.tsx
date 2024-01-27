@@ -4,9 +4,15 @@ import { Global } from "@emotion/react";
 import type WeatherCondition from "ts/WeatherCondition";
 
 
-export default function Gradient({ isDay, condition }: { isDay: boolean, condition: WeatherCondition["type"] }) {
+export default function Gradient({
+    isDay,
+    condition,
+}: {
+    isDay: boolean;
+    condition: WeatherCondition["type"];
+}) {
     const [from, to] = React.useMemo(() => {
-        switch(condition) {
+        switch (condition) {
             case "Overcast":
                 return isDay ? ["#acb7bd", "#73bae1"] : ["#2d3438", "#1a1b1c"];
             case "Rain":
@@ -23,9 +29,11 @@ export default function Gradient({ isDay, condition }: { isDay: boolean, conditi
             case "Snow Showers":
                 return ["#797c87", "#acb7bd"];
             default:
-                return isDay ? ["#7a98b2", "#bfc5c6"] : ["#1a1b1c", "#1a1b1c"]
+                return isDay ? ["#7a98b2", "#bfc5c6"] : ["#1a1b1c", "#1a1b1c"];
         }
-    }, [isDay, condition])
+    }, [isDay, condition]);
 
-    return <Global styles={{ "body": { background: `linear-gradient(to bottom, ${from}, ${to})` } }} />
+    return (
+        <Global styles={{ body: { background: `linear-gradient(to bottom, ${from}, ${to})` } }} />
+    );
 }

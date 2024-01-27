@@ -30,7 +30,7 @@ test("Matches snapshot", () => {
     );
 
     expect(container).toMatchSnapshot();
-})
+});
 
 test("Shows a slider and the current opacity", () => {
     render(
@@ -42,7 +42,6 @@ test("Shows a slider and the current opacity", () => {
     expect.soft(screen.queryByText("Opacity: 37")).toBeInTheDocument();
     expect.soft(screen.queryByRole("slider")).toBeInTheDocument();
 });
-
 
 test("Sets the target pane's opacity when slider is changed", () => {
     const {
@@ -59,7 +58,7 @@ test("Sets the target pane's opacity when slider is changed", () => {
 });
 
 test("If the target pane doesn't exist, then a mutation observer waits for its creation", () => {
-    vi.spyOn(window.MutationObserver.prototype, "observe")
+    vi.spyOn(window.MutationObserver.prototype, "observe");
 
     const {
         result: { current: map },

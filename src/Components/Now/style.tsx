@@ -14,7 +14,7 @@ export const Base = css({
 
     [mediaQueries.max("medium")]: { gridColumn: "1 / -1" },
     "#root > &": {
-        [mediaQueries.min("medium")]: { gridArea: "n" }
+        [mediaQueries.min("medium")]: { gridArea: "n" },
     },
 });
 

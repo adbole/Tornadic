@@ -109,12 +109,16 @@ describe("onClick", () => {
     test("If onClick is given, then the cursor is set to pointer", () => {
         render(<Widget onClick={() => undefined}>Test</Widget>);
 
-        expect(screen.queryByTestId(testIds.Widget.WidgetSection)).toHaveStyle({ cursor: "pointer" });
+        expect(screen.queryByTestId(testIds.Widget.WidgetSection)).toHaveStyle({
+            cursor: "pointer",
+        });
     });
 
     test("If onClick is not given, then the cursor is set to pointer", () => {
         render(<Widget>Test</Widget>);
 
-        expect(screen.queryByTestId(testIds.Widget.WidgetSection)).not.toHaveStyle({ cursor: "pointer" });
-    })
-})
+        expect(screen.queryByTestId(testIds.Widget.WidgetSection)).not.toHaveStyle({
+            cursor: "pointer",
+        });
+    });
+});

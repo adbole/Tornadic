@@ -6,58 +6,53 @@ import { randomBetween } from "ts/Helpers";
 import type WeatherCondition from "ts/WeatherCondition";
 
 
-export default function Thunderstorm({ condition }: { condition: WeatherCondition["type"]}) {
-    const flash = React.useRef<PointLight>(null)
-    const doFlash = React.useRef(false)
+export default function Thunderstorm({ condition }: { condition: WeatherCondition["type"] }) {
+    const flash = React.useRef<PointLight>(null);
+    const doFlash = React.useRef(false);
 
-    const { width } = useThree(state => state.viewport)
+    const { width } = useThree(state => state.viewport);
 
-    const [show, setShow] = React.useState(false)
+    const [show, setShow] = React.useState(false);
     React.useEffect(() => {
-        switch(condition) {
+        switch (condition) {
             case "Thunderstorms":
             case "Thunderstorms and Hail":
-                setShow(true)
-                break
+                setShow(true);
+                break;
             default:
-                setShow(false)
+                setShow(false);
         }
-    }, [condition])
-    
-    useFrame(() => {
-        if(!flash.current) return
+    }, [condition]);
 
-        if(doFlash.current || flash.current.power > 100) {
-            if(flash.current.power < 50) {
-                flash.current.position.set(
-                    randomBetween(-width, width),
-                    randomBetween(5, 10),
-                    -5
-                )
+    useFrame(() => {
+        if (!flash.current) return;
+
+        if (doFlash.current || flash.current.power > 100) {
+            if (flash.current.power < 50) {
+                flash.current.position.set(randomBetween(-width, width), randomBetween(5, 10), -5);
             }
 
-            flash.current.power = Math.random() * 500
-        }
-        else flash.current.power = 0;
-    })
+            flash.current.power = Math.random() * 500;
+        } else flash.current.power = 0;
+    });
 
     // doFlash doesn't guarantee a flash, but it does prevent
     // it from happening too often
     React.useEffect(() => {
-        doFlash.current = false
+        doFlash.current = false;
         const interval = setInterval(() => {
-            doFlash.current = true
+            doFlash.current = true;
 
             setTimeout(() => {
-                doFlash.current = false
-            }, 500)
-        }, 7500)
+                doFlash.current = false;
+            }, 500);
+        }, 7500);
 
         return () => {
-            doFlash.current = false
-            clearInterval(interval)
-        }
-    }, [])
+            doFlash.current = false;
+            clearInterval(interval);
+        };
+    }, []);
 
     return (
         <pointLight
@@ -68,5 +63,5 @@ export default function Thunderstorm({ condition }: { condition: WeatherConditio
             distance={500}
             decay={1}
         />
-    )
+    );
 }

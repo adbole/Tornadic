@@ -68,7 +68,6 @@ describe.each([
                 result: { current: map },
             } = renderHook(useMap, { wrapper: Wrapper });
 
-            
             act(() => {
                 fire(map);
             });
@@ -77,17 +76,17 @@ describe.each([
 
             act(() => {
                 vi.advanceTimersByTime(100);
-            })
+            });
 
-            expect.soft(mocks.popup).toHaveBeenCalledOnce()
-        })
+            expect.soft(mocks.popup).toHaveBeenCalledOnce();
+        });
 
         test("After a second the modal appears", () => {
             const {
                 result: { current: map },
             } = renderHook(useMap, { wrapper: Wrapper });
 
-            expect.soft(getComputedStyle(document.body).userSelect).toBe("")
+            expect.soft(getComputedStyle(document.body).userSelect).toBe("");
 
             act(() => {
                 fire(map);
@@ -103,7 +102,7 @@ describe.each([
                     expect.objectContaining({ latitude: 35, longitude: -95 }),
                     {}
                 );
-            expect.soft(getComputedStyle(document.body).userSelect).toBe("none")
+            expect.soft(getComputedStyle(document.body).userSelect).toBe("none");
 
             act(() => {
                 vi.advanceTimersByTime(500);
@@ -116,7 +115,7 @@ describe.each([
                     expect.objectContaining({ latitude: 35, longitude: -95 }),
                     {}
                 );
-            expect.soft(getComputedStyle(document.body).userSelect).toBe("")
+            expect.soft(getComputedStyle(document.body).userSelect).toBe("");
         });
 
         test.each([

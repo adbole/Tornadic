@@ -106,7 +106,7 @@ function App() {
                         {
                             content: "Try Again",
                             onClick: retry,
-                        }
+                        },
                     ]}
                 >
                     Could not get weather data

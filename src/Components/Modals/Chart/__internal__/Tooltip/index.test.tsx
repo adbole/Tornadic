@@ -99,39 +99,39 @@ test.each([
     }
 );
 
-test.each([
-    "temperature_2m",
-    "precipitation"
-] as ChartViews[])("%s: Hover passes a hoverIndex based on the mouse position", (view) => {
-    const { container } = render(
-        <ChartContext view={view} day={0}>
-            <Tooltip day={0} />
-        </ChartContext>
-    );
+test.each(["temperature_2m", "precipitation"] as ChartViews[])(
+    "%s: Hover passes a hoverIndex based on the mouse position",
+    view => {
+        const { container } = render(
+            <ChartContext view={view} day={0}>
+                <Tooltip day={0} />
+            </ChartContext>
+        );
 
-    const graph = container.querySelector("svg")!;
+        const graph = container.querySelector("svg")!;
 
-    act(() => {
-        fireEvent.mouseEnter(graph);
-        fireEvent.mouseMove(graph, { clientX: 20, clientY: 0 });
-    });
+        act(() => {
+            fireEvent.mouseEnter(graph);
+            fireEvent.mouseMove(graph, { clientX: 20, clientY: 0 });
+        });
 
-    const obj = expect.objectContaining({ day: 0, hoverIndex: -1 } as TooltipInternalProps);
-    expect.soft(mocks.primary).not.toHaveBeenLastCalledWith(obj, {});
-    expect.soft(mocks.secondary).not.toHaveBeenLastCalledWith(obj, {});
-    expect.soft(mocks.time).not.toHaveBeenLastCalledWith(obj, {});
+        const obj = expect.objectContaining({ day: 0, hoverIndex: -1 } as TooltipInternalProps);
+        expect.soft(mocks.primary).not.toHaveBeenLastCalledWith(obj, {});
+        expect.soft(mocks.secondary).not.toHaveBeenLastCalledWith(obj, {});
+        expect.soft(mocks.time).not.toHaveBeenLastCalledWith(obj, {});
 
-    const lastCall = mocks.primary.mock.lastCall;
+        const lastCall = mocks.primary.mock.lastCall;
 
-    act(() => {
-        fireEvent.mouseEnter(graph);
-        fireEvent.mouseMove(graph, { clientX: 30, clientY: 0 });
-    });
+        act(() => {
+            fireEvent.mouseEnter(graph);
+            fireEvent.mouseMove(graph, { clientX: 30, clientY: 0 });
+        });
 
-    expect.soft(mocks.primary).not.toHaveBeenLastCalledWith(lastCall);
-    expect.soft(mocks.secondary).not.toHaveBeenLastCalledWith(lastCall);
-    expect.soft(mocks.time).not.toHaveBeenLastCalledWith(lastCall);
-});
+        expect.soft(mocks.primary).not.toHaveBeenLastCalledWith(lastCall);
+        expect.soft(mocks.secondary).not.toHaveBeenLastCalledWith(lastCall);
+        expect.soft(mocks.time).not.toHaveBeenLastCalledWith(lastCall);
+    }
+);
 
 test("If no data exists for a view on a day, then 'No Data' is displayed", () => {
     render(

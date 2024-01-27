@@ -1,35 +1,35 @@
 import React from "react";
 import { useFrame } from "@react-three/fiber";
-import type { BufferAttribute} from "three";
-import {BufferGeometry, PointsMaterial, Vector3 } from "three";
+import type { BufferAttribute } from "three";
+import { BufferGeometry, PointsMaterial, Vector3 } from "three";
 
 import { randomBetween } from "ts/Helpers";
 import type WeatherCondition from "ts/WeatherCondition";
 
 
 export default function RainSnow({ condition }: { condition: WeatherCondition["type"] }) {
-    const [show, setShow] = React.useState(false)
+    const [show, setShow] = React.useState(false);
 
     React.useEffect(() => {
-        switch(condition) {
+        switch (condition) {
             case "Clear":
             case "Mostly Clear":
             case "Partly Cloudy":
             case "Overcast":
             case "Foggy":
-                setShow(false)
-                break
+                setShow(false);
+                break;
             default:
-                setShow(true)
+                setShow(true);
         }
-    }, [condition])
+    }, [condition]);
 
     const rainGeo = React.useMemo(() => {
         const vertices = [];
 
         let amount;
 
-        switch(condition) {
+        switch (condition) {
             case "Rain Showers":
             case "Snow Showers":
                 amount = 500;
@@ -43,28 +43,30 @@ export default function RainSnow({ condition }: { condition: WeatherCondition["t
                 break;
         }
 
-        for(let i = 0; i < amount; i++) {
-            vertices.push(new Vector3(
-                randomBetween(-200, 200),
-                randomBetween(-250, 250),
-                randomBetween(-100, -20)
-            ))
+        for (let i = 0; i < amount; i++) {
+            vertices.push(
+                new Vector3(
+                    randomBetween(-200, 200),
+                    randomBetween(-250, 250),
+                    randomBetween(-100, -20)
+                )
+            );
         }
 
-        return new BufferGeometry().setFromPoints(vertices)
-    }, [condition])
+        return new BufferGeometry().setFromPoints(vertices);
+    }, [condition]);
 
     const material = React.useMemo(() => {
         let size;
 
-        switch(condition) {
+        switch (condition) {
             case "Snow":
             case "Snow Grains":
             case "Snow Showers":
-                size = 0.5
+                size = 0.5;
                 break;
             default:
-                size = 0.3
+                size = 0.3;
                 break;
         }
 
@@ -72,36 +74,35 @@ export default function RainSnow({ condition }: { condition: WeatherCondition["t
             color: "#AAAAAA",
             size,
             transparent: true,
-        })
-    }, [condition])
+        });
+    }, [condition]);
 
     const speed = React.useMemo(() => {
-        switch(condition) {
+        switch (condition) {
             case "Snow":
             case "Snow Grains":
             case "Snow Showers":
-                return 10
+                return 10;
             default:
-                return 50
+                return 50;
         }
-    }, [condition])
-
+    }, [condition]);
 
     useFrame((_, delta) => {
-        const positions = (rainGeo.attributes.position as BufferAttribute).array
+        const positions = (rainGeo.attributes.position as BufferAttribute).array;
 
-        if(delta > 1) return;
+        if (delta > 1) return;
 
-        for(let i = 1; i < positions.length; i += 3) {
-            positions[i] -= speed * delta
+        for (let i = 1; i < positions.length; i += 3) {
+            positions[i] -= speed * delta;
 
-            if(positions[i] < -250) {
-                positions[i] = 250
+            if (positions[i] < -250) {
+                positions[i] = 250;
             }
         }
 
-        (rainGeo.attributes.position as BufferAttribute).needsUpdate = true
-    })
+        (rainGeo.attributes.position as BufferAttribute).needsUpdate = true;
+    });
 
-    return <points geometry={rainGeo} material={material} visible={show}/>
+    return <points geometry={rainGeo} material={material} visible={show} />;
 }

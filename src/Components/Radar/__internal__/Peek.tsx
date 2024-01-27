@@ -37,7 +37,7 @@ export default function Peek() {
         (pos: L.LatLng) => {
             if (!map.dragging.enabled()) return;
 
-            if(timeout.current) {
+            if (timeout.current) {
                 clearTimeout(timeout.current);
                 timeout.current = undefined;
                 unsetPosition();
@@ -52,7 +52,7 @@ export default function Peek() {
                     unsetPosition();
                     setLatLng(pos);
                 }, 900);
-            }, 100)
+            }, 100);
         },
         // eslint-disable-next-line react-hooks/exhaustive-deps
         [map]
@@ -78,7 +78,7 @@ export default function Peek() {
         map.on("mouseup mousemove", onUp);
         map.on("contextmenu", () => undefined);
 
-        const mapContainer = map.getContainer()
+        const mapContainer = map.getContainer();
         mapContainer.addEventListener("touchstart", onTouchStart);
         mapContainer.addEventListener("touchend", onUp);
         mapContainer.addEventListener("touchmove", onUp);
@@ -97,10 +97,10 @@ export default function Peek() {
 
     return (
         <>
-            {position &&  (
+            {position && (
                 <>
                     <HoldPopup position={position} closeButton={false} offset={[0, 50]} />
-                    <Global styles={{ "body": { userSelect: "none" }}} />
+                    <Global styles={{ body: { userSelect: "none" } }} />
                 </>
             )}
             <PeekModal

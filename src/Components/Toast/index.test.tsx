@@ -15,10 +15,12 @@ function TestComponent({ isOpen }: { isOpen: boolean }) {
             <button onClick={() => setOpen(true)}>Open Toast</button>
             <Toast
                 isOpen={open}
-                actions={[{
-                    content: "Dismiss",
-                    onClick: () => setOpen(false),
-                }]}
+                actions={[
+                    {
+                        content: "Dismiss",
+                        onClick: () => setOpen(false),
+                    },
+                ]}
             >
                 My Toast
             </Toast>
@@ -63,10 +65,12 @@ describe("Actions", () => {
                 <div id="toast-root" />
                 <Toast
                     isOpen={true}
-                    actions={[{
-                        content: "Dismiss",
-                        onClick: () => {},
-                    }]}
+                    actions={[
+                        {
+                            content: "Dismiss",
+                            onClick: () => {},
+                        },
+                    ]}
                 >
                     My Toast
                 </Toast>
@@ -85,10 +89,12 @@ describe("Actions", () => {
                 <div id="toast-root" />
                 <Toast
                     isOpen={true}
-                    actions={[{
-                        content: "Dismiss",
-                        onClick,
-                    }]}
+                    actions={[
+                        {
+                            content: "Dismiss",
+                            onClick,
+                        },
+                    ]}
                 >
                     My Toast
                 </Toast>
@@ -116,7 +122,7 @@ describe("Actions", () => {
                         {
                             content: "Cancel",
                             onClick: () => {},
-                        }
+                        },
                     ]}
                 >
                     My Toast
@@ -130,7 +136,9 @@ describe("Actions", () => {
         expect(screen.queryByText("Cancel")).toBeInTheDocument();
 
         expect.soft(screen.getByText("Dismiss")).toHaveStyleRule("background-color", vars.primary);
-        expect.soft(screen.getByText("Cancel")).toHaveStyleRule("background-color", vars.backgroundLayer);
+        expect
+            .soft(screen.getByText("Cancel"))
+            .toHaveStyleRule("background-color", vars.backgroundLayer);
     });
 });
 
