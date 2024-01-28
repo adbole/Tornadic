@@ -10,14 +10,6 @@ import type NWSAlert from "ts/NWSAlert";
 import { alertColors, vars } from "ts/StyleMixins";
 
 
-const ListModal = styled(Modal)({
-    ">.slidable>div": {
-        display: "flex",
-        flexDirection: "column",
-        overflow: "hidden",
-    },
-});
-
 const ListItem = styled.div({
     borderRadius: vars.borderRadius,
     padding: "10px",
@@ -31,13 +23,13 @@ const ListContent = styled(ModalContent)({ "> :not(last-of-type)": { marginBotto
  */
 export default function AlertModal({ alerts, ...modalProps }: { alerts: NWSAlert[] } & ModalProps) {
     if (alerts.length === 0) {
-        console.error("AlertModal called with no alerts");
+        console.error("AlertModal called with no alerts, modal will not render");
         return null;
     }
 
-    if (alerts.length > 1) {
-        return (
-            <ListModal {...modalProps}>
+    return (
+        <Modal {...modalProps}>
+            {alerts.length > 1 ? (
                 <SlideContextProvider>
                     <ModalTitle>{alerts.length} Weather Alerts</ModalTitle>
                     <ListContent>
@@ -46,13 +38,9 @@ export default function AlertModal({ alerts, ...modalProps }: { alerts: NWSAlert
                         ))}
                     </ListContent>
                 </SlideContextProvider>
-            </ListModal>
-        );
-    }
-
-    return (
-        <Modal {...modalProps}>
-            <AlertModalBody alert={alerts[0]} />
+            ) : (
+                <AlertModalBody alert={alerts[0]} />
+            )}
         </Modal>
     );
 }

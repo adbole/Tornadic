@@ -1,22 +1,11 @@
 import React from "react";
-import styled from "@emotion/styled";
 
 import { useAnimation, useNullableState } from "Hooks";
 
 import { throwError } from "ts/Helpers";
 
+import Container, { SlideContent } from "./SlideContext.style";
 
-const Container = styled.div({
-    display: "flex",
-    overflow: "hidden",
-
-    "> div": { flex: "0 0 100%" },
-
-    // DO NOT REMOVE
-    // FIXES A BUG WITH ANIMATION ON SAFARI WHERE .slide-out
-    // ELEMENTS MAY GET STUCK
-    "> .slide-in": { zIndex: "1" },
-});
 
 const Context = React.createContext<Readonly<{
     slideTo: (value: NonNullable<React.ReactNode>) => void;
@@ -30,22 +19,18 @@ function SlideContextProvider({ children }: { children: React.ReactNode }) {
     const [secondaryContent, slideTo, unsetSecondaryContent] = useNullableState<React.ReactNode>();
     const [doSlide, reset, stage, shouldMount] = useAnimation(false, 1000);
 
-    const primaryDiv = React.useRef<HTMLDivElement>(null);
     const originalHeight = React.useRef<number>();
-
-    React.useEffect(() => {
-        if (!primaryDiv.current) return;
-
-        //Get the original clientHeight.
-        originalHeight.current = primaryDiv.current.clientHeight;
-    }, []);
+    const secondaryHeight = React.useRef<number>();
 
     React.useEffect(() => {
         if (secondaryContent) doSlide();
     }, [secondaryContent, doSlide]);
 
     React.useEffect(() => {
-        if (!shouldMount) unsetSecondaryContent();
+        if (!shouldMount) {
+            unsetSecondaryContent();
+            secondaryHeight.current = undefined;
+        }
     }, [shouldMount, unsetSecondaryContent]);
 
     const value = React.useMemo(
@@ -58,24 +43,43 @@ function SlideContextProvider({ children }: { children: React.ReactNode }) {
 
     return (
         <Container
-            className="slidable"
             style={{
                 transition: "0.75s ease",
-                maxHeight: stage === "enter" ? "100vh" : originalHeight.current + "px",
+                maxHeight:
+                    stage === "enter"
+                        ? Math.max(secondaryHeight.current ?? 0, originalHeight.current ?? 0) + "px"
+                        : originalHeight.current + "px",
             }}
         >
             <Context.Provider value={value}>
-                <div
-                    ref={primaryDiv}
-                    className={secondaryContent ? "slide-out" : ""}
+                <SlideContent
+                    ref={el => {
+                        if (!el || originalHeight.current) return;
+
+                        originalHeight.current = el.clientHeight;
+                    }}
                     style={{
                         transition: "1s ease",
                         marginLeft: stage === "enter" ? "-100%" : "initial",
                     }}
                 >
                     {children}
-                </div>
-                {secondaryContent && <div className="slide-in">{secondaryContent}</div>}
+                </SlideContent>
+                {secondaryContent && (
+                    <SlideContent
+                        style={{ zIndex: 1 }}
+                        ref={el => {
+                            if (!el || secondaryHeight.current) return;
+
+                            secondaryHeight.current = [...el.children].reduce(
+                                (height, child) => height + child.scrollHeight,
+                                0
+                            );
+                        }}
+                    >
+                        {secondaryContent}
+                    </SlideContent>
+                )}
             </Context.Provider>
         </Container>
     );

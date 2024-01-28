@@ -46,6 +46,7 @@ export default function Peek() {
                 return;
             }
 
+            //100ms delay allows for a normal click or tap to pass through without issues.
             timeout.current = setTimeout(() => {
                 setPosition(pos);
 
