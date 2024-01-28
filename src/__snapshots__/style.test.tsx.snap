@@ -16,7 +16,7 @@ exports[`Matches screenshot 1`] = `
   --watch: #FFF501;
   --advise: #FF9431;
   --warn: #C31700;
-  --statment: #8F00FF;
+  --statement: #8F00FF;
   --border-radius: 15px;
   --input-border-radius: 10px;
   --svg-size: 1rem;

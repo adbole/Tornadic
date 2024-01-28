@@ -1,5 +1,7 @@
 import { css } from "@emotion/react";
 
+import type NWSAlert from "./NWSAlert";
+
 
 const breakpoints = {
     large: 1400,
@@ -29,7 +31,7 @@ const baseVarNames = {
     watch: "--watch",
     advise: "--advise",
     warn: "--warn",
-    statement: "--statment",
+    statement: "--statement",
 
     borderRadius: "--border-radius",
     inputBorderRadius: "--input-border-radius",
@@ -52,7 +54,14 @@ export const vars = new Proxy(baseVarNames, {
     },
 });
 
-export const alertColors = {
+type AlertColors = {
+    [K in ReturnType<NWSAlert["getAlertCSS"]>]: {
+        background: string;
+        foreground: string;
+    };
+};
+
+export const alertColors: AlertColors = {
     warning: {
         background: vars.warn,
         foreground: "white",

@@ -27,7 +27,7 @@ function Alert() {
     return (
         <>
             <AlertWidget
-                type={alert.getAlertCSS() as any}
+                type={alert.getAlertCSS()}
                 isTemplate
                 size="widget-wide"
                 onClick={showModal}

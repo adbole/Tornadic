@@ -61,7 +61,7 @@ function AlertDisplaySelectionWrapper({ alert }: { alert: NWSAlert }) {
     const { slideTo, reset } = useSlide();
 
     const onClickHandler = () => slideTo(<AlertModalBody alert={alert} onClick={reset} />);
-    const alertColor = alert.getAlertCSS() as keyof typeof alertColors;
+    const alertColor = alert.getAlertCSS();
 
     return (
         <ListItem
@@ -89,7 +89,7 @@ function AlertModalBody({
     alert: NWSAlert;
     onClick?: (e: React.MouseEvent<HTMLHeadingElement>) => void;
 }) {
-    const alertColor = alert.getAlertCSS() as keyof typeof alertColors;
+    const alertColor = alert.getAlertCSS();
 
     return (
         <>

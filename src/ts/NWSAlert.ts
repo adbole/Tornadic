@@ -163,8 +163,8 @@ export default class NWSAlert {
         return this.geometry !== null;
     }
 
-    getAlertCSS() {
-        return AlertType[this.getAlertType()].toLowerCase();
+    getAlertCSS(): Lowercase<`${keyof typeof AlertType}`> {
+        return AlertType[this.getAlertType()].toLowerCase() as any;
     }
 
     private getNamePriority(): number {

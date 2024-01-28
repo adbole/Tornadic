@@ -21,6 +21,7 @@ const HoldPopup = styled(Popup)({
     pointerEvents: "none",
     touchAction: "none",
     "> .leaflet-popup-content-wrapper": { display: "none" },
+    transition: "opacity 0.9s linear !important",
 });
 
 /**

@@ -109,3 +109,5 @@ test("If the map has dragging disabled, then it isn't zoomed, so alert modals sh
         .soft(mocks.AlertModal)
         .not.toHaveBeenLastCalledWith(expect.objectContaining({ isOpen: true }), {});
 });
+
+test.todo("Tooltips require manual testing as leaflet won't render paths for interaction");

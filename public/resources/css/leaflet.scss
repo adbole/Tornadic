@@ -4,6 +4,7 @@
     color: white;
 }
 
+$dark-back: rgba(0, 0, 0, 0.75);
 $dark-back-hov: rgba(0, 0, 0, 0.6);
 $dark-a: #00b7ff;
 
@@ -264,7 +265,7 @@ $dark-a: #00b7ff;
     .leaflet-popup {
         opacity: 0;
         
-        transition: opacity 0.9s linear;
+        transition: opacity 0.2s linear;
     }
 
     .leaflet-map-pane {
