@@ -38,10 +38,11 @@ export default styled.dialog<{
             maxHeight: "75%",
             margin: "auto auto 0px auto",
             borderRadius: `${vars.borderRadius} ${vars.borderRadius} 0px 0px`,
+            transform: "translateY(100%)"
         },
     },
     stage === "enter" && {
-        transform: "translateY(0)",
+        transform: "translateY(0) !important",
         "&::backdrop": { opacity: 1 },
     },
 ]);
