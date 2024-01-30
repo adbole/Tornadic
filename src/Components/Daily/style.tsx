@@ -3,7 +3,7 @@ import styled from "@emotion/styled";
 
 import Widget from "Components/Widget";
 
-import { mediaQueries } from "ts/StyleMixins";
+import { interactable, mediaQueries } from "ts/StyleMixins";
 
 
 export const Base = css({ [mediaQueries.min("medium")]: { gridArea: "d" } });
@@ -29,16 +29,14 @@ export const Covered = styled.div({
     height: "100%",
 });
 
-export const Row = styled.div({
-    display: "flex",
-    alignItems: "center",
-    flex: 1,
-    "&:hover": {
-        filter: "brightness(80%)",
-        cursor: "pointer",
-    },
-    "&:active": { filter: "brightness(70%)" },
-});
+export const Row = styled.div([
+    interactable,
+    {
+        display: "flex",
+        alignItems: "center",
+        flex: 1,
+    }
+]);
 
 export const List = styled.div({
     display: "flex",

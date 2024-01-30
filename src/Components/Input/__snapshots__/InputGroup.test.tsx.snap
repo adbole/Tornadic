@@ -24,8 +24,6 @@ exports[`Matches default snapshot 1`] = `
 .emotion-2 {
   -webkit-transition: filter 0.3s ease;
   transition: filter 0.3s ease;
-  -webkit-filter: brightness(100%);
-  filter: brightness(100%);
   border: none;
   border-radius: var(--input-border-radius);
   font-size: inherit;
@@ -41,15 +39,15 @@ exports[`Matches default snapshot 1`] = `
   cursor: pointer;
 }
 
-.emotion-2:active,
-.emotion-2:disabled {
-  -webkit-filter: brightness(70%);
-  filter: brightness(70%);
+.emotion-2:active {
+  -webkit-filter: brightness(80%);
+  filter: brightness(80%);
 }
 
-.emotion-2:hover,
-.emotion-2:focus {
-  cursor: pointer;
+.emotion-2:disabled {
+  cursor: not-allowed;
+  -webkit-filter: grayscale(0.5);
+  filter: grayscale(0.5);
 }
 
 <div>
@@ -94,8 +92,6 @@ exports[`Matches hasGap and uniform snapshot 1`] = `
 .emotion-2 {
   -webkit-transition: filter 0.3s ease;
   transition: filter 0.3s ease;
-  -webkit-filter: brightness(100%);
-  filter: brightness(100%);
   border: none;
   border-radius: var(--input-border-radius);
   font-size: inherit;
@@ -111,15 +107,15 @@ exports[`Matches hasGap and uniform snapshot 1`] = `
   cursor: pointer;
 }
 
-.emotion-2:active,
-.emotion-2:disabled {
-  -webkit-filter: brightness(70%);
-  filter: brightness(70%);
+.emotion-2:active {
+  -webkit-filter: brightness(80%);
+  filter: brightness(80%);
 }
 
-.emotion-2:hover,
-.emotion-2:focus {
-  cursor: pointer;
+.emotion-2:disabled {
+  cursor: not-allowed;
+  -webkit-filter: grayscale(0.5);
+  filter: grayscale(0.5);
 }
 
 <div>
@@ -163,8 +159,6 @@ exports[`Matches hasGap snapshot 1`] = `
 .emotion-2 {
   -webkit-transition: filter 0.3s ease;
   transition: filter 0.3s ease;
-  -webkit-filter: brightness(100%);
-  filter: brightness(100%);
   border: none;
   border-radius: var(--input-border-radius);
   font-size: inherit;
@@ -180,15 +174,15 @@ exports[`Matches hasGap snapshot 1`] = `
   cursor: pointer;
 }
 
-.emotion-2:active,
-.emotion-2:disabled {
-  -webkit-filter: brightness(70%);
-  filter: brightness(70%);
+.emotion-2:active {
+  -webkit-filter: brightness(80%);
+  filter: brightness(80%);
 }
 
-.emotion-2:hover,
-.emotion-2:focus {
-  cursor: pointer;
+.emotion-2:disabled {
+  cursor: not-allowed;
+  -webkit-filter: grayscale(0.5);
+  filter: grayscale(0.5);
 }
 
 <div>
@@ -242,8 +236,6 @@ exports[`Matches uniform snapshot 1`] = `
 .emotion-2 {
   -webkit-transition: filter 0.3s ease;
   transition: filter 0.3s ease;
-  -webkit-filter: brightness(100%);
-  filter: brightness(100%);
   border: none;
   border-radius: var(--input-border-radius);
   font-size: inherit;
@@ -259,15 +251,15 @@ exports[`Matches uniform snapshot 1`] = `
   cursor: pointer;
 }
 
-.emotion-2:active,
-.emotion-2:disabled {
-  -webkit-filter: brightness(70%);
-  filter: brightness(70%);
+.emotion-2:active {
+  -webkit-filter: brightness(80%);
+  filter: brightness(80%);
 }
 
-.emotion-2:hover,
-.emotion-2:focus {
-  cursor: pointer;
+.emotion-2:disabled {
+  cursor: not-allowed;
+  -webkit-filter: grayscale(0.5);
+  filter: grayscale(0.5);
 }
 
 <div>

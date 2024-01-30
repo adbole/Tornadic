@@ -98,9 +98,12 @@ export const centerFlex = css({
 
 export const interactable = css({
     transition: "filter 0.3s ease",
-    filter: "brightness(100%)",
 
     "&:hover, &:focus": { cursor: "pointer" },
 
-    "&:active, &:disabled": { filter: "brightness(70%)" },
+    "&:active": { filter: "brightness(80%)" },
+    "&:disabled": { 
+        cursor: "not-allowed",
+        filter: "grayscale(0.5)" 
+    },
 });

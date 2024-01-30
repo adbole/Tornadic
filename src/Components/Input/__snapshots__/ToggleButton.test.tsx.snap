@@ -12,8 +12,6 @@ exports[`Matches default snapshot 1`] = `
 .emotion-2 {
   -webkit-transition: filter 0.3s ease;
   transition: filter 0.3s ease;
-  -webkit-filter: brightness(100%);
-  filter: brightness(100%);
   display: inline-block;
   width: 100%;
   padding: 5px;
@@ -29,10 +27,15 @@ exports[`Matches default snapshot 1`] = `
   cursor: pointer;
 }
 
-.emotion-2:active,
+.emotion-2:active {
+  -webkit-filter: brightness(80%);
+  filter: brightness(80%);
+}
+
 .emotion-2:disabled {
-  -webkit-filter: brightness(70%);
-  filter: brightness(70%);
+  cursor: not-allowed;
+  -webkit-filter: grayscale(0.5);
+  filter: grayscale(0.5);
 }
 
 <div>

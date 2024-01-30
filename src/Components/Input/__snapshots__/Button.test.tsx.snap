@@ -4,8 +4,6 @@ exports[`Matches default primary snapshot 1`] = `
 .emotion-0 {
   -webkit-transition: filter 0.3s ease;
   transition: filter 0.3s ease;
-  -webkit-filter: brightness(100%);
-  filter: brightness(100%);
   border: none;
   border-radius: var(--input-border-radius);
   font-size: inherit;
@@ -21,15 +19,15 @@ exports[`Matches default primary snapshot 1`] = `
   cursor: pointer;
 }
 
-.emotion-0:active,
-.emotion-0:disabled {
-  -webkit-filter: brightness(70%);
-  filter: brightness(70%);
+.emotion-0:active {
+  -webkit-filter: brightness(80%);
+  filter: brightness(80%);
 }
 
-.emotion-0:hover,
-.emotion-0:focus {
-  cursor: pointer;
+.emotion-0:disabled {
+  cursor: not-allowed;
+  -webkit-filter: grayscale(0.5);
+  filter: grayscale(0.5);
 }
 
 <div>
@@ -46,8 +44,6 @@ exports[`Matches the secondary snapshot 1`] = `
 .emotion-0 {
   -webkit-transition: filter 0.3s ease;
   transition: filter 0.3s ease;
-  -webkit-filter: brightness(100%);
-  filter: brightness(100%);
   border: none;
   border-radius: var(--input-border-radius);
   font-size: inherit;
@@ -63,15 +59,15 @@ exports[`Matches the secondary snapshot 1`] = `
   cursor: pointer;
 }
 
-.emotion-0:active,
-.emotion-0:disabled {
-  -webkit-filter: brightness(70%);
-  filter: brightness(70%);
+.emotion-0:active {
+  -webkit-filter: brightness(80%);
+  filter: brightness(80%);
 }
 
-.emotion-0:hover,
-.emotion-0:focus {
-  cursor: pointer;
+.emotion-0:disabled {
+  cursor: not-allowed;
+  -webkit-filter: grayscale(0.5);
+  filter: grayscale(0.5);
 }
 
 <div>
@@ -88,8 +84,6 @@ exports[`Matches the transparent snapshot 1`] = `
 .emotion-0 {
   -webkit-transition: filter 0.3s ease;
   transition: filter 0.3s ease;
-  -webkit-filter: brightness(100%);
-  filter: brightness(100%);
   border: none;
   border-radius: var(--input-border-radius);
   font-size: inherit;
@@ -106,15 +100,15 @@ exports[`Matches the transparent snapshot 1`] = `
   cursor: pointer;
 }
 
-.emotion-0:active,
-.emotion-0:disabled {
-  -webkit-filter: brightness(70%);
-  filter: brightness(70%);
+.emotion-0:active {
+  -webkit-filter: brightness(80%);
+  filter: brightness(80%);
 }
 
-.emotion-0:hover,
-.emotion-0:focus {
-  cursor: pointer;
+.emotion-0:disabled {
+  cursor: not-allowed;
+  -webkit-filter: grayscale(0.5);
+  filter: grayscale(0.5);
 }
 
 <div>
