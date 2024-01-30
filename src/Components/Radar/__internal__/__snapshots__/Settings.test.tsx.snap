@@ -2,6 +2,36 @@
 
 exports[`Matches Snapshot 1`] = `
 .emotion-0 {
+  -webkit-transition: filter 0.3s ease;
+  transition: filter 0.3s ease;
+  border: none;
+  border-radius: var(--input-border-radius);
+  font-size: inherit;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+  margin: 5px 0px;
+  color: inherit;
+  background-color: transparent;
+  box-shadow: none;
+  padding: 0;
+}
+
+.emotion-0:hover,
+.emotion-0:focus {
+  cursor: pointer;
+}
+
+.emotion-0:active {
+  -webkit-filter: brightness(80%);
+  filter: brightness(80%);
+}
+
+.emotion-0:disabled {
+  cursor: not-allowed;
+  -webkit-filter: grayscale(0.5);
+  filter: grayscale(0.5);
+}
+
+.emotion-2 {
   position: absolute;
   right: 40px;
   background-color: var(--background);
@@ -11,7 +41,7 @@ exports[`Matches Snapshot 1`] = `
   z-index: var(--z-layer-2);
 }
 
-.emotion-2 {
+.emotion-4 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -25,39 +55,7 @@ exports[`Matches Snapshot 1`] = `
   margin-bottom: 10px;
 }
 
-.emotion-4 {
-  -webkit-transition: filter 0.3s ease;
-  transition: filter 0.3s ease;
-  -webkit-filter: brightness(100%);
-  filter: brightness(100%);
-  border: none;
-  border-radius: var(--input-border-radius);
-  font-size: inherit;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
-  margin: 5px 0px;
-  color: inherit;
-  background-color: transparent;
-  box-shadow: none;
-  padding: 0;
-}
-
-.emotion-4:hover,
-.emotion-4:focus {
-  cursor: pointer;
-}
-
-.emotion-4:active,
-.emotion-4:disabled {
-  -webkit-filter: brightness(70%);
-  filter: brightness(70%);
-}
-
-.emotion-4:hover,
-.emotion-4:focus {
-  cursor: pointer;
-}
-
-.emotion-6 {
+.emotion-8 {
   background-color: var(--background-layer);
   color: inherit;
   border-radius: var(--input-border-radius);
@@ -65,7 +63,7 @@ exports[`Matches Snapshot 1`] = `
   padding: 5px;
 }
 
-.emotion-8 {
+.emotion-10 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -78,7 +76,7 @@ exports[`Matches Snapshot 1`] = `
   margin: 5px 0px;
 }
 
-.emotion-10 {
+.emotion-12 {
   -webkit-appearance: none;
   -moz-appearance: none;
   -ms-appearance: none;
@@ -94,7 +92,7 @@ exports[`Matches Snapshot 1`] = `
   cursor: pointer;
 }
 
-.emotion-10::after {
+.emotion-12::after {
   content: "";
   position: absolute;
   top: 50%;
@@ -111,29 +109,29 @@ exports[`Matches Snapshot 1`] = `
   transition: left 0.3s ease;
 }
 
-.emotion-10:checked {
+.emotion-12:checked {
   background-color: var(--primary);
 }
 
-.emotion-10:checked::after {
+.emotion-12:checked::after {
   left: 70%;
 }
 
 <div>
-  <div
-    class="leaflet-custom-control leaflet-control"
-    style="cursor: pointer;"
+  <button
+    class="leaflet-custom-control leaflet-control emotion-0 emotion-1"
+    type="button"
   >
     <span>
       Gear
     </span>
-  </div>
+  </button>
   <div
-    class="leaflet-control emotion-0 emotion-1"
+    class="leaflet-control emotion-2 emotion-3"
     style="display: none;"
   >
     <div
-      class="emotion-2 emotion-3"
+      class="emotion-4 emotion-5"
     >
       <h1
         style="font-weight: 500;"
@@ -141,7 +139,7 @@ exports[`Matches Snapshot 1`] = `
         Radar Settings
       </h1>
       <button
-        class="emotion-4 emotion-5"
+        class="emotion-0 emotion-1"
         style="margin: 0px;"
         type="button"
       >
@@ -153,7 +151,7 @@ exports[`Matches Snapshot 1`] = `
         Color Scheme
       </h2>
       <select
-        class="emotion-6 emotion-7"
+        class="emotion-8 emotion-9"
         style="font-size: 1.05rem;"
       >
         <option
@@ -204,11 +202,11 @@ exports[`Matches Snapshot 1`] = `
       </select>
     </label>
     <label
-      class="emotion-8 emotion-9"
+      class="emotion-10 emotion-11"
     >
       <input
         checked=""
-        class="emotion-10 emotion-11"
+        class="emotion-12 emotion-13"
         type="checkbox"
       />
       <span>
@@ -216,10 +214,10 @@ exports[`Matches Snapshot 1`] = `
       </span>
     </label>
     <label
-      class="emotion-8 emotion-9"
+      class="emotion-10 emotion-11"
     >
       <input
-        class="emotion-10 emotion-11"
+        class="emotion-12 emotion-13"
         type="checkbox"
       />
       <span>

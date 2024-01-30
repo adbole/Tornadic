@@ -56,13 +56,13 @@ export default function Settings() {
 
     return (
         <>
-            <div
+            <Button
+                varient="transparent"
                 className="leaflet-custom-control leaflet-control"
                 onClick={() => (show ? setShowFalse() : setShowTrue())}
-                style={{ cursor: "pointer" }}
             >
                 <Gear />
-            </div>
+            </Button>
             <SettingsPopup
                 className="leaflet-control"
                 style={{ display: show ? "initial" : "none" }}
