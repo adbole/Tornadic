@@ -37,6 +37,8 @@ export default css`
 
         ${varNames.svgSize}: 1rem;
 
+        ${varNames.scrollBarColor}: rgba(255, 255, 255, 0.25);
+
         ${varNames.zLayer1}: 1;
         ${varNames.zLayer2}: 2;
 
@@ -52,7 +54,7 @@ export default css`
         background: transparent;
     }
     *::-webkit-scrollbar-thumb {
-        background: rgba(255, 255, 255, 0.25);
+        background: ${vars.scrollBarColor};
         border-radius: 5px;
     }
 

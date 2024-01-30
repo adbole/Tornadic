@@ -23,10 +23,6 @@ export const List = styled.ol({
     overflowY: "hidden",
 
     gap: "20px",
-    cursor: "grab",
-
-    "&.drag-active": { cursor: "grabbing" },
-    "&:not(.drag-active)::-webkit-scrollbar-thumb": { backgroundColor: "transparent !important" },
 });
 
 export const Item = styled.li({

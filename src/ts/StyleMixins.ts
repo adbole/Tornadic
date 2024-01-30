@@ -38,6 +38,8 @@ const baseVarNames = {
 
     svgSize: "--svg-size",
 
+    scrollBarColor: "--scroll-bar-color",
+
     zLayer1: "--z-layer-1",
     zLayer2: "--z-layer-2",
 } as const;

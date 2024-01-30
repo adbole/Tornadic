@@ -20,6 +20,7 @@ exports[`Matches screenshot 1`] = `
   --border-radius: 15px;
   --input-border-radius: 10px;
   --svg-size: 1rem;
+  --scroll-bar-color: rgba(255, 255, 255, 0.25);
   --z-layer-1: 1;
   --z-layer-2: 2;
   color: rgba(255, 255, 255, 0.9);
@@ -36,7 +37,7 @@ exports[`Matches screenshot 1`] = `
 }
 
 .emotion-0 *::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.25);
+  background: var(--scroll-bar-color);
   border-radius: 5px;
 }
 

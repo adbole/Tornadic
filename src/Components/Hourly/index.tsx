@@ -7,6 +7,7 @@ import { useWeather } from "Contexts/WeatherContext";
 import Chart from "Components/Modals/Chart";
 import { Clock } from "svgs/widget";
 
+import { varNames } from "ts/StyleMixins";
 import getTimeFormatted from "ts/TimeConversion";
 import type { HourInfo } from "ts/Weather";
 
@@ -48,7 +49,7 @@ export default function Hourly() {
     const [modalOpen, showModal, hideModal] = useBooleanState(false);
     const listRef = React.useRef<HTMLOListElement | null>(null);
 
-    useDragScroll(listRef);
+    const dragActive = useDragScroll(listRef);
 
     return (
         <>
@@ -58,7 +59,13 @@ export default function Hourly() {
                 onClick={showModal}
                 size="widget-wide"
             >
-                <List ref={listRef} className="flex-list drag-scroll">
+                <List 
+                    ref={listRef}
+                    style={{
+                        cursor: dragActive ? "grabbing" : "grab",
+                        [varNames.scrollBarColor]: !dragActive && "transparent"
+                    }}
+                >
                     {[...weather.getFutureValues()].map((forecast, index) => {
                         const time = new Date(forecast.time);
 
