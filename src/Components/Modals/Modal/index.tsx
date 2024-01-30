@@ -41,12 +41,22 @@ export default function Modal({ isOpen, children, onClose, className }: ModalPro
 
         const ref = dialogRef.current;
 
-        ref.addEventListener("transitionstart", () => (inTransition.current = true));
-        ref.addEventListener("transitionend", () => (inTransition.current = false));
+        const onStart = (e: TransitionEvent) => {
+            if(e.target !== ref) return;
+            inTransition.current = true;
+        }
+
+        const onEnd = (e: TransitionEvent) => {
+            if(e.target !== ref) return;
+            inTransition.current = false;
+        }
+
+        ref.addEventListener("transitionstart", onStart);
+        ref.addEventListener("transitionend", onEnd);
 
         return () => {
-            ref.removeEventListener("transitionstart", () => (inTransition.current = true));
-            ref.removeEventListener("transitionend", () => (inTransition.current = false));
+            ref.removeEventListener("transitionstart", onStart);
+            ref.removeEventListener("transitionend", onEnd);
         };
     }, [shouldMount]);
 
