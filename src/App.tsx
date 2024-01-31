@@ -62,9 +62,9 @@ function AppLoader() {
             <Skeleton css={DailyBase} size="widget-large" />
             <Skeleton css={RadarBase} size="widget-large" />
             {Array.from({ length: 2 }, (_, i) => (
-                <SimpleGroup>
-                    <Skeleton key={`Group ${i} - 1`} />
-                    <Skeleton key={`Group ${i} - 2`} />
+                <SimpleGroup key={i}>
+                    <Skeleton/>
+                    <Skeleton />
                 </SimpleGroup>
             ))}
             {Array.from({ length: 2 }, (_, i) => (

@@ -2,7 +2,6 @@ import styled from "@emotion/styled";
 
 import DailyWidget from "Components/Daily/style";
 import HourlyWidget from "Components/Hourly/style";
-import WidgetContainer from "Components/Widget/style";
 
 import { varNames, vars } from "ts/StyleMixins";
 
@@ -16,11 +15,6 @@ export default styled(ModalContent)({
     gridTemplateColumns: "repeat(2, 1fr)",
     gridAutoRows: "150px",
     gap: "10px",
-
-    [`${WidgetContainer}`]: {
-        backdropFilter: "none",
-        boxShadow: "none",
-    },
 
     [`${HourlyWidget}`] : {
         gridColumn: "span 2"

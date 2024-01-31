@@ -92,12 +92,6 @@ exports[`Matches Snapshot 1`] = `
   margin-bottom: 10px;
 }
 
-.emotion-2 .emotion-10 {
-  -webkit-backdrop-filter: none;
-  backdrop-filter: none;
-  box-shadow: none;
-}
-
 .emotion-2 .e7hfcrb3 {
   grid-column: span 2;
 }
@@ -364,15 +358,15 @@ exports[`Matches Snapshot 1`] = `
             data-testid="WIDGET_SECTION"
           />
           <section
+            class=" emotion-8 emotion-20 emotion-10"
+            data-testid="WIDGET_SECTION"
+          />
+          <section
+            class=" emotion-8 emotion-20 emotion-10"
+            data-testid="WIDGET_SECTION"
+          />
+          <section
             class=" emotion-8 emotion-12 emotion-10"
-            data-testid="WIDGET_SECTION"
-          />
-          <section
-            class=" emotion-8 emotion-20 emotion-10"
-            data-testid="WIDGET_SECTION"
-          />
-          <section
-            class=" emotion-8 emotion-20 emotion-10"
             data-testid="WIDGET_SECTION"
           />
           <div
@@ -383,6 +377,9 @@ exports[`Matches Snapshot 1`] = `
               true
             </p>
           </div>
+          <div
+            data-testid="Background"
+          />
           <div
             data-testid="Alert"
           />

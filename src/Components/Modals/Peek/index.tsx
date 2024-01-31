@@ -1,6 +1,7 @@
 import WeatherContext from "Contexts/WeatherContext";
 
 import Alert from "Components/Alert";
+import Background from "Components/Background";
 import Daily from "Components/Daily";
 import FetchErrorHandler from "Components/FetchErrorHandler";
 import HazardLevel from "Components/HazardLevel";
@@ -51,9 +52,9 @@ export default function Peek({
                                 <Skeleton size="widget-wide" />
                                 <Skeleton size="widget-large" />
                                 {Array.from({ length: 2 }, (_, i) => (
-                                    <SimpleGroup>
-                                        <Skeleton key={`Group ${i} - 1`} />
-                                        <Skeleton key={`Group ${i} - 2`} />
+                                    <SimpleGroup key={i}>
+                                        <Skeleton />
+                                        <Skeleton />
                                     </SimpleGroup>
                                 ))}
                                 {Array.from({ length: 4 }, (_, i) => (
@@ -64,6 +65,7 @@ export default function Peek({
                         )}
                     >
                         <Now displayOnly />
+                        <Background />
                         <Alert />
                         <Hourly />
                         <Daily />

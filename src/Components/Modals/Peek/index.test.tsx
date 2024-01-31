@@ -13,6 +13,7 @@ const mockRetry = vi.fn();
 const mockWeatherContext = "WeatherContext";
 const mockNow = "Now";
 const mockAlert = "Alert";
+const mockBackground = "Background";
 const mockHourly = "Hourly";
 const mockDaily = "Daily";
 const mockWind = "Wind";
@@ -66,6 +67,7 @@ vi.mock("Components/Now", () => ({
 }));
 
 vi.mock("Components/Alert", () => ({ default: () => <div data-testid={mockAlert} /> }));
+vi.mock("Components/Background", () => ({ default: () => <div data-testid={mockBackground} /> }));
 vi.mock("Components/Hourly", () => ({ default: () => <div data-testid={mockHourly} /> }));
 vi.mock("Components/Daily", () => ({ default: () => <div data-testid={mockDaily} /> }));
 
