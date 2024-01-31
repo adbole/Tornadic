@@ -13,6 +13,7 @@ export { default as Now } from "./Now";
 export { default as Pressure } from "./Pressure";
 export { default as Radar } from "./Radar";
 export { default as Simple } from "./Simple";
+export { default as SimpleGroup } from "./Simple/Group"
 export { default as Skeleton } from "./Skeleton";
 export { default as SunTime } from "./SunTime";
 export { default as Toast } from "./Toast";

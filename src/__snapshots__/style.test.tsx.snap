@@ -98,7 +98,7 @@ exports[`Matches screenshot 1`] = `
 @media screen and (min-width: 1400px) {
   .emotion-0 #root {
     grid-template-columns: repeat(8, 1fr);
-    grid-template-areas: "n n . . . . . ." "n n . . . . . ." "d d . . r r r r" "d d . . r r r r";
+    grid-template-areas: "n n . . . . . ." "n n . . . . . ." "d d . r r r r r" "d d . r r r r r";
   }
 }
 

@@ -8,6 +8,10 @@ import { mediaQueries } from "ts/StyleMixins";
 
 
 export const Base = css({
+    [mediaQueries.min("small")]: {
+        gridColumn: "span 4",
+        [`${AlertWidget} + &`]: { gridColumn: "span 2" },
+    },
     [mediaQueries.min("large")]: {
         gridColumn: "span 6",
         [`${AlertWidget} + &`]: { gridColumn: "span 4" },

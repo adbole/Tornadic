@@ -1,0 +1,204 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`The weather context is provided with skeletonRender 1`] = `
+.emotion-0 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.5rem;
+  padding: 60px 0px;
+}
+
+@media screen and (max-width: 1100px) {
+  .emotion-0 {
+    grid-column: 1/-1;
+  }
+}
+
+@media screen and (min-width: 1100px) {
+  #root>.emotion-0 {
+    grid-area: n;
+  }
+}
+
+@media screen and (min-width: 800px) {
+  .emotion-1 {
+    grid-column: span 4;
+  }
+
+  .e1tbk3yl2+.emotion-1 {
+    grid-column: span 2;
+  }
+}
+
+@media screen and (min-width: 1400px) {
+  .emotion-1 {
+    grid-column: span 6;
+  }
+
+  .e1tbk3yl2+.emotion-1 {
+    grid-column: span 4;
+  }
+}
+
+@media screen and (min-width: 1100px) {
+  .emotion-2 {
+    grid-area: d;
+  }
+}
+
+.emotion-3 {
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+.emotion-3:before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  box-shadow: inset 0 0 0 200px rgba(255, 255, 255, 0.01);
+}
+
+.emotion-3 .leaflet-center {
+  left: 0;
+  right: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: auto;
+  gap: 10px;
+  padding: 10px;
+  max-width: 900px;
+}
+
+.emotion-3 .leaflet-control {
+  background-color: rgba(0, 0, 0, 0.75);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  color: white;
+  border-radius: var(--border-radius);
+  overflow: hidden;
+}
+
+.emotion-3 .leaflet-custom-control,
+.emotion-3 .leaflet-control-toggle {
+  background-color: rgba(0, 0, 0, 0.75);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  color: white;
+  color: white!important;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  min-width: 2rem;
+  min-height: 2rem;
+  border: none;
+  --svg-size: 1.25rem;
+}
+
+.emotion-3 .leaflet-overlay-pane svg {
+  width: unset;
+}
+
+@media screen and (min-width: 1100px) {
+  .emotion-3 {
+    grid-area: r;
+  }
+}
+
+.emotion-4 {
+  display: grid;
+  gap: inherit;
+}
+
+<div>
+  <div>
+    FetchErrorHandler - 
+    <div>
+      WeatherContext -
+      <div
+        class="emotion-0"
+      >
+        Skeleton - 
+        widget-large
+      </div>
+      <div
+        class="emotion-1"
+      >
+        Skeleton - 
+        widget-wide
+      </div>
+      <div
+        class="emotion-2"
+      >
+        Skeleton - 
+        widget-large
+      </div>
+      <div
+        class="emotion-3"
+      >
+        Skeleton - 
+        widget-large
+      </div>
+      <div
+        class="emotion-4 emotion-5"
+      >
+        <div>
+          Skeleton - 
+        </div>
+        <div>
+          Skeleton - 
+        </div>
+      </div>
+      <div
+        class="emotion-4 emotion-5"
+      >
+        <div>
+          Skeleton - 
+        </div>
+        <div>
+          Skeleton - 
+        </div>
+      </div>
+      <div>
+        Skeleton - 
+      </div>
+      <div>
+        Skeleton - 
+      </div>
+      <div>
+        Skeleton - 
+        widget-wide
+      </div>
+      <div>
+        Skeleton - 
+      </div>
+      <div>
+        Skeleton - 
+      </div>
+    </div>
+  </div>
+</div>
+`;

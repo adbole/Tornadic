@@ -18,6 +18,7 @@ import {
     Pressure,
     Radar,
     Simple,
+    SimpleGroup,
     Skeleton,
     SunTime,
     Toast,
@@ -60,10 +61,19 @@ function AppLoader() {
             <Skeleton css={HourlyBase} size="widget-wide" />
             <Skeleton css={DailyBase} size="widget-large" />
             <Skeleton css={RadarBase} size="widget-large" />
-            {Array.from({ length: 8 }, (_, i) => (
+            {Array.from({ length: 2 }, (_, i) => (
+                <SimpleGroup>
+                    <Skeleton key={`Group ${i} - 1`} />
+                    <Skeleton key={`Group ${i} - 2`} />
+                </SimpleGroup>
+            ))}
+            {Array.from({ length: 2 }, (_, i) => (
                 <Skeleton key={i} />
             ))}
             <Skeleton size="widget-wide" />
+            {Array.from({ length: 2 }, (_, i) => (
+                <Skeleton key={i} />
+            ))}
         </>
     );
 }
@@ -122,28 +132,32 @@ function App() {
                 <Daily />
                 <Radar />
 
-                <Simple
-                    icon={<WidgetIcons.Droplet />}
-                    title="Precipitation"
-                    property="precipitation"
-                />
-                <Simple
-                    icon={<WidgetIcons.Thermometer />}
-                    title="Dewpoint"
-                    property="dewpoint_2m"
-                />
-                <Simple
-                    icon={<WidgetIcons.Moisture />}
-                    title="Humidity"
-                    property="relativehumidity_2m"
-                />
-                <Simple icon={<WidgetIcons.Eye />} title="Visibility" property="visibility" />
+                <SimpleGroup>
+                    <Simple
+                        icon={<WidgetIcons.Droplet />}
+                        title="Precipitation"
+                        property="precipitation"
+                    />
+                    <Simple icon={<WidgetIcons.Eye />} title="Visibility" property="visibility" />
+                </SimpleGroup>
+                <SimpleGroup>
+                    <Simple
+                        icon={<WidgetIcons.Thermometer />}
+                        title="Dewpoint"
+                        property="dewpoint_2m"
+                    />
+                    <Simple
+                        icon={<WidgetIcons.Moisture />}
+                        title="Humidity"
+                        property="relativehumidity_2m"
+                    />
+                </SimpleGroup>
                 <HazardLevel hazard="us_aqi" />
                 <HazardLevel hazard="uv_index" />
 
+                <SunTime />
                 <Wind />
                 <Pressure />
-                <SunTime />
             </WeatherContext>
         </FetchErrorHandler>
     );

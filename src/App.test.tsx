@@ -257,28 +257,10 @@ test("The weather context is provided with skeletonRender", () => {
         status: "OK",
     } as any);
 
-    render(<App />);
+    const { container } =  render(<App />);
 
     const skeletons = screen.queryAllByText(/Skeleton/);
 
     expect(skeletons).toHaveLength(13);
-
-    //Verify the widgets use the correct skeleton size and base classes
-    //See each base class' component for responsive size tests
-
-    expect.soft(skeletons[0].className).toContain(NowBase.name);
-    expect.soft(skeletons[0].textContent).toContain("widget-large");
-
-    expect.soft(skeletons[1].className).toContain(HourlyBase.name);
-    expect.soft(skeletons[1].textContent).toContain("widget-wide");
-
-    expect.soft(skeletons[2].className).toContain(DailyBase.name);
-    expect.soft(skeletons[2].textContent).toContain("widget-large");
-
-    expect.soft(skeletons[3].className).toContain(RadarBase.name);
-    expect.soft(skeletons[3].textContent).toContain("widget-large");
-
-    expect.soft(screen.getAllByText("Skeleton -")).toHaveLength(8);
-
-    expect.soft(skeletons[skeletons.length - 1].textContent).toContain("widget-wide");
+    expect(container).matchSnapshot();
 });

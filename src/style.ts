@@ -107,8 +107,8 @@ export default css`
             grid-template-areas:
                 "n n . . . . . ."
                 "n n . . . . . ."
-                "d d . . r r r r"
-                "d d . . r r r r";
+                "d d . r r r r r"
+                "d d . r r r r r";
         }
 
         ${mediaQueries.max("medium")} {

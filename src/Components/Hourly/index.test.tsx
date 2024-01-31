@@ -91,22 +91,27 @@ describe("Responsive", () => {
         );
     });
 
-    test("Down to large, the widget spans 6", () => {
-        expect(screen.getByTestId(testIds.Widget.WidgetSection)).toHaveStyleRule(
-            "grid-column",
-            "span 6",
-            { media: mediaQueries.min("large") }
-        );
-    });
-
-    test("Down to large, the widget spans 4 if the alert widget precedes it", () => {
-        expect(screen.getByTestId(testIds.Widget.WidgetSection)).toHaveStyleRule(
-            "grid-column",
-            "span 4",
-            {
-                target: `${AlertWidget}+`,
-                media: mediaQueries.min("large"),
-            }
-        );
-    });
+    describe.each([
+        ["large", 6, 4],
+        ["small", 4, 2]
+    ] as [Parameters<typeof mediaQueries.min>[0], number, number][])('Down to %s', (size, normalSize, alertSize) => {
+        test(`Widget spans ${normalSize}`, () => {
+            expect(screen.getByTestId(testIds.Widget.WidgetSection)).toHaveStyleRule(
+                "grid-column",
+                `span ${normalSize}`,
+                { media: mediaQueries.min(size) }
+            );
+        })
+    
+        test(`Widget spans ${alertSize} if preceded by an alert`, () => {
+            expect(screen.getByTestId(testIds.Widget.WidgetSection)).toHaveStyleRule(
+                "grid-column",
+                `span ${alertSize}`,
+                { 
+                    target: `${AlertWidget}+`,
+                    media: mediaQueries.min(size) 
+                }
+            );
+        })
+    })
 });
