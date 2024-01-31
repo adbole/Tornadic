@@ -1,8 +1,19 @@
 import React from "react";
-import { Global } from "@emotion/react";
+import styled from "@emotion/styled";
 
 import type WeatherCondition from "ts/WeatherCondition";
 
+
+const Cover = styled.div({
+    position: "fixed",
+    top: 0,
+    left: 0,
+
+    width: "100%",
+    height: "100%",
+
+    zIndex: -1,
+});
 
 export default function Gradient({
     isDay,
@@ -29,11 +40,16 @@ export default function Gradient({
             case "Snow Showers":
                 return ["#797c87", "#acb7bd"];
             default:
-                return isDay ? ["#7a98b2", "#bfc5c6"] : ["#1a1b1c", "#1a1b1c"];
+                return isDay ? ["#7a98b2", "#bfc5c6"] : ["#151618", "#18202d"];
         }
     }, [isDay, condition]);
 
+    const background = `linear-gradient(to bottom, ${from}, ${to})`
+
     return (
-        <Global styles={{ body: { background: `linear-gradient(to bottom, ${from}, ${to})` } }} />
+        <Cover 
+            style={{ background }}
+            data-test-style-background={background} 
+         />
     );
 }

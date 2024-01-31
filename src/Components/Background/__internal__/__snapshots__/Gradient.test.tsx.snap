@@ -1,61 +1,541 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Day > Clear 1`] = `"body{background:linear-gradient(to bottom, #7a98b2, #bfc5c6);};label:Gradient;"`;
+exports[`Day > Clear 1`] = `
+.emotion-0 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
 
-exports[`Day > Drizzle 1`] = `"body{background:linear-gradient(to bottom, #0f1c50, #8da3bd);};label:Gradient;"`;
+<div>
+  <div
+    class="emotion-0 emotion-1"
+    data-test-style-background="linear-gradient(to bottom, #7a98b2, #bfc5c6)"
+  />
+</div>
+`;
 
-exports[`Day > Foggy 1`] = `"body{background:linear-gradient(to bottom, #7a98b2, #bfc5c6);};label:Gradient;"`;
+exports[`Day > Drizzle 1`] = `
+.emotion-0 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
 
-exports[`Day > Freezing Drizzle 1`] = `"body{background:linear-gradient(to bottom, #0f1c50, #8da3bd);};label:Gradient;"`;
+<div>
+  <div
+    class="emotion-0 emotion-1"
+    data-test-style-background="linear-gradient(to bottom, #0f1c50, #8da3bd)"
+  />
+</div>
+`;
 
-exports[`Day > Freezing Rain 1`] = `"body{background:linear-gradient(to bottom, #0f1c50, #8da3bd);};label:Gradient;"`;
+exports[`Day > Foggy 1`] = `
+.emotion-0 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
 
-exports[`Day > Mostly Clear 1`] = `"body{background:linear-gradient(to bottom, #7a98b2, #bfc5c6);};label:Gradient;"`;
+<div>
+  <div
+    class="emotion-0 emotion-1"
+    data-test-style-background="linear-gradient(to bottom, #7a98b2, #bfc5c6)"
+  />
+</div>
+`;
 
-exports[`Day > Overcast 1`] = `"body{background:linear-gradient(to bottom, #acb7bd, #73bae1);};label:Gradient;"`;
+exports[`Day > Freezing Drizzle 1`] = `
+.emotion-0 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
 
-exports[`Day > Partly Cloudy 1`] = `"body{background:linear-gradient(to bottom, #7a98b2, #bfc5c6);};label:Gradient;"`;
+<div>
+  <div
+    class="emotion-0 emotion-1"
+    data-test-style-background="linear-gradient(to bottom, #0f1c50, #8da3bd)"
+  />
+</div>
+`;
 
-exports[`Day > Rain 1`] = `"body{background:linear-gradient(to bottom, #0f1c50, #8da3bd);};label:Gradient;"`;
+exports[`Day > Freezing Rain 1`] = `
+.emotion-0 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
 
-exports[`Day > Rain Showers 1`] = `"body{background:linear-gradient(to bottom, #0f1c50, #8da3bd);};label:Gradient;"`;
+<div>
+  <div
+    class="emotion-0 emotion-1"
+    data-test-style-background="linear-gradient(to bottom, #0f1c50, #8da3bd)"
+  />
+</div>
+`;
 
-exports[`Day > Snow 1`] = `"body{background:linear-gradient(to bottom, #797c87, #acb7bd);};label:Gradient;"`;
+exports[`Day > Mostly Clear 1`] = `
+.emotion-0 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
 
-exports[`Day > Snow Grains 1`] = `"body{background:linear-gradient(to bottom, #797c87, #acb7bd);};label:Gradient;"`;
+<div>
+  <div
+    class="emotion-0 emotion-1"
+    data-test-style-background="linear-gradient(to bottom, #7a98b2, #bfc5c6)"
+  />
+</div>
+`;
 
-exports[`Day > Snow Showers 1`] = `"body{background:linear-gradient(to bottom, #797c87, #acb7bd);};label:Gradient;"`;
+exports[`Day > Overcast 1`] = `
+.emotion-0 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
 
-exports[`Day > Thunderstorms 1`] = `"body{background:linear-gradient(to bottom, #4f5158, #8da3bd);};label:Gradient;"`;
+<div>
+  <div
+    class="emotion-0 emotion-1"
+    data-test-style-background="linear-gradient(to bottom, #acb7bd, #73bae1)"
+  />
+</div>
+`;
 
-exports[`Day > Thunderstorms and Hail 1`] = `"body{background:linear-gradient(to bottom, #4f5158, #8da3bd);};label:Gradient;"`;
+exports[`Day > Partly Cloudy 1`] = `
+.emotion-0 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
 
-exports[`Night > Clear 1`] = `"body{background:linear-gradient(to bottom, #1a1b1c, #1a1b1c);};label:Gradient;"`;
+<div>
+  <div
+    class="emotion-0 emotion-1"
+    data-test-style-background="linear-gradient(to bottom, #7a98b2, #bfc5c6)"
+  />
+</div>
+`;
 
-exports[`Night > Drizzle 1`] = `"body{background:linear-gradient(to bottom, #0f1c50, #8da3bd);};label:Gradient;"`;
+exports[`Day > Rain 1`] = `
+.emotion-0 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
 
-exports[`Night > Foggy 1`] = `"body{background:linear-gradient(to bottom, #1a1b1c, #1a1b1c);};label:Gradient;"`;
+<div>
+  <div
+    class="emotion-0 emotion-1"
+    data-test-style-background="linear-gradient(to bottom, #0f1c50, #8da3bd)"
+  />
+</div>
+`;
 
-exports[`Night > Freezing Drizzle 1`] = `"body{background:linear-gradient(to bottom, #0f1c50, #8da3bd);};label:Gradient;"`;
+exports[`Day > Rain Showers 1`] = `
+.emotion-0 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
 
-exports[`Night > Freezing Rain 1`] = `"body{background:linear-gradient(to bottom, #0f1c50, #8da3bd);};label:Gradient;"`;
+<div>
+  <div
+    class="emotion-0 emotion-1"
+    data-test-style-background="linear-gradient(to bottom, #0f1c50, #8da3bd)"
+  />
+</div>
+`;
 
-exports[`Night > Mostly Clear 1`] = `"body{background:linear-gradient(to bottom, #1a1b1c, #1a1b1c);};label:Gradient;"`;
+exports[`Day > Snow 1`] = `
+.emotion-0 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
 
-exports[`Night > Overcast 1`] = `"body{background:linear-gradient(to bottom, #2d3438, #1a1b1c);};label:Gradient;"`;
+<div>
+  <div
+    class="emotion-0 emotion-1"
+    data-test-style-background="linear-gradient(to bottom, #797c87, #acb7bd)"
+  />
+</div>
+`;
 
-exports[`Night > Partly Cloudy 1`] = `"body{background:linear-gradient(to bottom, #1a1b1c, #1a1b1c);};label:Gradient;"`;
+exports[`Day > Snow Grains 1`] = `
+.emotion-0 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
 
-exports[`Night > Rain 1`] = `"body{background:linear-gradient(to bottom, #0f1c50, #8da3bd);};label:Gradient;"`;
+<div>
+  <div
+    class="emotion-0 emotion-1"
+    data-test-style-background="linear-gradient(to bottom, #797c87, #acb7bd)"
+  />
+</div>
+`;
 
-exports[`Night > Rain Showers 1`] = `"body{background:linear-gradient(to bottom, #0f1c50, #8da3bd);};label:Gradient;"`;
+exports[`Day > Snow Showers 1`] = `
+.emotion-0 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
 
-exports[`Night > Snow 1`] = `"body{background:linear-gradient(to bottom, #797c87, #acb7bd);};label:Gradient;"`;
+<div>
+  <div
+    class="emotion-0 emotion-1"
+    data-test-style-background="linear-gradient(to bottom, #797c87, #acb7bd)"
+  />
+</div>
+`;
 
-exports[`Night > Snow Grains 1`] = `"body{background:linear-gradient(to bottom, #797c87, #acb7bd);};label:Gradient;"`;
+exports[`Day > Thunderstorms 1`] = `
+.emotion-0 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
 
-exports[`Night > Snow Showers 1`] = `"body{background:linear-gradient(to bottom, #797c87, #acb7bd);};label:Gradient;"`;
+<div>
+  <div
+    class="emotion-0 emotion-1"
+    data-test-style-background="linear-gradient(to bottom, #4f5158, #8da3bd)"
+  />
+</div>
+`;
 
-exports[`Night > Thunderstorms 1`] = `"body{background:linear-gradient(to bottom, #4f5158, #8da3bd);};label:Gradient;"`;
+exports[`Day > Thunderstorms and Hail 1`] = `
+.emotion-0 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
 
-exports[`Night > Thunderstorms and Hail 1`] = `"body{background:linear-gradient(to bottom, #4f5158, #8da3bd);};label:Gradient;"`;
+<div>
+  <div
+    class="emotion-0 emotion-1"
+    data-test-style-background="linear-gradient(to bottom, #4f5158, #8da3bd)"
+  />
+</div>
+`;
+
+exports[`Night > Clear 1`] = `
+.emotion-0 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+<div>
+  <div
+    class="emotion-0 emotion-1"
+    data-test-style-background="linear-gradient(to bottom, #151618, #18202d)"
+  />
+</div>
+`;
+
+exports[`Night > Drizzle 1`] = `
+.emotion-0 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+<div>
+  <div
+    class="emotion-0 emotion-1"
+    data-test-style-background="linear-gradient(to bottom, #0f1c50, #8da3bd)"
+  />
+</div>
+`;
+
+exports[`Night > Foggy 1`] = `
+.emotion-0 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+<div>
+  <div
+    class="emotion-0 emotion-1"
+    data-test-style-background="linear-gradient(to bottom, #151618, #18202d)"
+  />
+</div>
+`;
+
+exports[`Night > Freezing Drizzle 1`] = `
+.emotion-0 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+<div>
+  <div
+    class="emotion-0 emotion-1"
+    data-test-style-background="linear-gradient(to bottom, #0f1c50, #8da3bd)"
+  />
+</div>
+`;
+
+exports[`Night > Freezing Rain 1`] = `
+.emotion-0 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+<div>
+  <div
+    class="emotion-0 emotion-1"
+    data-test-style-background="linear-gradient(to bottom, #0f1c50, #8da3bd)"
+  />
+</div>
+`;
+
+exports[`Night > Mostly Clear 1`] = `
+.emotion-0 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+<div>
+  <div
+    class="emotion-0 emotion-1"
+    data-test-style-background="linear-gradient(to bottom, #151618, #18202d)"
+  />
+</div>
+`;
+
+exports[`Night > Overcast 1`] = `
+.emotion-0 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+<div>
+  <div
+    class="emotion-0 emotion-1"
+    data-test-style-background="linear-gradient(to bottom, #2d3438, #1a1b1c)"
+  />
+</div>
+`;
+
+exports[`Night > Partly Cloudy 1`] = `
+.emotion-0 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+<div>
+  <div
+    class="emotion-0 emotion-1"
+    data-test-style-background="linear-gradient(to bottom, #151618, #18202d)"
+  />
+</div>
+`;
+
+exports[`Night > Rain 1`] = `
+.emotion-0 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+<div>
+  <div
+    class="emotion-0 emotion-1"
+    data-test-style-background="linear-gradient(to bottom, #0f1c50, #8da3bd)"
+  />
+</div>
+`;
+
+exports[`Night > Rain Showers 1`] = `
+.emotion-0 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+<div>
+  <div
+    class="emotion-0 emotion-1"
+    data-test-style-background="linear-gradient(to bottom, #0f1c50, #8da3bd)"
+  />
+</div>
+`;
+
+exports[`Night > Snow 1`] = `
+.emotion-0 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+<div>
+  <div
+    class="emotion-0 emotion-1"
+    data-test-style-background="linear-gradient(to bottom, #797c87, #acb7bd)"
+  />
+</div>
+`;
+
+exports[`Night > Snow Grains 1`] = `
+.emotion-0 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+<div>
+  <div
+    class="emotion-0 emotion-1"
+    data-test-style-background="linear-gradient(to bottom, #797c87, #acb7bd)"
+  />
+</div>
+`;
+
+exports[`Night > Snow Showers 1`] = `
+.emotion-0 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+<div>
+  <div
+    class="emotion-0 emotion-1"
+    data-test-style-background="linear-gradient(to bottom, #797c87, #acb7bd)"
+  />
+</div>
+`;
+
+exports[`Night > Thunderstorms 1`] = `
+.emotion-0 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+<div>
+  <div
+    class="emotion-0 emotion-1"
+    data-test-style-background="linear-gradient(to bottom, #4f5158, #8da3bd)"
+  />
+</div>
+`;
+
+exports[`Night > Thunderstorms and Hail 1`] = `
+.emotion-0 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+<div>
+  <div
+    class="emotion-0 emotion-1"
+    data-test-style-background="linear-gradient(to bottom, #4f5158, #8da3bd)"
+  />
+</div>
+`;
