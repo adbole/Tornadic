@@ -1,6 +1,6 @@
 import { render } from "@testing-library/react";
 
-import * as svgs from "svgs/radar";
+import * as svgs from ".";
 
 
 test.each(Object.entries(svgs))("%s", (_, Svg) => {
