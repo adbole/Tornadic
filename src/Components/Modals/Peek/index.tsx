@@ -1,13 +1,17 @@
 import WeatherContext from "Contexts/WeatherContext";
 
 import Alert from "Components/Alert";
+import Daily from "Components/Daily";
 import FetchErrorHandler from "Components/FetchErrorHandler";
 import HazardLevel from "Components/HazardLevel";
+import Hourly from "Components/Hourly";
 import { Button } from "Components/Input";
 import Now from "Components/Now";
 import Pressure from "Components/Pressure";
 import SimpleInfoWidget from "Components/Simple";
+import SimpleGroup from "Components/Simple/Group";
 import Skeleton from "Components/Skeleton";
+import SunTime from "Components/SunTime";
 import Wind from "Components/Wind";
 import { ExclamationTriangle } from "svgs";
 import { Droplet, Eye, Moisture, Thermometer } from "svgs/widget";
@@ -15,7 +19,7 @@ import { Droplet, Eye, Moisture, Thermometer } from "svgs/widget";
 import type { ModalProps } from "../Modal";
 import Modal from "../Modal";
 
-import PeekContent, { AlertSkeleton, ErrorMessage, NowSkeleton } from "./style";
+import PeekContent, { ErrorMessage } from "./style";
 
 
 export default function Peek({
@@ -43,39 +47,56 @@ export default function Peek({
                         longitude={longitude}
                         skeletonRender={() => (
                             <>
-                                <NowSkeleton size="widget-large" />
-                                <AlertSkeleton size="widget-wide" />
-
-                                {Array.from({ length: 8 }, (_, i) => (
+                                <Skeleton size="widget-large" />
+                                <Skeleton size="widget-wide" />
+                                <Skeleton size="widget-large" />
+                                {Array.from({ length: 2 }, (_, i) => (
+                                    <SimpleGroup>
+                                        <Skeleton key={`Group ${i} - 1`} />
+                                        <Skeleton key={`Group ${i} - 2`} />
+                                    </SimpleGroup>
+                                ))}
+                                {Array.from({ length: 4 }, (_, i) => (
                                     <Skeleton key={i} />
                                 ))}
+                                <Skeleton size="widget-wide" />
                             </>
                         )}
                     >
                         <Now displayOnly />
                         <Alert />
-                        <SimpleInfoWidget
-                            icon={<Droplet />}
-                            title="Precipitation"
-                            property="precipitation"
-                        />
-                        <SimpleInfoWidget
-                            icon={<Thermometer />}
-                            title="Dewpoint"
-                            property="dewpoint_2m"
-                        />
-                        <SimpleInfoWidget
-                            icon={<Moisture />}
-                            title="Humidity"
-                            property="relativehumidity_2m"
-                        />
-                        <SimpleInfoWidget icon={<Eye />} title="Visibility" property="visibility" />
+                        <Hourly />
+                        <Daily />
+                        
+                        <SimpleGroup>
+                            <SimpleInfoWidget
+                                icon={<Droplet />}
+                                title="Precipitation"
+                                property="precipitation"
+                            />
+                            
+                            <SimpleInfoWidget icon={<Eye />} title="Visibility" property="visibility" />
+                        </SimpleGroup>
+
+                        <SimpleGroup>
+                            <SimpleInfoWidget
+                                icon={<Thermometer />}
+                                title="Dewpoint"
+                                property="dewpoint_2m"
+                            />
+                            <SimpleInfoWidget
+                                icon={<Moisture />}
+                                title="Humidity"
+                                property="relativehumidity_2m"
+                            />
+                        </SimpleGroup>
 
                         <HazardLevel hazard="us_aqi" />
                         <HazardLevel hazard="uv_index" />
 
                         <Wind />
                         <Pressure />
+                        <SunTime />
                     </WeatherContext>
                 </FetchErrorHandler>
             </PeekContent>

@@ -1,17 +1,13 @@
 import styled from "@emotion/styled";
 
-import { Base as AlertBaseStyle } from "Components/Alert/style";
-import { Base as NowBaseStyle } from "Components/Now/style";
-import Skeleton from "Components/Skeleton";
+import DailyWidget from "Components/Daily/style";
+import HourlyWidget from "Components/Hourly/style";
 import WidgetContainer from "Components/Widget/style";
 
 import { varNames, vars } from "ts/StyleMixins";
 
 import { ModalContent } from "../Modal";
 
-
-export const NowSkeleton = styled(Skeleton)(NowBaseStyle);
-export const AlertSkeleton = styled(Skeleton)(AlertBaseStyle);
 
 export default styled(ModalContent)({
     padding: "10px",
@@ -25,6 +21,16 @@ export default styled(ModalContent)({
         backdropFilter: "none",
         boxShadow: "none",
     },
+
+    [`${HourlyWidget}`] : {
+        gridColumn: "span 2"
+    },
+
+    [`${DailyWidget}`] : {
+        gridArea: "unset",
+        gridColumn: "span 2",
+        gridRow: "span 2"
+    }
 });
 
 export const ErrorMessage = styled.div({

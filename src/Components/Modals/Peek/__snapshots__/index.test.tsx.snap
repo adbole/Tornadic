@@ -1,0 +1,497 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Matches Snapshot 1`] = `
+@keyframes animation-0 {
+  to {
+    background-position-x: -200%;
+  }
+}
+
+.emotion-0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  overflow: hidden;
+  margin: auto;
+  padding: 0;
+  width: 500px;
+  color: inherit;
+  background-color: var(--background);
+  border-radius: var(--border-radius);
+  border: none;
+  outline: none;
+  -webkit-transform: translateY(100vh);
+  -moz-transform: translateY(100vh);
+  -ms-transform: translateY(100vh);
+  transform: translateY(100vh);
+  -webkit-transition: -webkit-transform 1s ease;
+  transition: transform 1s ease;
+  -webkit-transform: translateY(0)!important;
+  -moz-transform: translateY(0)!important;
+  -ms-transform: translateY(0)!important;
+  transform: translateY(0)!important;
+}
+
+.emotion-0::backdrop {
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+  background-color: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  -webkit-transition: opacity 1s ease;
+  transition: opacity 1s ease;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 800px) {
+  .emotion-0 {
+    max-width: 100%;
+    max-height: 75%;
+    margin: auto auto 0px auto;
+    border-radius: var(--border-radius) var(--border-radius) 0px 0px;
+    -webkit-transform: translateY(100%);
+    -moz-transform: translateY(100%);
+    -ms-transform: translateY(100%);
+    transform: translateY(100%);
+  }
+}
+
+.emotion-0::backdrop {
+  opacity: 1;
+}
+
+.emotion-2 {
+  overflow-y: auto;
+  padding: 20px;
+  padding: 10px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-auto-rows: 150px;
+  gap: 10px;
+}
+
+.emotion-2 h2,
+.emotion-2 h3,
+.emotion-2 h4,
+.emotion-2 h5,
+.emotion-2 h6 {
+  font-weight: 500;
+}
+
+.emotion-2 hr {
+  height: 1px;
+  background-color: #efdddd57;
+  border: none;
+  margin: 5px;
+}
+
+.emotion-2>p {
+  margin-bottom: 10px;
+}
+
+.emotion-2 .emotion-10 {
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  box-shadow: none;
+}
+
+.emotion-2 .e7hfcrb3 {
+  grid-column: span 2;
+}
+
+.emotion-2 .e1xe5sf55 {
+  grid-area: unset;
+  grid-column: span 2;
+  grid-row: span 2;
+}
+
+.emotion-4 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  border-radius: var(--border-radius);
+  background: var(--warn);
+  color: white;
+  padding: 10px;
+  grid-column: 1/-1;
+  --svg-size: 2rem;
+}
+
+.emotion-4 svg {
+  fill: white;
+}
+
+.emotion-6 {
+  -webkit-transition: filter 0.3s ease;
+  transition: filter 0.3s ease;
+  border: none;
+  border-radius: var(--input-border-radius);
+  font-size: inherit;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+  margin: 5px 0px;
+  color: inherit;
+  background-color: var(--primary);
+  padding: 5px 15px;
+}
+
+.emotion-6:hover,
+.emotion-6:focus {
+  cursor: pointer;
+}
+
+.emotion-6:active {
+  -webkit-filter: brightness(80%);
+  filter: brightness(80%);
+}
+
+.emotion-6:disabled {
+  cursor: not-allowed;
+  -webkit-filter: grayscale(0.5);
+  filter: grayscale(0.5);
+}
+
+.emotion-9 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  position: relative;
+  padding: 10px;
+  overflow: hidden;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  box-shadow: inset 0 0 0 200px rgba(255, 255, 255, 0.01);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--border-radius);
+  min-height: 300px;
+  grid-column: span 2;
+  grid-row: span 2;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0, rgba(255, 255, 255, 0.1) 20%, rgba(255, 255, 255, 0.15) 60%, rgba(255, 255, 255, 0));
+  -webkit-background-size: 200%,100%;
+  background-size: 200%,100%;
+  -webkit-animation: animation-0 1.5s linear infinite;
+  animation: animation-0 1.5s linear infinite;
+}
+
+.emotion-9>:not(.e5hllwo1) {
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+}
+
+.emotion-12 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  position: relative;
+  padding: 10px;
+  overflow: hidden;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  box-shadow: inset 0 0 0 200px rgba(255, 255, 255, 0.01);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--border-radius);
+  grid-column: span 2;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0, rgba(255, 255, 255, 0.1) 20%, rgba(255, 255, 255, 0.15) 60%, rgba(255, 255, 255, 0));
+  -webkit-background-size: 200%,100%;
+  background-size: 200%,100%;
+  -webkit-animation: animation-0 1.5s linear infinite;
+  animation: animation-0 1.5s linear infinite;
+}
+
+.emotion-12>:not(.e5hllwo1) {
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+}
+
+.emotion-17 {
+  display: grid;
+  gap: inherit;
+}
+
+.emotion-20 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  position: relative;
+  padding: 10px;
+  overflow: hidden;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  box-shadow: inset 0 0 0 200px rgba(255, 255, 255, 0.01);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--border-radius);
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0, rgba(255, 255, 255, 0.1) 20%, rgba(255, 255, 255, 0.15) 60%, rgba(255, 255, 255, 0));
+  -webkit-background-size: 200%,100%;
+  background-size: 200%,100%;
+  -webkit-animation: animation-0 1.5s linear infinite;
+  animation: animation-0 1.5s linear infinite;
+}
+
+.emotion-20>:not(.e5hllwo1) {
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+}
+
+<body>
+  <div />
+  <dialog
+    class="emotion-0 emotion-1"
+    open=""
+  >
+    <div
+      class="emotion-2 emotion-3"
+    >
+      <div
+        data-testid="FetchErrorHandler"
+      >
+        <div
+          class="emotion-4 emotion-5"
+          style="display: none;"
+        >
+          <svg
+            fill="red"
+            viewBox="0 0 16 16"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"
+            />
+          </svg>
+          <span>
+            Couldn't get weather info
+          </span>
+          <button
+            class="emotion-6 emotion-7"
+            type="button"
+          >
+            Try Again
+          </button>
+        </div>
+        <div
+          data-testid="WeatherContext"
+        >
+          <p>
+            Lat: 
+            365
+          </p>
+          <p>
+            Long: 
+            405
+          </p>
+          <section
+            class=" emotion-8 emotion-9 emotion-10"
+            data-testid="WIDGET_SECTION"
+          />
+          <section
+            class=" emotion-8 emotion-12 emotion-10"
+            data-testid="WIDGET_SECTION"
+          />
+          <section
+            class=" emotion-8 emotion-9 emotion-10"
+            data-testid="WIDGET_SECTION"
+          />
+          <div
+            class="emotion-17 emotion-18"
+          >
+            <section
+              class=" emotion-8 emotion-20 emotion-10"
+              data-testid="WIDGET_SECTION"
+            />
+            <section
+              class=" emotion-8 emotion-20 emotion-10"
+              data-testid="WIDGET_SECTION"
+            />
+          </div>
+          <div
+            class="emotion-17 emotion-18"
+          >
+            <section
+              class=" emotion-8 emotion-20 emotion-10"
+              data-testid="WIDGET_SECTION"
+            />
+            <section
+              class=" emotion-8 emotion-20 emotion-10"
+              data-testid="WIDGET_SECTION"
+            />
+          </div>
+          <section
+            class=" emotion-8 emotion-20 emotion-10"
+            data-testid="WIDGET_SECTION"
+          />
+          <section
+            class=" emotion-8 emotion-20 emotion-10"
+            data-testid="WIDGET_SECTION"
+          />
+          <section
+            class=" emotion-8 emotion-12 emotion-10"
+            data-testid="WIDGET_SECTION"
+          />
+          <section
+            class=" emotion-8 emotion-20 emotion-10"
+            data-testid="WIDGET_SECTION"
+          />
+          <section
+            class=" emotion-8 emotion-20 emotion-10"
+            data-testid="WIDGET_SECTION"
+          />
+          <div
+            data-testid="Now"
+          >
+            <p>
+              Display Only: 
+              true
+            </p>
+          </div>
+          <div
+            data-testid="Alert"
+          />
+          <div
+            data-testid="Hourly"
+          />
+          <div
+            data-testid="Daily"
+          />
+          <div
+            class="emotion-17 emotion-18"
+          >
+            <div>
+              <p>
+                Icon: 
+                <span>
+                  Droplet
+                </span>
+              </p>
+              <p>
+                Title: 
+                Precipitation
+              </p>
+              <p>
+                Property: 
+                precipitation
+              </p>
+            </div>
+            <div>
+              <p>
+                Icon: 
+                <span>
+                  Eye
+                </span>
+              </p>
+              <p>
+                Title: 
+                Visibility
+              </p>
+              <p>
+                Property: 
+                visibility
+              </p>
+            </div>
+          </div>
+          <div
+            class="emotion-17 emotion-18"
+          >
+            <div>
+              <p>
+                Icon: 
+                <span>
+                  Thermometer
+                </span>
+              </p>
+              <p>
+                Title: 
+                Dewpoint
+              </p>
+              <p>
+                Property: 
+                dewpoint_2m
+              </p>
+            </div>
+            <div>
+              <p>
+                Icon: 
+                <span>
+                  Moisture
+                </span>
+              </p>
+              <p>
+                Title: 
+                Humidity
+              </p>
+              <p>
+                Property: 
+                relativehumidity_2m
+              </p>
+            </div>
+          </div>
+          <div
+            data-testid="HazardLevel"
+          >
+            <p>
+              Hazard: 
+              us_aqi
+            </p>
+          </div>
+          <div
+            data-testid="HazardLevel"
+          >
+            <p>
+              Hazard: 
+              uv_index
+            </p>
+          </div>
+          <div
+            data-testid="Wind"
+          />
+          <div
+            data-testid="Pressure"
+          />
+          <div
+            data-testid="SunTime"
+          />
+        </div>
+      </div>
+    </div>
+  </dialog>
+</body>
+`;
