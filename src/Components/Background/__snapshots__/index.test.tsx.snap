@@ -13,27 +13,33 @@ exports[`Renders the correct components 1`] = `
 >
   Canvas - 
   <div>
+    PerspectiveCamera
+  </div>
+  <div>
     Sky
   </div>
   <div>
-    Clouds - 
-    true
-     - 
-    Clear
-  </div>
-  <div>
-    RainSnow - 
-    Clear
-  </div>
-  <div>
-    Thunder - 
-    Clear
-  </div>
-  <div>
-    Stars - 
-    true
-     - 
-    Clear
+    ScreenSpace - 
+    <div>
+      Clouds - 
+      true
+       - 
+      Clear
+    </div>
+    <div>
+      RainSnow - 
+      Clear
+    </div>
+    <div>
+      Thunder - 
+      Clear
+    </div>
+    <div>
+      Stars - 
+      true
+       - 
+      Clear
+    </div>
   </div>
 </div>
 `;

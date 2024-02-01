@@ -13,7 +13,11 @@ export default function Stars({
     isDay: boolean;
     condition: WeatherCondition["type"];
 }) {
-    const { width, height } = useThree(state => state.viewport);
+    const camera = useThree(state => state.camera);
+    const { getCurrentViewport } = useThree(state => state.viewport)
+
+    const { width, height } = getCurrentViewport(camera, [14.95, 0, -50])
+
     const [show, setShow] = React.useState(false);
 
     React.useEffect(() => {
@@ -24,11 +28,14 @@ export default function Stars({
     const starsGeo = React.useMemo(() => {
         const vertices = [];
 
-        for (let i = 0; i < 750; i++) {
+        //Maximum stars based on aspect ratio
+        const maxStars = 1000 * width / height
+
+        for (let i = 0; i < maxStars; i++) {
             vertices.push(
                 new Vector3(
-                    randomBetween(-width * 5, width * 5),
-                    randomBetween(-height * 5, height * 5),
+                    randomBetween(-width / 2, width / 2),
+                    randomBetween(-height / 2, height / 2),
                     randomBetween(-75, -20)
                 )
             );

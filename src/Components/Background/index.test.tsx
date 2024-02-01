@@ -26,6 +26,7 @@ type Condition = {
 
 const mocks = vi.hoisted(() => ({
     Sky: vi.fn(() => <div>Sky</div>),
+    PerspectiveCamera: vi.fn(({ rotation }: { rotation: number[]}) => <div>PerspectiveCamera</div>),
     Canvas: vi.fn(
         ({
             children,
@@ -45,6 +46,8 @@ const mocks = vi.hoisted(() => ({
 
 vi.mock("@react-three/drei", () => ({
     Sky: mocks.Sky,
+    PerspectiveCamera: mocks.PerspectiveCamera,
+    ScreenSpace: ({ children }: { children: React.ReactNode }) => <div>ScreenSpace - {children}</div>,
 }));
 
 vi.mock("@react-three/fiber", () => ({
@@ -173,9 +176,10 @@ describe("High Contrast", () => {
     });
 });
 
-const sunny = [1, 0.75, 0.25];
-const cloudy = [5, 0.75, 0.1];
-const night = [0.01, 0.75, 0.2];
+// [rayleigh, rotation, exposure]
+const sunny = [1, 0.4, 0.25];
+const cloudy = [5, 0, 0.1];
+const night = [0.01, 0.4, 0.2];
 
 describe.each([
     ["Day", true],
@@ -211,7 +215,7 @@ describe.each([
         expect(mocks.Sky).toHaveBeenLastCalledWith(
             expect.objectContaining({
                 rayleigh: isDay ? day[0] : night[0],
-                inclination: isDay ? day[1] : night[1],
+                inclination: 1,
                 mieCoefficient: 0.005,
                 mieDirectionalG: 0.99,
                 turbidity: 1,
@@ -219,6 +223,13 @@ describe.each([
             }),
             expect.anything()
         );
+
+        expect(mocks.PerspectiveCamera).toHaveBeenLastCalledWith(
+            expect.objectContaining({
+                rotation: [isDay ? day[1] : night[1], 0, 0],
+            }),
+            expect.anything()
+        )
 
         expect(mocks.Canvas).toHaveBeenLastCalledWith(
             expect.objectContaining({

@@ -1,7 +1,7 @@
 import React from "react";
 import { Global } from "@emotion/react";
 import styled from "@emotion/styled";
-import { Sky } from "@react-three/drei";
+import { PerspectiveCamera, ScreenSpace, Sky } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 
 import { useReadLocalStorage } from "Hooks";
@@ -37,18 +37,18 @@ export default function Background() {
         [weather]
     );
 
-    const [rayleigh, elevation, exposure] = React.useMemo(() => {
+    const [rayleigh, rotation, exposure] = React.useMemo(() => {
         if (isDay) {
             switch (condition) {
                 case "Clear":
                 case "Mostly Clear":
-                    return [1, 0.75, 0.25];
+                    return [1, 0.4, 0.25];
                 default:
-                    return [5, 0.75, 0.1];
+                    return [5, 0, 0.1];
             }
         }
 
-        return [0.01, 0.75, 0.2];
+        return [0.01, 0.4, 0.2];
     }, [isDay, condition]);
 
     return (
@@ -61,18 +61,21 @@ export default function Background() {
                     style={{ position: "fixed" }}
                     gl={{ toneMappingExposure: exposure }}
                 >
+                    <PerspectiveCamera makeDefault rotation={[rotation, 0, 0]} />
                     <Sky
                         rayleigh={rayleigh}
-                        inclination={elevation}
+                        inclination={1}
                         mieCoefficient={0.005}
                         mieDirectionalG={0.99}
                         turbidity={1}
                         azimuth={0.25}
                     />
-                    <Clouds isDay={isDay} condition={condition} />
-                    <RainSnow condition={condition} />
-                    <Thunder condition={condition} />
-                    <Stars isDay={isDay} condition={condition} />
+                    <ScreenSpace depth={15}>
+                        <Clouds isDay={isDay} condition={condition} />
+                        <RainSnow condition={condition} />
+                        <Thunder condition={condition} />
+                        <Stars isDay={isDay} condition={condition} />
+                    </ScreenSpace>
                 </StyledCanvas>
             )}
         </>
