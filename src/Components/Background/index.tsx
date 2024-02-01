@@ -51,22 +51,15 @@ export default function Background() {
         return [0.01, 0.75, 0.2];
     }, [isDay, condition]);
 
-    const gradient = React.useMemo(
-        () => <Gradient isDay={isDay} condition={condition} />,
-        [isDay, condition]
-    );
-
     return (
         <>
             <HighConstrast rayleigh={rayleigh} />
-
-            {!settings || settings.preferGradient ? (
-                gradient
-            ) : (
+            <Gradient isDay={isDay} condition={condition} />
+            
+            {settings && !settings.preferGradient && (
                 <StyledCanvas
                     style={{ position: "fixed" }}
                     gl={{ toneMappingExposure: exposure }}
-                    fallback={gradient}
                 >
                     <Sky
                         rayleigh={rayleigh}

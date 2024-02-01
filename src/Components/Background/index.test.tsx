@@ -31,15 +31,13 @@ const mocks = vi.hoisted(() => ({
             children,
             className,
             style,
-            fallback,
         }: {
             children: React.ReactNode;
             className: string;
             style: React.CSSProperties;
-            fallback: React.ReactNode;
         }) => (
             <div className={className} style={style}>
-                Canvas - {children} - {fallback}
+                Canvas - {children}
             </div>
         )
     ),
@@ -103,6 +101,7 @@ describe("Gradient Fallback", () => {
         render(<Background />);
 
         expect.soft(screen.queryByText("Gradient - true - Clear")).toBeInTheDocument();
+        expect.soft(screen.queryByText(/Canvas/)).not.toBeInTheDocument();
     });
 
     test("If userSettings preferGradient is true", () => {
@@ -114,14 +113,7 @@ describe("Gradient Fallback", () => {
         render(<Background />);
 
         expect.soft(screen.queryByText("Gradient - true - Clear")).toBeInTheDocument();
-    });
-
-    test("Provided to Canvas as fallback", () => {
-        setLocalStorageItem("userSettings", DEFAULTS.userSettings);
-
-        render(<Background />);
-
-        expect.soft(screen.queryByText("Gradient - true - Clear")).toBeInTheDocument();
+        expect.soft(screen.queryByText(/Canvas/)).not.toBeInTheDocument();
     });
 });
 
