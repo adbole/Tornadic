@@ -23,7 +23,7 @@ export default function Clouds({
         }
     }, [condition]);
 
-    const cloudsType = React.useMemo(() => {
+    const [segments, opacity] = React.useMemo(() => {
         switch (condition) {
             case "Overcast":
             case "Rain":
@@ -32,33 +32,19 @@ export default function Clouds({
             case "Snow Grains":
             case "Thunderstorms":
             case "Thunderstorms and Hail":
-                return "Heavy";
+                return [200, 1];
             case "Rain Showers":
             case "Snow Showers":
             case "Partly Cloudy":
-                return "Medium";
+                return [100, 0.4];
             default:
-                return "Light";
+                return [50, 0.25];
         }
     }, [condition]);
 
-    const segments = React.useMemo(() => {
-        if (cloudsType === "Heavy") return 200;
-        else if (cloudsType === "Medium") return 100;
-
-        return 50;
-    }, [cloudsType]);
-
-    const opacity = React.useMemo(() => {
-        if (cloudsType === "Heavy") return 1;
-        else if (cloudsType === "Medium") return 0.4;
-
-        return 0.25;
-    }, [cloudsType]);
-
     return (
         <group visible={show}>
-            <ambientLight intensity={isDay ? 4 : 0.2} />
+            <ambientLight intensity={isDay ? 5 : 0.2} />
             <Cloud
                 seed={1}
                 position={[0, 10, -10]}

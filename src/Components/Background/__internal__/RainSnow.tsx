@@ -56,35 +56,14 @@ export default function RainSnow({ condition }: { condition: WeatherCondition["t
         return new BufferGeometry().setFromPoints(vertices);
     }, [condition]);
 
-    const material = React.useMemo(() => {
-        let size;
-
+    const [size, speed] = React.useMemo(() => {
         switch (condition) {
             case "Snow":
             case "Snow Grains":
             case "Snow Showers":
-                size = 0.5;
-                break;
+                return [0.75, 10];
             default:
-                size = 0.3;
-                break;
-        }
-
-        return new PointsMaterial({
-            color: "#AAAAAA",
-            size,
-            transparent: true,
-        });
-    }, [condition]);
-
-    const speed = React.useMemo(() => {
-        switch (condition) {
-            case "Snow":
-            case "Snow Grains":
-            case "Snow Showers":
-                return 10;
-            default:
-                return 50;
+                return [0.4, 50];
         }
     }, [condition]);
 
@@ -104,5 +83,11 @@ export default function RainSnow({ condition }: { condition: WeatherCondition["t
         (rainGeo.attributes.position as BufferAttribute).needsUpdate = true;
     });
 
-    return <points geometry={rainGeo} material={material} visible={show} />;
+    return (
+        <>
+            <points geometry={rainGeo} visible={show}>
+                <pointsMaterial color={0xffffff} size={size} toneMapped={false} />
+            </points>
+        </>
+    );
 }

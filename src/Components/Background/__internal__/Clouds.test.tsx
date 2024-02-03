@@ -24,7 +24,7 @@ test.each([
 });
 
 test.each([
-    ["day", true, 4],
+    ["day", true, 5],
     ["night", false, 0.2],
 ])("Ambient light has intensity %s at %s", async (_, isDay, intensity) => {
     const renderer = await RTTR.create(<Clouds isDay={isDay} condition="Clear" />);

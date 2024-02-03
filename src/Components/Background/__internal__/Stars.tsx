@@ -43,16 +43,10 @@ export default function Stars({
 
         return new BufferGeometry().setFromPoints(vertices);
     }, [width, height]);
-
-    const material = React.useMemo(
-        () =>
-            new PointsMaterial({
-                color: 0xffffff,
-                size: 0.2,
-                transparent: true,
-            }),
-        []
+    
+    return (
+        <points geometry={starsGeo} visible={show}>
+            <pointsMaterial color={0xffffff} size={0.2} transparent={true} />
+        </points>
     );
-
-    return <points geometry={starsGeo} material={material} visible={show} />;
 }
