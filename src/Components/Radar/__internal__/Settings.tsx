@@ -11,6 +11,14 @@ import { vars } from "ts/StyleMixins";
 import Opacity from "./Opacity";
 
 
+const themes: RadarSettings["mapTheme"][] = [
+    "system",
+    "light",
+    "light-grey",
+    "dark",
+    "dark-grey",
+] as const;
+
 const colors = [
     "Black and White",
     "Original",
@@ -21,7 +29,7 @@ const colors = [
     "NEXRAD Level III",
     "Rainbow @ SELEX-SI",
     "Dark Sky",
-];
+] as const;
 
 const Select = styled.select({
     backgroundColor: vars.backgroundLayer,
@@ -29,17 +37,17 @@ const Select = styled.select({
     borderRadius: vars.inputBorderRadius,
     border: "none",
     padding: "5px",
+    width: "100%",
 });
 
 const SettingsPopup = styled.div({
     position: "absolute",
     right: "40px",
-    backgroundColor: vars.background,
-    borderRadius: vars.borderRadius,
     padding: "10px",
     margin: "10px",
 
     zIndex: vars.zLayer2,
+    width: "200px",
 });
 
 const SettingsTitle = styled.div({
@@ -48,6 +56,8 @@ const SettingsTitle = styled.div({
     justifyContent: "space-between",
     marginBottom: "10px",
 });
+
+const toUpperCase = (str: string) => str.split("-").map(s => s[0].toUpperCase() + s.slice(1)).join(" ");
 
 export default function Settings() {
     const [show, setShowTrue, setShowFalse] = useBooleanState(false);
@@ -73,6 +83,23 @@ export default function Settings() {
                         &#10005;
                     </Button>
                 </SettingsTitle>
+
+                <label>
+                    <h2>Map Theme</h2>
+                    <Select
+                        style={{ fontSize: "1.05rem" }}
+                        onChange={e =>
+                            setSettings({ ...settings, mapTheme: e.target.value as RadarSettings["mapTheme"] })
+                        }
+                        value={settings.mapTheme}
+                    >
+                        {themes.map(theme => (
+                            <option key={theme} value={theme}>
+                                {toUpperCase(theme)}
+                            </option>
+                        ))}
+                    </Select>
+                </label>
 
                 <label>
                     <h2>Color Scheme</h2>

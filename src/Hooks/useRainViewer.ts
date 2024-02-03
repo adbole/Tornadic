@@ -5,7 +5,7 @@ import useSWR from "swr";
 
 import { fetchData } from "ts/Fetch";
 
-import useLocalStorage from "./useLocalStorage";
+import useReadLocalStorage from "./useReadLocalStorage";
 
 
 type Tile = Readonly<{
@@ -52,7 +52,7 @@ const generateNewLayer = (frames: Tile[]): AvailableLayer => ({
 
 export default function useRainViewer() {
     const expires = React.useRef(0);
-    const [settings] = useLocalStorage("radarSettings");
+    const { colorScheme, smoothing, snow } = useReadLocalStorage("radarSettings")!;
 
     const map = useMap();
     const [active, setActive] = React.useState<LayerTypes>(LayerTypes.Radar);
@@ -91,14 +91,14 @@ export default function useRainViewer() {
         oldLayers.current = layers;
         return layers;
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [data, settings]);
+    }, [data, colorScheme, smoothing, snow]);
 
     //Layers control logic and cleanup on availableLayers change
     React.useEffect(() => {
         if (!availableLayers) return () => {};
 
-        if (!map.getPane("radar")) {
-            const pane = map.createPane("radar");
+        if (!map.getPane(RADAR_PANE)) {
+            const pane = map.createPane(RADAR_PANE);
             pane.style.zIndex = "250";
             pane.style.pointerEvents = "none";
         }
@@ -138,19 +138,13 @@ export default function useRainViewer() {
             const loadedLayers = activeData.tileLayers;
             const frame = activeData.frames[index];
 
-            const {
-                colorScheme: radarColorScheme,
-                smoothing: radarSmoothing,
-                snow: radarSnow,
-            } = settings;
-
             // If frame hasn't been added as a layer yet, do so now
             if (!loadedLayers[index]) {
-                const color = active === LayerTypes.Radar ? radarColorScheme : 0;
+                const color = active === LayerTypes.Radar ? colorScheme : 0;
                 loadedLayers[index] = L.tileLayer(
                     `${data!.host}${frame.path}/512/{z}/{x}/{y}/${color}/${Number(
-                        radarSmoothing
-                    )}_${Number(radarSnow)}.png`,
+                        smoothing
+                    )}_${Number(snow)}.png`,
                     {
                         opacity: 0.0,
                         zIndex: frame.time,

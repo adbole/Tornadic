@@ -1,9 +1,12 @@
 import { rainviewer } from "@test-mocks";
+import { setLocalStorageItem } from "@test-utils";
 
 import { MapContainer, useMap } from "react-leaflet";
 import { act, fireEvent, render, renderHook, screen } from "@testing-library/react";
 import L from "leaflet";
 import { SWRConfig } from "swr";
+
+import DEFAULTS from "Hooks/useLocalStorage.config";
 
 import { RainViewer } from ".";
 
@@ -15,6 +18,7 @@ beforeEach(() => {
 
     const past = rainviewerObj.radar.past;
     vi.setSystemTime(past[past.length - 1].time * 1000);
+    setLocalStorageItem("radarSettings", DEFAULTS.radarSettings)
 });
 
 afterEach(() => {

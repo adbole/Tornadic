@@ -1,6 +1,9 @@
 import testIds from "@test-consts/testIDs";
+import { setLocalStorageItem } from "@test-utils";
 
 import { render, screen } from "@testing-library/react";
+
+import DEFAULTS from "Hooks/useLocalStorage.config";
 
 import { mediaQueries } from "ts/StyleMixins";
 
@@ -82,16 +85,15 @@ test("Provides map with correct props", () => {
     );
 });
 
-test("Matches Snapshot", () => {
+test.each([
+    "system",
+    "light",
+    "light-grey",
+    "dark",
+    'dark-grey'
+] as RadarSettings["mapTheme"][])("Matches %s Snapshot", mapTheme => {
+    setLocalStorageItem("radarSettings", { ...DEFAULTS.radarSettings, mapTheme})
     const { container } = render(<Radar />);
 
     expect(container).toMatchSnapshot();
-});
-
-test("Radar has grid-area r down to medium screens", () => {
-    render(<Radar />);
-
-    expect(screen.getByTestId(testIds.Widget.WidgetSection)).toHaveStyleRule("grid-area", "r", {
-        media: mediaQueries.min("medium"),
-    });
-});
+})

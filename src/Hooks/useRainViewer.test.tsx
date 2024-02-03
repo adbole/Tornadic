@@ -9,6 +9,8 @@ import { SWRConfig } from "swr";
 import { useRainViewer } from "Hooks";
 import { RADAR_PANE } from "Hooks/useRainViewer";
 
+import DEFAULTS from "./useLocalStorage.config";
+
 
 const errorCaller = vi.fn();
 const rainviewerObj = rainviewer();
@@ -33,6 +35,7 @@ beforeEach(() => {
 
     const past = rainviewerObj.radar.past;
     vi.setSystemTime(past[past.length - 1].time * 1000);
+    setLocalStorageItem("radarSettings", DEFAULTS.radarSettings)
 });
 
 afterEach(() => {
@@ -306,6 +309,7 @@ test("When settings change, availableLayers is updated and showFrame renders lay
 
     act(() => {
         setLocalStorageItem("radarSettings", {
+            mapTheme: "system",
             colorScheme: 1,
             smoothing: true,
             snow: true,

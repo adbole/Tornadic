@@ -34,11 +34,10 @@ exports[`Matches Snapshot 1`] = `
 .emotion-2 {
   position: absolute;
   right: 40px;
-  background-color: var(--background);
-  border-radius: var(--border-radius);
   padding: 10px;
   margin: 10px;
   z-index: var(--z-layer-2);
+  width: 200px;
 }
 
 .emotion-4 {
@@ -61,9 +60,10 @@ exports[`Matches Snapshot 1`] = `
   border-radius: var(--input-border-radius);
   border: none;
   padding: 5px;
+  width: 100%;
 }
 
-.emotion-10 {
+.emotion-12 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -76,7 +76,7 @@ exports[`Matches Snapshot 1`] = `
   margin: 5px 0px;
 }
 
-.emotion-12 {
+.emotion-14 {
   -webkit-appearance: none;
   -moz-appearance: none;
   -ms-appearance: none;
@@ -92,7 +92,7 @@ exports[`Matches Snapshot 1`] = `
   cursor: pointer;
 }
 
-.emotion-12::after {
+.emotion-14::after {
   content: "";
   position: absolute;
   top: 50%;
@@ -109,11 +109,11 @@ exports[`Matches Snapshot 1`] = `
   transition: left 0.3s ease;
 }
 
-.emotion-12:checked {
+.emotion-14:checked {
   background-color: var(--primary);
 }
 
-.emotion-12:checked::after {
+.emotion-14:checked::after {
   left: 70%;
 }
 
@@ -146,6 +146,41 @@ exports[`Matches Snapshot 1`] = `
         ✕
       </button>
     </div>
+    <label>
+      <h2>
+        Map Theme
+      </h2>
+      <select
+        class="emotion-8 emotion-9"
+        style="font-size: 1.05rem;"
+      >
+        <option
+          value="system"
+        >
+          System
+        </option>
+        <option
+          value="light"
+        >
+          Light
+        </option>
+        <option
+          value="light-grey"
+        >
+          Light Grey
+        </option>
+        <option
+          value="dark"
+        >
+          Dark
+        </option>
+        <option
+          value="dark-grey"
+        >
+          Dark Grey
+        </option>
+      </select>
+    </label>
     <label>
       <h2>
         Color Scheme
@@ -202,11 +237,11 @@ exports[`Matches Snapshot 1`] = `
       </select>
     </label>
     <label
-      class="emotion-10 emotion-11"
+      class="emotion-12 emotion-13"
     >
       <input
         checked=""
-        class="emotion-12 emotion-13"
+        class="emotion-14 emotion-15"
         type="checkbox"
       />
       <span>
@@ -214,10 +249,10 @@ exports[`Matches Snapshot 1`] = `
       </span>
     </label>
     <label
-      class="emotion-10 emotion-11"
+      class="emotion-12 emotion-13"
     >
       <input
-        class="emotion-12 emotion-13"
+        class="emotion-14 emotion-15"
         type="checkbox"
       />
       <span>

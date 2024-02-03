@@ -40,6 +40,21 @@ describe("Changing Settings", () => {
         expect(localStorage).toHaveLocalItemValue("radarSettings", DEFAULTS.radarSettings);
     });
 
+    test("Changing the map theme", () => {
+        render(<Settings />);
+
+        const select = screen.getByLabelText("Map Theme");
+
+        act(() => {
+            fireEvent.change(select, { target: { value: "dark" } });
+        });
+
+        expect(localStorage).toHaveLocalItemValue("radarSettings", {
+            ...DEFAULTS.radarSettings,
+            mapTheme: "dark",
+        });
+    })
+
     test("Changing the color scheme", () => {
         render(<Settings />);
 

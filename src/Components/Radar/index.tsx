@@ -1,5 +1,6 @@
-import { AttributionControl, MapContainer, TileLayer, ZoomControl } from "react-leaflet";
-import styled from "@emotion/styled";
+import { AttributionControl, MapContainer, ZoomControl } from "react-leaflet";
+
+import { useLocalStorage } from "Hooks";
 
 import { Map } from "svgs/widget";
 
@@ -16,18 +17,18 @@ import {
     RainViewer,
     Settings,
 } from "./__internal__";
-import RadarWidget from "./style";
+import RadarWidget, { BaseLayer } from "./style";
 
-
-const BaseLayer = styled(TileLayer)({ filter: "invert(1) hue-rotate(180deg)" });
 
 /**
  * Displays a small Radar widget that can then be clicked to zoom to fullscreen.
  * @returns The Radar widget
  */
 function Radar() {
+    const [settings] = useLocalStorage("radarSettings")
+
     return (
-        <RadarWidget size="widget-large" widgetTitle="Radar" widgetIcon={<Map />}>
+        <RadarWidget mapTheme={settings.mapTheme} size="widget-large" widgetTitle="Radar" widgetIcon={<Map />}>
             <MapContainer
                 center={[35.5, -97.5]}
                 zoom={10}
