@@ -89,7 +89,6 @@ export default function Peek() {
         if (!timeout.current) return;
 
         const event = e instanceof TouchEvent ? e.touches[e.touches.length - 1] : e.originalEvent;
-        console.log(event.clientX)
 
         const xChange = Math.abs(event.clientX - initialXY.current[0]);
         const yChange = Math.abs(event.clientY - initialXY.current[1]);
