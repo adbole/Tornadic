@@ -33,9 +33,10 @@ export default function Peek() {
     const [latlng, setLatLng, unsetLatLng] = useNullableState<L.LatLng>();
 
     const timeout = React.useRef<NodeJS.Timeout>();
+    const initialXY = React.useRef<[number, number]>([0, 0]);
 
     const beginHold = React.useCallback(
-        (pos: L.LatLng) => {
+        (pos: L.LatLng, xy: [number, number]) => {
             if (!map.dragging.enabled()) return;
 
             if (timeout.current) {
@@ -49,6 +50,7 @@ export default function Peek() {
             //100ms delay allows for a normal click or tap to pass through without issues.
             timeout.current = setTimeout(() => {
                 setPosition(pos);
+                initialXY.current = xy;
 
                 timeout.current = setTimeout(() => {
                     unsetPosition();
@@ -60,39 +62,66 @@ export default function Peek() {
         [map]
     );
 
-    React.useEffect(() => {
-        const onMouseDown = (e: L.LeafletMouseEvent) => beginHold(e.latlng);
-        function onTouchStart({ touches: [touch] }: TouchEvent) {
+    const onMouseDown = React.useCallback(
+        ({ latlng, originalEvent: { clientX, clientY } }: L.LeafletMouseEvent) =>
+            beginHold(latlng, [clientX, clientY]),
+        [beginHold]
+    );
+
+    const onTouchStart = React.useCallback(
+        ({ touches: [touch] }: TouchEvent) => {
             const latlng = map.containerPointToLatLng([touch.clientX, touch.clientY]);
 
-            beginHold(latlng);
+            beginHold(latlng, [touch.clientX, touch.clientY]);
+        },
+        [map, beginHold]
+    );
+
+    const onUp = React.useCallback(() => {
+        if (!timeout.current) return;
+
+        clearTimeout(timeout.current);
+        timeout.current = undefined;
+        unsetPosition();
+    }, [unsetPosition]);
+
+    const onMove = React.useCallback((e: L.LeafletMouseEvent | TouchEvent) => {
+        if (!timeout.current) return;
+
+        const event = e instanceof TouchEvent ? e.touches[e.touches.length - 1] : e.originalEvent;
+        console.log(event.clientX)
+
+        const xChange = Math.abs(event.clientX - initialXY.current[0]);
+        const yChange = Math.abs(event.clientY - initialXY.current[1]);
+        const maxChange = 20
+
+        if(xChange > maxChange || yChange > maxChange) {
+            onUp();
         }
+    }, [onUp]);
 
-        function onUp() {
-            if (!timeout.current) return;
+    React.useEffect(() => {
+        const mapEvents = [
+            ["mousedown", onMouseDown],
+            ["mousemove", onMove],
+            ["mouseup", onUp],
+            ["contextmenu", () => undefined],
+        ] as const
 
-            clearTimeout(timeout.current);
-            timeout.current = undefined;
-            unsetPosition();
-        }
+        const containerEvents = [
+            ["touchstart", onTouchStart],
+            ["touchend", onUp],
+            ["touchmove", onMove],
+        ] as const
 
-        map.on("mousedown", onMouseDown);
-        map.on("mouseup mousemove", onUp);
-        map.on("contextmenu", () => undefined);
+        mapEvents.forEach(([event, handler]) => map.on(event, handler));
 
         const mapContainer = map.getContainer();
-        mapContainer.addEventListener("touchstart", onTouchStart, { passive: true });
-        mapContainer.addEventListener("touchend", onUp, { passive: true });
-        mapContainer.addEventListener("touchmove", onUp, { passive: true });
+        containerEvents.forEach(([event, handler]) => mapContainer.addEventListener(event, handler, { passive: true }));
 
         return () => {
-            map.off("mousedown", onMouseDown);
-            map.off("mouseup mousemove", onUp);
-            map.off("contextmenu");
-
-            mapContainer.removeEventListener("touchstart", onTouchStart);
-            mapContainer.removeEventListener("touchend", onUp);
-            mapContainer.removeEventListener("touchmove", onUp);
+            mapEvents.forEach(([event, handler]) => map.off(event, handler));
+            containerEvents.forEach(([event, handler]) => mapContainer.removeEventListener(event, handler));
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [map, beginHold]);

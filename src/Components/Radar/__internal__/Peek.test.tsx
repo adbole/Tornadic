@@ -52,9 +52,17 @@ test("Does nothing when user isn't interacting with the map", () => {
     expect.soft(screen.queryByRole("dialog")).not.toBeInTheDocument();
 });
 
+const leafletMouseEvent = { 
+    latlng: mocks.latLng,
+    originalEvent: { 
+        clientX: 0, 
+        clientY: 0 
+    }
+} as L.LeafletMouseEvent
+
 describe.each([
-    ["mousedown", "mousemove", "mouseup", { latlng: { lat: 35, lng: -95 } as L.LatLng }],
-    ["touchstart", "touchmove", "touchend", { touches: [{ clientX: 100, clientY: 100 }] }],
+    ["mousedown", "mousemove", "mouseup", leafletMouseEvent],
+    ["touchstart", "touchmove", "touchend", { touches: [leafletMouseEvent.originalEvent] }],
 ] as ["mousedown" | "touchstart", string, string, any][])(
     "%s, %s, %s",
     (event, moveCancel, upCancel, args) => {
@@ -118,10 +126,7 @@ describe.each([
             expect.soft(getComputedStyle(document.body).userSelect).toBe("");
         });
 
-        test.each([
-            ["When the user moves (or drags) the popup disappears", moveCancel],
-            ["When the user releases the popup disappears", upCancel],
-        ])("%s", (_, cancelMethod) => {
+        test("When the user releases the popup disappears", () => {
             const {
                 result: { current: map },
             } = renderHook(useMap, { wrapper: Wrapper });
@@ -137,13 +142,48 @@ describe.each([
                 .toHaveBeenCalledWith(expect.objectContaining({ position: mocks.latLng }), {});
 
             act(() => {
-                if (event === "mousedown") map.fire(cancelMethod);
-                else fireEvent(map.getContainer(), new TouchEvent(cancelMethod));
+                if (event === "mousedown") map.fire(upCancel);
+                else fireEvent(map.getContainer(), new TouchEvent(upCancel));
 
                 vi.advanceTimersByTime(500);
             });
 
             expect.soft(screen.queryByRole("dialog")).not.toBeInTheDocument();
         });
+
+        test.each([
+            ["When the user moves within the threshold the interaction continues", { clientX: 10, clientY: 10 }],
+            ["+X movement beyond threshold causes the interaction to cancel", { clientX: 21, clientY: 10 }],
+            ["-X movement beyond threshold causes the interaction to cancel", { clientX: -21, clientY: 10 }],
+            ["+Y movement beyond threshold causes the interaction to cancel", { clientX: 10, clientY: 21 }],
+            ["-Y movement beyond threshold causes the interaction to cancel", { clientX: 10, clientY: -21 }],
+        ])("%s", (_, client) => {
+            const {
+                result: { current: map },
+            } = renderHook(useMap, { wrapper: Wrapper });
+
+            act(() => {
+                fire(map);
+
+                vi.advanceTimersByTime(500);
+            });
+
+            expect
+                .soft(mocks.popup)
+                .toHaveBeenCalledWith(expect.objectContaining({ position: mocks.latLng }), {});
+
+            act(() => {
+                if (event === "mousedown") map.fire(moveCancel, { originalEvent: client } as L.LeafletMouseEvent);
+                else fireEvent(map.getContainer(), new TouchEvent(moveCancel, { touches: [client as any] }));
+
+                vi.advanceTimersByTime(500);
+            });
+
+            if (client.clientX === 10 && client.clientY === 10) {
+                expect.soft(screen.queryByRole("dialog")).toBeInTheDocument();
+            } else {
+                expect.soft(screen.queryByRole("dialog")).not.toBeInTheDocument();
+            }
+        })
     }
 );
