@@ -1,10 +1,6 @@
 import { act, fireEvent, render, screen } from "@testing-library/react";
 
 import App from "App";
-import { Base as DailyBase } from "Components/Daily/style";
-import { Base as HourlyBase } from "Components/Hourly/style";
-import { Base as NowBase } from "Components/Now/style";
-import { Base as RadarBase } from "Components/Radar/style";
 
 
 type FetchErrorHandlerProps = {

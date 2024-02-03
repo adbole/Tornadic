@@ -1,13 +1,17 @@
 import React from "react";
 import { useFrame } from "@react-three/fiber";
 import type { BufferAttribute } from "three";
-import { BufferGeometry, PointsMaterial, Vector3 } from "three";
+import { BufferGeometry, Vector3 } from "three";
 
 import { randomBetween } from "ts/Helpers";
 import type WeatherCondition from "ts/WeatherCondition";
 
+import useViewport from "./useViewport";
+
 
 export default function RainSnow({ condition }: { condition: WeatherCondition["type"] }) {
+    const { width, height } = useViewport();
+
     const [show, setShow] = React.useState(false);
 
     React.useEffect(() => {
@@ -30,31 +34,35 @@ export default function RainSnow({ condition }: { condition: WeatherCondition["t
         let amount;
 
         switch (condition) {
-            case "Rain Showers":
-            case "Snow Showers":
-                amount = 500;
-                break;
             case "Drizzle":
             case "Freezing Drizzle":
-                amount = 250;
+                amount = 75;
+                break;
+            case "Rain Showers":
+            case "Snow Showers":
+                amount = 150;
                 break;
             default:
-                amount = 1000;
+                amount = 300;
                 break;
         }
+
+        //Bind amount to aspect ratio
+        amount *= width / height;
+        const halfWidth = width / 2;
 
         for (let i = 0; i < amount; i++) {
             vertices.push(
                 new Vector3(
-                    randomBetween(-200, 200),
-                    randomBetween(-250, 250),
-                    randomBetween(-100, -20)
+                    randomBetween(-halfWidth, halfWidth),
+                    randomBetween(-height, height),
+                    randomBetween(-75, -20)
                 )
             );
         }
 
         return new BufferGeometry().setFromPoints(vertices);
-    }, [condition]);
+    }, [condition, width, height]);
 
     const [size, speed] = React.useMemo(() => {
         switch (condition) {
@@ -63,7 +71,7 @@ export default function RainSnow({ condition }: { condition: WeatherCondition["t
             case "Snow Showers":
                 return [0.75, 10];
             default:
-                return [0.4, 50];
+                return [0.3, 40];
         }
     }, [condition]);
 
@@ -75,8 +83,8 @@ export default function RainSnow({ condition }: { condition: WeatherCondition["t
         for (let i = 1; i < positions.length; i += 3) {
             positions[i] -= speed * delta;
 
-            if (positions[i] < -250) {
-                positions[i] = 250;
+            if (positions[i] < -height) {
+                positions[i] = height;
             }
         }
 

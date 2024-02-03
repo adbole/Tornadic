@@ -1,9 +1,10 @@
 import React from "react";
-import { useThree } from "@react-three/fiber";
-import { BufferGeometry, PointsMaterial, Vector3 } from "three";
+import { BufferGeometry, Vector3 } from "three";
 
 import { randomBetween } from "ts/Helpers";
 import type WeatherCondition from "ts/WeatherCondition";
+
+import useViewportBound from "./useViewport";
 
 
 export default function Stars({
@@ -13,10 +14,7 @@ export default function Stars({
     isDay: boolean;
     condition: WeatherCondition["type"];
 }) {
-    const camera = useThree(state => state.camera);
-    const { getCurrentViewport } = useThree(state => state.viewport)
-
-    const { width, height } = getCurrentViewport(camera, [14.95, 0, -50])
+    const { width, height } = useViewportBound();
 
     const [show, setShow] = React.useState(false);
 
@@ -43,7 +41,7 @@ export default function Stars({
 
         return new BufferGeometry().setFromPoints(vertices);
     }, [width, height]);
-    
+
     return (
         <points geometry={starsGeo} visible={show}>
             <pointsMaterial color={0xffffff} size={0.2} transparent={true} />

@@ -3,7 +3,18 @@
 exports[`Matches Snapshot 1`] = `
 [
   {
-    "children": [],
+    "children": [
+      {
+        "children": [],
+        "props": {
+          "args": [],
+          "color": 16777215,
+          "size": 0.2,
+          "transparent": true,
+        },
+        "type": "pointsMaterial",
+      },
+    ],
     "props": {
       "args": [],
       "geometry": {
@@ -4825,22 +4836,6 @@ exports[`Matches Snapshot 1`] = `
         },
         "type": "BufferGeometry",
         "uuid": "a649cbbf-d93a-492a-b0cc-83101b5b9e8d",
-      },
-      "material": {
-        "blendColor": 0,
-        "color": 16777215,
-        "metadata": {
-          "generator": "Material.toJSON",
-          "type": "Material",
-          "version": 4.6,
-        },
-        "size": 0.2,
-        "sizeAttenuation": true,
-        "transparent": true,
-        "type": "PointsMaterial",
-        "uuid": "cabb826b-ad5e-481f-b416-838d0f321dd2",
-        "wireframeLinecap": undefined,
-        "wireframeLinejoin": undefined,
       },
       "visible": true,
     },

@@ -4,7 +4,17 @@ import type { TypedArray } from "three";
 import type WeatherCondition from "ts/WeatherCondition";
 
 import RainSnow from "./RainSnow";
+import useViewport from "./useViewport";
 
+
+const mocks = vi.hoisted(() => ({
+    width: 1000,
+    height: 1000,
+}))
+
+vi.mock("./useViewport", () => ({
+    default: vi.fn(() => ({ width: mocks.width, height: mocks.height })),
+}))
 
 describe("Not Visible", () => {
     test.each([
@@ -20,24 +30,44 @@ describe("Not Visible", () => {
     });
 });
 
-describe("Amount of Rain/Snow", () => {
-    test.each([
-        ["Rain Showers", 500],
-        ["Snow Showers", 500],
-        ["Drizzle", 250],
-        ["Freezing Drizzle", 250],
-        ["Thunderstorms", 1000],
-        ["Thunderstorms and Hail", 1000],
-        ["Snow", 1000],
-        ["Snow Grains", 1000],
-        ["Rain", 1000],
-        ["Freezing Rain", 1000],
-    ] as [WeatherCondition["type"], number][])("%s", async (condition, amount) => {
-        const renderer = await RTTR.create(<RainSnow condition={condition} />);
 
-        expect(renderer.scene.findByType("Points").props.geometry.attributes.position.count).toBe(
-            amount
-        );
+describe("Amount of Rain/Snow", () => {
+    const [high, med, low] = [300, 150, 75];
+
+    describe.each([
+        ["Rain Showers", med],
+        ["Snow Showers", med],
+        ["Drizzle", low],
+        ["Freezing Drizzle", low],
+        ["Thunderstorms", high],
+        ["Thunderstorms and Hail", high],
+        ["Snow", high],
+        ["Snow Grains", high],
+        ["Rain", high],
+        ["Freezing Rain", high],
+    ] as [WeatherCondition["type"], number][])("%s", async (condition, amount) => {
+        test("1:1 Aspect Ratio", async () => {
+            vi.mocked(useViewport).mockReturnValue({ width: mocks.width, height: mocks.height });
+
+            const renderer = await RTTR.create(<RainSnow condition={condition} />);
+
+            expect(renderer.scene.findByType("Points").props.geometry.attributes.position.count).toBe(
+                amount
+            );
+        })
+
+        test("Non 1:1 Aspect Ratio", async () => {
+            const width = 2000;
+            const height = 1000;
+
+            vi.mocked(useViewport).mockReturnValue({ width, height });
+
+            const renderer = await RTTR.create(<RainSnow condition={condition} />);
+
+            expect(renderer.scene.findByType("Points").props.geometry.attributes.position.count).toBe(
+                amount * (width / height)
+            );
+        })
     });
 });
 
@@ -51,26 +81,29 @@ describe("Size and speed of Rain/Snow", () => {
         vi.mocked(Math.random).mockRestore();
     });
 
+    const [snowSize, snowSpeed] = [0.75, 10];
+    const [rainSize, rainSpeed] = [0.3, 40];
+
     test.each([
-        ["Snow", 0.5, 10],
-        ["Snow Grains", 0.5, 10],
-        ["Snow Showers", 0.5, 10],
-        ["Rain", 0.3, 50],
-        ["Freezing Rain", 0.3, 50],
-        ["Rain Showers", 0.3, 50],
-        ["Drizzle", 0.3, 50],
-        ["Freezing Drizzle", 0.3, 50],
-        ["Thunderstorms", 0.3, 50],
-        ["Thunderstorms and Hail", 0.3, 50],
+        ["Snow", snowSize, snowSpeed],
+        ["Snow Grains", snowSize, snowSpeed],
+        ["Snow Showers", snowSize, snowSpeed],
+        ["Rain", rainSize, rainSpeed],
+        ["Freezing Rain", rainSize, rainSpeed],
+        ["Rain Showers", rainSize, rainSpeed],
+        ["Drizzle", rainSize, rainSpeed],
+        ["Freezing Drizzle", rainSize, rainSpeed],
+        ["Thunderstorms", rainSize, rainSpeed],
+        ["Thunderstorms and Hail", rainSize, rainSpeed],
     ] as [WeatherCondition["type"], number, number][])("%s", async (condition, size, speed) => {
         const renderer = await RTTR.create(<RainSnow condition={condition} />);
 
-        expect.soft(renderer.scene.findByType("Points").props.material.size).toBe(size);
+        expect.soft(renderer.scene.findByType("PointsMaterial").props.size).toBe(size);
 
         const points = renderer.scene.findByType("Points").props.geometry.attributes.position
             .array as TypedArray;
         //Set a point to go over edge
-        points[1] = -250;
+        points[1] = -mocks.height;
 
         const delta = 0.5;
 
@@ -78,8 +111,8 @@ describe("Size and speed of Rain/Snow", () => {
         for (let i = 1; i < expectedPoints.length; i += 3) {
             expectedPoints[i] -= speed * delta;
 
-            if (expectedPoints[i] < -250) {
-                expectedPoints[i] = 250;
+            if (expectedPoints[i] < -mocks.height) {
+                expectedPoints[i] = mocks.height;
             }
         }
 
