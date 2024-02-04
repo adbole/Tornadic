@@ -89,7 +89,7 @@ describe.each([
             );
 
             expect(
-                screen.getByText(`${label}: ${TooltipHelpers.trunc(value)}${unit}`)
+                screen.getByText(`${label}: ${Helpers.trunc(value)}${unit}`)
             ).toBeInTheDocument();
         });
 
@@ -118,7 +118,7 @@ describe.each([
             );
 
             expect(
-                screen.getByText(`${label}: ${TooltipHelpers.trunc(value)}${unit}`)
+                screen.getByText(`${label}: ${Helpers.trunc(value)}${unit}`)
             ).toBeInTheDocument();
         });
     }

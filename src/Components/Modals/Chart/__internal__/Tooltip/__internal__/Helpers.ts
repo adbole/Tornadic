@@ -1,10 +1,10 @@
 import * as d3 from "d3";
 
+import { trunc } from "ts/Helpers";
 import type { CombinedHourly } from "ts/Weather";
 import type Weather from "ts/Weather";
 
 // Use Scientific Notation to truncate to at most 2 decimal places
-export const trunc = (value: number) => Number(Math.round(Number(value + "e+2")) + "e-2");
 
 export function getLowHigh(
     weather: Weather,

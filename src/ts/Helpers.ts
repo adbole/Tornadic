@@ -88,3 +88,6 @@ export const throwError = (msg: string) => {
 export const nameof = <T>(name: Extract<keyof T, string>): string => name;
 
 export const randomBetween = (min: number, max: number) => Math.random() * (max - min) + min;
+
+//Truncates a value to at most 2 decimal places
+export const trunc = (value: number) => Number(Math.round(Number(value + "e+2")) + "e-2");

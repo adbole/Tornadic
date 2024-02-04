@@ -2,9 +2,11 @@ import React from "react";
 
 import { useWeather } from "Contexts/WeatherContext";
 
+import { trunc } from "ts/Helpers";
+
 import { useChart } from "../../ChartContext";
 
-import { getLowHigh, trunc } from "./Helpers";
+import { getLowHigh } from "./Helpers";
 
 
 export default function PrimaryInformation({

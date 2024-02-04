@@ -65,4 +65,28 @@ test("throwError", () => {
     expect(() => Helpers.throwError("test")).toThrow("test");
 });
 
+test("randomBetween", () => {
+    vi.spyOn(Math, "random")
+        .mockReturnValueOnce(0)
+        .mockReturnValueOnce(0.5)
+        .mockReturnValueOnce(1);
+
+    expect.soft(Helpers.randomBetween(0, 100)).toBe(0);
+    expect.soft(Helpers.randomBetween(0, 100)).toBe(50);
+    expect.soft(Helpers.randomBetween(0, 100)).toBe(100);
+})
+
+test("trunc truncates a value to at most 2 decimal places and rounds if needed", () => {
+    //Basic
+    expect.soft(Helpers.trunc(1.234)).toBe(1.23);
+    expect.soft(Helpers.trunc(1.2345)).toBe(1.23);
+    expect.soft(Helpers.trunc(1)).toBe(1);
+    expect.soft(Helpers.trunc(0.23)).toBe(0.23);
+
+    //Edge Cases
+    expect.soft(Helpers.trunc(69.1)).toBe(69.1);
+    expect.soft(Helpers.trunc(1.1)).toBe(1.1);
+    expect.soft(Helpers.trunc(1.005)).toBe(1.01);
+});
+
 //nameof tests are omitted as vitest typecheck incorrectly marks other parts of code with errors.

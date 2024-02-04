@@ -1,11 +1,8 @@
-import testIds from "@test-consts/testIDs";
 import { setLocalStorageItem } from "@test-utils";
 
-import { render, screen } from "@testing-library/react";
+import { render } from "@testing-library/react";
 
 import DEFAULTS from "Hooks/useLocalStorage.config";
-
-import { mediaQueries } from "ts/StyleMixins";
 
 import Radar from ".";
 

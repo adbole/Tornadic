@@ -2,13 +2,13 @@ import React from "react";
 
 import { useWeather } from "Contexts/WeatherContext";
 
-import { get_aq, get_uv } from "ts/Helpers";
+import { get_aq, get_uv, trunc } from "ts/Helpers";
 import type { CombinedHourly } from "ts/Weather";
 
 import type { ChartViews } from "../../..";
 import { useChart } from "../../ChartContext";
 
-import { getLowHigh, trunc } from "./Helpers";
+import { getLowHigh } from "./Helpers";
 
 
 function supportingInformation(

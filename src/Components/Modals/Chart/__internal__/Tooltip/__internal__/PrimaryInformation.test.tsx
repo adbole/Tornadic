@@ -6,6 +6,8 @@ import { render, screen } from "@testing-library/react";
 import type { ChartViews } from "Components/Modals/Chart";
 import { ChartContext } from "Components/Modals/Chart/__internal__";
 
+import { trunc } from "ts/Helpers";
+
 import * as TooltipHelpers from "./Helpers";
 import { PrimaryInformation } from ".";
 
@@ -13,6 +15,7 @@ import { PrimaryInformation } from ".";
 mockDate();
 
 vi.mock("Contexts/WeatherContext", () => ({ useWeather }));
+vi.spyOn(TooltipHelpers, "getLowHigh");
 
 describe.each([
     "dewpoint_2m",
@@ -25,13 +28,9 @@ describe.each([
     "visibility",
     "windspeed_10m",
 ] as Array<ChartViews>)("Given view %s", view => {
-    beforeAll(() => {
-        vi.spyOn(TooltipHelpers, "getLowHigh");
-    });
-
     test("When given hoverIndex -1 and day 0, mainInformation is current value", () => {
         const weather = useWeather().weather;
-        const value = TooltipHelpers.trunc(weather.getForecast(view));
+        const value = trunc(weather.getForecast(view));
         const unit = weather.getForecastUnit(view);
 
         render(
@@ -56,7 +55,7 @@ describe.each([
 
     test("HoverIndex > -1", () => {
         const weather = useWeather().weather;
-        const value = TooltipHelpers.trunc(weather.getForecast(view, 1));
+        const value = trunc(weather.getForecast(view, 1));
         const unit = weather.getForecastUnit(view);
 
         render(

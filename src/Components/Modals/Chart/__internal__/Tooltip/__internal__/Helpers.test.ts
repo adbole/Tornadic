@@ -1,23 +1,10 @@
 import { useWeather } from "@test-mocks";
 import { mockDate } from "@test-utils";
 
-import { getLowHigh, trunc } from "./Helpers";
+import { getLowHigh } from "./Helpers";
 
 
 mockDate();
-
-test("trunc truncates a value to at most 2 decimal places and rounds if needed", () => {
-    //Basic
-    expect.soft(trunc(1.234)).toBe(1.23);
-    expect.soft(trunc(1.2345)).toBe(1.23);
-    expect.soft(trunc(1)).toBe(1);
-    expect.soft(trunc(0.23)).toBe(0.23);
-
-    //Edge Cases
-    expect.soft(trunc(69.1)).toBe(69.1);
-    expect.soft(trunc(1.1)).toBe(1.1);
-    expect.soft(trunc(1.005)).toBe(1.01);
-});
 
 test("getLowHigh returns the low and high of a given day", () => {
     const { weather } = useWeather();
