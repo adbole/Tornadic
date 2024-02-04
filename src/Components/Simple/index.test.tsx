@@ -7,6 +7,8 @@ import DEFAULTS from "Hooks/useLocalStorage.config";
 
 import type { ChartViews } from "Components/Modals/Chart";
 
+import { trunc } from "ts/Helpers";
+
 import Simple from ".";
 
 
@@ -38,7 +40,7 @@ test.each(props)("%s", prop => {
     expect.soft(screen.queryByText("MyIcon")).toBeInTheDocument();
     expect
         .soft(
-            screen.queryByText(weather.getForecast(prop).toFixed(0) + weather.getForecastUnit(prop))
+            screen.queryByText(trunc(weather.getForecast(prop)) + weather.getForecastUnit(prop))
         )
         .toBeInTheDocument();
 

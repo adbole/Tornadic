@@ -10,6 +10,8 @@ import Chart from "Components/Modals/Chart";
 import Widget from "Components/Widget";
 import { WidgetTitle } from "Components/Widget/style";
 
+import { trunc } from "ts/Helpers";
+
 
 const SimpleWidget = styled(Widget)({
     flexDirection: "row",
@@ -46,7 +48,7 @@ export default function SimpleInfoWidget({
                 <div>
                     <Title>{title}</Title>
                     <Value>
-                        {weather.getForecast(property).toFixed(0) + weather.getForecastUnit(property)}
+                        {trunc(weather.getForecast(property)) + weather.getForecastUnit(property)}
                     </Value>
                 </div>
             </SimpleWidget>
