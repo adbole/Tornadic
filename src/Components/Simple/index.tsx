@@ -27,7 +27,7 @@ const SimpleWidget = styled(Widget)({
 
 const Title = styled(WidgetTitle)({ margin: 0 })
 
-const Value = styled.p({ fontSize: "2rem" })
+const Value = styled.p({ fontSize: "1.75rem" })
 
 export default function SimpleInfoWidget({
     icon,
@@ -48,7 +48,15 @@ export default function SimpleInfoWidget({
                 <div>
                     <Title>{title}</Title>
                     <Value>
-                        {trunc(weather.getForecast(property)) + weather.getForecastUnit(property)}
+                        {
+                            property === "precipitation" ? (
+                                trunc(weather.getForecast(property))
+                            ) : (
+                                Math.round(weather.getForecast(property))
+                            )
+                        }
+
+                        {weather.getForecastUnit(property)}
                     </Value>
                 </div>
             </SimpleWidget>

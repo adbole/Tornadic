@@ -20,18 +20,18 @@ beforeEach(() => {
     setLocalStorageItem("userSettings", DEFAULTS.userSettings);
 });
 
-const props: Array<ChartViews> = [
-    "dewpoint_2m",
-    "precipitation",
-    "relativehumidity_2m",
-    "surface_pressure",
-    "temperature_2m",
-    "uv_index",
-    "visibility",
-    "windspeed_10m",
+const props: [ChartViews, Function][] = [
+    ["dewpoint_2m", Math.round],
+    ["precipitation", trunc],
+    ["relativehumidity_2m", Math.round],
+    ["surface_pressure", Math.round],
+    ["temperature_2m", Math.round],
+    ["uv_index", Math.round],
+    ["visibility", Math.round],
+    ["windspeed_10m", Math.round],
 ];
 
-test.each(props)("%s", prop => {
+test.each(props)("%s", (prop, roundingMethod) => {
     const weather = useWeather().weather;
 
     render(<Simple property={prop} title="MyTitle" icon={<p>MyIcon</p>} />);
@@ -40,7 +40,7 @@ test.each(props)("%s", prop => {
     expect.soft(screen.queryByText("MyIcon")).toBeInTheDocument();
     expect
         .soft(
-            screen.queryByText(trunc(weather.getForecast(prop)) + weather.getForecastUnit(prop))
+            screen.queryByText(roundingMethod(weather.getForecast(prop)) + weather.getForecastUnit(prop))
         )
         .toBeInTheDocument();
 
@@ -53,6 +53,8 @@ test.each(props)("%s", prop => {
         .find(option => option.selected);
 
     expect.soft(screen.queryByRole("dialog")).toBeInTheDocument();
+
+    //Verifies that the first day is selected
     expect.soft(screen.getAllByLabelText(/.+?/)[0]).toBeChecked();
     expect.soft(selected!.value).toBe(prop);
 });
