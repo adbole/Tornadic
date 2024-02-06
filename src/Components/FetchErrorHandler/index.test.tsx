@@ -91,6 +91,8 @@ test("Retry function recalls the fetch with the same key", async () => {
     });
 
     expect(fetchMock).toHaveBeenCalledTimes(2);
+    expect.soft(screen.queryByText("Error: false")).toBeInTheDocument();
+    expect.soft(screen.queryByText("TestComponent")).toBeInTheDocument();
 });
 
 test("Retry function does nothing if no errors occurred", async () => {

@@ -27,7 +27,7 @@ vi.mock("Components/FetchErrorHandler");
 const mockFetchErrorHandlerFactory = (error: boolean) => (
     // eslint-disable-next-line react/function-component-definition
     ({ errorRender, children }: { 
-        errorRender: (hasError: boolean, retry: () => void) => JSX.Element, 
+        errorRender: (hasError: boolean, retry: () => void) => React.ReactNode, 
         children: React.ReactNode 
     }) => (
         <div data-testid={mockFetchErrorHanlder}>
