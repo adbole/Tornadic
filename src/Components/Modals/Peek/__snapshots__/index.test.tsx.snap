@@ -293,13 +293,13 @@ exports[`Matches Snapshot 1`] = `
             />
           </svg>
           <span>
-            Couldn't get weather info
+            An error occured while getting the data
           </span>
           <button
             class="emotion-6 emotion-7"
             type="button"
           >
-            Try Again
+            Try Again Now
           </button>
         </div>
         <div

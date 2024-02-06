@@ -58,8 +58,8 @@ export default function Peek({
                     errorRender={(hasError, retry) => (
                         <ErrorMessage style={{ display: hasError ? "" : "none" }}>
                             <ExclamationTriangle />
-                            <span>Couldn't get weather info</span>
-                            <Button onClick={retry}>Try Again</Button>
+                            <span>An error occured while getting the data</span>
+                            <Button onClick={retry}>Try Again Now</Button>
                         </ErrorMessage>
                     )}
                 >

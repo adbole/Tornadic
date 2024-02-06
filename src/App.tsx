@@ -114,7 +114,7 @@ function App() {
                     isOpen={hasError}
                     actions={[
                         {
-                            content: "Try Again",
+                            content: "Try Again Now",
                             onClick: retry,
                         },
                     ]}

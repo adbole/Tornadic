@@ -127,9 +127,9 @@ describe("FetchErrorHandler", () => {
         render(<Peek isOpen={true} onClose={vi.fn()} />);
 
         expect.soft(screen.queryByTestId(mockFetchErrorHanlder)).toBeInTheDocument();
-        expect.soft(screen.queryByText("Couldn't get weather info")).toBeInTheDocument();
+        expect.soft(screen.queryByText("An error occured while getting the data")).toBeInTheDocument();
 
-        const retryBtn = screen.getByText("Try Again");
+        const retryBtn = screen.getByText("Try Again Now");
 
         expect.soft(retryBtn).toBeInTheDocument();
 
@@ -148,7 +148,7 @@ describe("FetchErrorHandler", () => {
         expect.soft(screen.queryByTestId(mockFetchErrorHanlder)).toBeInTheDocument();
 
         expect
-            .soft(screen.getByText("Couldn't get weather info").parentElement)
+            .soft(screen.getByText("An error occured while getting the data").parentElement)
             .toHaveStyle({ display: "none" });
     });
 });

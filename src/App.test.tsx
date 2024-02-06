@@ -236,7 +236,7 @@ test("FetchErrorHandler's errorRender renders a toast and correctly provides ret
     expect.soft(screen.queryByText(/Could not get weather data/)).toBeInTheDocument();
 
     act(() => {
-        fireEvent.click(screen.getByText("Try Again"));
+        fireEvent.click(screen.getByText("Try Again Now"));
     });
 
     expect.soft(retry).toHaveBeenCalledOnce();

@@ -22,6 +22,11 @@ export default function FetchErrorHandler({
             })}
             <SWRConfig
                 value={{
+                    onSuccess(_, key) {
+                        if (!errorKeys.delete(key)) return;
+
+                        setErrorKeys(prev => new Set(prev));
+                    },
                     onError(_, key) {
                         setErrorKeys(prev => new Set([...prev, key]));
                     },
