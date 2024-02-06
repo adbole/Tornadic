@@ -42,17 +42,17 @@ vi.mock("Contexts/WeatherContext", () => ({
         latitude,
         longitude,
         children,
-        skeletonRender,
+        skeleton,
     }: {
         latitude: number;
         longitude: number;
         children: React.ReactNode;
-        skeletonRender: () => JSX.Element;
+        skeleton: React.ReactNode;
     }) => (
         <div data-testid={mockWeatherContext}>
             <p>Lat: {latitude}</p>
             <p>Long: {longitude}</p>
-            {skeletonRender()}
+            {skeleton}
             {children}
         </div>
     ),

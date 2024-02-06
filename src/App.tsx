@@ -123,7 +123,7 @@ function App() {
                 </Toast>
             )}
         >
-            <WeatherContext latitude={latitude} longitude={longitude} skeletonRender={AppLoader}>
+            <WeatherContext latitude={latitude} longitude={longitude} skeleton={<AppLoader />}>
                 <Background />
 
                 <Now />

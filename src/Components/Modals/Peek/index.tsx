@@ -23,6 +23,26 @@ import Modal from "../Modal";
 import PeekContent, { ErrorMessage } from "./style";
 
 
+function PeekLoader() {
+    return (
+        <>
+        <Skeleton size="widget-large" />
+        <Skeleton size="widget-wide" />
+        <Skeleton size="widget-large" />
+        {Array.from({ length: 2 }, (_, i) => (
+            <SimpleGroup key={i}>
+                <Skeleton />
+                <Skeleton />
+            </SimpleGroup>
+        ))}
+        {Array.from({ length: 4 }, (_, i) => (
+            <Skeleton key={i} />
+        ))}
+        <Skeleton size="widget-wide" />
+    </>
+    )
+}
+
 export default function Peek({
     latitude,
     longitude,
@@ -46,23 +66,7 @@ export default function Peek({
                     <WeatherContext
                         latitude={latitude}
                         longitude={longitude}
-                        skeletonRender={() => (
-                            <>
-                                <Skeleton size="widget-large" />
-                                <Skeleton size="widget-wide" />
-                                <Skeleton size="widget-large" />
-                                {Array.from({ length: 2 }, (_, i) => (
-                                    <SimpleGroup key={i}>
-                                        <Skeleton />
-                                        <Skeleton />
-                                    </SimpleGroup>
-                                ))}
-                                {Array.from({ length: 4 }, (_, i) => (
-                                    <Skeleton key={i} />
-                                ))}
-                                <Skeleton size="widget-wide" />
-                            </>
-                        )}
+                        skeleton={<PeekLoader />}
                     >
                         <Now displayOnly />
                         <Background />

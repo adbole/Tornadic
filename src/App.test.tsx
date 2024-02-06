@@ -12,7 +12,7 @@ type WeatherContextProps = {
     latitude: number;
     longitude: number;
     children: React.ReactNode;
-    skeletonRender: () => React.ReactNode;
+    skeleton: React.ReactNode;
 };
 
 const componentMocks = vi.hoisted(() => ({
@@ -242,9 +242,9 @@ test("FetchErrorHandler's errorRender renders a toast and correctly provides ret
     expect.soft(retry).toHaveBeenCalledOnce();
 });
 
-test("The weather context is provided with skeletonRender", () => {
+test("The weather context is provided with a skeleton", () => {
     componentMocks.WeatherContext.mockImplementationOnce(
-        ({ skeletonRender }: WeatherContextProps) => <div>WeatherContext -{skeletonRender()}</div>
+        ({ skeleton }: WeatherContextProps) => <div>WeatherContext - {skeleton}</div>
     );
 
     hookMocks.useUserLocation.mockReturnValueOnce({

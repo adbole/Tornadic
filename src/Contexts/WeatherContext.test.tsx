@@ -17,7 +17,7 @@ function Wrapper({ children }: { children: React.ReactNode }) {
             <WeatherProvider
                 latitude={1}
                 longitude={1}
-                skeletonRender={() => <div data-testid={skeleton} />}
+                skeleton={<div data-testid={skeleton} />}
             >
                 {children}
             </WeatherProvider>

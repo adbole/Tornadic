@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`The weather context is provided with skeletonRender 1`] = `
+exports[`The weather context is provided with a skeleton 1`] = `
 .emotion-0 {
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -137,7 +137,7 @@ exports[`The weather context is provided with skeletonRender 1`] = `
   <div>
     FetchErrorHandler - 
     <div>
-      WeatherContext -
+      WeatherContext - 
       <div
         class="emotion-0"
       >

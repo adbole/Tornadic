@@ -25,12 +25,12 @@ export const useWeather = () =>
 export default function WeatherContextProvider({
     latitude,
     longitude,
-    skeletonRender,
+    skeleton,
     children,
 }: {
     latitude?: number;
     longitude?: number;
-    skeletonRender: () => JSX.Element;
+    skeleton: React.ReactNode;
     children: React.ReactNode;
 }) {
     const { weather, isLoading: openLoading } = useOpenMeteo(latitude, longitude);
@@ -51,37 +51,6 @@ export default function WeatherContextProvider({
     return !isLoading && value ? (
         <WeatherContext.Provider value={value}>{children}</WeatherContext.Provider>
     ) : (
-        skeletonRender()
-    );
-}
-
-//Modified WeatherContext only providing alert information
-//Not in use yet
-export function AlertProvider({
-    latitude,
-    longitude,
-    skeletonRender,
-    children,
-}: {
-    latitude?: number;
-    longitude?: number;
-    skeletonRender: () => JSX.Element;
-    children: React.ReactNode;
-}) {
-    const { point, alerts, isLoading } = useNWS(latitude, longitude);
-
-    const value = React.useMemo(() => {
-        if (!point || !alerts) return null;
-
-        return {
-            point,
-            alerts,
-        };
-    }, [point, alerts]);
-
-    return !isLoading && value ? (
-        <WeatherContext.Provider value={value as any}>{children}</WeatherContext.Provider>
-    ) : (
-        skeletonRender()
+        <>{skeleton}</>
     );
 }
