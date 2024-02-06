@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "@emotion/styled";
 
-import { useBooleanState } from "Hooks";
+import { useBooleanState, useReadLocalStorage } from "Hooks";
 
 import { useWeather } from "Contexts/WeatherContext";
 
@@ -29,6 +29,14 @@ const Title = styled(WidgetTitle)({ margin: 0 })
 
 const Value = styled.p({ fontSize: "1.75rem" })
 
+function getRoundingMethod(property: ChartViews, settings: UserSettings) {
+    if (property === "precipitation" && settings.precipitation === "inch") {
+        return trunc;
+    }
+
+    return Math.round;
+}
+
 export default function SimpleInfoWidget({
     icon,
     title,
@@ -41,6 +49,10 @@ export default function SimpleInfoWidget({
     const { weather } = useWeather();
     const [modalOpen, showModal, hideModal] = useBooleanState(false);
 
+    const settings = useReadLocalStorage("userSettings")
+
+    if (!settings) return null;
+
     return (
         <>
             <SimpleWidget isTemplate onClick={showModal}>
@@ -48,14 +60,7 @@ export default function SimpleInfoWidget({
                 <div>
                     <Title>{title}</Title>
                     <Value>
-                        {
-                            property === "precipitation" ? (
-                                trunc(weather.getForecast(property))
-                            ) : (
-                                Math.round(weather.getForecast(property))
-                            )
-                        }
-
+                        {getRoundingMethod(property, settings)(weather.getForecast(property))}
                         {weather.getForecastUnit(property)}
                     </Value>
                 </div>

@@ -58,3 +58,16 @@ test.each(props)("%s", (prop, roundingMethod) => {
     expect.soft(screen.getAllByLabelText(/.+?/)[0]).toBeChecked();
     expect.soft(selected!.value).toBe(prop);
 });
+
+test("precipitation uses Math.round when userSettings.precipitation is not inch", () => {
+    setLocalStorageItem("userSettings", { ...DEFAULTS.userSettings, precipitation: "mm" });
+    
+    const weather = useWeather().weather;
+
+    render(<Simple property="precipitation" title="MyTitle" icon={<p>MyIcon</p>} />);
+
+    expect(
+        screen.queryByText(Math.round(weather.getForecast("precipitation")) + weather.getForecastUnit("precipitation"))
+    )
+    .toBeInTheDocument();
+})

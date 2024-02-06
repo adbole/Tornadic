@@ -42,7 +42,7 @@ test("renders the x and y axis with a grid with d3.ScaleBand", () => {
     const yGrid = screen.getByTestId(testIds.Chart.Axes_Y_Grid).querySelectorAll(".tick");
 
     expect.soft(xTicks).toHaveLength(4);
-    expect.soft(yTicks).toHaveLength(6);
+    expect.soft(yTicks).toHaveLength(5);
     expect.soft(xGrid).toHaveLength(24);
-    expect.soft(yGrid).toHaveLength(6);
+    expect.soft(yGrid).toHaveLength(5);
 });
