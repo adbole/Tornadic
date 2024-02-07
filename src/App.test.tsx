@@ -1,4 +1,5 @@
 import { act, fireEvent, render, screen } from "@testing-library/react";
+import type { useUserLocation } from "Hooks";
 
 import App from "App";
 
@@ -160,6 +161,37 @@ describe("Location", () => {
         expect.soft(screen.queryByRole("dialog")).not.toBeInTheDocument();
     });
 
+    test.each([
+        [
+            "denied",
+            "You have denied location access. To use your current location, please enable location access in your browser settings and refresh the page.",
+        ],
+        [
+            "unavailable",
+            "Your location could not be determined at this time. Please try again later.",
+        ],
+        [
+            "timeout",
+            "Your location could not be determined in a timely manner. Please try again later.",
+        ],
+        [
+            "nav_not_supported",
+            "Your browser does not support location services. Please use a different browser or device to use your current location.",
+        ],
+    ] as [ReturnType<typeof useUserLocation>["status"], string][])(
+        `When the location status is %s, a message is shown`,
+        (status, msg) => {
+            hookMocks.useUserLocation.mockReturnValue({ status });
+
+            render(<App />);
+
+            expect
+                .soft(screen.queryByText(/Tornadic requires you to provide a location/))
+                .toBeInTheDocument();
+            expect.soft(screen.getByText(msg)).toBeInTheDocument();
+        }
+    );
+
     test("When getting the location a spinner is shown with a message", () => {
         hookMocks.useUserLocation.mockReturnValueOnce({ status: "getting_current" });
 
@@ -243,9 +275,9 @@ test("FetchErrorHandler's errorRender renders a toast and correctly provides ret
 });
 
 test("The weather context is provided with a skeleton", () => {
-    componentMocks.WeatherContext.mockImplementationOnce(
-        ({ skeleton }: WeatherContextProps) => <div>WeatherContext - {skeleton}</div>
-    );
+    componentMocks.WeatherContext.mockImplementationOnce(({ skeleton }: WeatherContextProps) => (
+        <div>WeatherContext - {skeleton}</div>
+    ));
 
     hookMocks.useUserLocation.mockReturnValueOnce({
         latitude: 0,
@@ -253,7 +285,7 @@ test("The weather context is provided with a skeleton", () => {
         status: "OK",
     } as any);
 
-    const { container } =  render(<App />);
+    const { container } = render(<App />);
 
     const skeletons = screen.queryAllByText(/Skeleton/);
 

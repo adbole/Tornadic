@@ -33,13 +33,24 @@ describe("useCurrent", () => {
         vi.unstubAllGlobals();
     });
 
-    test("returns denied if getCurrentPosition returns an error", () => {
-        (navigator.geolocation.getCurrentPosition as Mock).mockImplementationOnce((_, cb) => cb());
+    test.each([
+        ["denied", 1],
+        ["unavailable", 2],
+        ["timeout", 3],
+    ])(`Returns %s if getCurrentPosition raises an error for it`, (status, code) => {
+        (navigator.geolocation.getCurrentPosition as Mock).mockImplementationOnce((_, cb) => {
+            cb({ 
+                code, 
+                PERMISSION_DENIED: 1,
+                POSITION_UNAVAILABLE: 2,
+                TIMEOUT: 3,
+            } as GeolocationPositionError);
+        });
 
         setLocalStorageItem("userLocation", { useCurrent: true });
         const { result } = renderHook(() => useUserLocation());
 
-        expect(result.current.status).toBe("denied");
+        expect(result.current.status).toBe(status);
     });
 
     test("returns OK with coords if getCurrentPosition returns a position", () => {

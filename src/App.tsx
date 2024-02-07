@@ -1,3 +1,5 @@
+import React from "react";
+
 import { useBooleanState, useLocalStorage, useOnlineOffline, useUserLocation } from "Hooks";
 
 import WeatherContext from "Contexts/WeatherContext";
@@ -35,12 +37,29 @@ import * as WidgetIcons from "svgs/widget";
 
 function LocationRequest() {
     const [modalOpen, showModal, hideModal] = useBooleanState(false);
+    const { status } = useUserLocation();
+
+    const errorMessage = React.useMemo(() => {
+        switch (status) {
+            case "denied":
+                return "You have denied location access. To use your current location, please enable location access in your browser settings and refresh the page.";
+            case "unavailable":
+                return "Your location could not be determined at this time. Please try again later.";
+            case "timeout":
+                return "Your location could not be determined in a timely manner. Please try again later.";
+            case "nav_not_supported":
+                return "Your browser does not support location services. Please use a different browser or device to use your current location.";
+            default:
+                return null;
+        }
+    }, [status])
 
     return (
         <>
             <MessageScreen>
                 <Cursor />
                 <p>Tornadic requires you to provide a location in order to work properly.</p>
+                { errorMessage && <p>{errorMessage}</p> }
                 <div>
                     <Button onClick={showModal}>Provide Location</Button>
                 </div>

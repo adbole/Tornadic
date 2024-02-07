@@ -19,6 +19,7 @@ const Container = styled.div([
                 position: "fixed",
                 flexDirection: "column",
                 backdropFilter: "blur(10px)",
+                padding: "20px",
                 inset: 0,
                 [varNames.svgSize]: "50px",
             },
