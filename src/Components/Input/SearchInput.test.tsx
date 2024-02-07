@@ -31,6 +31,8 @@ afterEach(() => {
     vi.useRealTimers();
 });
 
+const timeout = 500;
+
 test("Renders an input of type search", () => {
     render(<SearchInput placeHolder="Enter something" onGetResults={vi.fn()} onSelect={vi.fn()} />);
 
@@ -56,7 +58,7 @@ test("When the input is changed, the onGetResults function is called after a del
 
     act(() => {
         fireEvent.change(screen.getByRole("searchbox"), { target: { value: "test" } });
-        vi.advanceTimersByTime(1000);
+        vi.advanceTimersByTime(timeout);
     });
 
     expect.soft(onGetResults).toHaveBeenCalledWith("test");
@@ -70,20 +72,20 @@ test("When the input is changed during the delay, it is reset", () => {
 
     act(() => {
         fireEvent.change(screen.getByRole("searchbox"), { target: { value: "test" } });
-        vi.advanceTimersByTime(500);
+        vi.advanceTimersByTime(timeout / 2);
     });
 
     expect.soft(onGetResults).not.toHaveBeenCalled();
 
     act(() => {
         fireEvent.change(screen.getByRole("searchbox"), { target: { value: "test2" } });
-        vi.advanceTimersByTime(500);
+        vi.advanceTimersByTime(timeout / 2);
     });
 
     expect.soft(onGetResults).not.toHaveBeenCalled();
 
     act(() => {
-        vi.advanceTimersByTime(500);
+        vi.advanceTimersByTime(timeout / 2);
     });
 
     expect.soft(onGetResults).toHaveBeenCalledWith("test2");

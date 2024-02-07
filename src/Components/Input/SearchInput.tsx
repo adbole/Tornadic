@@ -64,7 +64,7 @@ function SearchInput<T>({ children, placeHolder, onGetResults, onSelect }: Props
         clearTimeout(delayId.current);
 
         const value = e.currentTarget.value;
-        delayId.current = setTimeout(() => setQuery(value), 1000);
+        delayId.current = setTimeout(() => setQuery(value), 500);
     }, []);
 
     return (
