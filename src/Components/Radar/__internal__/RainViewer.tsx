@@ -84,9 +84,9 @@ export default function RainViewer() {
 
         if (animationTimer.current) {
             clearTimeout(animationTimer.current);
+            animationTimer.current = null;
 
             setIsPlayingFalse();
-            animationTimer.current = null;
         }
     }, [availableLayers, setIsPlayingFalse]);
 
@@ -136,7 +136,7 @@ export default function RainViewer() {
                         e.stopPropagation();
 
                         if (loadingLayer) {
-                            //CLick will pause no matter what during load
+                            //Click will pause no matter what during load
                             pause();
                             awaitResume.current = false;
                         } else if (isPlaying) {
