@@ -42,13 +42,13 @@ export default function Background() {
             switch (condition) {
                 case "Clear":
                 case "Mostly Clear":
-                    return [1, 0.4, 0.25];
+                    return [1, 0.35, 0.25];
                 default:
                     return [5, 0, 0.1];
             }
         }
 
-        return [0.01, 0.4, 0.2];
+        return [0.01, 0.35, 0.2];
     }, [isDay, condition]);
 
     return (

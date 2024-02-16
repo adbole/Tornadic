@@ -177,9 +177,9 @@ describe("High Contrast", () => {
 });
 
 // [rayleigh, rotation, exposure]
-const sunny = [1, 0.4, 0.25];
+const sunny = [1, 0.35, 0.25];
 const cloudy = [5, 0, 0.1];
-const night = [0.01, 0.4, 0.2];
+const night = [0.01, 0.35, 0.2];
 
 describe.each([
     ["Day", true],
