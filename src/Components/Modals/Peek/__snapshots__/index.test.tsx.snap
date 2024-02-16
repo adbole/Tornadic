@@ -96,12 +96,6 @@ exports[`Matches Snapshot 1`] = `
   grid-column: span 2;
 }
 
-.emotion-2 .e1xe5sf55 {
-  grid-area: unset;
-  grid-column: span 2;
-  grid-row: span 2;
-}
-
 .emotion-4 {
   display: -webkit-box;
   display: -webkit-flex;

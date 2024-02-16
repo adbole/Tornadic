@@ -1,6 +1,5 @@
 import styled from "@emotion/styled";
 
-import DailyWidget from "Components/Daily/style";
 import HourlyWidget from "Components/Hourly/style";
 
 import { varNames, vars } from "ts/StyleMixins";
@@ -19,12 +18,6 @@ export default styled(ModalContent)({
     [`${HourlyWidget}`] : {
         gridColumn: "span 2"
     },
-
-    [`${DailyWidget}`] : {
-        gridArea: "unset",
-        gridColumn: "span 2",
-        gridRow: "span 2"
-    }
 });
 
 export const ErrorMessage = styled.div({

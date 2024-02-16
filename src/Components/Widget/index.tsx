@@ -13,7 +13,7 @@ export type WidgetProps = {
     widgetTitle?: string;
     widgetIcon?: React.ReactNode;
     //Normal Widgets have a style rule that causes all child elements (excluding the title) to get flex: 1
-    //so they take up as much space as possible. This flag will determine if the template class is added to prevent it
+    //so they take up as much space as possible. This flag will determine if it should be disabled.
     isTemplate?: boolean;
 } & React.HTMLAttributes<HTMLDivElement>;
 
