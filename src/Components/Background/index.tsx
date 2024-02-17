@@ -1,5 +1,4 @@
 import React from "react";
-import { Global } from "@emotion/react";
 import styled from "@emotion/styled";
 import { PerspectiveCamera, ScreenSpace, Sky } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
@@ -17,15 +16,7 @@ const StyledCanvas = styled(Canvas)({
     zIndex: -1,
 });
 
-function HighConstrast({ rayleigh }: { rayleigh: number }) {
-    const settings = useReadLocalStorage("userSettings");
-
-    if (rayleigh !== 1 || !settings?.highContrastForLive) return null;
-
-    return <Global styles={{ "#root": { color: "#3f3f3f" } }} />;
-}
-
-export default function Background() {
+export default function Background({ parentElement }: { parentElement: HTMLElement | null }) {
     const { weather } = useWeather();
     const settings = useReadLocalStorage("userSettings");
 
@@ -51,9 +42,19 @@ export default function Background() {
         return [0.01, 0.35, 0.2];
     }, [isDay, condition]);
 
+    React.useEffect(() => {
+        if(!parentElement) return () => {};
+
+        if(rayleigh === 1 && settings?.highContrastForLive) 
+            parentElement.style.color = "#3f3f3f";
+        else 
+            parentElement.style.color = "";
+
+        return () => parentElement.style.color = "";
+    }, [rayleigh, settings, parentElement])
+
     return (
         <>
-            <HighConstrast rayleigh={rayleigh} />
             <Gradient isDay={isDay} condition={condition} />
             
             {settings && !settings.preferGradient && (

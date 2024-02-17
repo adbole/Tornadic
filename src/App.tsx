@@ -100,6 +100,7 @@ function AppLoader() {
 function App() {
     const online = useOnlineOffline();
     const { latitude, longitude, status } = useUserLocation();
+    const rootRef = React.useRef(document.getElementById("root")!);
 
     //useLocalStorage here causes the default value to be set for useReadLocalStorage
     useLocalStorage("userSettings");
@@ -143,7 +144,7 @@ function App() {
             )}
         >
             <WeatherContext latitude={latitude} longitude={longitude} skeleton={<AppLoader />}>
-                <Background />
+                <Background parentElement={rootRef.current}/>
 
                 <Now />
                 <Alert />

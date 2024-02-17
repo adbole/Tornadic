@@ -1,3 +1,5 @@
+import React from "react";
+
 import WeatherContext from "Contexts/WeatherContext";
 
 import Alert from "Components/Alert";
@@ -51,9 +53,15 @@ export default function Peek({
     latitude?: number;
     longitude?: number;
 } & ModalProps) {
+    const [contentElement, setContentElement] = React.useState<HTMLElement | null>(null);
+
+    const onMount = React.useCallback((element: HTMLElement | null) => {
+        setContentElement(element);
+    }, []);
+
     return (
         <Modal {...modalProps}>
-            <PeekContent>
+            <PeekContent ref={onMount}>
                 <FetchErrorHandler
                     errorRender={(hasError, retry) => (
                         <ErrorMessage style={{ display: hasError ? "" : "none" }}>
@@ -69,7 +77,7 @@ export default function Peek({
                         skeleton={<PeekLoader />}
                     >
                         <Now displayOnly />
-                        <Background />
+                        <Background parentElement={contentElement}/>
                         <Alert />
                         <Hourly />
                         <Daily />

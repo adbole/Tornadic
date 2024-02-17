@@ -88,10 +88,12 @@ afterEach(() => {
     vi.mocked(Weather.prototype.getNow).mockRestore();
 });
 
+const renderBackground = () => render(<Background parentElement={document.body} />);
+
 test("Renders the correct components", () => {
     setLocalStorageItem("userSettings", DEFAULTS.userSettings);
 
-    render(<Background />);
+    renderBackground();
 
     const canvas = screen.queryByText(/Canvas/);
 
@@ -101,7 +103,7 @@ test("Renders the correct components", () => {
 
 describe("Gradient Fallback", () => {
     test("If there are no userSettings", () => {
-        render(<Background />);
+        renderBackground();
 
         expect.soft(screen.queryByText("Gradient - true - Clear")).toBeInTheDocument();
         expect.soft(screen.queryByText(/Canvas/)).not.toBeInTheDocument();
@@ -113,7 +115,7 @@ describe("Gradient Fallback", () => {
             preferGradient: true,
         });
 
-        render(<Background />);
+        renderBackground();
 
         expect.soft(screen.queryByText("Gradient - true - Clear")).toBeInTheDocument();
         expect.soft(screen.queryByText(/Canvas/)).not.toBeInTheDocument();
@@ -133,18 +135,12 @@ describe("High Contrast", () => {
             highContrastForLive,
         });
 
-        const {
-            container: { firstChild },
-        } = render(
-            <div id="root">
-                <Background />
-            </div>
-        );
+        renderBackground();
 
         if (highContrastForLive) {
-            expect(getComputedStyle(firstChild as Element).color).toBe("rgb(63, 63, 63)");
+            expect(document.body.style.color).toBe("rgb(63, 63, 63)");
         } else {
-            expect(getComputedStyle(firstChild as Element).color).not.toBe("rgb(63, 63, 63)");
+            expect(document.body.style.color).not.toBe("rgb(63, 63, 63)");
         }
     });
 
@@ -164,15 +160,9 @@ describe("High Contrast", () => {
             highContrastForLive: true,
         });
 
-        const {
-            container: { firstChild },
-        } = render(
-            <div id="root">
-                <Background />
-            </div>
-        );
+        renderBackground();
 
-        expect(getComputedStyle(firstChild as Element).color).not.toBe("rgb(63, 63, 63)");
+        expect(document.body.style.color).not.toBe("rgb(63, 63, 63)");
     });
 });
 
@@ -210,7 +200,7 @@ describe.each([
         } as any);
         setLocalStorageItem("userSettings", DEFAULTS.userSettings);
 
-        render(<Background />);
+        renderBackground();
 
         expect(mocks.Sky).toHaveBeenLastCalledWith(
             expect.objectContaining({
