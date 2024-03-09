@@ -8,6 +8,10 @@
 ![Screenshot_8-3-2024_23717_localhost](https://github.com/adbole/Tornadic/assets/109166687/8fa2a898-7f59-4585-867e-a844a294c140)
 ![Screenshot_8-3-2024_232437_localhost](https://github.com/adbole/Tornadic/assets/109166687/77b17ecd-11bb-40a6-a38b-2b223a9b28c9)
 
+## View data in a chart to see trends over the day
+![image](https://github.com/adbole/Tornadic/assets/109166687/55d77c7d-b368-4172-90ed-ffce245378be)
+
+
 ## See current relfectivity products and satellite imagery with the Radar.
 ![311414783-d1c3ee17-5801-4fb6-89ab-581d93b0ea4f](https://github.com/adbole/Tornadic/assets/109166687/17f408f4-953e-4f90-9a78-6f603fd628a0)
 
