@@ -1,11 +1,18 @@
-![Tornadic Full Text Logo](https://github.com/adbole/Tornadic/blob/master/src/svgs/icon/tornadic-full.svg)
+![TornadicCollage](https://github.com/adbole/Tornadic/assets/109166687/6b744f7a-9caf-4ef2-b46d-6d8360df31fc)
 
-<p align="center">A responsive weather dashboard built using React for the U.S.</p>
+## See weather data for your current location
+![Screenshot_8-3-2024_234644_localhost](https://github.com/adbole/Tornadic/assets/109166687/1333c53d-805a-4796-a777-91e8860adb3f)
 
-# Features
-- See weather data for your current location or one of your choosing.
-- View alerts from the National Weather Service keeping for your location.
-- Radar to see current reflectivity radar and satellite imagery.
+
+## Stay aware of severe weather with alerts from the NWS
+![Screenshot_8-3-2024_23717_localhost](https://github.com/adbole/Tornadic/assets/109166687/8fa2a898-7f59-4585-867e-a844a294c140)
+![Screenshot_8-3-2024_232437_localhost](https://github.com/adbole/Tornadic/assets/109166687/77b17ecd-11bb-40a6-a38b-2b223a9b28c9)
+
+## See current relfectivity products and satellite imagery with the Radar.
+![311414783-d1c3ee17-5801-4fb6-89ab-581d93b0ea4f](https://github.com/adbole/Tornadic/assets/109166687/17f408f4-953e-4f90-9a78-6f603fd628a0)
+
+
+# Additional Features
 - Peek at any location's weather and alerts by holding on the Radar.
 - See all weather alerts for the nation in Radar (must enable Radar Alert Mode in settings).
 - Live backgrounds representing current condition.
