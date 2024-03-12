@@ -82,6 +82,7 @@ export default function AlertPolygons() {
 
                     const points = turf_point([e.latlng.lng, e.latlng.lat]);
 
+                    //NWSAlert includes the necessary GeoJSON properties for this to work so conversion to any is okay
                     const intersectingAlerts = alertsWithCoords.filter(alert =>
                         booleanPointInPolygon(points, alert as any)
                     );

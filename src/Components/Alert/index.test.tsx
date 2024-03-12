@@ -1,5 +1,5 @@
 import testIds from "@test-consts/testIDs";
-import { multiAlert, singleAlert, useWeather as mockUseWeather } from "@test-mocks";
+import { alert_point_test, multiAlert, singleAlert, useWeather as mockUseWeather } from "@test-mocks";
 import { mockDate } from "@test-utils";
 
 import { act, render, screen } from "@testing-library/react";
@@ -100,3 +100,18 @@ test("clicking the widget opens the alert modal", () => {
     expect.soft(screen.queryByText(`3 Weather Alerts`)).toBeInTheDocument();
     expect.soft(screen.queryByText(`${alerts.length} Weather Alerts`)).not.toBeInTheDocument();
 });
+
+test("When the user's point's forecast zone isn't in the affected array, but its geographical point is in the polygon, the alert should still show", () => {
+    const alerts = multiAlert.features.map(alert => new NWSAlert(alert as unknown as NWSAlert));
+    const point = alert_point_test as unknown as GridPoint;
+
+    vi.mocked(useWeather).mockReturnValue({
+        ...mockUseWeather(),
+        point,
+        alerts,
+    });
+
+    render(<Alert />);
+
+    expect.soft(screen.queryByTestId(testIds.Widget.WidgetSection)).toBeInTheDocument();
+})

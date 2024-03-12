@@ -26,6 +26,7 @@ function Wrapper({ children }: { children: React.ReactNode }) {
 }
 
 const renderWeather = () => renderHook(useWeather, { wrapper: Wrapper });
+const renderNormal = () => render(<Wrapper><div data-testid={child} /></Wrapper>);
 
 mockDate();
 
@@ -34,15 +35,8 @@ beforeEach(() => {
 });
 
 describe("render", () => {
-    beforeEach(() => {
-        render(
-            <Wrapper>
-                <div data-testid={child} />
-            </Wrapper>
-        );
-    });
-
     test("renders skeleton when loading without any data", async () => {
+        renderNormal();
         expect(screen.queryByTestId(skeleton)).toBeInTheDocument();
 
         //Weather will throw an error relating to not being able to find current time for forecast
@@ -53,6 +47,7 @@ describe("render", () => {
     });
 
     test("child appears when data is loaded", async () => {
+        renderNormal();
         await act(async () => {
             await vi.runOnlyPendingTimersAsync();
         });
@@ -63,14 +58,18 @@ describe("render", () => {
     test("keeps skeleton up if any fetch throws", async () => {
         fetchMock.mockReject();
 
+        renderNormal();
+
         await act(async () => {
-            await vi.runOnlyPendingTimersAsync();
+            await vi.advanceTimersToNextTimerAsync();
         });
 
-        expect(screen.queryByTestId(skeleton)).toBeInTheDocument();
+        expect(screen.getByTestId(skeleton)).toBeInTheDocument();
     });
 
     test("keeps children up if any fetch throws during data update", async () => {
+        renderNormal();
+        
         await act(async () => {
             await vi.runOnlyPendingTimersAsync();
         });

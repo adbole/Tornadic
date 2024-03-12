@@ -9,7 +9,7 @@ import forecast from "./forecast";
 
 const useWeather = () => ({
     weather: new Weather(forecast(), airquality(), DEFAULTS.userSettings),
-    point: apiWeatherGov_points as GridPoint,
+    point: apiWeatherGov_points as unknown as GridPoint,
     alerts: [],
 });
 

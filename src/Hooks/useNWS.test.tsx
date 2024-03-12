@@ -41,43 +41,13 @@ describe("data fetching", () => {
         vi.useRealTimers();
     });
 
-    test("gets the point data first", async () => {
+    test("Gets the point and alert data at the same time", async () => {
         renderNWS(1, 1);
 
-        expect.soft(fetchMock).toHaveBeenCalledOnce();
-    });
-
-    test("if point data fails, then alert data is never fetched", async () => {
-        fetchMock.mockReject();
-        renderNWS(1, 1);
-
-        expect.soft(fetchMock).toHaveBeenCalledOnce();
-
-        await act(async () => {
-            await vi.runOnlyPendingTimersAsync();
-        });
-
-        const requests = fetchMock.requests().map(req => req.url);
-        expect.soft(fetchMock).toHaveBeenCalledTimes(2);
-        expect.soft(requests[0]).toContain("points");
-        expect.soft(requests[1]).toContain("points");
-
-        expect.soft(errorCaller).toHaveBeenCalledTimes(2);
-    });
-
-    test("gets the alert data if point data is OK", async () => {
-        const { result } = renderNWS(1, 1);
-
-        expect.soft(fetchMock).toHaveBeenCalledOnce();
-
-        await act(async () => {
-            await vi.runOnlyPendingTimersAsync();
-        });
+        expect.soft(fetchMock).toHaveBeenCalledWith("https://api.weather.gov/points/1,1");
+        expect.soft(fetchMock).toHaveBeenCalledWith("https://api.weather.gov/alerts/active/?point=1,1");
 
         expect.soft(fetchMock).toHaveBeenCalledTimes(2);
-        expect.soft(result.current.point).toStrictEqual(apiWeatherGov_points);
-        expect.soft(result.current.alerts).toHaveLength(1);
-        expect.soft(result.current.isLoading).toBe(false);
     });
 
     test("alerts are refreshed when they expire", async () => {

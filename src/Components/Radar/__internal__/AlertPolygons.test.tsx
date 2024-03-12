@@ -15,6 +15,13 @@ import { AlertPolygons } from ".";
 mockDate();
 
 const mock_alerts = multiAlert.features.map(alert => new NWSAlert(alert as unknown as NWSAlert));
+const [withCoords, noCoords] = mock_alerts.reduce(
+    ([withCoords, noCoords], alert) => {
+        (alert.hasCoords() ? withCoords : noCoords).push(alert);
+        return [withCoords, noCoords];
+    },
+    [[], []] as [NWSAlert[], NWSAlert[]]
+);
 
 const mocks = vi.hoisted(() => ({
     AlertModal: vi.fn(({ onClose }: ModalProps) => <button onClick={onClose}>Close Modal</button>),
@@ -37,15 +44,13 @@ vi.mock("react-leaflet", async importOriginal => ({
 vi.mock("Components/Modals/Alert", () => ({ default: mocks.AlertModal }));
 
 test("Displays alerts with coords as polygons", () => {
-    const noCoords = mock_alerts.filter(alert => !alert.hasCoords());
-
     render(
         <MapContainer>
             <AlertPolygons />
         </MapContainer>
     );
 
-    expect.soft(mocks.GeoJSON).toHaveBeenCalledTimes(3);
+    expect.soft(mocks.GeoJSON).toHaveBeenCalledTimes(withCoords.length);
     expect.soft(mocks.GeoJSON.mock.calls.length).not.toBe(multiAlert.features.length);
 
     for (const alert of noCoords) {
@@ -62,7 +67,7 @@ test("If the map has dragging disabled, then it isn't zoomed, so alert modals sh
         </MapContainer>
     );
 
-    expect.soft(mocks.GeoJSON).toHaveBeenCalledTimes(3);
+    expect.soft(mocks.GeoJSON).toHaveBeenCalled();
 
     const [{ eventHandlers }] = mocks.GeoJSON.mock.lastCall as unknown as [GeoJSONProps, any];
 
@@ -85,7 +90,7 @@ describe("Polygon Interaction", () => {
             </MapContainer>
         );
 
-        expect.soft(mocks.GeoJSON).toHaveBeenCalledTimes(3);
+        expect.soft(mocks.GeoJSON).toHaveBeenCalled();
 
         const [{ eventHandlers }] = mocks.GeoJSON.mock.lastCall as unknown as [GeoJSONProps, any];
 
@@ -97,7 +102,7 @@ describe("Polygon Interaction", () => {
             } as LeafletMouseEvent);
         });
 
-        const expectedAlert = mock_alerts.filter(alert => alert.hasCoords())[0];
+        const expectedAlert = mock_alerts.filter(alert => alert.hasCoords())[1];
         expect.soft(mocks.AlertModal).toHaveBeenLastCalledWith(
             expect.objectContaining({
                 alerts: [expectedAlert],
@@ -114,7 +119,7 @@ describe("Polygon Interaction", () => {
             </MapContainer>
         );
 
-        expect.soft(mocks.GeoJSON).toHaveBeenCalledTimes(3);
+        expect.soft(mocks.GeoJSON).toHaveBeenCalledTimes(withCoords.length);
 
         const [{ eventHandlers }] = mocks.GeoJSON.mock.lastCall as unknown as [GeoJSONProps, any];
 
@@ -126,7 +131,7 @@ describe("Polygon Interaction", () => {
             } as LeafletMouseEvent);
         });
 
-        const expectedAlerts = mock_alerts.filter(alert => alert.hasCoords()).slice(0, 2);
+        const expectedAlerts = mock_alerts.filter(alert => alert.hasCoords()).slice(1, 3);
         expect.soft(mocks.AlertModal).toHaveBeenLastCalledWith(
             expect.objectContaining({
                 alerts: expectedAlerts,

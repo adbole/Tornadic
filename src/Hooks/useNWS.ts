@@ -24,19 +24,16 @@ export default function useNWS(
     );
 
     const alertEndpoint = React.useMemo(() => {
-        if (!point) return null;
+        if (!latitude || !longitude) return null;
 
-        let base = "https://api.weather.gov/alerts/active/";
+        let endpoint = "https://api.weather.gov/alerts/active/";
 
         if (!radarAlertMode) {
-            const lastIndex = point.properties.forecastZone.lastIndexOf("/") + 1;
-            const zone = point.properties.forecastZone.substring(lastIndex);
-
-            base += `zone/${zone}`;
+            endpoint += `?point=${latitude},${longitude}`;
         }
 
-        return base;
-    }, [point, radarAlertMode]);
+        return endpoint;
+    }, [radarAlertMode, latitude, longitude]);
 
     const { data: alerts, isLoading: alertsLoading } = useSWR(
         alertEndpoint,

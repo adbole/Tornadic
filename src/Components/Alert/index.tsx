@@ -1,3 +1,5 @@
+import booleanPointInPolygon from "@turf/boolean-point-in-polygon";
+
 import { useBooleanState } from "Hooks";
 
 import { useWeather } from "Contexts/WeatherContext";
@@ -11,9 +13,12 @@ function Alert() {
     const { alerts: unfilteredAlerts, point } = useWeather();
     const [modalOpen, showModal, hideModal] = useBooleanState(false);
 
-    const alerts = unfilteredAlerts.filter(alert =>
-        alert.get("affectedZones").includes(point.properties.forecastZone)
-    );
+    const alerts = unfilteredAlerts.filter(alert => {
+        //Point and NWSAlert include the necessary GeoJSON properties for this to work so conversion to any is okay
+        const inBounds = alert.hasCoords() && booleanPointInPolygon(point as any, alert as any)
+            
+        return alert.get("affectedZones").includes(point.properties.forecastZone) || inBounds
+    });
 
     //If no alerts are active then don't display this component.
     if (!alerts.length) return null;
