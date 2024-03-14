@@ -32,7 +32,6 @@ export default styled.section<{
         borderRadius: vars.borderRadius,
     },
     size === "widget-large" && {
-        minHeight: "300px",
         gridColumn: "span 2",
         gridRow: "span 2",
     },

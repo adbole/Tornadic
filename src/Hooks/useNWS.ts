@@ -20,7 +20,7 @@ export default function useNWS(
 
     const { data: point, isLoading: pointLoading } = useSWR(
         latitude && longitude ? `https://api.weather.gov/points/${latitude},${longitude}` : null,
-        url => fetchData<GridPoint>(url, "Cannot get point from NWS")
+        url => fetchData<GridPoint>(url, "Error getting point from the NWS")
     );
 
     const alertEndpoint = React.useMemo(() => {
@@ -42,7 +42,7 @@ export default function useNWS(
 
             const response = await fetchDataAndHeaders<{ features: NWSAlert[] }>(
                 url,
-                "Cannot get alerts form NWS"
+                "Error getting alerts from the NWS"
             );
 
             const expiresHeader = new Date(response.headers.get("expires")!);

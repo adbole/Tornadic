@@ -3,8 +3,9 @@
  */
 export async function fetchData<T>(url: string | URL, onErrorMessage: string) {
     return fetch(url)
-        .then(response => (response.ok ? response.json() : Promise.reject(onErrorMessage)))
-        .then((data: T) => data);
+    .then(response => (response.ok ? response.json() : Promise.reject(onErrorMessage)))
+    .catch(error => console.error(error))
+    .then((data: T) => data)
 }
 
 export type FetchResponse<T> = {
@@ -29,5 +30,6 @@ export async function fetchDataAndHeaders<T>(
         };
     }
 
+    console.error(onErrorMessage);
     return Promise.reject(onErrorMessage);
 }

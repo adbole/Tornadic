@@ -25,8 +25,8 @@ export default function useOpenMeteo(
         key,
         async () => {
             const [forecast, airquality] = await Promise.all([
-                fetchData<Forecast>(urls!.forecastURL, "Cannot get Open-Meteo forecast"),
-                fetchData<AirQuality>(urls!.airQualityURL, "Cannot get Open-Meteo air quality"),
+                fetchData<Forecast>(urls!.forecastURL, "Error getting Open-Meteo forecast"),
+                fetchData<AirQuality>(urls!.airQualityURL, "Error getting Open-Meteo air quality"),
             ]);
 
             return new Weather(forecast, airquality, settings!);
