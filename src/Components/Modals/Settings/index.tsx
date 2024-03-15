@@ -109,13 +109,6 @@ export default function Settings({ ...modalProps }: ModalProps) {
                     />
                 </InputGroup>
 
-                <ToggleSwitch
-                    label="Radar Alert Mode"
-                    title="Display all active National Weather Service Alerts within the radar. Alert widget will only display alerts relevant to your location"
-                    defaultChecked={settings.radarAlertMode}
-                    onChange={e => queueSetting("radarAlertMode", e.target.checked)}
-                />
-
                 <hr />
 
                 <h3>Background</h3>
@@ -152,7 +145,7 @@ export default function Settings({ ...modalProps }: ModalProps) {
                     <h3>NWS Alert Notifications</h3>
                     <StatusDiv 
                         style={{
-                            background: notiPermission === "granted" ? "#248f5e" : "#dc3545",
+                            background: vars[notiPermission === "granted" ? "success" : "danger"],
                         }}
                     >
                         {

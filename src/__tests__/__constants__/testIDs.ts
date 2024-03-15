@@ -13,6 +13,7 @@ const testIds = {
         Axes_X_Grid: "CHART_AXES_X_GRID",
         Axes_Y_Grid: "CHART_AXES_Y_GRID",
     },
+    WeatherContext: { LoadingBar: "WEATHER_CONTEXT_LOADING_BAR" },
 } as const;
 
 export default testIds;

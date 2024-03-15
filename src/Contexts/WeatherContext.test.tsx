@@ -1,3 +1,4 @@
+import testIds from "@test-consts/testIDs";
 import { mockDate, setLocalStorageItem } from "@test-utils";
 
 import { act, render, renderHook, screen } from "@testing-library/react";
@@ -34,8 +35,8 @@ beforeEach(() => {
     setLocalStorageItem("userSettings", DEFAULTS.userSettings);
 });
 
-describe("render", () => {
-    test("renders skeleton when loading without any data", async () => {
+describe("Render", () => {
+    test("Renders skeleton when loading without any data", async () => {
         renderNormal();
         expect(screen.queryByTestId(skeleton)).toBeInTheDocument();
 
@@ -46,7 +47,7 @@ describe("render", () => {
         });
     });
 
-    test("child appears when data is loaded", async () => {
+    test("Child appears when data is loaded", async () => {
         renderNormal();
         await act(async () => {
             await vi.runOnlyPendingTimersAsync();
@@ -55,7 +56,7 @@ describe("render", () => {
         expect(screen.queryByTestId(child)).toBeInTheDocument();
     });
 
-    test("keeps skeleton up if any fetch throws", async () => {
+    test("Keeps skeleton up if any fetch throws", async () => {
         fetchMock.mockReject();
 
         renderNormal();
@@ -67,7 +68,7 @@ describe("render", () => {
         expect(screen.getByTestId(skeleton)).toBeInTheDocument();
     });
 
-    test("keeps children up if any fetch throws during data update", async () => {
+    test("Keeps children up if any fetch throws during data update", async () => {
         renderNormal();
         
         await act(async () => {
@@ -82,10 +83,26 @@ describe("render", () => {
 
         expect(screen.queryByTestId(child)).toBeInTheDocument();
     });
+
+    test("Displays a loading bar when new data is being fetched and old data is still present", async () => {
+        renderNormal();
+
+        await act(async () => {
+            await vi.runOnlyPendingTimersAsync();
+        });
+
+        fetchMock.mockResponse(() => new Promise((resolve) => setTimeout(resolve, 1000, { body: "{}" })));
+
+        await act(async () => {
+            await vi.runOnlyPendingTimersAsync();
+        });
+
+        expect(screen.queryByTestId(testIds.WeatherContext.LoadingBar)).toBeInTheDocument();
+    });
 });
 
-describe("hook", () => {
-    test("throws error when used outside of provider", () => {
+describe("Hook", () => {
+    test("Throws error when used outside of provider", () => {
         vi.spyOn(console, "error").mockImplementation(() => undefined);
 
         expect(() => renderHook(useWeather)).toThrowError();
@@ -93,7 +110,7 @@ describe("hook", () => {
         vi.mocked(console.error).mockRestore();
     });
 
-    test("returns the data when used inside provider", async () => {
+    test("Returns the data when used inside provider", async () => {
         const { result } = renderWeather();
 
         await act(async () => {

@@ -83,9 +83,9 @@ describe("Radar Alert Mode", () => {
     });
 
     test("If radar alert mode is enabled, then all active alerts are fetched", async () => {
-        setLocalStorageItem("userSettings", {
-            ...DEFAULTS.userSettings,
-            radarAlertMode: true,
+        setLocalStorageItem("radarSettings", {
+            ...DEFAULTS.radarSettings,
+            alertMode: true,
         });
 
         renderNWS(1, 1);
@@ -99,9 +99,9 @@ describe("Radar Alert Mode", () => {
     });
 
     test("If radar alert mode is enabled after first fetch, then a refetch of all alerts is called", async () => {
-        setLocalStorageItem("userSettings", {
-            ...DEFAULTS.userSettings,
-            radarAlertMode: false,
+        setLocalStorageItem("radarSettings", {
+            ...DEFAULTS.radarSettings,
+            alertMode: false,
         });
 
         renderNWS(1, 1);
@@ -116,11 +116,11 @@ describe("Radar Alert Mode", () => {
             .not.toHaveBeenLastCalledWith("https://api.weather.gov/alerts/active/");
 
         act(() => {
-            setLocalStorageItem("userSettings", {
-                ...DEFAULTS.userSettings,
-                radarAlertMode: true,
+            setLocalStorageItem("radarSettings", {
+                ...DEFAULTS.radarSettings,
+                alertMode: true,
             });
-            dispatchStorage("userSettings");
+            dispatchStorage("radarSettings");
         });
 
         expect.soft(fetchMock).toHaveBeenCalledTimes(3);

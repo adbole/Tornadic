@@ -13,6 +13,8 @@ exports[`Matches screenshot 1`] = `
   --background: #2c2c2c;
   --background-layer: #363636;
   --primary: #2668f7;
+  --success: #248f5e;
+  --danger: #dc3545;
   --watch: #FFF501;
   --advise: #FF9431;
   --warn: #C31700;

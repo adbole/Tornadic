@@ -72,6 +72,7 @@ describe("Changing Settings", () => {
 
     //Toggle Switches
     describe.each([
+        ["Alert Mode", "alertMode"],
         ["Smooth Radar", "smoothing"],
         ["Show Snow", "snow"],
     ] as [string, keyof RadarSettings][])(`%s`, (label, prop) => {

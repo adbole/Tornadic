@@ -313,6 +313,7 @@ test("When settings change, availableLayers is updated and showFrame renders lay
             colorScheme: 1,
             smoothing: true,
             snow: true,
+            alertMode: false
         });
         dispatchStorage("radarSettings");
     });

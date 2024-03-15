@@ -28,6 +28,8 @@ const baseVarNames = {
     background: "--background",
     backgroundLayer: "--background-layer",
     primary: "--primary",
+    success: "--success",
+    danger: "--danger",
     watch: "--watch",
     advise: "--advise",
     warn: "--warn",

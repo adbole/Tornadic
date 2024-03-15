@@ -119,16 +119,26 @@ export default function Settings() {
                 </label>
 
                 <ToggleSwitch
+                    label="Alert Mode"
+                    title="Display all active National Weather Service Alerts within the radar. Alert widget will only display alerts relevant to your location"
+                    onChange={e => 
+                        setSettings({ ...settings, alertMode: e.currentTarget.checked }
+                    )}
+                    defaultChecked={settings.alertMode}
+                />
+                <ToggleSwitch
                     label="Smooth Radar"
-                    onChange={() => {
-                        setSettings({ ...settings, smoothing: !settings.smoothing });
+                    title="Smooths the radar imagry removing pixelation."
+                    onChange={e => {
+                        setSettings({ ...settings, smoothing: e.currentTarget.checked });
                     }}
                     defaultChecked={settings.smoothing}
                 />
                 <ToggleSwitch
                     label="Show Snow"
-                    onChange={() => {
-                        setSettings({ ...settings, snow: !settings.snow });
+                    title="Displays snow on the radar in a different color."
+                    onChange={e => {
+                        setSettings({ ...settings, snow: e.currentTarget.checked });
                     }}
                     defaultChecked={settings.snow}
                 />

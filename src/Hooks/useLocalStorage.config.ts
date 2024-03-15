@@ -9,7 +9,6 @@ declare global {
         tempUnit: "fahrenheit" | "celsius";
         windspeed: "kmh" | "mph" | "kn";
         precipitation: "mm" | "inch";
-        radarAlertMode: boolean;
         preferGradient: boolean;
         highContrastForLive: boolean;
     }>;
@@ -19,6 +18,7 @@ declare global {
         colorScheme: number;
         smoothing: boolean;
         snow: boolean;
+        alertMode: boolean;
     }>;
 
     type UserLocation = Readonly<{
@@ -39,7 +39,6 @@ const DEFAULTS: LocalStorageDefaults = {
         tempUnit: "fahrenheit",
         windspeed: "mph",
         precipitation: "inch",
-        radarAlertMode: false,
         preferGradient: false,
         highContrastForLive: false,
     },
@@ -48,6 +47,7 @@ const DEFAULTS: LocalStorageDefaults = {
         colorScheme: 6,
         smoothing: true,
         snow: false,
+        alertMode: false
     },
     userLocation: { useCurrent: false },
 };

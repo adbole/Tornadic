@@ -15,12 +15,14 @@ export default function useNWS(
     alerts: NWSAlert[] | undefined;
     isLoading: boolean;
 } {
-    const { radarAlertMode } = useReadLocalStorage("userSettings") || {};
+    const { alertMode } = useReadLocalStorage("radarSettings") || {};
     const expires = React.useRef<number>(0);
 
     const { data: point, isLoading: pointLoading } = useSWR(
         latitude && longitude ? `https://api.weather.gov/points/${latitude},${longitude}` : null,
-        url => fetchData<GridPoint>(url, "Error getting point from the NWS")
+        url => fetchData<GridPoint>(url, "Error getting point from the NWS"), {
+            keepPreviousData: true
+        }
     );
 
     const alertEndpoint = React.useMemo(() => {
@@ -28,12 +30,12 @@ export default function useNWS(
 
         let endpoint = "https://api.weather.gov/alerts/active/";
 
-        if (!radarAlertMode) {
+        if (!alertMode) {
             endpoint += `?point=${latitude},${longitude}`;
         }
 
         return endpoint;
-    }, [radarAlertMode, latitude, longitude]);
+    }, [alertMode, latitude, longitude]);
 
     const { data: alerts, isLoading: alertsLoading } = useSWR(
         alertEndpoint,
@@ -56,7 +58,8 @@ export default function useNWS(
         },
         { 
             refreshInterval: () => expires.current,
-            refreshWhenHidden: true
+            refreshWhenHidden: true,
+            keepPreviousData: true
         }
     );
 

@@ -42,7 +42,6 @@ describe("Changing Settings", () => {
         expect.soft(screen.queryByLabelText("Fahrenheit")).toBeChecked();
         expect.soft(screen.queryByLabelText("Inches")).toBeChecked();
         expect.soft(screen.queryByLabelText("mph")).toBeChecked();
-        expect.soft(screen.queryByLabelText("Radar Alert Mode")).not.toBeChecked();
 
         expect.soft(localStorage).toHaveLocalItemValue("userSettings", DEFAULTS.userSettings);
     });
@@ -62,7 +61,6 @@ describe("Changing Settings", () => {
                   tempUnit: "celsius",
                   precipitation: "mm",
                   windspeed: "kn",
-                  radarAlertMode: false,
                   preferGradient: false,
                   highContrastForLive: false,
               }
@@ -91,7 +89,6 @@ describe("Changing Settings", () => {
 
     //Toggle Switches
     describe.each([
-        ["Radar Alert Mode", "radarAlertMode"],
         ["Prefer Gradients Over Live", "preferGradient"],
         ["High Foreground Contrast", "highContrastForLive"],
     ] as [string, keyof UserSettings][])(`%s`, (label, prop) => {

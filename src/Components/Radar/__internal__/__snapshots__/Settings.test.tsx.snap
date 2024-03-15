@@ -238,6 +238,19 @@ exports[`Matches Snapshot 1`] = `
     </label>
     <label
       class="emotion-12 emotion-13"
+      title="Display all active National Weather Service Alerts within the radar. Alert widget will only display alerts relevant to your location"
+    >
+      <input
+        class="emotion-14 emotion-15"
+        type="checkbox"
+      />
+      <span>
+        Alert Mode
+      </span>
+    </label>
+    <label
+      class="emotion-12 emotion-13"
+      title="Smooths the radar imagry removing pixelation."
     >
       <input
         checked=""
@@ -250,6 +263,7 @@ exports[`Matches Snapshot 1`] = `
     </label>
     <label
       class="emotion-12 emotion-13"
+      title="Displays snow on the radar in a different color."
     >
       <input
         class="emotion-14 emotion-15"

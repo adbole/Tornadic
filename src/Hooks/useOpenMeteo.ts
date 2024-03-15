@@ -13,6 +13,7 @@ export default function useOpenMeteo(
 ): {
     weather: Weather | undefined;
     isLoading: boolean;
+    isValidating: boolean;
 } {
     const settings = useReadLocalStorage("userSettings");
     const urls = React.useMemo(() => {
@@ -21,7 +22,7 @@ export default function useOpenMeteo(
     }, [latitude, longitude, settings]);
 
     const key = urls ? JSON.stringify(urls) : null;
-    const { data: weather, isLoading } = useSWR<Weather, string>(
+    const { data: weather, isLoading, isValidating } = useSWR<Weather, string>(
         key,
         async () => {
             const [forecast, airquality] = await Promise.all([
@@ -31,12 +32,16 @@ export default function useOpenMeteo(
 
             return new Weather(forecast, airquality, settings!);
         },
-        { refreshInterval: () => 3.6e6 - (Date.now() % 3.6e6) }
+        { 
+            refreshInterval: () => 3.6e6 - (Date.now() % 3.6e6),
+            keepPreviousData: true,
+        }
     );
 
     return {
         weather,
         isLoading,
+        isValidating
     };
 }
 
