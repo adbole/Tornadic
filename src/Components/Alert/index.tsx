@@ -1,16 +1,27 @@
+import React from "react";
 import booleanPointInPolygon from "@turf/boolean-point-in-polygon";
 
-import { useBooleanState } from "Hooks";
+import { useBooleanState, usePermission } from "Hooks";
 
 import { useWeather } from "Contexts/WeatherContext";
 
 import AlertModal from "Components/Modals/Alert";
 
+import type NWSAlert from "ts/NWSAlert";
+
 import AlertWidget, { AlertInformation, ExcessAlerts } from "./style";
 
 
+const getPriorityAlert = (alerts: NWSAlert[]) =>
+    alerts.reduce(
+        (highest, next) => (next.priority < highest.priority ? next : highest),
+        alerts[0]
+    );
+
 function Alert() {
     const { alerts: unfilteredAlerts, point } = useWeather();
+    const notiPermission = usePermission("notifications")
+
     const [modalOpen, showModal, hideModal] = useBooleanState(false);
 
     const alerts = unfilteredAlerts.filter(alert => {
@@ -20,14 +31,33 @@ function Alert() {
         return alert.get("affectedZones").includes(point.properties.forecastZone) || inBounds
     });
 
+    const previousAlerts = React.useRef(alerts);
+
+    React.useEffect(() => {
+        if (alerts.length === 0 || notiPermission !== "granted") return;
+
+        const previousAlertTime = new Date(previousAlerts.current[0].get("sent"));
+        const newAlerts = alerts.filter((alert) => new Date(alert.get("sent")) > previousAlertTime);
+
+        if (newAlerts.length > 0) {
+            const alert = getPriorityAlert(newAlerts);
+
+            const additionalAlerts = newAlerts.length > 1 ? `\n+${newAlerts.length - 1} more alert(s)` : "";
+
+            new Notification(`${alert.get("event")}`, {
+                body: `Issued: ${alert.get("sent")}\nExpires: ${alert.get("expires") ?? alert.get("ends")}${additionalAlerts}`,
+            });
+
+            previousAlerts.current = alerts;
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [alerts]);
+
     //If no alerts are active then don't display this component.
     if (!alerts.length) return null;
 
     //Determine which alert should be shown.
-    const alert = alerts.reduce(
-        (highest, next) => (next.priority < highest.priority ? next : highest),
-        alerts[0]
-    );
+    const alert = getPriorityAlert(alerts);
 
     return (
         <>

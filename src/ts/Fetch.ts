@@ -4,7 +4,6 @@
 export async function fetchData<T>(url: string | URL, onErrorMessage: string) {
     return fetch(url)
     .then(response => (response.ok ? response.json() : Promise.reject(onErrorMessage)))
-    .catch(error => console.error(error))
     .then((data: T) => data)
 }
 

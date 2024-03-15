@@ -115,3 +115,95 @@ test("When the user's point's forecast zone isn't in the affected array, but its
 
     expect.soft(screen.queryByTestId(testIds.Widget.WidgetSection)).toBeInTheDocument();
 })
+
+test.each([
+    ["When a new alert is received, a notification is sent if permissions are granted", "granted"],
+    ["When a new alert is received, a notification is not sent if permissions aren't granted", "denied"]
+] as [string, PermissionState][])("%s", async (_, state) => {
+    vi.stubGlobal("Notification", vi.fn())
+    vi.mocked(navigator.permissions.query).mockResolvedValue({
+        state,
+    } as PermissionStatus);
+
+    const alerts = multiAlert.features.map(alert => new NWSAlert(alert as unknown as NWSAlert));
+
+    //After the first alert mock, the 2nd, 3rd, and 4th alert contain the default mock zone, 
+    //so the 3rd and 4th alerts are used here for testing
+    const firstSend = alerts.slice(3)
+    const secondSend = alerts.slice(2)
+
+    vi.mocked(useWeather).mockReturnValue({
+        ...mockUseWeather(),
+        alerts: firstSend,
+    });
+
+    render(<Alert />)
+
+    vi.mocked(useWeather).mockReturnValue({
+        ...mockUseWeather(),
+        alerts: secondSend,
+    });
+
+    await act(async () => {
+        await vi.advanceTimersToNextTimerAsync()
+    })
+
+    if(state === "granted") {
+        expect(Notification).toHaveBeenCalledOnce()
+
+        const alert = secondSend[0]
+        expect(Notification).toHaveBeenCalledWith(
+            alert.get("event"),
+            {
+                body: `Issued: ${alert.get("sent")}\nExpires: ${alert.get("expires")}`
+            }
+        )
+    }
+    else {
+        expect(Notification).not.toHaveBeenCalled()
+    }
+
+    vi.mocked(Notification).mockRestore()
+})
+
+test("If multiple alerts are sent, the notification shows the highest priority with a more section", async () => {
+    vi.stubGlobal("Notification", vi.fn())
+
+    const alerts = multiAlert.features.map(alert => new NWSAlert(alert as unknown as NWSAlert));
+
+    //After the first alert mock, the 2nd, 3rd, and 4th alert contain the default mock zone, 
+    const firstSend = alerts.slice(3)
+
+    //Includes the first
+    const secondSend = alerts.slice(0)
+
+    vi.mocked(useWeather).mockReturnValue({
+        ...mockUseWeather(),
+        alerts: firstSend,
+    });
+
+    render(<Alert />)
+
+    vi.mocked(useWeather).mockReturnValue({
+        ...mockUseWeather(),
+        alerts: secondSend,
+    });
+
+    await act(async () => {
+        await vi.advanceTimersToNextTimerAsync()
+    })
+
+    expect(Notification).toHaveBeenCalledOnce()
+
+    //Includes an irrelevant alert to ensure notifications are accounting for them.
+    // third element has higher priority
+    const alert = secondSend[2]
+    expect(Notification).toHaveBeenCalledWith(
+        alert.get("event"),
+        {
+            body: `Issued: ${alert.get("sent")}\nExpires: ${alert.get("expires")}\n+1 more alert(s)`
+        }
+    )
+
+    vi.mocked(Notification).mockRestore()
+})

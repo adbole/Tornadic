@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "@emotion/styled";
 
-import { useBooleanState, useLocalStorage } from "Hooks";
+import { useBooleanState, useLocalStorage, usePermission } from "Hooks";
 
 import { Button, InputGroup, ToggleButton, ToggleSwitch } from "Components/Input";
 import type { ModalProps } from "Components/Modals/Modal";
@@ -16,8 +16,17 @@ const DataAttributation = styled.div({
     a: { color: vars.primary },
 });
 
+const StatusDiv = styled.div({
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: vars.inputBorderRadius,
+    padding: "10px",
+})
+
 export default function Settings({ ...modalProps }: ModalProps) {
     const [settings, setSettings] = useLocalStorage("userSettings");
+    const notiPermission = usePermission("notifications");
 
     const [isSaved, setIsSavedTrue, setIsSavedFalse] = useBooleanState(false);
     const [queue, setQueue] = React.useState<UserSettings>({} as any);
@@ -139,6 +148,24 @@ export default function Settings({ ...modalProps }: ModalProps) {
                     Save
                 </Button>
 
+                <hr/>
+                    <h3>NWS Alert Notifications</h3>
+                    <StatusDiv 
+                        style={{
+                            background: notiPermission === "granted" ? "#248f5e" : "#dc3545",
+                        }}
+                    >
+                        {
+                            notiPermission === "granted" ? (
+                                <p>Notifications Are Enabled</p>
+                            ) : (
+                                <p>Notifications Are Disabled</p>
+                            )
+                        }
+                    </StatusDiv>
+                    {
+                        notiPermission !== "granted" && <Button onClick={() => Notification.requestPermission()}>Get Notifications</Button>
+                    }
                 <hr />
 
                 <DataAttributation>
