@@ -20,9 +20,7 @@ export default function useNWS(
 
     const { data: point, isLoading: pointLoading } = useSWR(
         latitude && longitude ? `https://api.weather.gov/points/${latitude},${longitude}` : null,
-        url => fetchData<GridPoint>(url, "Error getting point from the NWS"), {
-            keepPreviousData: true
-        }
+        url => fetchData<GridPoint>(url, "Error getting point from the NWS")
     );
 
     const alertEndpoint = React.useMemo(() => {
