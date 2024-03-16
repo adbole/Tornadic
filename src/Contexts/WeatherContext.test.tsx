@@ -85,7 +85,7 @@ describe("Render", () => {
     });
 
     test("Displays a loading bar when new data is being fetched and old data is still present", async () => {
-        renderNormal();
+        const { container } = renderNormal();
 
         await act(async () => {
             await vi.runOnlyPendingTimersAsync();
@@ -98,6 +98,7 @@ describe("Render", () => {
         });
 
         expect(screen.queryByTestId(testIds.WeatherContext.LoadingBar)).toBeInTheDocument();
+        expect(container).toMatchSnapshot();
     });
 });
 

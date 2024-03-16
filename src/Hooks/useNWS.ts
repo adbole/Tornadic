@@ -1,5 +1,6 @@
 import React from "react";
 import useSWR from "swr";
+import useSWRImmutable from "swr/immutable";
 
 import { fetchData, fetchDataAndHeaders } from "ts/Fetch";
 import NWSAlert from "ts/NWSAlert";
@@ -18,7 +19,7 @@ export default function useNWS(
     const { alertMode } = useReadLocalStorage("radarSettings") || {};
     const expires = React.useRef<number>(0);
 
-    const { data: point, isLoading: pointLoading } = useSWR(
+    const { data: point, isLoading: pointLoading } = useSWRImmutable(
         latitude && longitude ? `https://api.weather.gov/points/${latitude},${longitude}` : null,
         url => fetchData<GridPoint>(url, "Error getting point from the NWS")
     );

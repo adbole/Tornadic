@@ -30,7 +30,7 @@ const LoadingBar = styled.div({
     left: 0,
     top: 0,
     width: "100%",
-    height: "10px",
+    height: "5px",
     background: `linear-gradient(90deg, #070c84, #3d9fa5, #8538b3, #070c84)`,
     backgroundSize: "200%, 100%",
     animation: `${shine} 2s linear infinite`,
