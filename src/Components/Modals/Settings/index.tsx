@@ -20,6 +20,7 @@ const StatusDiv = styled.div({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
+    flexDirection: "column",
     borderRadius: vars.inputBorderRadius,
     padding: "10px",
 })
@@ -150,14 +151,24 @@ export default function Settings({ ...modalProps }: ModalProps) {
                     >
                         {
                             notiPermission === "granted" ? (
-                                <p>Notifications Are Enabled</p>
+                                <>
+                                    <p>Notifications Are Enabled</p>
+                                    <p>Revoke permissions in your browser to disable</p>
+                                </>
                             ) : (
                                 <p>Notifications Are Disabled</p>
                             )
                         }
                     </StatusDiv>
                     {
-                        notiPermission !== "granted" && <Button onClick={() => Notification.requestPermission()}>Get Notifications</Button>
+                        notiPermission !== "granted" && 
+                        <Button 
+                            style={{ width: "100%" }}
+                            title="Enable Notifications"
+                            onClick={() => Notification.requestPermission()}
+                        >
+                            Get Notifications
+                        </Button>
                     }
                 <hr />
 

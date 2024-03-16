@@ -1,0 +1,33 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Render > Displays a loading bar when new data is being fetched and old data is still present 1`] = `
+@keyframes animation-0 {
+  to {
+    background-position-x: -200%;
+  }
+}
+
+.emotion-0 {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 5px;
+  background: linear-gradient(90deg, #070c84, #3d9fa5, #8538b3, #070c84);
+  -webkit-background-size: 200%,100%;
+  background-size: 200%,100%;
+  -webkit-animation: animation-0 2s linear infinite;
+  animation: animation-0 2s linear infinite;
+  z-index: var(--z-layer-2);
+}
+
+<div>
+  <div
+    class="emotion-0 emotion-1"
+    data-testid="WEATHER_CONTEXT_LOADING_BAR"
+  />
+  <div
+    data-testid="CHILD"
+  />
+</div>
+`;

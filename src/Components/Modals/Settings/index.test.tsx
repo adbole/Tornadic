@@ -144,3 +144,47 @@ describe("Changing Settings", () => {
         expect.soft(saveBtn).toBeDisabled();
     });
 });
+
+describe("Notifications", () => {
+    test.each([
+        "granted",
+        "denied"
+    ] as PermissionState[])(`Permission: %s`, async (state) => {
+        vi.useFakeTimers();
+        vi.mocked(navigator.permissions.query).mockResolvedValue({
+            state,
+        } as PermissionStatus);
+
+        render(<Settings isOpen={true} onClose={vi.fn()} />);
+
+        //Update permission state from resolved value
+        await act(async () => {
+            await vi.runOnlyPendingTimersAsync()
+        })
+
+        if (state === "granted") {
+            expect.soft(screen.getByText("Notifications Are Enabled")).toBeInTheDocument();
+            expect.soft(screen.getByText("Revoke permissions in your browser to disable")).toBeInTheDocument();
+        }
+        else {
+            expect.soft(screen.queryByText("Notifications Are Disabled")).toBeInTheDocument();
+        }
+        vi.useRealTimers();
+    })
+
+    test("Requesting permission", () => {
+        vi.stubGlobal("Notification", {
+            requestPermission: vi.fn(),
+        })
+
+        render(<Settings isOpen={true} onClose={vi.fn()} />);
+
+        const getNotiBtn = screen.getByText("Get Notifications");
+
+        act(() => {
+            getNotiBtn.click();
+        });
+
+        expect.soft(Notification.requestPermission).toHaveBeenCalledTimes(1);
+    })
+})
