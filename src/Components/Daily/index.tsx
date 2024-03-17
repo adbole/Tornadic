@@ -1,4 +1,5 @@
-import { useRef } from "react";
+
+import React from "react";
 
 import { useBooleanState, useReadLocalStorage } from "Hooks";
 
@@ -55,14 +56,14 @@ export default function Daily() {
     const { tempUnit } = useReadLocalStorage("userSettings")!;
 
     const [chartOpen, showChart, hideChart] = useBooleanState(false);
-    const chartDay = useRef(0);
+    const chartDay = React.useRef(0);
 
     const dailyValues = [...weather.getDailyValues()];
 
     const low_week = Math.min(...dailyValues.map(day => day.temperature_low));
     const high_week = Math.max(...dailyValues.map(day => day.temperature_high));
 
-    const calculateDualRangeCoverStyle = (min: number, max: number) => {
+    const calculateDualRangeCoverStyle = React.useCallback((min: number, max: number) => {
         min = Math.max(0, min);
         max = Math.min(120, max);
 
@@ -74,7 +75,11 @@ export default function Daily() {
             right: 100 - Normalize.Percent(max, low_week, high_week) + "%",
             backgroundImage: `linear-gradient(90deg, ${minHSL} 0%, ${maxHSL} 100%)`,
         };
-    };
+    // We don't change the function unless new data comes in or the low or high changes
+    // a unit change causes new data to be fetched so we should wait for the new data before recalculating
+    // the gradient otherwise a high fahrenheit value would show up as red due to celcius now being used.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [weather, low_week, high_week]);
 
     return (
         <>
