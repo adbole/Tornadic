@@ -69,7 +69,7 @@ export default function WeatherContextProvider({
 
     return value ? (
         <>
-            { isLoading || isValidating && <LoadingBar data-testid={testIds.WeatherContext.LoadingBar}/> }
+            { (isLoading || isValidating) && <LoadingBar data-testid={testIds.WeatherContext.LoadingBar}/> }
             <WeatherContext.Provider value={value}>{children}</WeatherContext.Provider>
         </>
     ) : (
