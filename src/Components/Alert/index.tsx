@@ -31,13 +31,12 @@ function Alert() {
         return alert.get("affectedZones").includes(point.properties.forecastZone) || inBounds
     });
 
-    const previousAlerts = React.useRef(alerts);
+    const previousAlertTime = React.useRef(new Date(alerts[0]?.get("sent")));
 
     React.useEffect(() => {
         if (alerts.length === 0 || notiPermission !== "granted") return;
 
-        const previousAlertTime = new Date(previousAlerts.current[0].get("sent"));
-        const newAlerts = alerts.filter((alert) => new Date(alert.get("sent")) > previousAlertTime);
+        const newAlerts = alerts.filter((alert) => new Date(alert.get("sent")) > previousAlertTime.current);
 
         if (newAlerts.length > 0) {
             const alert = getPriorityAlert(newAlerts);
@@ -48,7 +47,7 @@ function Alert() {
                 body: `Issued: ${alert.get("sent")}\nExpires: ${alert.get("expires") ?? alert.get("ends")}${additionalAlerts}`,
             });
 
-            previousAlerts.current = alerts;
+            previousAlertTime.current = new Date(alert.get("sent"));
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [alerts]);

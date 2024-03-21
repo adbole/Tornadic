@@ -102,7 +102,7 @@ describe("Polygon Interaction", () => {
             } as LeafletMouseEvent);
         });
 
-        const expectedAlert = mock_alerts.filter(alert => alert.hasCoords())[1];
+        const expectedAlert = mock_alerts.filter(alert => alert.hasCoords())[0];
         expect.soft(mocks.AlertModal).toHaveBeenLastCalledWith(
             expect.objectContaining({
                 alerts: [expectedAlert],
@@ -131,7 +131,7 @@ describe("Polygon Interaction", () => {
             } as LeafletMouseEvent);
         });
 
-        const expectedAlerts = mock_alerts.filter(alert => alert.hasCoords()).slice(1, 3);
+        const expectedAlerts = mock_alerts.filter(alert => alert.hasCoords()).slice(0, 2);
         expect.soft(mocks.AlertModal).toHaveBeenLastCalledWith(
             expect.objectContaining({
                 alerts: expectedAlerts,
