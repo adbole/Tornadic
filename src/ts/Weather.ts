@@ -1,7 +1,3 @@
-/**
- * The Weather class takes forecast, airquality, point, and alert data to provide access to said data along with helpful methods to act on the data
- */
-
 import getTimeFormatted from "ts/TimeConversion";
 
 import WeatherCondition from "./WeatherCondition";
@@ -16,22 +12,20 @@ type BaseInfo = Readonly<{
 export type HourInfo = Readonly<{
     time: string;
     temperature: number;
-}> &
-    BaseInfo;
+}> & BaseInfo;
 
 export type DayInfo = Readonly<{
     day: string;
     temperature_low: number;
     temperature_high: number;
-}> &
-    BaseInfo;
+}> & BaseInfo;
 
 export type CombinedHourly = Forecast["hourly"] & Omit<AirQuality["hourly"], "time">;
 
 /**
- * The WeatherData class takes forecast, airquality and point data to provide access to
- * said data along with helpful methods to act on the data.
- * This class is automatically initialized by WeatherContext and is used as the context throughout the application.
+ * The Weather class takes forecast and airquality data along with the user settings to provide access to
+ * said data in a uniform way along with extra helper methods.
+ * This class is automatically initialized by useOpenMeteo and is used as a value in WeatherContext.
  */
 export default class Weather {
     readonly hourLength: number;
@@ -84,18 +78,6 @@ export default class Weather {
         return Boolean(this.forecast.hourly.is_day[timeIndex]);
     }
 
-    getNow(): {
-        readonly conditionInfo: WeatherCondition;
-        readonly temperature: string;
-        readonly feelsLike: string;
-    } {
-        return {
-            conditionInfo: new WeatherCondition(this.getForecast("weathercode"), this.isDay()),
-            temperature: this.getForecast("temperature_2m").toFixed(0),
-            feelsLike: this.getForecast("apparent_temperature").toFixed(0),
-        };
-    }
-
     /**
      * Gets 48 hours of future values
      */
@@ -103,10 +85,7 @@ export default class Weather {
         const start = this.nowIndex + 1;
 
         for (let i = start; i < start + 48; ++i) {
-            const conditionInfo = new WeatherCondition(
-                this.getForecast("weathercode", i),
-                this.isDay(i)
-            );
+            const conditionInfo = this.getWeatherCondition(i);
             const precipitation_probability = this.getForecast("precipitation_probability", i);
 
             yield {
@@ -143,6 +122,10 @@ export default class Weather {
                 ),
             };
         }
+    }
+
+    getWeatherCondition(hour: number = this.nowIndex) {
+        return new WeatherCondition(this.getForecast("weathercode", hour), this.isDay(hour))
     }
 
     getForecast<K extends keyof CombinedHourly>(

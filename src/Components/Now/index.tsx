@@ -21,7 +21,7 @@ export default function Now({ displayOnly }: { displayOnly?: boolean }) {
     const [locationModalIsOpen, showLocationModal, hideLocationModal] = useBooleanState(false);
     const [settingsOpen, showSettings, hideSettings] = useBooleanState(false);
 
-    const now = weather.getNow();
+    const condition = weather.getWeatherCondition()
 
     return (
         <>
@@ -50,13 +50,13 @@ export default function Now({ displayOnly }: { displayOnly?: boolean }) {
                     {point.properties.relativeLocation.properties.city}
                 </p>
 
-                <Temperature>{now.temperature}</Temperature>
+                <Temperature>{Math.round(weather.getForecast("temperature_2m"))}</Temperature>
 
                 <p>
-                    {now.conditionInfo.intensity} {now.conditionInfo.type}
+                    {condition.intensity} {condition.type}
                 </p>
                 <p>
-                    Feels like <span>{now.feelsLike}</span>°
+                    Feels like <span>{Math.round(weather.getForecast("apparent_temperature"))}</span>°
                 </p>
             </NowWidget>
             <Settings isOpen={settingsOpen} onClose={hideSettings} />

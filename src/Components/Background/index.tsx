@@ -23,7 +23,7 @@ export default function Background({ parentElement }: { parentElement: HTMLEleme
     const { isDay, condition } = React.useMemo(
         () => ({
             isDay: weather.isDay(),
-            condition: weather.getNow().conditionInfo.type,
+            condition: weather.getWeatherCondition().type,
         }),
         [weather]
     );

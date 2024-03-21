@@ -4,7 +4,7 @@ import { mockDate } from "@test-utils";
 import DEFAULTS from "Hooks/useLocalStorage.config";
 
 import Weather from "ts/Weather";
-import type WeatherCondition from "ts/WeatherCondition";
+import WeatherCondition from "ts/WeatherCondition";
 
 //NOW INDEX FOR MOCK IS 21
 const NOW_INDEX = 21;
@@ -31,15 +31,15 @@ weatherTest("isDay returns the correct day value", ({ weather }) => {
     expect(weather.isDay()).toEqual(Boolean(forecastObj.current_weather.is_day));
 });
 
-weatherTest("getNow returns an object of values representing now", ({ weather }) => {
-    const now = weather.getNow();
+// weatherTest("getNow returns an object of values representing now", ({ weather }) => {
+//     const now = weather.getNow();
 
-    expect.soft(now.conditionInfo.type).toEqual<WeatherCondition["type"]>("Partly Cloudy");
-    expect
-        .soft(now.feelsLike)
-        .toEqual(forecastObj.hourly.apparent_temperature[NOW_INDEX].toFixed(0));
-    expect.soft(now.temperature).toEqual(forecastObj.hourly.temperature_2m[NOW_INDEX].toFixed(0));
-});
+//     expect.soft(now.conditionInfo.type).toEqual<WeatherCondition["type"]>("Partly Cloudy");
+//     expect
+//         .soft(now.feelsLike)
+//         .toEqual(forecastObj.hourly.apparent_temperature[NOW_INDEX].toFixed(0));
+//     expect.soft(now.temperature).toEqual(forecastObj.hourly.temperature_2m[NOW_INDEX].toFixed(0));
+// });
 
 weatherTest(
     "getFutureValues returns a generator of 48 values starting after the nowIndex",
@@ -58,6 +58,24 @@ weatherTest("getDailyValues returns a generator of a 7 day forecast", ({ weather
     expect.soft(arr).toHaveLength(7);
     expect.soft(arr[0].day).toEqual("Now");
 });
+
+weatherTest("getWeatherCondition returns a WeatherCondition for the given hour", ({ weather }) => {
+    const weatherCodes = forecastObj.hourly.weathercode
+        .map((code, i) => new WeatherCondition(code, Boolean(forecastObj.hourly.is_day[i])))
+    
+    const allResult = weatherCodes.every((obj, i) => {
+        const returned = weather.getWeatherCondition(i)
+
+        return obj.type === returned.type && obj.intensity === returned.intensity
+    })
+
+    const now = weatherCodes[NOW_INDEX]
+    const returnedNow = weather.getWeatherCondition()
+
+    const nowResult = now.type === returnedNow.type && now.intensity === returnedNow.intensity
+
+    expect(allResult && nowResult).toBe(true);
+})
 
 describe("getForecast", () => {
     weatherTest(

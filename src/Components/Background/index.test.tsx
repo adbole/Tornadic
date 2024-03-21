@@ -76,16 +76,14 @@ vi.mock("Components/Background/__internal__", () => ({
 
 beforeEach(() => {
     vi.spyOn(Weather.prototype, "isDay").mockReturnValue(true);
-    vi.spyOn(Weather.prototype, "getNow").mockReturnValue({
-        conditionInfo: {
-            type: "Clear",
-        },
-    } as any);
+    vi.spyOn(Weather.prototype, "getWeatherCondition").mockReturnValue({
+        type: "Clear"
+    } as WeatherCondition);
 });
 
 afterEach(() => {
     vi.mocked(Weather.prototype.isDay).mockRestore();
-    vi.mocked(Weather.prototype.getNow).mockRestore();
+    vi.mocked(Weather.prototype.getWeatherCondition).mockRestore();
 });
 
 const renderBackground = () => render(<Background parentElement={document.body} />);
@@ -148,11 +146,9 @@ describe("High Contrast", () => {
         ["with Gradients", "Overcast", true],
         ["without Gradients", "Overcast", false],
     ])("When rayleigh isn't 1 %s", (_, condition, preferGradient) => {
-        vi.mocked(Weather.prototype.getNow).mockReturnValue({
-            conditionInfo: {
-                type: condition,
-            },
-        } as any);
+        vi.mocked(Weather.prototype.getWeatherCondition).mockReturnValue({
+            type: condition
+        } as WeatherCondition);
 
         setLocalStorageItem("userSettings", {
             ...DEFAULTS.userSettings,
@@ -193,11 +189,9 @@ describe.each([
         ["Thunderstorms and Hail", cloudy, night],
     ] as [WeatherCondition["type"], number[], number[]][])("%s", (condition, day, night) => {
         vi.mocked(Weather.prototype.isDay).mockReturnValue(isDay);
-        vi.mocked(Weather.prototype.getNow).mockReturnValue({
-            conditionInfo: {
-                type: condition,
-            },
-        } as any);
+        vi.mocked(Weather.prototype.getWeatherCondition).mockReturnValue({
+            type: condition
+        } as WeatherCondition);
         setLocalStorageItem("userSettings", DEFAULTS.userSettings);
 
         renderBackground();
