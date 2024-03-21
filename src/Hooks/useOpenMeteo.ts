@@ -55,7 +55,7 @@ function getUrls(
 } {
     //NOTE: Precipitation unit of in affects the unit of visibility to become ft
     const forecastURL = new URL(
-        "https://api.open-meteo.com/v1/gfs?timezone=auto&current_weather=true"
+        "https://api.open-meteo.com/v1/gfs?timezone=auto"
     );
 
     //Type Array<keyof T> provides compile-time checking to ensure array values match a property on T

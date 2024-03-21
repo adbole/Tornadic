@@ -84,10 +84,6 @@ export default class Weather {
         return Boolean(this.forecast.hourly.is_day[timeIndex]);
     }
 
-    /**
-     * Open-Meteo provides some data through current_weather, but it is incomplete. This method
-     * will take other data using nowIndex and combine it to provide a better Now.
-     */
     getNow(): {
         readonly conditionInfo: WeatherCondition;
         readonly temperature: string;
