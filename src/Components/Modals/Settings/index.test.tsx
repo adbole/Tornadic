@@ -21,14 +21,20 @@ const saveAndCheck = (settings: UserSettings, defaults: UserSettings = DEFAULTS.
     expect.soft(saveBtn).toBeDisabled();
 };
 
-test("Renders nothing if isOpen is false", () => {
+test("Renders nothing if isOpen is false", async () => {
     render(<Settings isOpen={false} onClose={vi.fn()} />);
+
+    //Wait for useEffect
+    await act(() => Promise.resolve())
 
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
 });
 
-test("Renders a dialog if isOpen is true using showModal", () => {
+test("Renders a dialog if isOpen is true using showModal", async () => {
     render(<Settings isOpen={true} onClose={vi.fn()} />);
+
+    //Wait for useEffect
+    await act(() => Promise.resolve())
 
     expect.soft(screen.queryByRole("dialog")).toBeInTheDocument();
     expect.soft(screen.queryByText("Settings")).toBeInTheDocument();
@@ -36,8 +42,11 @@ test("Renders a dialog if isOpen is true using showModal", () => {
 });
 
 describe("Changing Settings", () => {
-    test("Default settings are checked", () => {
+    test("Default settings are checked", async () => {
         render(<Settings isOpen={true} onClose={vi.fn()} />);
+
+        //Wait for useEffect
+        await act(() => Promise.resolve())
 
         expect.soft(screen.queryByLabelText("Fahrenheit")).toBeChecked();
         expect.soft(screen.queryByLabelText("Inches")).toBeChecked();
@@ -55,7 +64,7 @@ describe("Changing Settings", () => {
         ["Wind", "mph", "Km/h", { windspeed: "mph" } as UserSettings],
         ["Wind", "Km/h", "mph", { windspeed: "kmh" } as UserSettings],
         ["Wind", "Knots", "mph", { windspeed: "kn" } as UserSettings],
-    ])(`%s: %s`, (_, switchTo, defaultLabel, settings) => {
+    ])(`%s: %s`, async (_, switchTo, defaultLabel, settings) => {
         const defaults: UserSettings = ["Fahrenheit", "Inches", "mph"].includes(switchTo)
             ? {
                   tempUnit: "celsius",
@@ -68,6 +77,9 @@ describe("Changing Settings", () => {
 
         setLocalStorageItem("userSettings", defaults);
         render(<Settings isOpen={true} onClose={vi.fn()} />);
+
+        //Wait for useEffect
+        await act(() => Promise.resolve())
 
         const changeTo = screen.getByLabelText(switchTo);
 
@@ -95,7 +107,7 @@ describe("Changing Settings", () => {
         test.each([
             ["Off -> On", false, true],
             ["On -> Off", true, false],
-        ] as [string, boolean, boolean][])(`%s`, (_, defaultState, newState) => {
+        ] as [string, boolean, boolean][])(`%s`, async (_, defaultState, newState) => {
             const defaults: UserSettings = {
                 ...DEFAULTS.userSettings,
                 [prop]: defaultState,
@@ -103,6 +115,9 @@ describe("Changing Settings", () => {
 
             setLocalStorageItem("userSettings", defaults);
             render(<Settings isOpen={true} onClose={vi.fn()} />);
+
+            //Wait for useEffect
+            await act(() => Promise.resolve())
 
             const toggle = screen.getByLabelText<HTMLInputElement>(label);
             expect.soft(toggle.checked).toBe(defaultState);
@@ -123,8 +138,12 @@ describe("Changing Settings", () => {
         });
     });
 
-    test("Save button is disabled if settings are reverted to default before save", () => {
+    test("Save button is disabled if settings are reverted to default before save", async () => {
         render(<Settings isOpen={true} onClose={vi.fn()} />);
+
+        //Wait for useEffect
+        await act(() => Promise.resolve())
+
         const saveBtn = screen.getByText("Save");
 
         expect.soft(saveBtn).toBeDisabled();
@@ -151,6 +170,7 @@ describe("Notifications", () => {
         "denied"
     ] as PermissionState[])(`Permission: %s`, async (state) => {
         vi.useFakeTimers();
+
         vi.mocked(navigator.permissions.query).mockResolvedValue({
             state,
         } as PermissionStatus);
@@ -169,15 +189,23 @@ describe("Notifications", () => {
         else {
             expect.soft(screen.queryByText("Notifications Are Disabled")).toBeInTheDocument();
         }
+
         vi.useRealTimers();
     })
 
-    test("Requesting permission", () => {
+    test("Requesting permission", async () => {
         vi.stubGlobal("Notification", {
             requestPermission: vi.fn(),
         })
 
+        vi.mocked(navigator.permissions.query).mockResolvedValue({
+            state: "denied",
+        } as PermissionStatus);
+
         render(<Settings isOpen={true} onClose={vi.fn()} />);
+
+        //Wait for useEffect
+        await act(() => Promise.resolve())
 
         const getNotiBtn = screen.getByText("Get Notifications");
 
