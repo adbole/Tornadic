@@ -1,6 +1,6 @@
 {
     "name": "tornadic-react",
-    "version": "1.2.0",
+    "version": "1.4.1",
     "private": true,
     "main": "src/index.tsx",
     "dependencies": {
