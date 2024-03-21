@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Matches Snapshot 1`] = `
+exports[`Renders as expected and passes expected properties 1`] = `
 @keyframes animation-0 {
   to {
     background-position-x: -200%;
@@ -363,6 +363,9 @@ exports[`Matches Snapshot 1`] = `
             data-testid="WIDGET_SECTION"
           />
           <div
+            data-testid="Background"
+          />
+          <div
             data-testid="Now"
           >
             <p>
@@ -371,11 +374,13 @@ exports[`Matches Snapshot 1`] = `
             </p>
           </div>
           <div
-            data-testid="Background"
-          />
-          <div
             data-testid="Alert"
-          />
+          >
+            <p>
+              No Notify: 
+              true
+            </p>
+          </div>
           <div
             data-testid="Hourly"
           />

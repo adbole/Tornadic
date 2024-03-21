@@ -66,7 +66,14 @@ vi.mock("Components/Now", () => ({
     ),
 }));
 
-vi.mock("Components/Alert", () => ({ default: () => <div data-testid={mockAlert} /> }));
+vi.mock("Components/Alert", () => ({
+    default: ({ noNotify }: { noNotify: boolean }) => (
+        <div data-testid={mockAlert}>
+            <p>No Notify: {noNotify.toString()}</p>
+        </div>
+    ),
+}));
+
 vi.mock("Components/Background", () => ({ default: () => <div data-testid={mockBackground} /> }));
 vi.mock("Components/Hourly", () => ({ default: () => <div data-testid={mockHourly} /> }));
 vi.mock("Components/Daily", () => ({ default: () => <div data-testid={mockDaily} /> }));
@@ -153,7 +160,8 @@ describe("FetchErrorHandler", () => {
     });
 });
 
-test("Matches Snapshot", () => {
+//Expected properties are outputted by mocks
+test("Renders as expected and passes expected properties", () => {
     render(<Peek isOpen={true} onClose={vi.fn()} latitude={365} longitude={405} />);
 
     expect(document.body).toMatchSnapshot();

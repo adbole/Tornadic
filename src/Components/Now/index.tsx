@@ -15,7 +15,7 @@ import NowWidget, { Temperature } from "./style";
  * Displays the current location name, temperature, condition, and feels like temperature along with having a gradient to match the condition
  * @returns The Now widget
  */
-export default function Now({ displayOnly }: { displayOnly?: boolean }) {
+export default function Now({ displayOnly = false }) {
     const { weather, point } = useWeather();
 
     const [locationModalIsOpen, showLocationModal, hideLocationModal] = useBooleanState(false);

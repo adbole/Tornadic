@@ -18,7 +18,7 @@ const getPriorityAlert = (alerts: NWSAlert[]) =>
         alerts[0]
     );
 
-function Alert() {
+function Alert({ noNotify = false }) {
     const { alerts: unfilteredAlerts, point } = useWeather();
     const notiPermission = usePermission("notifications")
 
@@ -34,7 +34,7 @@ function Alert() {
     const previousAlertTime = React.useRef(new Date(alerts[0]?.get("sent")));
 
     React.useEffect(() => {
-        if (alerts.length === 0 || notiPermission !== "granted") return;
+        if (noNotify || alerts.length === 0 || notiPermission !== "granted") return;
 
         const newAlerts = alerts.filter((alert) => new Date(alert.get("sent")) > previousAlertTime.current);
 
@@ -49,13 +49,14 @@ function Alert() {
 
             previousAlertTime.current = new Date(alert.get("sent"));
         }
+
+    //This effect should only run if alerts changes, noNotify and notiPermission are excluded as changing them could 
+    //cause unnecessary notifications to be sent annoying the user.
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [alerts]);
 
-    //If no alerts are active then don't display this component.
     if (!alerts.length) return null;
 
-    //Determine which alert should be shown.
     const alert = getPriorityAlert(alerts);
 
     return (

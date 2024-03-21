@@ -27,7 +27,7 @@ const componentMocks = vi.hoisted(() => ({
 
 vi.mock("Components", async importOriginal => ({
     ...((await importOriginal()) as any),
-    Alert: () => <div>Alert</div>,
+    Alert: ({ noNotify = false }) => <div>Alert - No Notify: {noNotify.toString()}</div>,
     Background: () => <div>Background</div>,
     Daily: () => <div>Daily</div>,
     FetchErrorHandler: componentMocks.FetchErrorHandler,
@@ -53,7 +53,7 @@ vi.mock("Components", async importOriginal => ({
     ModalContent: ({ children }: { children: React.ReactNode }) => (
         <div>ModalContent - {children}</div>
     ),
-    Now: () => <div>Now</div>,
+    Now: ({ displayOnly = false }) => <div>Now - Display Only: {displayOnly.toString()}</div>,
     Pressure: () => <div>Pressure</div>,
     Radar: () => <div>Radar</div>,
     Simple: ({
@@ -201,6 +201,8 @@ describe("Location", () => {
         expect.soft(screen.queryByText("Getting Your Location")).toBeInTheDocument();
     });
 
+    //Normally, the WeatherContext would enter is loading state using a skeleton, however this is ensuring
+    //that App is using all the right components when its checks have passed
     test("When the location is available, the app renders", () => {
         hookMocks.useUserLocation.mockReturnValueOnce({
             latitude: 0,
@@ -212,8 +214,8 @@ describe("Location", () => {
 
         expect.soft(screen.queryByText(/FetchErrorHandler/)).toBeInTheDocument();
         expect.soft(screen.queryByText(/WeatherContext/)).toBeInTheDocument();
-        expect.soft(screen.queryByText("Now")).toBeInTheDocument();
-        expect.soft(screen.queryByText("Alert")).toBeInTheDocument();
+        expect.soft(screen.queryByText("Now - Display Only: false")).toBeInTheDocument();
+        expect.soft(screen.queryByText("Alert - No Notify: false")).toBeInTheDocument();
         expect.soft(screen.queryByText("Hourly")).toBeInTheDocument();
         expect.soft(screen.queryByText("Daily")).toBeInTheDocument();
         expect.soft(screen.queryByText("Radar")).toBeInTheDocument();
@@ -290,5 +292,5 @@ test("The weather context is provided with a skeleton", () => {
     const skeletons = screen.queryAllByText(/Skeleton/);
 
     expect(skeletons).toHaveLength(13);
-    expect(container).matchSnapshot();
+    expect(container).toMatchSnapshot();
 });

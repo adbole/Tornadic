@@ -267,4 +267,36 @@ describe("Notifications", () => {
     
         vi.mocked(Notification).mockRestore()
     })
+
+    test("When noNotify is true, notifications aren't sent", async () => {
+        vi.mocked(navigator.permissions.query).mockResolvedValue({
+            state: "granted",
+        } as PermissionStatus);
+    
+        const alerts = multiAlert.features
+            .map(alert => new NWSAlert(alert as unknown as NWSAlert))
+            .sort((a, b) => (new Date(b.get("sent")).getTime()) - (new Date(a.get("sent")).getTime()));
+
+        //First and second alert contain the default mock zone, 
+        const firstSend = alerts.slice(1)
+        const secondSend = alerts.slice(0)
+    
+        vi.mocked(useWeather).mockReturnValue({
+            ...mockUseWeather(),
+            alerts: firstSend,
+        });
+    
+        render(<Alert noNotify/>)
+
+        await act(async () => {
+            vi.mocked(useWeather).mockReturnValue({
+                ...mockUseWeather(),
+                alerts: secondSend,
+            });
+
+            await vi.runOnlyPendingTimersAsync()
+        })
+    
+        expect(Notification).not.toHaveBeenCalled()    
+    })
 })

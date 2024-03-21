@@ -76,9 +76,10 @@ export default function Peek({
                         longitude={longitude}
                         skeleton={<PeekLoader />}
                     >
-                        <Now displayOnly />
                         <Background parentElement={contentElement}/>
-                        <Alert />
+                        
+                        <Now displayOnly />
+                        <Alert noNotify/>
                         <Hourly />
                         <Daily />
                         
