@@ -26,7 +26,7 @@ export default styled.section<{
         padding: "10px",
         overflow: "hidden",
 
-        backdropFilter: "blur(10px)",
+        backdropFilter: "blur(3px)",
         boxShadow: "inset 0 0 0 200px rgba(255, 255, 255, 0.01)",
         border: "1px solid rgba(255, 255, 255, 0.1)",
         borderRadius: vars.borderRadius,

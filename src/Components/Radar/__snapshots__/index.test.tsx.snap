@@ -16,8 +16,8 @@ exports[`Matches dark Snapshot 1`] = `
   position: relative;
   padding: 10px;
   overflow: hidden;
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px);
   box-shadow: inset 0 0 0 200px rgba(255, 255, 255, 0.01);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: var(--border-radius);
@@ -213,8 +213,8 @@ exports[`Matches dark-grey Snapshot 1`] = `
   position: relative;
   padding: 10px;
   overflow: hidden;
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px);
   box-shadow: inset 0 0 0 200px rgba(255, 255, 255, 0.01);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: var(--border-radius);
@@ -410,8 +410,8 @@ exports[`Matches light Snapshot 1`] = `
   position: relative;
   padding: 10px;
   overflow: hidden;
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px);
   box-shadow: inset 0 0 0 200px rgba(255, 255, 255, 0.01);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: var(--border-radius);
@@ -602,8 +602,8 @@ exports[`Matches light-grey Snapshot 1`] = `
   position: relative;
   padding: 10px;
   overflow: hidden;
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px);
   box-shadow: inset 0 0 0 200px rgba(255, 255, 255, 0.01);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: var(--border-radius);
@@ -799,8 +799,8 @@ exports[`Matches system Snapshot 1`] = `
   position: relative;
   padding: 10px;
   overflow: hidden;
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px);
   box-shadow: inset 0 0 0 200px rgba(255, 255, 255, 0.01);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: var(--border-radius);
