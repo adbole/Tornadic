@@ -15,8 +15,29 @@ mockDate();
 
 vi.mock("Contexts/WeatherContext", () => ({ useWeather }));
 
-test("Displays current weather information", () => {
+vi.mock("Components/Modals/Settings", () => ({
+    default: ({
+        isOpen,
+        onClose,
+    }: {
+        isOpen: boolean;
+        onClose: () => void;
+    }) =>
+        isOpen && (
+            <dialog open>
+                Modal
+                <button onClick={onClose}>Invoke onClose</button>
+            </dialog>
+        ),
+}))
+
+test("Displays current weather information", async () => {
     render(<Now />);
+
+    //Wait for settings useEffect
+    await act(async () => {
+        await vi.runOnlyPendingTimersAsync()
+    })
 
     expect.soft(screen.queryByText(location)).toBeInTheDocument();
     expect.soft(screen.queryByText("66")).toBeInTheDocument();
@@ -31,8 +52,9 @@ test("Clicking on the location name opens the location modal", () => {
         screen.getByText(location).click();
     });
 
-    expect.soft(screen.getByText(location)).toHaveStyle({ cursor: "pointer" });
-    expect.soft(screen.getByRole("dialog")).toBeInTheDocument();
+    expect.soft(screen.queryByText(location)).toHaveStyle({ cursor: "pointer" });
+    expect.soft(screen.queryByRole("dialog")).toBeInTheDocument();
+    expect.soft(screen.queryByRole("searchbox")).toBeInTheDocument();
 
     cleanup();
 });
@@ -44,14 +66,14 @@ test("Cliking on the gear opens the settings modal", () => {
         screen.getByRole("button").click();
     });
 
-    expect(screen.getByRole("dialog")).toBeInTheDocument();
+    expect(screen.queryByRole("dialog")).toBeInTheDocument();
 });
 
 test("displayOnly hides the gear icon and disables the location modal", () => {
     render(<Now displayOnly={true} />);
 
     expect.soft(screen.queryByRole("button")).not.toBeInTheDocument();
-    expect.soft(screen.getByText(location)).not.toHaveStyle({ cursor: "pointer" });
+    expect.soft(screen.queryByText(location)).not.toHaveStyle({ cursor: "pointer" });
 
     act(() => {
         screen.getByText(location).click();
