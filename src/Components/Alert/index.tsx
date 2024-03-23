@@ -31,7 +31,7 @@ function Alert({ noNotify = false }) {
         return alert.get("affectedZones").includes(point.properties.forecastZone) || inBounds
     });
 
-    const previousAlertTime = React.useRef(new Date(alerts[0]?.get("sent")));
+    const previousAlertTime = React.useRef(new Date(alerts[0]?.get("sent") ?? 0));
 
     React.useEffect(() => {
         if (noNotify || alerts.length === 0 || notiPermission !== "granted") return;
@@ -47,7 +47,7 @@ function Alert({ noNotify = false }) {
                 body: `Issued: ${alert.get("sent")}\nExpires: ${alert.get("expires") ?? alert.get("ends")}${additionalAlerts}`,
             });
 
-            previousAlertTime.current = new Date(alert.get("sent"));
+            previousAlertTime.current = new Date(newAlerts[0].get("sent"));
         }
 
     //This effect should only run if alerts changes, noNotify and notiPermission are excluded as changing them could 
