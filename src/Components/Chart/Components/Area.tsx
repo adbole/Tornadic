@@ -1,8 +1,8 @@
 import React from "react";
 import * as d3 from "d3";
 
-import type { DataPoint } from "../Context";
-import { useChart } from "../Context";
+import type { DataPoint } from "..";
+import { useChart } from "..";
 
 
 
@@ -10,7 +10,7 @@ export default function Area({
     yIndex = 0,
     ...SVGProps
 }: {
-    yIndex: number;
+    yIndex?: number;
 } & React.SVGProps<SVGPathElement>) {
     const path = React.useRef<SVGPathElement | null>(null);
     const { x, y, dataPoints } = useChart();

@@ -7,7 +7,7 @@ import { ChartContext } from "Components/Modals/Chart/__internal__";
 
 import getTimeFormatted from "ts/TimeConversion";
 
-import { Time } from ".";
+import { Time } from "../../Tooltip/__internal__";
 
 
 mockDate();

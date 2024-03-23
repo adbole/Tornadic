@@ -9,8 +9,8 @@ import { ModalTitle } from "Components/Modals/Modal";
 import getTimeFormatted from "ts/TimeConversion";
 import type { CombinedHourly } from "ts/Weather";
 
-import { Axes, ChartContext, ChartVisualization, NowReference, Tooltip } from "./__internal__";
-import ChartModal, { ChartContent, Option } from "./style";
+import Standard from "./__internal__/Standard";
+import StyledModal, { ChartContent, Option } from "./style";
 
 
 export type ChartViews = keyof Pick<
@@ -40,13 +40,7 @@ const CHART_VIEWS_TITLES: {
     UV_Index: "uv_index",
 } as const;
 
-export type DataPoint = {
-    x: Date;
-    y1: number;
-    y2: number | null;
-};
-
-export default function Chart({
+export default function ChartModal({
     showView,
     showDay = 0,
     ...modalProps
@@ -80,7 +74,7 @@ export default function Chart({
     }, []);
 
     return (
-        <ChartModal {...modalProps}>
+        <StyledModal {...modalProps}>
             <ModalTitle>
                 <select
                     ref={setWidth}
@@ -113,14 +107,8 @@ export default function Chart({
 
                 <p>{getTimeFormatted(weather.getForecast("time", day * 24), "date")}</p>
 
-                <ChartContext view={view} day={day}>
-                    <Axes />
-                    <ChartVisualization />
-                    <NowReference isShown={!day} />
-                    <Tooltip day={day} />
-                    <line x1={0} x2="100%" y1={100} y2={100} stroke="#ffffff19" strokeWidth={1} />
-                </ChartContext>
+                <Standard view={view} day={day}/>
             </ChartContent>
-        </ChartModal>
+        </StyledModal>
     );
 }

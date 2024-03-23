@@ -2,28 +2,25 @@ import React from "react";
 
 import { useWeather } from "Contexts/WeatherContext";
 
-import { trunc } from "ts/Helpers";
+import { useChart } from "Components/Chart";
+import { useTooltip } from "Components/Chart/Components";
+import type { ChartViews } from "Components/Modals/Chart";
 
-import { useChart } from "../../ChartContext";
+import { trunc } from "ts/Helpers";
 
 import { getLowHigh } from "./Helpers";
 
 
-export default function PrimaryInformation({
-    day,
-    hoverIndex,
-}: {
-    day: number;
-    hoverIndex: number;
-}) {
-    const { view, dataPoints } = useChart();
+export default function PrimaryInformation({day, view}: { day: number, view: ChartViews }) {
+    const { dataPoints } = useChart();
+    const hoverIndex = useTooltip()
     const { weather } = useWeather();
 
     const mainInformation = React.useMemo(() => {
         let string: string | undefined = undefined;
 
         if (hoverIndex > -1) {
-            string = trunc(dataPoints[hoverIndex].y1).toString();
+            string = trunc(dataPoints[hoverIndex].y[0]).toString();
         } else if (day === 0) {
             string = trunc(weather.getForecast(view)).toString();
         } else return getLowHigh(weather, view, day);

@@ -6,7 +6,7 @@ import { act, fireEvent, render, screen } from "@testing-library/react";
 import getTimeFormatted from "ts/TimeConversion";
 
 import type { ChartViews } from ".";
-import Chart from ".";
+import ChartModal from ".";
 
 
 mockDate();
@@ -37,13 +37,13 @@ vi.mock("Components/Modals/Chart/__internal__", () => ({
 }));
 
 test("Doesn't render a modal if isOpen is false", () => {
-    render(<Chart isOpen={false} showView="temperature_2m" onClose={() => undefined} />);
+    render(<ChartModal isOpen={false} showView="temperature_2m" onClose={() => undefined} />);
 
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
 });
 
 test("Renders a modal if isOpen is true", () => {
-    render(<Chart isOpen={true} showView="temperature_2m" onClose={() => undefined} />);
+    render(<ChartModal isOpen={true} showView="temperature_2m" onClose={() => undefined} />);
 
     expect(screen.getByRole("dialog")).toBeInTheDocument();
 });
@@ -51,7 +51,7 @@ test("Renders a modal if isOpen is true", () => {
 test("Calls onClose when the modal is closed", () => {
     const onClose = vi.fn();
 
-    render(<Chart isOpen={true} showView="temperature_2m" onClose={onClose} />);
+    render(<ChartModal isOpen={true} showView="temperature_2m" onClose={onClose} />);
 
     act(() => {
         screen.getByRole("dialog").dispatchEvent(new Event("cancel"));
@@ -61,7 +61,7 @@ test("Calls onClose when the modal is closed", () => {
 });
 
 test("Renders a select with options for each view", () => {
-    render(<Chart isOpen={true} showView="temperature_2m" onClose={() => undefined} />);
+    render(<ChartModal isOpen={true} showView="temperature_2m" onClose={() => undefined} />);
 
     const options = screen.getAllByRole("option");
     const expectedValues: Array<ChartViews> = [
@@ -81,7 +81,7 @@ test("Renders a select with options for each view", () => {
 });
 
 test("Renders all the components", () => {
-    render(<Chart isOpen={true} showView="temperature_2m" onClose={() => undefined} />);
+    render(<ChartModal isOpen={true} showView="temperature_2m" onClose={() => undefined} />);
 
     expect.soft(screen.queryByText("ChartContext")).toBeInTheDocument();
     expect.soft(screen.queryByText("NowReference")).toBeInTheDocument();
@@ -92,14 +92,14 @@ test("Renders all the components", () => {
 
 describe.each(forecast().daily.time.map((day, i) => [day, i]))("Day %#", (day, i) => {
     test("Renders a toggle button", () => {
-        render(<Chart isOpen={true} showView="temperature_2m" onClose={() => undefined} />);
+        render(<ChartModal isOpen={true} showView="temperature_2m" onClose={() => undefined} />);
 
         expect(screen.getByLabelText(getTimeFormatted(day, "weekday"))).toBeInTheDocument();
     });
 
     test("Toggle button is checked by default if day is passed to showDay. Also shows full date in modal.", () => {
         render(
-            <Chart isOpen={true} showView="temperature_2m" onClose={() => undefined} showDay={i} />
+            <ChartModal isOpen={true} showView="temperature_2m" onClose={() => undefined} showDay={i} />
         );
 
         const toggle = screen.getByLabelText<HTMLInputElement>(getTimeFormatted(day, "weekday"));
@@ -110,7 +110,7 @@ describe.each(forecast().daily.time.map((day, i) => [day, i]))("Day %#", (day, i
 
     test("Day is passed to children", () => {
         render(
-            <Chart isOpen={true} showView="temperature_2m" onClose={() => undefined} showDay={i} />
+            <ChartModal isOpen={true} showView="temperature_2m" onClose={() => undefined} showDay={i} />
         );
 
         expect
@@ -125,7 +125,7 @@ describe.each(forecast().daily.time.map((day, i) => [day, i]))("Day %#", (day, i
 
     test("Clicking a toggle button changes the day", () => {
         render(
-            <Chart
+            <ChartModal
                 isOpen={true}
                 showView="temperature_2m"
                 onClose={() => undefined}
@@ -171,7 +171,7 @@ test.each([
     ["uv_index", "UV Index"],
 ] as [ChartViews, string][])("Clicking an option changes the view to %s", async (view, label) => {
     render(
-        <Chart
+        <ChartModal
             isOpen={true}
             //Ensure the view isn't selected by default
             showView={view === "temperature_2m" ? "relativehumidity_2m" : "temperature_2m"}

@@ -4,7 +4,7 @@ import { useBooleanState } from "Hooks";
 
 import { useWeather } from "Contexts/WeatherContext";
 
-import Chart from "Components/Modals/Chart";
+import ChartModal from "Components/Modals/Chart";
 import Widget from "Components/Widget";
 import { Down, Meter, Up } from "svgs/widget";
 
@@ -45,7 +45,7 @@ export default function Pressure() {
                     <p>{weather.getForecastUnit("surface_pressure")}</p>
                 </Container>
             </Widget>
-            <Chart showView="surface_pressure" isOpen={modalOpen} onClose={hideModal} />
+            <ChartModal showView="surface_pressure" isOpen={modalOpen} onClose={hideModal} />
         </>
     );
 }

@@ -2,11 +2,12 @@ import React from "react";
 
 import { useWeather } from "Contexts/WeatherContext";
 
+import { useTooltip } from "Components/Chart/Components";
+
 import { get_aq, get_uv, trunc } from "ts/Helpers";
 import type { CombinedHourly } from "ts/Weather";
 
 import type { ChartViews } from "../../..";
-import { useChart } from "../../ChartContext";
 
 import { getLowHigh } from "./Helpers";
 
@@ -34,14 +35,8 @@ function supportingInformation(
     }
 }
 
-export default function SecondaryInformation({
-    day,
-    hoverIndex,
-}: {
-    day: number;
-    hoverIndex: number;
-}) {
-    const { view } = useChart();
+export default function SecondaryInformation({day, view}: { day: number, view: ChartViews }) {
+    const hoverIndex = useTooltip()
     const { weather } = useWeather();
 
     const secondaryInformation = React.useMemo(() => {

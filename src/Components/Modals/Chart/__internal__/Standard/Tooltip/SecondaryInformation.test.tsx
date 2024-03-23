@@ -10,7 +10,7 @@ import * as Helpers from "ts/Helpers";
 import type { CombinedHourly } from "ts/Weather";
 
 import * as TooltipHelpers from "./Helpers";
-import { SecondaryInformation } from ".";
+import { SecondaryInformation } from "../../Tooltip/__internal__";
 
 
 mockDate();

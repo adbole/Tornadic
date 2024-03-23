@@ -5,7 +5,7 @@ import { useBooleanState, useReadLocalStorage } from "Hooks";
 
 import { useWeather } from "Contexts/WeatherContext";
 
-import Chart from "Components/Modals/Chart";
+import ChartModal from "Components/Modals/Chart";
 import { Calendar } from "svgs/widget";
 
 import { Normalize, toHSL } from "ts/Helpers";
@@ -101,7 +101,7 @@ export default function Daily() {
                     ))}
                 </List>
             </DailyWidget>
-            <Chart
+            <ChartModal
                 showView="temperature_2m"
                 showDay={chartDay.current}
                 isOpen={chartOpen}

@@ -4,7 +4,7 @@ import { useBooleanState, useDragScroll } from "Hooks";
 
 import { useWeather } from "Contexts/WeatherContext";
 
-import Chart from "Components/Modals/Chart";
+import ChartModal from "Components/Modals/Chart";
 import { Clock } from "svgs/widget";
 
 import { varNames } from "ts/StyleMixins";
@@ -82,7 +82,7 @@ export default function Hourly() {
                     })}
                 </List>
             </HourlyWidget>
-            <Chart showView="temperature_2m" isOpen={modalOpen} onClose={hideModal} />
+            <ChartModal showView="temperature_2m" isOpen={modalOpen} onClose={hideModal} />
         </>
     );
 }

@@ -4,7 +4,7 @@ import { useBooleanState } from "Hooks";
 
 import { useWeather } from "Contexts/WeatherContext";
 
-import Chart from "Components/Modals/Chart";
+import ChartModal from "Components/Modals/Chart";
 import { Wind as WindIcon } from "svgs/widget";
 
 import Gauge from "../Gauge";
@@ -83,7 +83,7 @@ export default function Wind() {
                 <p>{weather.getForecast("windspeed_10m").toFixed(0)}</p>
                 <p>{weather.getForecastUnit("windspeed_10m")}</p>
             </Gauge>
-            <Chart showView="windspeed_10m" isOpen={modalOpen} onClose={hideModal} />
+            <ChartModal showView="windspeed_10m" isOpen={modalOpen} onClose={hideModal} />
         </>
     );
 }
