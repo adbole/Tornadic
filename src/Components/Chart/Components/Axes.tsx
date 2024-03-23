@@ -3,7 +3,7 @@ import testIds from "@test-consts/testIDs";
 import React from "react";
 import * as d3 from "d3";
 
-import { useChart } from "../Context";
+import { useChart } from "..";
 
 
 export default function Axes() {

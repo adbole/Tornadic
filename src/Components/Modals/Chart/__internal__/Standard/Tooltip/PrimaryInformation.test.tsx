@@ -9,7 +9,7 @@ import { ChartContext } from "Components/Modals/Chart/__internal__";
 import { trunc } from "ts/Helpers";
 
 import * as TooltipHelpers from "./Helpers";
-import { PrimaryInformation } from ".";
+import { PrimaryInformation } from "../../Tooltip/__internal__";
 
 
 mockDate();

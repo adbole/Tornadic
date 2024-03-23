@@ -3,7 +3,7 @@ import type * as d3 from "d3";
 
 import { useWeather } from "Contexts/WeatherContext";
 
-import { useChart } from "../Context";
+import { useChart } from "..";
 
 
 export default function NowReference({ isShown }: { isShown: boolean }) {

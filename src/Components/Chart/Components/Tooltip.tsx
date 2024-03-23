@@ -4,8 +4,8 @@ import * as d3 from "d3";
 
 import { throwError } from "ts/Helpers";
 
-import type { DataPoint } from "../Context";
-import { useChart } from "../Context";
+import type { DataPoint } from "..";
+import { useChart } from "..";
 
 
 const TooltipContext = React.createContext<number>(-1)

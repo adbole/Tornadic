@@ -1,10 +1,12 @@
+import { useChart } from "Components/Chart";
+import { useTooltip } from "Components/Chart/Components";
+
 import getTimeFormatted from "ts/TimeConversion";
 
-import { useChart } from "../../ChartContext";
 
-
-export default function Time({ day, hoverIndex }: { day: number; hoverIndex: number }) {
+export default function Time({day}: { day: number }) {
     const { dataPoints } = useChart();
+    const hoverIndex = useTooltip()
 
     if (hoverIndex > -1) {
         const dataPoint = dataPoints[hoverIndex];
