@@ -35,7 +35,7 @@ function getTime(scale: d3.ScaleTime<number, number, never> | d3.ScaleBand<Date>
     const [min, max] = bandScale.range();
     const range = d3.range(min, max, bandScale.step());
 
-    const index = Math.min(Math.max(d3.bisect(range, x) - 1, 0), scale.domain().length);
+    const index = Math.min(Math.max(d3.bisect(range, x) - 1, 0), scale.domain().length - 1);
     return scale.domain()[index];
 }
 

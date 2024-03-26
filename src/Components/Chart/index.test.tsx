@@ -5,7 +5,7 @@ import { act, renderHook } from "@testing-library/react";
 
 import type { CombinedHourly } from "ts/Weather";
 
-import type { ChartViews } from "..";
+import type { ChartViews } from "../Modals/Chart";
 
 import { ChartContext, useChart } from ".";
 

@@ -1,17 +1,10 @@
-import { useWeather } from "@test-mocks";
-import { mockDate } from "@test-utils";
-
 import { render } from "@testing-library/react";
 import * as d3 from "d3";
 
-import { ChartContext } from "../";
+import Chart from "../";
 
 import { Line } from ".";
 
-
-mockDate();
-
-vi.mock("Contexts/WeatherContext", () => ({ useWeather }));
 
 vi.mock("d3", async importOriginal => {
     const original = (await importOriginal()) as any;
@@ -22,11 +15,16 @@ vi.mock("d3", async importOriginal => {
     };
 });
 
+const dataPoints = d3.range(24).map(i => ({
+    x: new Date(i),
+    y: [i, i * 2],
+}));
+
 test("Uses d3.line to create a line", () => {
     render(
-        <ChartContext view="temperature_2m" day={0}>
-            <Line yProp="y1" />
-        </ChartContext>
+        <Chart dataPoints={dataPoints} type="linear">
+            <Line />
+        </Chart>
     );
 
     expect(d3.line).toHaveBeenCalled();
@@ -34,9 +32,9 @@ test("Uses d3.line to create a line", () => {
 
 test("Passes svg props to path", () => {
     const { container } = render(
-        <ChartContext view="temperature_2m" day={0}>
-            <Line yProp="y1" stroke="red" strokeOpacity={0.5} />
-        </ChartContext>
+        <Chart dataPoints={dataPoints} type="linear">
+            <Line stroke="red" strokeOpacity={0.5} />
+        </Chart>
     );
 
     const path = container.querySelector("path");
@@ -44,21 +42,21 @@ test("Passes svg props to path", () => {
     expect.soft(path).toHaveAttribute("stroke-opacity", "0.5");
 });
 
-test("Renders a path for y1 prop", () => {
+test("Renders a path for yIndex = 0 by default", () => {
     const { container } = render(
-        <ChartContext view="temperature_2m" day={0}>
-            <Line yProp="y1" />
-        </ChartContext>
+        <Chart dataPoints={dataPoints} type="linear">
+            <Line />
+        </Chart>
     );
 
     expect(container).toMatchSnapshot();
 });
 
-test("Renders a path for y2 prop", () => {
+test("Renders a path for yIndex = 1", () => {
     const { container } = render(
-        <ChartContext view="temperature_2m" day={0}>
-            <Line yProp="y2" />
-        </ChartContext>
+        <Chart dataPoints={dataPoints} type="linear">
+            <Line yIndex={1}/>
+        </Chart>
     );
 
     expect(container).toMatchSnapshot();

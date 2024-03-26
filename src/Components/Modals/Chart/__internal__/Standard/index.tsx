@@ -70,9 +70,9 @@ export default function Standard({ view, day }: { view: ChartViews, day: number}
                         <h1>No Data</h1>
                     ) : (
                         <>
+                            <Time day={day} />
                             <PrimaryInformation view={view} day={day} />
                             <SecondaryInformation view={view} day={day} />
-                            <Time day={day} />
                         </>
                     )
                 }
