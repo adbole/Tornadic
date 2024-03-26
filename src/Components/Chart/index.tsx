@@ -6,7 +6,7 @@ import { throwError } from "ts/Helpers";
 import { vars } from "ts/StyleMixins";
 
 
-type ChartType = "band" | "linear"
+export type ChartType = "band" | "linear"
 
 export type DataPoint = {
     x: Date;
@@ -42,16 +42,23 @@ const ResponsiveSVG = styled.svg({
     display: "block",
 });
 
+const defaultYBounds = ([min, max]: [number, number]): [number, number] => {
+    const range = max - min;
+    const rangePadding = range * 0.1;
+
+    return [min - rangePadding, max + rangePadding];
+}
+
 export default function ChartContextProvider({
     dataPoints,
     type,
     children,
-    yBounds,
+    yBounds = defaultYBounds,
 }: {
     dataPoints: DataPoint[]
     type: ChartType
     children: React.ReactNode;
-    yBounds: ([min, max]: [number, number]) => [number, number]
+    yBounds?: ([min, max]: [number, number]) => [number, number]
 }) {
     const [chart, setChart] = React.useState<d3.Selection<
         SVGSVGElement,

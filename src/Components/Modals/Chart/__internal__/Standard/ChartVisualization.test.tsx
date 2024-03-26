@@ -6,7 +6,7 @@ import type { Mock } from "vitest";
 
 import DEFAULTS from "Hooks/useLocalStorage.config";
 
-import type { ChartViews } from "..";
+import type { ChartViews } from "../..";
 
 import type { YProp } from "./Visualizers/index.types";
 import { ChartContext, ChartVisualization } from ".";

@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Renders a path for y1 prop 1`] = `
+exports[`Renders a path for the yIndex = 0 by default 1`] = `
 .emotion-0 {
   position: relative;
   border: 1px solid #ffffff19;
@@ -33,7 +33,7 @@ exports[`Renders a path for y1 prop 1`] = `
 </div>
 `;
 
-exports[`Renders a path for y2 prop 1`] = `
+exports[`Renders a path for yIndex = 1 1`] = `
 .emotion-0 {
   position: relative;
   border: 1px solid #ffffff19;
