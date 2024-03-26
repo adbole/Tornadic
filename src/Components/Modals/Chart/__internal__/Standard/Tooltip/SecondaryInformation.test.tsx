@@ -3,26 +3,43 @@ import { mockDate } from "@test-utils";
 
 import { render, screen } from "@testing-library/react";
 
+import Chart from "Components/Chart";
+import { useTooltip } from "Components/Chart/Components";
 import type { ChartViews } from "Components/Modals/Chart";
-import { ChartContext } from "Components/Modals/Chart/__internal__";
 
 import * as Helpers from "ts/Helpers";
 import type { CombinedHourly } from "ts/Weather";
 
 import * as TooltipHelpers from "./Helpers";
-import { SecondaryInformation } from "../../Tooltip/__internal__";
+import { SecondaryInformation } from ".";
 
 
 mockDate();
 
 vi.mock("Contexts/WeatherContext", () => ({ useWeather }));
+vi.mock("Components/Chart/Components")
 vi.spyOn(TooltipHelpers, "getLowHigh");
 
+const dataPoints = Array.from({ length: 24 }, (_, i) => ({
+    x: new Date(i),
+    y: [i],
+}))
+
+function Wrapper({ children }: { children: React.ReactNode }) {
+    return (
+        <Chart dataPoints={dataPoints} type="linear">
+            {children}
+        </Chart>
+    );
+}
+
 test("When given a property that doesn't have secondaryInformation provided, returns null", () => {
+    vi.mocked(useTooltip).mockReturnValue(-1)
+
     const { container } = render(
-        <ChartContext view="visibility" day={0}>
-            <SecondaryInformation day={0} hoverIndex={-1} />
-        </ChartContext>
+        <Wrapper>
+            <SecondaryInformation view="visibility" day={0} />
+        </Wrapper>
     );
 
     expect(container.querySelector("svg")).toBeEmptyDOMElement();
@@ -37,30 +54,36 @@ describe.each([
     });
 
     test(`Uses ${fn.name} for secondaryInformation on day 0`, () => {
+        vi.mocked(useTooltip).mockReturnValue(-1)
+
         render(
-            <ChartContext view={view} day={0}>
-                <SecondaryInformation day={0} hoverIndex={-1} />
-            </ChartContext>
+            <Wrapper>
+                <SecondaryInformation day={0} view={view} />
+            </Wrapper>
         );
 
         expect(Helpers[fn.name as keyof typeof Helpers]).toHaveBeenCalledOnce();
     });
 
     test(`Uses ${fn.name} for secondaryInformation on hoverIndex != -1`, () => {
+        vi.mocked(useTooltip).mockReturnValue(1)
+
         render(
-            <ChartContext view={view} day={0}>
-                <SecondaryInformation day={0} hoverIndex={1} />
-            </ChartContext>
+            <Wrapper>
+                <SecondaryInformation day={0} view={view} />
+            </Wrapper>
         );
 
         expect(Helpers[fn.name as keyof typeof Helpers]).toHaveBeenCalledOnce();
     });
 
-    test(`Day > 0 doesn't call ${fn.name}`, day => {
+    test(`Day > 0 doesn't call ${fn.name}`, () => {
+        vi.mocked(useTooltip).mockReturnValue(-1)
+
         const { container } = render(
-            <ChartContext view={view} day={1}>
-                <SecondaryInformation day={1} hoverIndex={-1} />
-            </ChartContext>
+            <Wrapper>
+                <SecondaryInformation day={1} view={view} />
+            </Wrapper>
         );
 
         expect.soft(container.querySelector("svg")).toBeEmptyDOMElement();
@@ -78,14 +101,16 @@ describe.each([
     "When given view %s, secondaryInformation is provided by %s",
     (view, property, label) => {
         test("When hoverIndex is -1 and day 0, secondaryInformation is current value", () => {
+            vi.mocked(useTooltip).mockReturnValue(-1)
+
             const weather = useWeather().weather;
             const value = weather.getForecast(property);
             const unit = weather.getForecastUnit(property);
 
             render(
-                <ChartContext view={view} day={0}>
-                    <SecondaryInformation day={0} hoverIndex={-1} />
-                </ChartContext>
+                <Wrapper>
+                    <SecondaryInformation day={0} view={view} />
+                </Wrapper>
             );
 
             expect(
@@ -94,10 +119,12 @@ describe.each([
         });
 
         test("Day > 0 and hoverIndex = -1 uses getLowHigh", () => {
+            vi.mocked(useTooltip).mockReturnValue(-1)
+
             render(
-                <ChartContext view={view} day={1}>
-                    <SecondaryInformation day={1} hoverIndex={-1} />
-                </ChartContext>
+                <Wrapper>
+                    <SecondaryInformation day={1} view={view} />
+                </Wrapper>
             );
 
             expect.soft(TooltipHelpers.getLowHigh).toHaveBeenCalledOnce();
@@ -107,14 +134,16 @@ describe.each([
         });
 
         test("HoverIndex > -1 and day = 0", () => {
+            vi.mocked(useTooltip).mockReturnValue(1)
+
             const weather = useWeather().weather;
             const value = weather.getForecast(property, 1);
             const unit = weather.getForecastUnit(property);
 
             render(
-                <ChartContext view={view} day={0}>
-                    <SecondaryInformation day={0} hoverIndex={1} />
-                </ChartContext>
+                <Wrapper>
+                    <SecondaryInformation day={0} view={view} />
+                </Wrapper>
             );
 
             expect(
