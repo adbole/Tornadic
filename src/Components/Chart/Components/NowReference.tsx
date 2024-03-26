@@ -14,7 +14,6 @@ export default function NowReference({ isShown }: { isShown: boolean }) {
         () =>
             (x(new Date(weather.getForecast("time"))) as number) +
             ((x as d3.ScaleBand<Date>)?.bandwidth?.() ?? 0) / 2,
-        // eslint-disable-next-line react-hooks/exhaustive-deps
         [x, weather]
     );
 
