@@ -1,20 +1,37 @@
-import { useWeather } from "@test-mocks";
+import { forecast, useWeather } from "@test-mocks";
 import { mockDate } from "@test-utils";
 
 import { render } from "@testing-library/react";
 
-import { ChartContext, NowReference } from ".";
+import Chart from "Components/Chart";
+
+import { NowReference } from ".";
 
 
 mockDate();
 
 vi.mock("Contexts/WeatherContext", () => ({ useWeather }));
 
+// This isn't an actual hook, it mocks the hook
+// eslint-disable-next-line react-hooks/rules-of-hooks
+const dataPoints = forecast().hourly.time.slice(0, 24).map((iso, i) => ({ 
+    x: new Date(iso), 
+    y: [i] 
+}));
+
+function Wrapper({ children }: { children: React.ReactNode }) {
+    return (
+        <Chart dataPoints={dataPoints} type="linear">
+            {children}
+        </Chart>
+    );
+}
+
 test("When shown, draws a rect and line to the current time", () => {
     const { container } = render(
-        <ChartContext view="temperature_2m" day={0}>
+        <Wrapper>
             <NowReference isShown />
-        </ChartContext>
+        </Wrapper>
     );
 
     expect(container).toMatchSnapshot();
@@ -22,9 +39,9 @@ test("When shown, draws a rect and line to the current time", () => {
 
 test("When shown, gives a offset for bandWidth", () => {
     const { container } = render(
-        <ChartContext view="precipitation" day={0}>
+        <Chart dataPoints={dataPoints} type="band">
             <NowReference isShown />
-        </ChartContext>
+        </Chart>
     );
 
     expect(container).toMatchSnapshot();
@@ -32,9 +49,9 @@ test("When shown, gives a offset for bandWidth", () => {
 
 test("When not shown, returns null", () => {
     const { container } = render(
-        <ChartContext view="precipitation" day={0}>
+        <Wrapper>
             <NowReference isShown={false} />
-        </ChartContext>
+        </Wrapper>
     );
 
     expect(container.querySelector("svg")).toBeEmptyDOMElement();

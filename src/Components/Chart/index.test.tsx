@@ -3,35 +3,36 @@ import { mockDate } from "@test-utils";
 
 import { act, renderHook } from "@testing-library/react";
 
-import type { CombinedHourly } from "ts/Weather";
-
-import type { ChartViews } from "../Modals/Chart";
-
-import { ChartContext, useChart } from ".";
+import Chart, { useChart } from ".";
 
 
 mockDate();
 
 vi.mock("Contexts/WeatherContext", () => ({ useWeather }));
 
+const dataPoints = Array.from({ length: 24 }, (_, i) => ({
+    x: new Date(i),
+    y: [i],
+}));
+
 function Wrapper({ children }: { children: React.ReactNode }) {
     return (
-        <ChartContext view="temperature_2m" day={0}>
+        <Chart dataPoints={dataPoints} type="linear">
             {children}
-        </ChartContext>
+        </Chart>
     );
 }
 
 test("useChart gives the chart, x, y, dataPoints, and view", () => {
     const { result } = renderHook(useChart, { wrapper: Wrapper });
 
-    const { chart, x, y, view, dataPoints } = result.current;
+    const { chart, x, y, dataPoints: returnedPoints } = result.current;
 
     expect.soft(chart.node()).toBeTruthy();
     expect.soft(x).toBeTruthy();
     expect.soft(y).toBeTruthy();
-    expect.soft(view).toBe("temperature_2m");
-    expect.soft(dataPoints).toHaveLength(24);
+    expect.soft(returnedPoints).toHaveLength(24);
+    expect.soft(returnedPoints).toBe(dataPoints)
 });
 
 test("If the chart resizes, the scales and viewBox are updated", () => {
@@ -60,40 +61,40 @@ test("If the chart resizes, the scales and viewBox are updated", () => {
     const point = dataPoints[1];
 
     expect.soft(originalX(point.x)).not.toBe(x(point.x));
-    expect.soft(originalY(point.y1)).not.toBe(y(point.y1));
+    expect.soft(originalY(point.y[0])).not.toBe(y(point.y[0]));
     expect.soft(chart.attr("viewBox")).toBe("0 0 2000 2000");
 });
 
-test.each([
-    ["temperature_2m", "apparent_temperature"],
-    ["windspeed_10m", "windgusts_10m"],
-] as [ChartViews, keyof CombinedHourly][])("View %s has y2 property %s", async (view, y2Prop) => {
+// test.each([
+//     ["temperature_2m", "apparent_temperature"],
+//     ["windspeed_10m", "windgusts_10m"],
+// ] as [ChartViews, keyof CombinedHourly][])("View %s has y2 property %s", async (view, y2Prop) => {
+//     function Wrapper({ children }: { children: React.ReactNode }) {
+//         return (
+//             <ChartContext view={view} day={0}>
+//                 {children}
+//             </ChartContext>
+//         );
+//     }
+
+//     const {
+//         result: {
+//             current: { dataPoints },
+//         },
+//     } = renderHook(useChart, { wrapper: Wrapper });
+//     const weather = useWeather().weather;
+
+//     expect(dataPoints.map(point => point.y2)).toStrictEqual(
+//         weather.getAllForecast(y2Prop).slice(0, 24)
+//     );
+// });
+
+test("Type band uses band scale", async () => {
     function Wrapper({ children }: { children: React.ReactNode }) {
         return (
-            <ChartContext view={view} day={0}>
+            <Chart dataPoints={dataPoints} type="band">
                 {children}
-            </ChartContext>
-        );
-    }
-
-    const {
-        result: {
-            current: { dataPoints },
-        },
-    } = renderHook(useChart, { wrapper: Wrapper });
-    const weather = useWeather().weather;
-
-    expect(dataPoints.map(point => point.y2)).toStrictEqual(
-        weather.getAllForecast(y2Prop).slice(0, 24)
-    );
-});
-
-test("View precipitation has a band scale", async () => {
-    function Wrapper({ children }: { children: React.ReactNode }) {
-        return (
-            <ChartContext view="precipitation" day={0}>
-                {children}
-            </ChartContext>
+            </Chart>
         );
     }
 

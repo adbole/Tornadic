@@ -14,26 +14,31 @@ mockDate();
 vi.mock("Contexts/WeatherContext", () => ({ useWeather }));
 
 const mocks = vi.hoisted(() => ({
-    ChartContext: vi.fn(
-        ({ children }: { view: ChartViews; day: number; children: React.ReactNode }) => (
-            <>
-                <p>ChartContext</p>
-                {children}
-            </>
+    Standard: vi.fn(
+        (_: { view: ChartViews; day: number; }) => (
+            <p>Standard Chart View</p>
         )
     ),
-    Axes: () => <p>Axes</p>,
-    ChartVisualization: () => <p>ChartVisualization</p>,
-    NowReference: vi.fn((_: { isShown: boolean }) => <p>NowReference</p>),
-    Tooltip: vi.fn((_: { day: number }) => <p>Tooltip</p>),
 }));
 
-vi.mock("Components/Modals/Chart/__internal__", () => ({
-    ChartContext: mocks.ChartContext,
-    Axes: mocks.Axes,
-    ChartVisualization: mocks.ChartVisualization,
-    NowReference: mocks.NowReference,
-    Tooltip: mocks.Tooltip,
+// Move to Standard Tests
+// const mocks = vi.hoisted(() => ({
+//     ChartContext: vi.fn(
+//         ({ children }: { view: ChartViews; day: number; children: React.ReactNode }) => (
+//             <>
+//                 <p>ChartContext</p>
+//                 {children}
+//             </>
+//         )
+//     ),
+//     Axes: () => <p>Axes</p>,
+//     ChartVisualization: () => <p>ChartVisualization</p>,
+//     NowReference: vi.fn((_: { isShown: boolean }) => <p>NowReference</p>),
+//     Tooltip: vi.fn((_: { day: number }) => <p>Tooltip</p>),
+// }));
+
+vi.mock("Components/Modals/Chart/__internal__/Standard", () => ({
+    default: mocks.Standard,
 }));
 
 test("Doesn't render a modal if isOpen is false", () => {
@@ -83,11 +88,7 @@ test("Renders a select with options for each view", () => {
 test("Renders all the components", () => {
     render(<ChartModal isOpen={true} showView="temperature_2m" onClose={() => undefined} />);
 
-    expect.soft(screen.queryByText("ChartContext")).toBeInTheDocument();
-    expect.soft(screen.queryByText("NowReference")).toBeInTheDocument();
-    expect.soft(screen.queryByText("Tooltip")).toBeInTheDocument();
-    expect.soft(screen.queryByText("ChartVisualization")).toBeInTheDocument();
-    expect.soft(screen.queryByText("Axes")).toBeInTheDocument();
+    expect.soft(screen.queryByText("Standard Chart View")).toBeInTheDocument();
 });
 
 describe.each(forecast().daily.time.map((day, i) => [day, i]))("Day %#", (day, i) => {
@@ -114,13 +115,11 @@ describe.each(forecast().daily.time.map((day, i) => [day, i]))("Day %#", (day, i
         );
 
         expect
-            .soft(mocks.ChartContext)
+            .soft(mocks.Standard)
             .toHaveBeenLastCalledWith(
                 expect.objectContaining({ view: "temperature_2m", day: i }),
                 {}
             );
-        expect.soft(mocks.NowReference).toHaveBeenLastCalledWith({ isShown: !i }, {});
-        expect.soft(mocks.Tooltip).toHaveBeenLastCalledWith({ day: i }, {});
     });
 
     test("Clicking a toggle button changes the day", () => {
@@ -135,13 +134,11 @@ describe.each(forecast().daily.time.map((day, i) => [day, i]))("Day %#", (day, i
         );
 
         expect
-            .soft(mocks.ChartContext)
+            .soft(mocks.Standard)
             .not.toHaveBeenLastCalledWith(
                 expect.objectContaining({ view: "temperature_2m", day: i }),
                 {}
             );
-        expect.soft(mocks.NowReference).not.toHaveBeenLastCalledWith({ isShown: !i }, {});
-        expect.soft(mocks.Tooltip).not.toHaveBeenLastCalledWith({ day: i }, {});
 
         const toggle = screen.getByLabelText<HTMLInputElement>(getTimeFormatted(day, "weekday"));
 
@@ -149,13 +146,11 @@ describe.each(forecast().daily.time.map((day, i) => [day, i]))("Day %#", (day, i
 
         expect.soft(screen.queryByText(getTimeFormatted(day, "date"))).toBeInTheDocument();
         expect
-            .soft(mocks.ChartContext)
+            .soft(mocks.Standard)
             .toHaveBeenLastCalledWith(
                 expect.objectContaining({ view: "temperature_2m", day: i }),
                 {}
             );
-        expect.soft(mocks.NowReference).toHaveBeenLastCalledWith({ isShown: !i }, {});
-        expect.soft(mocks.Tooltip).toHaveBeenLastCalledWith({ day: i }, {});
     });
 });
 
@@ -185,5 +180,5 @@ test.each([
     });
 
     expect.soft(screen.getByRole<HTMLOptionElement>("option", { name: label }).selected).toBe(true);
-    expect.soft(mocks.ChartContext).toHaveBeenLastCalledWith(expect.objectContaining({ view }), {});
+    expect.soft(mocks.Standard).toHaveBeenLastCalledWith(expect.objectContaining({ view }), {});
 });

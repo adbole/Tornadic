@@ -6,10 +6,11 @@ import type { Mock } from "vitest";
 
 import DEFAULTS from "Hooks/useLocalStorage.config";
 
+import Chart from "Components/Chart";
+
 import type { ChartViews } from "../..";
 
-import type { YProp } from "./Visualizers/index.types";
-import { ChartContext, ChartVisualization } from ".";
+import ChartVisualization from ".";
 
 
 mockDate();
@@ -17,15 +18,21 @@ mockDate();
 vi.mock("Contexts/WeatherContext", () => ({ useWeather }));
 
 const mocks = vi.hoisted(() => ({
-    area: vi.fn(({ yProp }: { yProp: YProp }) => yProp),
-    bar: vi.fn(({ yProp }: { yProp: YProp }) => yProp),
-    line: vi.fn(({ yProp }: { yProp: YProp }) => yProp),
+    area: vi.fn(({ yIndex = 0 }: { yIndex?: number }) => yIndex),
+    bar: vi.fn(({ yIndex = 0 }: { yIndex?: number }) => yIndex),
+    line: vi.fn(({ yIndex = 0 }: { yIndex?: number }) => yIndex),
 }));
 
-vi.mock("Components/Modals/Chart/__internal__/Visualizers", () => ({
+vi.mock("Components/Chart/Components", async (importOriginal) => ({
+    ...(await importOriginal() as any),
     Area: mocks.area,
     Bar: mocks.bar,
     Line: mocks.line,
+}));
+
+const dataPoints = Array.from({ length: 24 }, (_, i) => ({
+    x: new Date(i),
+    y: [i],
 }));
 
 describe("Visualizer tests", () => {
@@ -44,15 +51,15 @@ describe("Visualizer tests", () => {
         "%s renders the correct visualizer(s)",
         (view, drawnVisualizers, wrongVisualizers) => {
             render(
-                <ChartContext view={view} day={0}>
-                    <ChartVisualization />
-                </ChartContext>
+                <Chart dataPoints={dataPoints} type={view === "precipitation" ? "band" : "linear"}>
+                    <ChartVisualization view={view} day={0}/>
+                </Chart>
             );
 
-            expect.soft(drawnVisualizers[0]).toHaveReturnedWith("y1");
+            expect.soft(drawnVisualizers[0]).toHaveReturnedWith(0);
 
             if (drawnVisualizers.length > 1)
-                expect.soft(drawnVisualizers[1]).toHaveReturnedWith("y2");
+                expect.soft(drawnVisualizers[1]).toHaveReturnedWith(1);
 
             drawnVisualizers.forEach(visualizer => expect.soft(visualizer).toHaveBeenCalled());
             wrongVisualizers.forEach(visualizer => expect.soft(visualizer).not.toHaveBeenCalled());
@@ -65,9 +72,9 @@ describe("Gradient tests", () => {
         setLocalStorageItem("userSettings", DEFAULTS.userSettings);
 
         const { container } = render(
-            <ChartContext view="temperature_2m" day={0}>
-                <ChartVisualization />
-            </ChartContext>
+            <Chart dataPoints={dataPoints} type="linear">
+                <ChartVisualization view="temperature_2m" day={0}/>
+            </Chart>
         );
 
         expect(container).toMatchSnapshot();
@@ -75,9 +82,9 @@ describe("Gradient tests", () => {
 
     test("When view is uv_index, gradient is created", () => {
         const { container } = render(
-            <ChartContext view="uv_index" day={0}>
-                <ChartVisualization />
-            </ChartContext>
+            <Chart dataPoints={dataPoints} type="linear">
+                <ChartVisualization view="uv_index" day={0}/>
+            </Chart>
         );
 
         expect(container).toMatchSnapshot();
@@ -85,9 +92,9 @@ describe("Gradient tests", () => {
 
     test("When view is us_aqi, gradient is created", () => {
         const { container } = render(
-            <ChartContext view="us_aqi" day={0}>
-                <ChartVisualization />
-            </ChartContext>
+            <Chart dataPoints={dataPoints} type="linear">
+                <ChartVisualization view="us_aqi" day={0}/>
+            </Chart>
         );
 
         expect(container).toMatchSnapshot();
