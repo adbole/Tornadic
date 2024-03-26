@@ -2,9 +2,7 @@ import { useWeather } from "@test-mocks";
 import { mockDate } from "@test-utils";
 
 import { render, screen } from "@testing-library/react";
-import * as d3 from "d3";
 
-import type { DataPoint } from "Components/Chart";
 import Chart from "Components/Chart";
 import { useTooltip } from "Components/Chart/Components";
 import type { ChartViews } from "Components/Modals/Chart";
@@ -22,14 +20,14 @@ vi.mock("Components/Chart/Components")
 
 vi.spyOn(TooltipHelpers, "getLowHigh");
 
-const dataPoints = d3.range(24).map(d => ({
-    x: new Date(d),
-    y: [d]
-} as DataPoint))
+const dataPoints = Array.from({ length: 24 }, (_, i) => ({
+    x: new Date(i),
+    y: [i],
+}))
 
 function Wrapper({ children }: { children: React.ReactNode }) {
     return (
-        <Chart dataPoints={dataPoints} type="linear" yBounds={x => x}>
+        <Chart dataPoints={dataPoints} type="linear">
             {children}
         </Chart>
     );

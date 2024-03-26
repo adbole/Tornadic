@@ -55,6 +55,7 @@ export default function SecondaryInformation({day, view}: { day: number, view: C
                 return level(weather.getForecast(property));
             }
 
+            //Display nothing for days > 0
             return null;
         }
 
