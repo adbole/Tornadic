@@ -77,7 +77,6 @@ export default function Standard({ view, day }: { view: ChartViews, day: number}
                     )
                 }
             </Tooltip>
-            <line x1={0} x2="100%" y1={100} y2={100} stroke="#ffffff19" strokeWidth={1} />
         </Chart>
     )
 }

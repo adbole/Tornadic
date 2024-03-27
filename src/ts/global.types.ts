@@ -30,24 +30,21 @@ type DailyProperties<T extends number[] | string, Q extends string[] | string> =
 
 declare global {
     type Forecast = {
-        readonly latitude: number;
-        readonly longitude: number;
-        readonly generationtime_ms: number;
-        readonly timezone: string;
-        readonly timezone_abbreviation: string;
-        readonly elevation: number;
-        readonly current_weather: Readonly<{
-            temperature: number;
-            windspeed: number;
-            winddirection: number;
-            weathercode: number;
-            time: string;
-        }>;
         hourly_units: { time: string } & HourlyProperties<string>;
         hourly: { time: string[] } & HourlyProperties<number[]>;
         daily_units: { time: string } & DailyProperties<string, string>;
         daily: { time: string[] } & DailyProperties<number[], string[]>;
     };
+
+    type Ensemble = {
+        hourly: {
+            time: string[];
+        };
+    } & {
+        hourly: { 
+            [key: string]: number[]
+        };
+    }
 
     //Airquality and forecast data are connected in that the current index for forecast will correlate to the
     //correct UV index and AQI for that hour.

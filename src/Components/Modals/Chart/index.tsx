@@ -9,6 +9,7 @@ import { ModalTitle } from "Components/Modals/Modal";
 import getTimeFormatted from "ts/TimeConversion";
 import type { CombinedHourly } from "ts/Weather";
 
+import Ensemble from "./__internal__/Ensemble";
 import Standard from "./__internal__/Standard";
 import StyledModal, { ChartContent, Option } from "./style";
 
@@ -107,7 +108,7 @@ export default function ChartModal({
 
                 <p>{getTimeFormatted(weather.getForecast("time", day * 24), "date")}</p>
 
-                <Standard view={view} day={day}/>
+                <Ensemble view={view} day={day}/>
             </ChartContent>
         </StyledModal>
     );
