@@ -22,7 +22,7 @@ export default function useOpenMeteo(
     }, [latitude, longitude, settings]);
 
     const key = urls ? JSON.stringify(urls) : null;
-    const { data: weather, isLoading, isValidating } = useSWR<Weather, string>(
+    const { data: weather, isLoading, isValidating } = useSWR<Weather>(
         key,
         async () => {
             const [forecast, airquality] = await Promise.all([

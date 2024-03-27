@@ -63,5 +63,5 @@ export default function Line({
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    return <path ref={onMount} {...SVGProps} />;
+    return <path fill="none" ref={onMount} {...SVGProps} />;
 }

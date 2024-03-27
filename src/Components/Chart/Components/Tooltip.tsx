@@ -120,6 +120,7 @@ export default function Tooltip({ children }: { children: React.ReactNode }) {
 
     return (
         <g>
+            <line x1={0} x2="100%" y1={100} y2={100} stroke="#ffffff19" strokeWidth={1} />
             <foreignObject width="100%" height="100px">
                 <Container ref={div}>
                     <TooltipContext.Provider value={hoverIndex}>

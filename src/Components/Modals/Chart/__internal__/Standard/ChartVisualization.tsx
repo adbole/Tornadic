@@ -66,7 +66,7 @@ export default function ChartVisualization({ view }: { view: ChartViews }) {
                 return <Area fill={`url(#${gradientId})`} fillOpacity={0.75} />;
             }
             default: {
-                return <Line fill="none" stroke="#0078ef" strokeWidth={2} />;
+                return <Line stroke="#0078ef" strokeWidth={2} />;
             }
         }
     }, [view, gradientId]);
@@ -108,7 +108,7 @@ export default function ChartVisualization({ view }: { view: ChartViews }) {
         <g>
             {visual}
             {gradient}
-            {dataPoints[0].y.length === 2 && <Line yIndex={1} fill="none" stroke="#fff" strokeWidth={2} />}
+            {dataPoints[0].y.length === 2 && <Line yIndex={1} stroke="#fff" strokeWidth={2} />}
         </g>
     );
 }

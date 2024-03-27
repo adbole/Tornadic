@@ -31,16 +31,6 @@ weatherTest("isDay returns the correct day value", ({ weather }) => {
     expect(weather.isDay()).toEqual(Boolean(forecastObj.current_weather.is_day));
 });
 
-// weatherTest("getNow returns an object of values representing now", ({ weather }) => {
-//     const now = weather.getNow();
-
-//     expect.soft(now.conditionInfo.type).toEqual<WeatherCondition["type"]>("Partly Cloudy");
-//     expect
-//         .soft(now.feelsLike)
-//         .toEqual(forecastObj.hourly.apparent_temperature[NOW_INDEX].toFixed(0));
-//     expect.soft(now.temperature).toEqual(forecastObj.hourly.temperature_2m[NOW_INDEX].toFixed(0));
-// });
-
 weatherTest(
     "getFutureValues returns a generator of 48 values starting after the nowIndex",
     ({ weather }) => {
