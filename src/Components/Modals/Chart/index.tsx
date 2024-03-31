@@ -108,7 +108,7 @@ export default function ChartModal({
 
                 <p>{getTimeFormatted(weather.getForecast("time", day * 24), "date")}</p>
 
-                <Ensemble view={view} day={day}/>
+                <Ensemble view={view as Exclude<ChartViews, "us_aqi">} day={day}/>
             </ChartContent>
         </StyledModal>
     );

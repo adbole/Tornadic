@@ -1,3 +1,5 @@
+import { extent } from "d3";
+
 import { useWeather } from "Contexts/WeatherContext";
 
 import { useChart } from "Components/Chart";
@@ -6,6 +8,8 @@ import { useTooltip } from "Components/Chart/Components";
 import { trunc } from "ts/Helpers";
 
 import type { ChartViews } from "../..";
+
+import { AVG_INDEX, MAX_INDEX, MIN_INDEX } from "./Constants";
 
 
 export default function TooltipDisplay({day, view}: { day: number, view: ChartViews }) {
@@ -18,18 +22,26 @@ export default function TooltipDisplay({day, view}: { day: number, view: ChartVi
     if (hoverIndex > - 1) {
         return (
             <>
-                <h1 style={{ marginBottom: "5px"}}>Avg: {trunc(dataPoints[hoverIndex].y[2])}{forecastUnit}</h1>
-                <p>Min {trunc(dataPoints[hoverIndex].y[0])} | Max {trunc(dataPoints[hoverIndex].y[1])}</p>
+                <h1 style={{ marginBottom: "5px"}}>Avg: {trunc(dataPoints[hoverIndex].y[AVG_INDEX])}{forecastUnit}</h1>
+                <p>Min {trunc(dataPoints[hoverIndex].y[MIN_INDEX])} | Max {trunc(dataPoints[hoverIndex].y[MAX_INDEX])}</p>
             </>
         );
     } else if (day === 0) {
         return (
             <>
-                <h1 style={{ marginBottom: "5px"}}>Avg: {trunc(dataPoints[weather.nowIndex].y[2])}{forecastUnit}</h1>
-                <p>Min {trunc(dataPoints[weather.nowIndex].y[0])} | Max {trunc(dataPoints[weather.nowIndex].y[1])}</p>
+                <h1 style={{ marginBottom: "5px"}}>Avg: {trunc(dataPoints[weather.nowIndex].y[AVG_INDEX])}{forecastUnit}</h1>
+                <p>Min {trunc(dataPoints[weather.nowIndex].y[MIN_INDEX])} | Max {trunc(dataPoints[weather.nowIndex].y[MAX_INDEX])}</p>
             </>
         )
     }
 
-    return null;
+    const [low, high] = extent(dataPoints, point => point.y[AVG_INDEX])
+    const unit = weather.getForecastUnit(view)
+
+    return (
+        <>
+            <h1>L: {trunc(low!)} H: {trunc(high!)}</h1>
+            { unit !== "" && <p>In Unit: {unit}</p> }
+        </>
+    );
 }

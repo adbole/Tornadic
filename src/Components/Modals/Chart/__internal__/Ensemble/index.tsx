@@ -3,17 +3,23 @@ import * as d3 from "d3";
 
 import useEnsemble from "Hooks/useEnsemble";
 
+import { useWeather } from "Contexts/WeatherContext";
+
 import Chart from "Components/Chart";
 import { Axes, Line, NowReference, Tooltip } from "Components/Chart/Components";
 
 import type { ChartViews } from "../..";
 import { Time } from "../Standard/Tooltip";
 
+import { AVG_INDEX, MAX_INDEX, MIN_INDEX } from "./Constants";
 import TooltipDisplay from "./TooltipDisplay";
 
 
-export default function Ensemble({ view, day }: { view: ChartViews, day: number}) {
-    const { ensemble } = useEnsemble(view, 42.3601, -71.0589);
+export default function Ensemble({ view, day }: { view: Exclude<ChartViews, "us_aqi">, day: number}) {
+    const { point } = useWeather();
+
+    const [long, lat] = point.geometry.coordinates
+    const { ensemble } = useEnsemble(view, lat, long);
     
     const dataPoints = React.useMemo(() => {
         if (!ensemble) return undefined;
@@ -21,16 +27,14 @@ export default function Ensemble({ view, day }: { view: ChartViews, day: number}
         const from = day * 24;
         const to = from + 24;
 
-        const x = ensemble.hourly.time
+        const x = ensemble.time
             .slice(from, to)
             .map(time => new Date(time));
 
         //Each member gives a different forecast.
         //We transpose the data so that we can easily spread all the y values for a common index.
         //This also means we can easily calcluate the max, min, and average for each y
-
-        const memberKeys = Object.keys(ensemble.hourly).filter(key => key !== "time");
-        const members = d3.transpose(memberKeys.map(key => ensemble.hourly[key].slice(from, to)));
+        const members = d3.transpose(ensemble.data.map(member => member.slice(from, to)));
 
         const mins = members.map(member => d3.min(member) ?? 0);
         const maxes = members.map(member => d3.max(member) ?? 0);
@@ -65,20 +69,20 @@ export default function Ensemble({ view, day }: { view: ChartViews, day: number}
 
             {
                 //0, 1, 2 are the min, max, and average
-                dataPoints.slice(3).map((_, i) => (
+                dataPoints.slice(AVG_INDEX + 1).map((_, i) => (
                     <Line key={i} yIndex={i} stroke="#636363" />
                 ))
             }
 
-            <Line yIndex={0} stroke="white" strokeWidth={3} />
-            <Line yIndex={1} stroke="white" strokeWidth={3} />
-            <Line yIndex={2} stroke="#0078ef" strokeWidth={3} />
+            <Line yIndex={MIN_INDEX} stroke="white" strokeWidth={3} />
+            <Line yIndex={MAX_INDEX} stroke="white" strokeWidth={3} />
+            <Line yIndex={AVG_INDEX} stroke="#0078ef" strokeWidth={3} />
 
             <NowReference isShown={!day} />
 
             <Tooltip>
                 {
-                    dataPoints.every(d => d.y[0] == null) ? (
+                    dataPoints.every(d => d.y.every(value => value == null)) ? (
                         <h1>No Data</h1>
                     ) : (
                         <>

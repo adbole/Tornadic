@@ -1,6 +1,6 @@
+import DataConverter from "ts/DataConverter";
 import getTimeFormatted from "ts/TimeConversion";
-
-import WeatherCondition from "./WeatherCondition";
+import WeatherCondition from "ts/WeatherCondition";
 
 
 type BaseInfo = Readonly<{
@@ -52,14 +52,10 @@ export default class Weather {
     }
 
     private configureForecast(forecast: Forecast, settings: UserSettings) {
-        const visibilityDivisor = settings.precipitation === "inch" ? 5280 : 1000;
+        const converter = new DataConverter(settings);
 
-        //All data point arrays have the same length, so one loop is sufficient
-        for (let i = 0; i < this.hourLength; ++i) {
-            //Convert units
-            forecast.hourly.surface_pressure[i] /= 33.864;
-            forecast.hourly.visibility[i] /= visibilityDivisor;
-        }
+        forecast.hourly.surface_pressure = converter.convert("surface_pressure", forecast.hourly.surface_pressure);
+        forecast.hourly.visibility = converter.convert("visibility", forecast.hourly.visibility);
 
         const units = forecast.hourly_units;
 

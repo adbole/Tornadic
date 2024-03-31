@@ -36,16 +36,6 @@ declare global {
         daily: { time: string[] } & DailyProperties<number[], string[]>;
     };
 
-    type Ensemble = {
-        hourly: {
-            time: string[];
-        };
-    } & {
-        hourly: { 
-            [key: string]: number[]
-        };
-    }
-
     //Airquality and forecast data are connected in that the current index for forecast will correlate to the
     //correct UV index and AQI for that hour.
     type AirQuality = Readonly<{
@@ -57,6 +47,9 @@ declare global {
 
     //Point and Alert data from NWS
     type GridPoint = Readonly<{
+        geometry: {
+            coordinates: [number, number];
+        }
         properties: {
             relativeLocation: {
                 geometry: {
