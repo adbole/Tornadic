@@ -12,6 +12,7 @@ import type { ChartViews } from "../..";
 import { Time } from "../Standard/Tooltip";
 
 import { AVG_INDEX, MAX_INDEX, MIN_INDEX } from "./Constants";
+import Outliers from "./Outliers";
 import TooltipDisplay from "./TooltipDisplay";
 
 
@@ -67,16 +68,23 @@ export default function Ensemble({ view, day }: { view: Exclude<ChartViews, "us_
         <Chart dataPoints={dataPoints} yBounds={getMinMax} type="linear">
             <Axes />
 
-            {
-                //0, 1, 2 are the min, max, and average
-                dataPoints.slice(AVG_INDEX + 1).map((_, i) => (
-                    <Line key={i} yIndex={i} stroke="#636363" />
-                ))
-            }
+            <g>
+                {
+                    //0, 1, 2 are the min, max, and average
+                    ensemble.data.map((_, i) => (
+                        <Line key={i} yIndex={AVG_INDEX + i} stroke="#636363" />
+                    ))
+                }
+            </g>
 
-            <Line yIndex={MIN_INDEX} stroke="white" strokeWidth={3} />
-            <Line yIndex={MAX_INDEX} stroke="white" strokeWidth={3} />
-            <Line yIndex={AVG_INDEX} stroke="#0078ef" strokeWidth={3} />
+            <g>
+                <Line yIndex={MIN_INDEX} stroke="white" strokeWidth={3} />
+                <Line yIndex={MAX_INDEX} stroke="white" strokeWidth={3} />
+                <Line yIndex={AVG_INDEX} stroke="#0078ef" strokeWidth={3} />
+            </g>
+
+
+            <Outliers fill="red"/>
 
             <NowReference isShown={!day} />
 
