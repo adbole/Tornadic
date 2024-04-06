@@ -1,16 +1,18 @@
 import React from "react";
-import { useFrame, useThree } from "@react-three/fiber";
+import { useFrame } from "@react-three/fiber";
 import type { PointLight } from "three";
 
 import { randomBetween } from "ts/Helpers";
 import type WeatherCondition from "ts/WeatherCondition";
+
+import useViewport from "./useViewport";
 
 
 export default function Thunderstorm({ condition }: { condition: WeatherCondition["type"] }) {
     const flash = React.useRef<PointLight>(null);
     const doFlash = React.useRef(false);
 
-    const { width } = useThree(state => state.viewport);
+    const { width } = useViewport();
 
     const [show, setShow] = React.useState(false);
     React.useEffect(() => {
@@ -29,7 +31,8 @@ export default function Thunderstorm({ condition }: { condition: WeatherConditio
 
         if (doFlash.current || flash.current.power > 100) {
             if (flash.current.power < 50) {
-                flash.current.position.set(randomBetween(-width, width), randomBetween(5, 10), -5);
+                const halfWidth = width / 2;
+                flash.current.position.set(randomBetween(-halfWidth, halfWidth), randomBetween(5, 10), -5);
             }
 
             flash.current.power = Math.random() * 500;

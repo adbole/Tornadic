@@ -18,6 +18,11 @@ afterEach(() => {
     vi.mocked(Math.random).mockRestore();
 });
 
+vi.mock("./useViewport", () => ({
+    default: vi.fn(() => ({ width: 100, height: 100})),
+}))
+
+
 describe("Visibility", () => {
     test.each(["Thunderstorms", "Thunderstorms and Hail"] as WeatherCondition["type"][])(
         "Shows if Condition is %s",
