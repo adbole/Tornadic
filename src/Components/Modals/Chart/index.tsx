@@ -2,6 +2,7 @@ import React from "react";
 
 import { useWeather } from "Contexts/WeatherContext";
 
+import { Ensemble, Standard } from "Components/Chart/Variants";
 import { InputGroup, ToggleButton } from "Components/Input";
 import type { ModalProps } from "Components/Modals/Modal";
 import { ModalTitle } from "Components/Modals/Modal";
@@ -9,8 +10,6 @@ import { ModalTitle } from "Components/Modals/Modal";
 import getTimeFormatted from "ts/TimeConversion";
 import type { CombinedHourly } from "ts/Weather";
 
-import Ensemble from "./__internal__/Ensemble";
-import Standard from "./__internal__/Standard";
 import StyledModal, { ChartContent, Option } from "./style";
 
 

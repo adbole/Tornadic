@@ -4,10 +4,9 @@ import { useWeather } from "Contexts/WeatherContext";
 
 import { useChart } from "Components/Chart";
 import { useTooltip } from "Components/Chart/Components";
+import type { ChartViews } from "Components/Modals/Chart";
 
 import { trunc } from "ts/Helpers";
-
-import type { ChartViews } from "../../..";
 
 import { AVG_INDEX, MAX_INDEX, MIN_INDEX } from "./Constants";
 

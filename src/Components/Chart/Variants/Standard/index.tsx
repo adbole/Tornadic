@@ -4,8 +4,7 @@ import { useWeather } from "Contexts/WeatherContext";
 
 import Chart from "Components/Chart";
 import { Axes, NowReference, Tooltip } from "Components/Chart/Components";
-
-import type { ChartViews } from "../..";
+import type { ChartViews } from "Components/Modals/Chart";
 
 import ChartVisualization from "./ChartVisualization";
 import { PrimaryInformation, SecondaryInformation, Time } from "./Tooltip";

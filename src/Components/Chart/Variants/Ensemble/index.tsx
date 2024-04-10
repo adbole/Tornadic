@@ -8,9 +8,9 @@ import { useWeather } from "Contexts/WeatherContext";
 import Chart from "Components/Chart";
 import { Axes, Line, NowReference, Tooltip } from "Components/Chart/Components";
 import { Button } from "Components/Input";
+import type { ChartViews } from "Components/Modals/Chart";
 import { ExclamationTriangle, Spinner } from "svgs";
 
-import type { ChartViews } from "../..";
 import { Time } from "../Standard/Tooltip";
 
 import { AVG_INDEX, MAX_INDEX, MIN_INDEX } from "./__internal__/Constants";
