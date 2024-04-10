@@ -7,7 +7,7 @@ import { useTooltip } from "Components/Chart/Components";
 
 import { trunc } from "ts/Helpers";
 
-import type { ChartViews } from "../..";
+import type { ChartViews } from "../../..";
 
 import { AVG_INDEX, MAX_INDEX, MIN_INDEX } from "./Constants";
 

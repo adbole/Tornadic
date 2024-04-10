@@ -11,9 +11,9 @@ import { Axes, Line, NowReference, Tooltip } from "Components/Chart/Components";
 import type { ChartViews } from "../..";
 import { Time } from "../Standard/Tooltip";
 
-import { AVG_INDEX, MAX_INDEX, MIN_INDEX } from "./Constants";
-import Outliers from "./Outliers";
-import TooltipDisplay from "./TooltipDisplay";
+import { AVG_INDEX, MAX_INDEX, MIN_INDEX } from "./__internal__/Constants";
+import { Outliers,TooltipDisplay } from "./__internal__";
+import { CenteredDisplay } from "./style";
 
 
 export default function Ensemble({ view, day }: { view: Exclude<ChartViews, "us_aqi">, day: number}) {
