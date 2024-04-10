@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 
-import { mediaQueries, vars } from "ts/StyleMixins";
+import { centerFlex, mediaQueries, vars } from "ts/StyleMixins";
 
 import Modal, { ModalContent } from "../Modal";
 
@@ -13,6 +13,22 @@ export default styled(Modal)({
         paddingBottom: "20px",
     },
 });
+
+export const ChartTitle = styled.div([
+    centerFlex, 
+    {
+        padding: "10px",
+        justifyContent: "space-between",
+        "select": {
+            background: "transparent",
+            border: "none",
+            color: "inherit",
+            fontSize: "2rem",
+    
+            "&:focus": { outline: "none" },
+        }
+    }
+])
 
 export const ChartContent = styled(ModalContent)({
     display: "flex",

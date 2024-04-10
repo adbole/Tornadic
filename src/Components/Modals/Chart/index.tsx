@@ -4,13 +4,14 @@ import { useWeather } from "Contexts/WeatherContext";
 
 import { Ensemble, Standard } from "Components/Chart/Variants";
 import { InputGroup, ToggleButton } from "Components/Input";
-import type { ModalProps } from "Components/Modals/Modal";
-import { ModalTitle } from "Components/Modals/Modal";
+import type {ModalProps} from "Components/Modals/Modal";
+import { Ensemble as EnsembleSVG } from "svgs";
 
+import { varNames } from "ts/StyleMixins";
 import getTimeFormatted from "ts/TimeConversion";
 import type { CombinedHourly } from "ts/Weather";
 
-import StyledModal, { ChartContent, Option } from "./style";
+import StyledModal, { ChartContent, ChartTitle, Option } from "./style";
 
 
 export type ChartViews = keyof Pick<
@@ -48,6 +49,7 @@ export default function ChartModal({
     const { weather } = useWeather();
     const [view, setView] = React.useState(showView);
     const [day, setDay] = React.useState(showDay);
+    const [showEnsemble, setShowEnsemble] = React.useState(false);
 
     const radioId = React.useId();
 
@@ -75,7 +77,7 @@ export default function ChartModal({
 
     return (
         <StyledModal {...modalProps}>
-            <ModalTitle>
+            <ChartTitle>
                 <select
                     ref={setWidth}
                     title="Current Chart"
@@ -91,7 +93,17 @@ export default function ChartModal({
                         </Option>
                     ))}
                 </select>
-            </ModalTitle>
+                <ToggleButton 
+                    type="checkbox"
+                    title="Toggle Ensemble data on or off"
+                    onClick={({ currentTarget: { checked } }) => setShowEnsemble(checked)}
+                    label={<EnsembleSVG />}
+                    style={{ 
+                        padding: "10px",
+                        [varNames.svgSize]: "1.5rem",
+                    }}
+                />
+            </ChartTitle>
             <ChartContent>
                 <InputGroup isUniform hasGap style={{ width: "100%" }}>
                     {weather.getAllDays("time").map((time, i) => (
@@ -107,7 +119,11 @@ export default function ChartModal({
 
                 <p>{getTimeFormatted(weather.getForecast("time", day * 24), "date")}</p>
 
-                <Ensemble view={view as Exclude<ChartViews, "us_aqi">} day={day}/>
+                {
+                    showEnsemble
+                        ? <Ensemble view={view} day={day} />
+                        : <Standard view={view} day={day} />
+                }
             </ChartContent>
         </StyledModal>
     );

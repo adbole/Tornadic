@@ -35,7 +35,7 @@ type Ensemble= {
  * and prepares it for application use
  */
 export default function useEnsemble<K extends EnsembleVariables>(
-    variable: K,
+    variable: K | undefined,
     latitude?: number,
     longitude?: number
 ): {
@@ -46,7 +46,7 @@ export default function useEnsemble<K extends EnsembleVariables>(
 } {
     const settings = useReadLocalStorage("userSettings");
     const url = React.useMemo(() => {
-        if (latitude === undefined || longitude === undefined || !settings) return undefined;
+        if (latitude === undefined || longitude === undefined || !settings || !variable) return undefined;
 
         const ensembleURL = new URL(
             "https://ensemble-api.open-meteo.com/v1/ensemble?models=gfs_seamless&timezone=auto"
@@ -70,7 +70,7 @@ export default function useEnsemble<K extends EnsembleVariables>(
             const ensemble = await fetchData<EnsembleApiResponse>(url, "Could not get ensemble data");
 
             const memberKeys = Object.keys(ensemble.hourly).filter(key => key !== "time");
-            const members = memberKeys.map(key => converter.convert(variable, ensemble.hourly[key]));
+            const members = memberKeys.map(key => converter.convert(variable!, ensemble.hourly[key]));
 
             return {
                 time: ensemble.hourly.time,
