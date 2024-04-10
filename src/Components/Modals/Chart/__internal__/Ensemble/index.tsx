@@ -7,6 +7,8 @@ import { useWeather } from "Contexts/WeatherContext";
 
 import Chart from "Components/Chart";
 import { Axes, Line, NowReference, Tooltip } from "Components/Chart/Components";
+import { Button } from "Components/Input";
+import { ExclamationTriangle, Spinner } from "svgs";
 
 import type { ChartViews } from "../..";
 import { Time } from "../Standard/Tooltip";
@@ -20,7 +22,7 @@ export default function Ensemble({ view, day }: { view: Exclude<ChartViews, "us_
     const { point } = useWeather();
 
     const [long, lat] = point.geometry.coordinates
-    const { ensemble } = useEnsemble(view, lat, long);
+    const { ensemble, isLoading, error, mutate } = useEnsemble(view, lat, long);
     
     const dataPoints = React.useMemo(() => {
         if (!ensemble) return undefined;
@@ -61,6 +63,21 @@ export default function Ensemble({ view, day }: { view: Exclude<ChartViews, "us_
                 return [Math.floor(min / 10) * 10, Math.ceil(max / 10) * 10 + 10];
         }
     }, [view])
+
+    if (isLoading) return (
+        <CenteredDisplay>
+            <Spinner />
+            <p>Fetching Ensemble Data</p>
+        </CenteredDisplay>
+    )
+
+    if(error) return (
+        <CenteredDisplay>
+            <ExclamationTriangle />
+            <p>An error occurred while getting the data</p>
+            <Button onClick={() => mutate(ensemble)}>Try Again</Button>
+        </CenteredDisplay>
+    )
 
     if (!dataPoints || !ensemble) return null;
 

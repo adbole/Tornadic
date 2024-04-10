@@ -1,4 +1,5 @@
 import React from "react";
+import type { KeyedMutator } from "swr";
 import useSWRImmutable from "swr/immutable";
 
 import DataConverter from "ts/DataConverter";
@@ -40,7 +41,8 @@ export default function useEnsemble<K extends EnsembleVariables>(
 ): {
     ensemble: Ensemble | undefined;
     isLoading: boolean;
-    isValidating: boolean;
+    error: string | undefined;
+    mutate: KeyedMutator<Ensemble>;
 } {
     const settings = useReadLocalStorage("userSettings");
     const url = React.useMemo(() => {
@@ -60,7 +62,7 @@ export default function useEnsemble<K extends EnsembleVariables>(
         return ensembleURL
     }, [variable, latitude, longitude, settings]);
 
-    const { data: ensemble, isLoading, isValidating } = useSWRImmutable(
+    const { data: ensemble, isLoading, error, mutate } = useSWRImmutable(
         url,
         async url => {
             const converter = new DataConverter(settings!);
@@ -75,12 +77,17 @@ export default function useEnsemble<K extends EnsembleVariables>(
                 data: members
             };
         },
-        { refreshInterval: () => 3.6e6 - (Date.now() % 3.6e6) }
+        { 
+            refreshInterval: () => 3.6e6 - (Date.now() % 3.6e6),
+            shouldRetryOnError: false,
+            onError: () => undefined //Disable so FetchErrorHandler doesn't catch
+        }
     );
 
     return {
         ensemble,
         isLoading,
-        isValidating
+        error,
+        mutate
     };
 }
