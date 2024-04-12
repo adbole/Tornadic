@@ -27,9 +27,6 @@ type Props = {
 function ToggleButton({
     label,
     type = "radio",
-    name,
-    defaultChecked = false,
-    onClick,
     style,
     ...extra
 }: Props) {
@@ -39,10 +36,7 @@ function ToggleButton({
         <div>
             <Input
                 type={type}
-                name={name}
                 id={id}
-                defaultChecked={defaultChecked}
-                onClick={onClick}
                 {...extra}
             />
             <Label 
