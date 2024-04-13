@@ -18,6 +18,9 @@ const dataPoints = Array.from({ length: 24 }, (_, i) => ({
     y: [i, i * 2],
 }));
 
+//The following testa will break if changes relating to scales are made.
+//For example, changing the domain of the scales will break the tests
+
 test("renders the x and y axis with a grid", () => {
     render(
         <Chart dataPoints={dataPoints} type="linear">
@@ -31,9 +34,9 @@ test("renders the x and y axis with a grid", () => {
     const yGrid = screen.getByTestId(testIds.Chart.Axes_Y_Grid).querySelectorAll(".tick");
 
     expect.soft(xTicks).toHaveLength(5);
-    expect.soft(yTicks).toHaveLength(6);
+    expect.soft(yTicks).toHaveLength(7);
     expect.soft(xGrid).toHaveLength(12);
-    expect.soft(yGrid).toHaveLength(6);
+    expect.soft(yGrid).toHaveLength(7);
 });
 
 test("renders the x and y axis with a grid when type is band", () => {
@@ -49,7 +52,7 @@ test("renders the x and y axis with a grid when type is band", () => {
     const yGrid = screen.getByTestId(testIds.Chart.Axes_Y_Grid).querySelectorAll(".tick");
 
     expect.soft(xTicks).toHaveLength(4);
-    expect.soft(yTicks).toHaveLength(6);
+    expect.soft(yTicks).toHaveLength(7);
     expect.soft(xGrid).toHaveLength(24);
-    expect.soft(yGrid).toHaveLength(6);
+    expect.soft(yGrid).toHaveLength(7);
 });
