@@ -42,11 +42,12 @@ const ResponsiveSVG = styled.svg({
     display: "block",
 });
 
+
 const defaultYBounds = ([min, max]: [number, number]): [number, number] => {
     const range = max - min;
-    const rangePadding = range * 0.05;
+    const rangePadding = range * 0.5;
 
-    return [min - rangePadding, max + rangePadding];
+    return [Math.floor(min / 10) * 10, max + rangePadding];
 }
 
 export default function ChartContextProvider({
