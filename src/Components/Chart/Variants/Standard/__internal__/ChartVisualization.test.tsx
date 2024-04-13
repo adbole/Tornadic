@@ -48,8 +48,15 @@ describe("Visualizer tests", () => {
     ] as [ChartViews, Mock[], Mock[]][])(
         "%s renders the correct visualizer(s)",
         (view, drawnVisualizers, wrongVisualizers) => {
+            //When there are two visualizers, the dataPoints need to be adjusted
+            //to have two y values so ChatVisualization can know to render both visualizers
+            let adjustedData = dataPoints;
+            if (drawnVisualizers.length > 1) {
+                adjustedData = dataPoints.map((point) => ({ ...point, y: [point.y[0], point.y[0]] }));
+            }
+
             render(
-                <Chart dataPoints={dataPoints} type={view === "precipitation" ? "band" : "linear"}>
+                <Chart dataPoints={adjustedData} type={view === "precipitation" ? "band" : "linear"}>
                     <ChartVisualization view={view}/>
                 </Chart>
             );
