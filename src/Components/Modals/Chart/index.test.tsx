@@ -18,6 +18,11 @@ const mocks = vi.hoisted(() => ({
             <p>Standard Chart View</p>
         )
     ),
+    Ensemble: vi.fn(
+        (_: { view: ChartViews; day: number; }) => (
+            <p>Ensemble Chart View</p>
+        )
+    )
 }));
 
 // Move to Standard Tests
@@ -36,8 +41,9 @@ const mocks = vi.hoisted(() => ({
 //     Tooltip: vi.fn((_: { day: number }) => <p>Tooltip</p>),
 // }));
 
-vi.mock("Components/Modals/Chart/__internal__/Standard", () => ({
-    default: mocks.Standard,
+vi.mock("Components/Chart/Variants", () => ({
+    Standard: mocks.Standard,
+    Ensemble: mocks.Ensemble,
 }));
 
 test("Doesn't render a modal if isOpen is false", () => {
@@ -90,6 +96,19 @@ test("Renders all the components", () => {
     expect.soft(screen.queryByText("Standard Chart View")).toBeInTheDocument();
 });
 
+test("Switches between Standard and Ensemble views", () => {
+    render(<ChartModal isOpen={true} showView="temperature_2m" onClose={() => undefined} />);
+
+    expect.soft(screen.queryByText("Ensemble Chart View")).not.toBeInTheDocument();
+
+    act(() => {
+        screen.getByTitle(/Ensemble/).click();
+    });
+
+    expect.soft(screen.queryByText("Ensemble Chart View")).toBeInTheDocument();
+    expect.soft(screen.queryByText("Standard Chart View")).not.toBeInTheDocument();
+});
+
 describe.each(forecast().daily.time.map((day, i) => [day, i]))("Day %#", (day, i) => {
     test("Renders a toggle button", () => {
         render(<ChartModal isOpen={true} showView="temperature_2m" onClose={() => undefined} />);
@@ -108,6 +127,7 @@ describe.each(forecast().daily.time.map((day, i) => [day, i]))("Day %#", (day, i
         expect.soft(screen.queryByText(getTimeFormatted(day, "date"))).toBeInTheDocument();
     });
 
+    //Ensures both Ensemble and Standard charts are passed the correct props
     test("Day is passed to children", () => {
         render(
             <ChartModal isOpen={true} showView="temperature_2m" onClose={() => undefined} showDay={i} />
@@ -115,6 +135,17 @@ describe.each(forecast().daily.time.map((day, i) => [day, i]))("Day %#", (day, i
 
         expect
             .soft(mocks.Standard)
+            .toHaveBeenLastCalledWith(
+                expect.objectContaining({ view: "temperature_2m", day: i }),
+                {}
+            );
+
+        act(() => {
+            screen.getByTitle(/Ensemble/).click()
+        })
+
+        expect
+            .soft(mocks.Ensemble)
             .toHaveBeenLastCalledWith(
                 expect.objectContaining({ view: "temperature_2m", day: i }),
                 {}
