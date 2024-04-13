@@ -1,3 +1,6 @@
+import type { CombinedHourly } from "./Weather";
+
+
 export {};
 
 //Helper type to ensure properties are consistent across hourly_units and hourly
@@ -63,4 +66,17 @@ declare global {
             forecastZone: string;
         };
     }>;
+
+    type ChartViews = keyof Pick<
+        CombinedHourly,
+        | "temperature_2m"
+        | "relativehumidity_2m"
+        | "precipitation"
+        | "dewpoint_2m"
+        | "visibility"
+        | "windspeed_10m"
+        | "surface_pressure"
+        | "us_aqi"
+        | "uv_index"
+    >;
 }

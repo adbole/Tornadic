@@ -4,7 +4,8 @@ import { useWeather } from "Contexts/WeatherContext";
 
 import Chart from "Components/Chart";
 import { Axes, NowReference, Tooltip } from "Components/Chart/Components";
-import type { ChartViews } from "Components/Modals/Chart";
+
+import { getMinMaxFunc } from "../Shared";
 
 import ChartVisualization from "./ChartVisualization";
 import { PrimaryInformation, SecondaryInformation, Time } from "./Tooltip";
@@ -43,23 +44,8 @@ export default function Standard({ view, day }: { view: ChartViews, day: number}
         }));
     }, [weather, view, day]);
 
-    const getMinMax = React.useCallback(([min, max]: [number, number]): [number, number] => {
-        switch (view) {
-            case "surface_pressure":
-                return [min - 0.3, max + 0.3];
-            case "precipitation":
-                return [0, Math.max(0.5, max + 0.25)];
-            case "relativehumidity_2m":
-                return [0, 100];
-            case "uv_index":
-                return [0, Math.max(11, max)];
-            default:
-                return [Math.floor(min / 10) * 10, Math.ceil(max / 10) * 10 + 10];
-        }
-    }, [view])
-
     return (
-        <Chart dataPoints={dataPoints} yBounds={getMinMax} type={view === "precipitation" ? "band" : "linear"}>
+        <Chart dataPoints={dataPoints} yBounds={getMinMaxFunc(view)} type={view === "precipitation" ? "band" : "linear"}>
             <Axes />
             <ChartVisualization view={view}/>
             <NowReference isShown={!day} />

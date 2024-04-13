@@ -3,7 +3,6 @@ import React from "react";
 import { useWeather } from "Contexts/WeatherContext";
 
 import { useTooltip } from "Components/Chart/Components";
-import type { ChartViews } from "Components/Modals/Chart";
 
 import { get_aq, get_uv, trunc } from "ts/Helpers";
 import type { CombinedHourly } from "ts/Weather";

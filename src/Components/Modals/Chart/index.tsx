@@ -9,23 +9,9 @@ import { Ensemble as EnsembleSVG } from "svgs";
 
 import { varNames } from "ts/StyleMixins";
 import getTimeFormatted from "ts/TimeConversion";
-import type { CombinedHourly } from "ts/Weather";
 
 import StyledModal, { ChartContent, ChartTitle, Option } from "./style";
 
-
-export type ChartViews = keyof Pick<
-    CombinedHourly,
-    | "temperature_2m"
-    | "relativehumidity_2m"
-    | "precipitation"
-    | "dewpoint_2m"
-    | "visibility"
-    | "windspeed_10m"
-    | "surface_pressure"
-    | "us_aqi"
-    | "uv_index"
->;
 
 const CHART_VIEWS_TITLES: {
     readonly [x: string]: ChartViews;

@@ -4,7 +4,6 @@ import { useReadLocalStorage } from "Hooks";
 
 import { useChart } from "Components/Chart";
 import { Area, Bar, Line } from "Components/Chart/Components";
-import type { ChartViews } from "Components/Modals/Chart";
 
 import type { AQLevel, UVLevel } from "ts/Helpers";
 import { getAQMaxValue, getUVMaxValue, toHSL } from "ts/Helpers";

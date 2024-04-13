@@ -5,8 +5,6 @@ import { act, fireEvent, render, screen } from "@testing-library/react";
 
 import DEFAULTS from "Hooks/useLocalStorage.config";
 
-import type { ChartViews } from "Components/Modals/Chart";
-
 import { trunc } from "ts/Helpers";
 
 import Simple from ".";

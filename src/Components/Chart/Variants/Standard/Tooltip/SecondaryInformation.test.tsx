@@ -5,7 +5,6 @@ import { render, screen } from "@testing-library/react";
 
 import Chart from "Components/Chart";
 import { useTooltip } from "Components/Chart/Components";
-import type { ChartViews } from "Components/Modals/Chart";
 
 import * as Helpers from "ts/Helpers";
 import type { CombinedHourly } from "ts/Weather";

@@ -22,11 +22,11 @@ export default function Points({
 
             const firstQuartile = d3.quantile(yPoints, 0.25)!
             const thirdQuantile = d3.quantile(yPoints, 0.75)!
-            const iqr = thirdQuantile - firstQuartile
+            const iqr = (thirdQuantile - firstQuartile) * 1.5
 
             return {
                 x: d.x,
-                y: yPoints.filter(value => value > thirdQuantile + 1.5*iqr || value < firstQuartile - 1.5*iqr)
+                y: yPoints.filter(value => value > thirdQuantile + iqr || value < firstQuartile - iqr)
             }
         })
 

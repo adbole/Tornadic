@@ -4,7 +4,6 @@ import { useWeather } from "Contexts/WeatherContext";
 
 import { useChart } from "Components/Chart";
 import { useTooltip } from "Components/Chart/Components";
-import type { ChartViews } from "Components/Modals/Chart";
 
 import { trunc } from "ts/Helpers";
 

@@ -8,9 +8,9 @@ import { useWeather } from "Contexts/WeatherContext";
 import Chart from "Components/Chart";
 import { Axes, Line, NowReference, Tooltip } from "Components/Chart/Components";
 import { Button } from "Components/Input";
-import type { ChartViews } from "Components/Modals/Chart";
 import { ExclamationTriangle, Spinner } from "svgs";
 
+import { getMinMaxFunc } from "../Shared";
 import { Time } from "../Standard/Tooltip";
 
 import { AVG_INDEX, MAX_INDEX, MIN_INDEX } from "./__internal__/Constants";
@@ -51,21 +51,6 @@ export default function Ensemble({ view, day }: { view: ChartViews, day: number}
         }));
     }, [ensemble, day]);
 
-    const getMinMax = React.useCallback(([min, max]: [number, number]): [number, number] => {
-        switch (view) {
-            case "surface_pressure":
-                return [min - 0.3, max + 0.3];
-            case "precipitation":
-                return [0, Math.max(0.5, max + 0.25)];
-            case "relativehumidity_2m":
-                return [0, 100];
-            case "uv_index":
-                return [0, Math.max(11, max)];
-            default:
-                return [Math.floor(min / 10) * 10, Math.ceil(max / 10) * 10 + 10];
-        }
-    }, [view])
-
     if(!allowedView) return (
         <CenteredDisplay>
             <ExclamationTriangle />
@@ -91,7 +76,7 @@ export default function Ensemble({ view, day }: { view: ChartViews, day: number}
     if (!dataPoints || !ensemble) return null;
 
     return (
-        <Chart dataPoints={dataPoints} yBounds={getMinMax} type="linear">
+        <Chart dataPoints={dataPoints} yBounds={getMinMaxFunc(view)} type="linear">
             <Axes />
 
             <g>

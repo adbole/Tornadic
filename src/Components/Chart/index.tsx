@@ -44,7 +44,7 @@ const ResponsiveSVG = styled.svg({
 
 const defaultYBounds = ([min, max]: [number, number]): [number, number] => {
     const range = max - min;
-    const rangePadding = range * 0.1;
+    const rangePadding = range * 0.05;
 
     return [min - rangePadding, max + rangePadding];
 }

@@ -7,7 +7,6 @@ import type { Mock } from "vitest";
 import DEFAULTS from "Hooks/useLocalStorage.config";
 
 import Chart from "Components/Chart";
-import type { ChartViews } from "Components/Modals/Chart";
 
 import ChartVisualization from ".";
 

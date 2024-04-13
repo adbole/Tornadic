@@ -5,7 +5,6 @@ import { act, fireEvent, render, screen } from "@testing-library/react";
 
 import getTimeFormatted from "ts/TimeConversion";
 
-import type { ChartViews } from ".";
 import ChartModal from ".";
 
 
