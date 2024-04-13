@@ -7,8 +7,8 @@ import { Axes, NowReference, Tooltip } from "Components/Chart/Components";
 
 import { getMinMaxFunc } from "../Shared";
 
-import ChartVisualization from "./ChartVisualization";
-import { PrimaryInformation, SecondaryInformation, Time } from "./Tooltip";
+import ChartVisualization from "./__internal__/ChartVisualization";
+import { PrimaryInformation, SecondaryInformation, Time } from "./__internal__/Tooltip";
 
 
 function getY2Property(view: ChartViews) {

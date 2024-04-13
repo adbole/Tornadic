@@ -8,7 +8,7 @@ import DEFAULTS from "Hooks/useLocalStorage.config";
 
 import Chart from "Components/Chart";
 
-import ChartVisualization from ".";
+import ChartVisualization from "./ChartVisualization";
 
 
 mockDate();
@@ -50,7 +50,7 @@ describe("Visualizer tests", () => {
         (view, drawnVisualizers, wrongVisualizers) => {
             render(
                 <Chart dataPoints={dataPoints} type={view === "precipitation" ? "band" : "linear"}>
-                    <ChartVisualization view={view} day={0}/>
+                    <ChartVisualization view={view}/>
                 </Chart>
             );
 
@@ -71,7 +71,7 @@ describe("Gradient tests", () => {
 
         const { container } = render(
             <Chart dataPoints={dataPoints} type="linear">
-                <ChartVisualization view="temperature_2m" day={0}/>
+                <ChartVisualization view="temperature_2m"/>
             </Chart>
         );
 
@@ -81,7 +81,7 @@ describe("Gradient tests", () => {
     test("When view is uv_index, gradient is created", () => {
         const { container } = render(
             <Chart dataPoints={dataPoints} type="linear">
-                <ChartVisualization view="uv_index" day={0}/>
+                <ChartVisualization view="uv_index"/>
             </Chart>
         );
 
@@ -91,7 +91,7 @@ describe("Gradient tests", () => {
     test("When view is us_aqi, gradient is created", () => {
         const { container } = render(
             <Chart dataPoints={dataPoints} type="linear">
-                <ChartVisualization view="us_aqi" day={0}/>
+                <ChartVisualization view="us_aqi"/>
             </Chart>
         );
 

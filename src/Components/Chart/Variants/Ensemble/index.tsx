@@ -11,7 +11,7 @@ import { Button } from "Components/Input";
 import { ExclamationTriangle, Spinner } from "svgs";
 
 import { getMinMaxFunc } from "../Shared";
-import { Time } from "../Standard/Tooltip";
+import { Time } from "../Standard/__internal__/Tooltip";
 
 import { AVG_INDEX, MAX_INDEX, MIN_INDEX } from "./__internal__/Constants";
 import { Outliers,TooltipDisplay } from "./__internal__";
