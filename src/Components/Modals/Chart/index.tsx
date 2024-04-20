@@ -30,6 +30,7 @@ const CHART_VIEWS_TITLES: {
 export default function ChartModal({
     showView,
     showDay = 0,
+    onClose,
     ...modalProps
 }: { showView: ChartViews; showDay?: number } & Omit<ModalProps, "children">) {
     const { weather } = useWeather();
@@ -62,7 +63,13 @@ export default function ChartModal({
     }, []);
 
     return (
-        <StyledModal {...modalProps}>
+        <StyledModal
+            onClose={() => {
+                onClose();
+                setShowEnsemble(false);
+            }}
+            {...modalProps}
+        >
             <ChartTitle>
                 <select
                     ref={setWidth}
