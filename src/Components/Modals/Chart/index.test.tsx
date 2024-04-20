@@ -25,22 +25,6 @@ const mocks = vi.hoisted(() => ({
     )
 }));
 
-// Move to Standard Tests
-// const mocks = vi.hoisted(() => ({
-//     ChartContext: vi.fn(
-//         ({ children }: { view: ChartViews; day: number; children: React.ReactNode }) => (
-//             <>
-//                 <p>ChartContext</p>
-//                 {children}
-//             </>
-//         )
-//     ),
-//     Axes: () => <p>Axes</p>,
-//     ChartVisualization: () => <p>ChartVisualization</p>,
-//     NowReference: vi.fn((_: { isShown: boolean }) => <p>NowReference</p>),
-//     Tooltip: vi.fn((_: { day: number }) => <p>Tooltip</p>),
-// }));
-
 vi.mock("Components/Chart/Variants", () => ({
     Standard: mocks.Standard,
     Ensemble: mocks.Ensemble,
