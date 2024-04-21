@@ -2,6 +2,7 @@ import React from "react";
 import useSWR from "swr";
 
 import { fetchData } from "ts/Fetch";
+import { getTimeToNextHour } from "ts/Helpers";
 import Weather from "ts/Weather";
 
 import useReadLocalStorage from "./useReadLocalStorage";
@@ -33,7 +34,7 @@ export default function useOpenMeteo(
             return new Weather(forecast, airquality, settings!);
         },
         { 
-            refreshInterval: () => 3.6e6 - (Date.now() % 3.6e6),
+            refreshInterval: getTimeToNextHour,
             keepPreviousData: true,
         }
     );

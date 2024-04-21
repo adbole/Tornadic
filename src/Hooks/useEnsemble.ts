@@ -4,6 +4,7 @@ import useSWRImmutable from "swr/immutable";
 
 import DataConverter from "ts/DataConverter";
 import { fetchData } from "ts/Fetch";
+import { getTimeToNextHour } from "ts/Helpers";
 
 import useReadLocalStorage from "./useReadLocalStorage";
 
@@ -25,7 +26,7 @@ type EnsembleApiResponse = {
     };
 }
 
-type Ensemble= {
+type Ensemble = {
     time: string[];
     data: number[][];
 }
@@ -78,7 +79,7 @@ export default function useEnsemble<K extends EnsembleVariables>(
             };
         },
         { 
-            refreshInterval: () => 3.6e6 - (Date.now() % 3.6e6),
+            refreshInterval: getTimeToNextHour,
             shouldRetryOnError: false,
             onError: () => undefined //Disable so FetchErrorHandler doesn't catch
         }

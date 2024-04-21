@@ -6,6 +6,8 @@ import { SWRConfig } from "swr";
 import { useOpenMeteo } from "Hooks";
 import DEFAULTS from "Hooks/useLocalStorage.config";
 
+import { getTimeToNextHour } from "ts/Helpers";
+
 
 const errorCaller = vi.fn();
 
@@ -102,13 +104,13 @@ describe("data fetching", () => {
         expect.soft(fetchMock).toHaveBeenCalledTimes(2);
 
         await act(async () => {
-            await vi.advanceTimersByTimeAsync(3.6e6 - (new Date().getTime() % 3.6e6));
+            await vi.advanceTimersByTimeAsync(getTimeToNextHour());
         });
 
         expect.soft(fetchMock).toHaveBeenCalledTimes(4);
 
         await act(async () => {
-            await vi.advanceTimersByTimeAsync(3.6e6 - (new Date().getTime() % 3.6e6));
+            await vi.advanceTimersByTimeAsync(getTimeToNextHour());
         });
 
         expect.soft(fetchMock).toHaveBeenCalledTimes(6);
