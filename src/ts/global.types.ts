@@ -19,6 +19,7 @@ type HourlyProperties<T extends number[] | string> = {
     precipitation_probability: T;
     uv_index: T;
     is_day: T;
+    cape: T;
 };
 
 //Helper type to ensure properties are consistent across daily_units and daily
@@ -78,5 +79,6 @@ declare global {
         | "surface_pressure"
         | "us_aqi"
         | "uv_index"
+        | "cape"
     >;
 }

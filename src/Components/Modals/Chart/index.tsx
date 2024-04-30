@@ -25,6 +25,7 @@ const CHART_VIEWS_TITLES: {
     Pressure: "surface_pressure",
     Air_Quality: "us_aqi",
     UV_Index: "uv_index",
+    CAPE: "cape",
 } as const;
 
 export default function ChartModal({

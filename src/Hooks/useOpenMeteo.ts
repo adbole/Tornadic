@@ -75,6 +75,7 @@ function getUrls(
         "windgusts_10m",
         "uv_index",
         "is_day",
+        "cape"
     ];
     const daily_params: Array<keyof Forecast["daily"]> = [
         "temperature_2m_min",
