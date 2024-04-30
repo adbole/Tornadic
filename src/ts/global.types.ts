@@ -1,3 +1,6 @@
+import type { CombinedHourly } from "./Weather";
+
+
 export {};
 
 //Helper type to ensure properties are consistent across hourly_units and hourly
@@ -16,6 +19,7 @@ type HourlyProperties<T extends number[] | string> = {
     precipitation_probability: T;
     uv_index: T;
     is_day: T;
+    cape: T;
 };
 
 //Helper type to ensure properties are consistent across daily_units and daily
@@ -30,19 +34,6 @@ type DailyProperties<T extends number[] | string, Q extends string[] | string> =
 
 declare global {
     type Forecast = {
-        readonly latitude: number;
-        readonly longitude: number;
-        readonly generationtime_ms: number;
-        readonly timezone: string;
-        readonly timezone_abbreviation: string;
-        readonly elevation: number;
-        readonly current_weather: Readonly<{
-            temperature: number;
-            windspeed: number;
-            winddirection: number;
-            weathercode: number;
-            time: string;
-        }>;
         hourly_units: { time: string } & HourlyProperties<string>;
         hourly: { time: string[] } & HourlyProperties<number[]>;
         daily_units: { time: string } & DailyProperties<string, string>;
@@ -60,6 +51,9 @@ declare global {
 
     //Point and Alert data from NWS
     type GridPoint = Readonly<{
+        geometry: {
+            coordinates: [number, number];
+        }
         properties: {
             relativeLocation: {
                 geometry: {
@@ -73,4 +67,18 @@ declare global {
             forecastZone: string;
         };
     }>;
+
+    type ChartViews = keyof Pick<
+        CombinedHourly,
+        | "temperature_2m"
+        | "relativehumidity_2m"
+        | "precipitation"
+        | "dewpoint_2m"
+        | "visibility"
+        | "windspeed_10m"
+        | "surface_pressure"
+        | "us_aqi"
+        | "uv_index"
+        | "cape"
+    >;
 }

@@ -5,8 +5,7 @@ import { act, fireEvent, render, screen } from "@testing-library/react";
 
 import getTimeFormatted from "ts/TimeConversion";
 
-import type { ChartViews } from ".";
-import Chart from ".";
+import ChartModal from ".";
 
 
 mockDate();
@@ -14,36 +13,31 @@ mockDate();
 vi.mock("Contexts/WeatherContext", () => ({ useWeather }));
 
 const mocks = vi.hoisted(() => ({
-    ChartContext: vi.fn(
-        ({ children }: { view: ChartViews; day: number; children: React.ReactNode }) => (
-            <>
-                <p>ChartContext</p>
-                {children}
-            </>
+    Standard: vi.fn(
+        (_: { view: ChartViews; day: number; }) => (
+            <p>Standard Chart View</p>
         )
     ),
-    Axes: () => <p>Axes</p>,
-    ChartVisualization: () => <p>ChartVisualization</p>,
-    NowReference: vi.fn((_: { isShown: boolean }) => <p>NowReference</p>),
-    Tooltip: vi.fn((_: { day: number }) => <p>Tooltip</p>),
+    Ensemble: vi.fn(
+        (_: { view: ChartViews; day: number; }) => (
+            <p>Ensemble Chart View</p>
+        )
+    )
 }));
 
-vi.mock("Components/Modals/Chart/__internal__", () => ({
-    ChartContext: mocks.ChartContext,
-    Axes: mocks.Axes,
-    ChartVisualization: mocks.ChartVisualization,
-    NowReference: mocks.NowReference,
-    Tooltip: mocks.Tooltip,
+vi.mock("Components/Chart/Variants", () => ({
+    Standard: mocks.Standard,
+    Ensemble: mocks.Ensemble,
 }));
 
 test("Doesn't render a modal if isOpen is false", () => {
-    render(<Chart isOpen={false} showView="temperature_2m" onClose={() => undefined} />);
+    render(<ChartModal isOpen={false} showView="temperature_2m" onClose={() => undefined} />);
 
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
 });
 
 test("Renders a modal if isOpen is true", () => {
-    render(<Chart isOpen={true} showView="temperature_2m" onClose={() => undefined} />);
+    render(<ChartModal isOpen={true} showView="temperature_2m" onClose={() => undefined} />);
 
     expect(screen.getByRole("dialog")).toBeInTheDocument();
 });
@@ -51,7 +45,7 @@ test("Renders a modal if isOpen is true", () => {
 test("Calls onClose when the modal is closed", () => {
     const onClose = vi.fn();
 
-    render(<Chart isOpen={true} showView="temperature_2m" onClose={onClose} />);
+    render(<ChartModal isOpen={true} showView="temperature_2m" onClose={onClose} />);
 
     act(() => {
         screen.getByRole("dialog").dispatchEvent(new Event("cancel"));
@@ -61,7 +55,7 @@ test("Calls onClose when the modal is closed", () => {
 });
 
 test("Renders a select with options for each view", () => {
-    render(<Chart isOpen={true} showView="temperature_2m" onClose={() => undefined} />);
+    render(<ChartModal isOpen={true} showView="temperature_2m" onClose={() => undefined} />);
 
     const options = screen.getAllByRole("option");
     const expectedValues: Array<ChartViews> = [
@@ -74,32 +68,42 @@ test("Renders a select with options for each view", () => {
         "surface_pressure",
         "us_aqi",
         "uv_index",
+        "cape"
     ];
 
-    expect.soft(options).toHaveLength(9);
+    expect.soft(options).toHaveLength(10);
     options.forEach((option, i) => expect.soft(option).toHaveValue(expectedValues[i]));
 });
 
 test("Renders all the components", () => {
-    render(<Chart isOpen={true} showView="temperature_2m" onClose={() => undefined} />);
+    render(<ChartModal isOpen={true} showView="temperature_2m" onClose={() => undefined} />);
 
-    expect.soft(screen.queryByText("ChartContext")).toBeInTheDocument();
-    expect.soft(screen.queryByText("NowReference")).toBeInTheDocument();
-    expect.soft(screen.queryByText("Tooltip")).toBeInTheDocument();
-    expect.soft(screen.queryByText("ChartVisualization")).toBeInTheDocument();
-    expect.soft(screen.queryByText("Axes")).toBeInTheDocument();
+    expect.soft(screen.queryByText("Standard Chart View")).toBeInTheDocument();
+});
+
+test("Switches between Standard and Ensemble views", () => {
+    render(<ChartModal isOpen={true} showView="temperature_2m" onClose={() => undefined} />);
+
+    expect.soft(screen.queryByText("Ensemble Chart View")).not.toBeInTheDocument();
+
+    act(() => {
+        screen.getByTitle(/Ensemble/).click();
+    });
+
+    expect.soft(screen.queryByText("Ensemble Chart View")).toBeInTheDocument();
+    expect.soft(screen.queryByText("Standard Chart View")).not.toBeInTheDocument();
 });
 
 describe.each(forecast().daily.time.map((day, i) => [day, i]))("Day %#", (day, i) => {
     test("Renders a toggle button", () => {
-        render(<Chart isOpen={true} showView="temperature_2m" onClose={() => undefined} />);
+        render(<ChartModal isOpen={true} showView="temperature_2m" onClose={() => undefined} />);
 
         expect(screen.getByLabelText(getTimeFormatted(day, "weekday"))).toBeInTheDocument();
     });
 
     test("Toggle button is checked by default if day is passed to showDay. Also shows full date in modal.", () => {
         render(
-            <Chart isOpen={true} showView="temperature_2m" onClose={() => undefined} showDay={i} />
+            <ChartModal isOpen={true} showView="temperature_2m" onClose={() => undefined} showDay={i} />
         );
 
         const toggle = screen.getByLabelText<HTMLInputElement>(getTimeFormatted(day, "weekday"));
@@ -108,24 +112,34 @@ describe.each(forecast().daily.time.map((day, i) => [day, i]))("Day %#", (day, i
         expect.soft(screen.queryByText(getTimeFormatted(day, "date"))).toBeInTheDocument();
     });
 
+    //Ensures both Ensemble and Standard charts are passed the correct props
     test("Day is passed to children", () => {
         render(
-            <Chart isOpen={true} showView="temperature_2m" onClose={() => undefined} showDay={i} />
+            <ChartModal isOpen={true} showView="temperature_2m" onClose={() => undefined} showDay={i} />
         );
 
         expect
-            .soft(mocks.ChartContext)
+            .soft(mocks.Standard)
             .toHaveBeenLastCalledWith(
                 expect.objectContaining({ view: "temperature_2m", day: i }),
                 {}
             );
-        expect.soft(mocks.NowReference).toHaveBeenLastCalledWith({ isShown: !i }, {});
-        expect.soft(mocks.Tooltip).toHaveBeenLastCalledWith({ day: i }, {});
+
+        act(() => {
+            screen.getByTitle(/Ensemble/).click()
+        })
+
+        expect
+            .soft(mocks.Ensemble)
+            .toHaveBeenLastCalledWith(
+                expect.objectContaining({ view: "temperature_2m", day: i }),
+                {}
+            );
     });
 
     test("Clicking a toggle button changes the day", () => {
         render(
-            <Chart
+            <ChartModal
                 isOpen={true}
                 showView="temperature_2m"
                 onClose={() => undefined}
@@ -135,13 +149,11 @@ describe.each(forecast().daily.time.map((day, i) => [day, i]))("Day %#", (day, i
         );
 
         expect
-            .soft(mocks.ChartContext)
+            .soft(mocks.Standard)
             .not.toHaveBeenLastCalledWith(
                 expect.objectContaining({ view: "temperature_2m", day: i }),
                 {}
             );
-        expect.soft(mocks.NowReference).not.toHaveBeenLastCalledWith({ isShown: !i }, {});
-        expect.soft(mocks.Tooltip).not.toHaveBeenLastCalledWith({ day: i }, {});
 
         const toggle = screen.getByLabelText<HTMLInputElement>(getTimeFormatted(day, "weekday"));
 
@@ -149,13 +161,11 @@ describe.each(forecast().daily.time.map((day, i) => [day, i]))("Day %#", (day, i
 
         expect.soft(screen.queryByText(getTimeFormatted(day, "date"))).toBeInTheDocument();
         expect
-            .soft(mocks.ChartContext)
+            .soft(mocks.Standard)
             .toHaveBeenLastCalledWith(
                 expect.objectContaining({ view: "temperature_2m", day: i }),
                 {}
             );
-        expect.soft(mocks.NowReference).toHaveBeenLastCalledWith({ isShown: !i }, {});
-        expect.soft(mocks.Tooltip).toHaveBeenLastCalledWith({ day: i }, {});
     });
 });
 
@@ -169,9 +179,10 @@ test.each([
     ["surface_pressure", "Pressure"],
     ["us_aqi", "Air Quality"],
     ["uv_index", "UV Index"],
+    ["cape", "CAPE"],
 ] as [ChartViews, string][])("Clicking an option changes the view to %s", async (view, label) => {
     render(
-        <Chart
+        <ChartModal
             isOpen={true}
             //Ensure the view isn't selected by default
             showView={view === "temperature_2m" ? "relativehumidity_2m" : "temperature_2m"}
@@ -185,5 +196,5 @@ test.each([
     });
 
     expect.soft(screen.getByRole<HTMLOptionElement>("option", { name: label }).selected).toBe(true);
-    expect.soft(mocks.ChartContext).toHaveBeenLastCalledWith(expect.objectContaining({ view }), {});
+    expect.soft(mocks.Standard).toHaveBeenLastCalledWith(expect.objectContaining({ view }), {});
 });

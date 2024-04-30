@@ -83,10 +83,25 @@ test("trunc truncates a value to at most 2 decimal places and rounds if needed",
     expect.soft(Helpers.trunc(1)).toBe(1);
     expect.soft(Helpers.trunc(0.23)).toBe(0.23);
 
-    //Edge Cases
+    //Edge Cases (ensures floating point innacuracies are handled correctly)
     expect.soft(Helpers.trunc(69.1)).toBe(69.1);
     expect.soft(Helpers.trunc(1.1)).toBe(1.1);
     expect.soft(Helpers.trunc(1.005)).toBe(1.01);
 });
+
+test("getTimeToNextHour", () => {
+    vi.useFakeTimers()
+
+    vi.setSystemTime(0)
+    expect.soft(Helpers.getTimeToNextHour()).toBe(3.6e6);
+
+    vi.setSystemTime(3.6e6 / 2)
+    expect.soft(Helpers.getTimeToNextHour()).toBe(3.6e6 / 2);
+
+    vi.setSystemTime(3.6e6 / 4)
+    expect.soft(Helpers.getTimeToNextHour()).toBe(3.6e6 -  3.6e6 / 4);
+
+    vi.useRealTimers()
+})
 
 //nameof tests are omitted as vitest typecheck incorrectly marks other parts of code with errors.

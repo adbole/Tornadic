@@ -2,6 +2,7 @@ import React from "react";
 import useSWR from "swr";
 
 import { fetchData } from "ts/Fetch";
+import { getTimeToNextHour } from "ts/Helpers";
 import Weather from "ts/Weather";
 
 import useReadLocalStorage from "./useReadLocalStorage";
@@ -22,7 +23,7 @@ export default function useOpenMeteo(
     }, [latitude, longitude, settings]);
 
     const key = urls ? JSON.stringify(urls) : null;
-    const { data: weather, isLoading, isValidating } = useSWR<Weather, string>(
+    const { data: weather, isLoading, isValidating } = useSWR<Weather>(
         key,
         async () => {
             const [forecast, airquality] = await Promise.all([
@@ -33,7 +34,7 @@ export default function useOpenMeteo(
             return new Weather(forecast, airquality, settings!);
         },
         { 
-            refreshInterval: () => 3.6e6 - (Date.now() % 3.6e6),
+            refreshInterval: getTimeToNextHour,
             keepPreviousData: true,
         }
     );
@@ -74,6 +75,7 @@ function getUrls(
         "windgusts_10m",
         "uv_index",
         "is_day",
+        "cape"
     ];
     const daily_params: Array<keyof Forecast["daily"]> = [
         "temperature_2m_min",

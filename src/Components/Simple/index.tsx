@@ -5,8 +5,7 @@ import { useBooleanState, useReadLocalStorage } from "Hooks";
 
 import { useWeather } from "Contexts/WeatherContext";
 
-import type { ChartViews } from "Components/Modals/Chart";
-import Chart from "Components/Modals/Chart";
+import ChartModal from "Components/Modals/Chart";
 import Widget from "Components/Widget";
 import { WidgetTitle } from "Components/Widget/style";
 
@@ -65,7 +64,7 @@ export default function SimpleInfoWidget({
                     </Value>
                 </div>
             </SimpleWidget>
-            <Chart showView={property} isOpen={modalOpen} onClose={hideModal} />
+            <ChartModal showView={property} isOpen={modalOpen} onClose={hideModal} />
         </>
     );
 }

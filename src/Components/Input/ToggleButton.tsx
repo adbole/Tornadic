@@ -19,29 +19,34 @@ const Input = styled.input({
     [`&:checked + ${Label}`]: { backgroundColor: vars.primary },
 });
 
+type Props = {
+    label: React.ReactNode;
+    type?: "radio" | "checkbox";
+}  & Omit<React.InputHTMLAttributes<HTMLInputElement>, "type">
+
 function ToggleButton({
     label,
-    name,
-    defaultChecked = false,
-    onClick,
-}: {
-    label: string;
-    name: string;
-    defaultChecked?: boolean;
-    onClick: React.MouseEventHandler<HTMLDivElement>;
-}) {
+    type = "radio",
+    style,
+    title,
+    ...extra
+}: Props) {
     const id = React.useId();
 
     return (
         <div>
             <Input
-                type="radio"
-                name={name}
+                type={type}
                 id={id}
-                defaultChecked={defaultChecked}
-                onClick={onClick}
+                {...extra}
             />
-            <Label htmlFor={id}>{label}</Label>
+            <Label 
+                htmlFor={id}  
+                style={style}
+                title={title}
+            >
+                {label}
+            </Label>
         </div>
     );
 }

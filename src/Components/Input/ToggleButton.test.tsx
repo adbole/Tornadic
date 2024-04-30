@@ -11,6 +11,27 @@ test("Matches default snapshot", () => {
     expect(container).toMatchSnapshot();
 });
 
+test("Renders radio button by default", () => {
+    render(
+        <ToggleButton label="MyToggleButton" name="MyToggleButtonName" onClick={() => undefined} />
+    );
+
+    expect(screen.getByLabelText("MyToggleButton")).toHaveAttribute("type", "radio");
+})
+
+test("Renders checkbox when type is checkbox", () => {
+    render(
+        <ToggleButton
+            label="MyToggleButton"
+            name="MyToggleButtonName"
+            onClick={() => undefined}
+            type="checkbox"
+        />
+    );
+
+    expect(screen.getByLabelText("MyToggleButton")).toHaveAttribute("type", "checkbox");
+});
+
 test("Unchecked by default", () => {
     render(
         <ToggleButton label="MyToggleButton" name="MyToggleButtonName" onClick={() => undefined} />

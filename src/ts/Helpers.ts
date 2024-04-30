@@ -91,3 +91,6 @@ export const randomBetween = (min: number, max: number) => Math.random() * (max 
 
 //Truncates a value to at most 2 decimal places
 export const trunc = (value: number) => Number(Math.round(Number(value + "e+2")) + "e-2");
+
+//Returns the number of milliseconds until the next hour
+export const getTimeToNextHour = () => 3.6e6 - (Date.now() % 3.6e6)

@@ -7,7 +7,7 @@ import { useBooleanState } from "Hooks";
 
 import { useWeather } from "Contexts/WeatherContext";
 
-import Chart from "Components/Modals/Chart";
+import ChartModal from "Components/Modals/Chart";
 import { Sun } from "svgs/conditions";
 import { Lungs } from "svgs/widget";
 
@@ -128,7 +128,7 @@ export default function HazardLevel({ hazard }: { hazard: HazardType }) {
                 <p>{hazardValue}</p>
                 <p className="level-message">{message}</p>
             </Gauge>
-            <Chart showView={hazard} isOpen={modalOpen} onClose={hideModal} />
+            <ChartModal showView={hazard} isOpen={modalOpen} onClose={hideModal} />
         </>
     );
 }

@@ -2,29 +2,16 @@ import React from "react";
 
 import { useWeather } from "Contexts/WeatherContext";
 
+import { Ensemble, Standard } from "Components/Chart/Variants";
 import { InputGroup, ToggleButton } from "Components/Input";
-import type { ModalProps } from "Components/Modals/Modal";
-import { ModalTitle } from "Components/Modals/Modal";
+import type {ModalProps} from "Components/Modals/Modal";
+import { Ensemble as EnsembleSVG } from "svgs";
 
+import { varNames } from "ts/StyleMixins";
 import getTimeFormatted from "ts/TimeConversion";
-import type { CombinedHourly } from "ts/Weather";
 
-import { Axes, ChartContext, ChartVisualization, NowReference, Tooltip } from "./__internal__";
-import ChartModal, { ChartContent, Option } from "./style";
+import StyledModal, { ChartContent, ChartTitle, Option } from "./style";
 
-
-export type ChartViews = keyof Pick<
-    CombinedHourly,
-    | "temperature_2m"
-    | "relativehumidity_2m"
-    | "precipitation"
-    | "dewpoint_2m"
-    | "visibility"
-    | "windspeed_10m"
-    | "surface_pressure"
-    | "us_aqi"
-    | "uv_index"
->;
 
 const CHART_VIEWS_TITLES: {
     readonly [x: string]: ChartViews;
@@ -38,22 +25,19 @@ const CHART_VIEWS_TITLES: {
     Pressure: "surface_pressure",
     Air_Quality: "us_aqi",
     UV_Index: "uv_index",
+    CAPE: "cape",
 } as const;
 
-export type DataPoint = {
-    x: Date;
-    y1: number;
-    y2: number | null;
-};
-
-export default function Chart({
+export default function ChartModal({
     showView,
     showDay = 0,
+    onClose,
     ...modalProps
 }: { showView: ChartViews; showDay?: number } & Omit<ModalProps, "children">) {
     const { weather } = useWeather();
     const [view, setView] = React.useState(showView);
     const [day, setDay] = React.useState(showDay);
+    const [showEnsemble, setShowEnsemble] = React.useState(false);
 
     const radioId = React.useId();
 
@@ -80,8 +64,14 @@ export default function Chart({
     }, []);
 
     return (
-        <ChartModal {...modalProps}>
-            <ModalTitle>
+        <StyledModal
+            onClose={() => {
+                onClose();
+                setShowEnsemble(false);
+            }}
+            {...modalProps}
+        >
+            <ChartTitle>
                 <select
                     ref={setWidth}
                     title="Current Chart"
@@ -97,7 +87,17 @@ export default function Chart({
                         </Option>
                     ))}
                 </select>
-            </ModalTitle>
+                <ToggleButton 
+                    type="checkbox"
+                    title="Toggle Ensemble data on or off"
+                    onClick={({ currentTarget: { checked } }) => setShowEnsemble(checked)}
+                    label={<EnsembleSVG />}
+                    style={{ 
+                        padding: "10px",
+                        [varNames.svgSize]: "1.5rem",
+                    }}
+                />
+            </ChartTitle>
             <ChartContent>
                 <InputGroup isUniform hasGap style={{ width: "100%" }}>
                     {weather.getAllDays("time").map((time, i) => (
@@ -113,14 +113,12 @@ export default function Chart({
 
                 <p>{getTimeFormatted(weather.getForecast("time", day * 24), "date")}</p>
 
-                <ChartContext view={view} day={day}>
-                    <Axes />
-                    <ChartVisualization />
-                    <NowReference isShown={!day} />
-                    <Tooltip day={day} />
-                    <line x1={0} x2="100%" y1={100} y2={100} stroke="#ffffff19" strokeWidth={1} />
-                </ChartContext>
+                {
+                    showEnsemble
+                        ? <Ensemble view={view} day={day} />
+                        : <Standard view={view} day={day} />
+                }
             </ChartContent>
-        </ChartModal>
+        </StyledModal>
     );
 }
