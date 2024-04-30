@@ -17,7 +17,7 @@ export default function Points({
     const outliers = React.useMemo(() => {
         if(!dataPoints) return undefined;
 
-        const outliers =  dataPoints.map(d => {
+        const outliers = dataPoints.map(d => {
             const yPoints = d.y.slice(AVG_INDEX + 1)
 
             const firstQuartile = d3.quantile(yPoints, 0.25)!
