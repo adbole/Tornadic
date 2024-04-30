@@ -28,6 +28,7 @@ function ToggleButton({
     label,
     type = "radio",
     style,
+    title,
     ...extra
 }: Props) {
     const id = React.useId();
@@ -42,6 +43,7 @@ function ToggleButton({
             <Label 
                 htmlFor={id}  
                 style={style}
+                title={title}
             >
                 {label}
             </Label>

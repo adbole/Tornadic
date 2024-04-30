@@ -68,9 +68,10 @@ test("Renders a select with options for each view", () => {
         "surface_pressure",
         "us_aqi",
         "uv_index",
+        "cape"
     ];
 
-    expect.soft(options).toHaveLength(9);
+    expect.soft(options).toHaveLength(10);
     options.forEach((option, i) => expect.soft(option).toHaveValue(expectedValues[i]));
 });
 
@@ -178,6 +179,7 @@ test.each([
     ["surface_pressure", "Pressure"],
     ["us_aqi", "Air Quality"],
     ["uv_index", "UV Index"],
+    ["cape", "CAPE"],
 ] as [ChartViews, string][])("Clicking an option changes the view to %s", async (view, label) => {
     render(
         <ChartModal

@@ -67,8 +67,8 @@ exports[`Gradient tests > When view is us_aqi, gradient is created 1`] = `
           id=":rb:"
           x1="0"
           x2="0"
-          y1="120"
-          y2="-40"
+          y1="110"
+          y2="-30"
         >
           <stop
             offset="-13.492753623188406"
@@ -126,8 +126,8 @@ exports[`Gradient tests > When view is uv_index, gradient is created 1`] = `
           id=":ra:"
           x1="0"
           x2="0"
-          y1="120"
-          y2="-40"
+          y1="110"
+          y2="-30"
         >
           <stop
             offset="0.6811594202898551"

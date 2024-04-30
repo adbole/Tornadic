@@ -21,18 +21,18 @@ exports[`When shown, draws a rect and line to the current time 1`] = `
       <rect
         fill="#000"
         fill-opacity="0.25"
-        height="-160"
+        height="-140"
         width="-45.65217391304348"
         x="40"
-        y="120"
+        y="110"
       />
       <line
         stroke="#fff"
         stroke-width="1"
         x1="-5.652173913043476"
         x2="-5.652173913043476"
-        y1="120"
-        y2="-40"
+        y1="110"
+        y2="-30"
       />
     </g>
   </svg>
@@ -60,18 +60,18 @@ exports[`When shown, gives a offset for bandWidth 1`] = `
       <rect
         fill="#000"
         fill-opacity="0.25"
-        height="-160"
+        height="-140"
         width="-44.70954356846473"
         x="40"
-        y="120"
+        y="110"
       />
       <line
         stroke="#fff"
         stroke-width="1"
         x1="-4.70954356846473"
         x2="-4.70954356846473"
-        y1="120"
-        y2="-40"
+        y1="110"
+        y2="-30"
       />
     </g>
   </svg>

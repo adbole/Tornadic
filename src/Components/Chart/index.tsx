@@ -22,9 +22,9 @@ const ChartContext = React.createContext<{
 } | null>(null);
 
 export const margin = {
-    top: 120,
+    top: 110,
     right: 10,
-    bottom: 40,
+    bottom: 30,
     left: 40,
 };
 

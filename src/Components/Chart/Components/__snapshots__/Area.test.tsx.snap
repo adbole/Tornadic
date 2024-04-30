@@ -21,7 +21,7 @@ exports[`Renders a path for the yIndex = 0 by default 1`] = `
       id=":r2:"
     >
       <rect
-        height="-40"
+        height="-30"
         width="0"
         x="40"
       />
@@ -54,7 +54,7 @@ exports[`Renders a path for yIndex = 1 1`] = `
       id=":r3:"
     >
       <rect
-        height="-40"
+        height="-30"
         width="0"
         x="40"
       />
