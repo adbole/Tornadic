@@ -8,20 +8,20 @@ import { useTooltip } from "Components/Chart/Components";
 
 import { trunc } from "ts/Helpers";
 
-import * as TooltipHelpers from "./Helpers";
-import { PrimaryInformation } from ".";
+import { TooltipDisplay } from ".";
 
 
 mockDate();
 
 vi.mock("Contexts/WeatherContext", () => ({ useWeather }));
 vi.mock("Components/Chart/Components")
-
-vi.spyOn(TooltipHelpers, "getLowHigh");
+vi.mock("ts/Helpers", () => ({
+    trunc: vi.fn((value: number) => value.toString())
+}))
 
 const dataPoints = Array.from({ length: 24 }, (_, i) => ({
     x: new Date(i),
-    y: [i],
+    y: [0, 1, 2],
 }))
 
 function Wrapper({ children }: { children: React.ReactNode }) {
@@ -43,50 +43,65 @@ describe.each([
     "visibility",
     "windspeed_10m",
 ] as Array<ChartViews>)("Given view %s", view => {
-    test("When given hoverIndex -1 and day 0, main information is current value", () => {
+    test("When given hoverIndex = -1 and day = 0, display is current values", () => {
         const weather = useWeather().weather;
-        const value = trunc(weather.getForecast(view));
         const unit = weather.getForecastUnit(view);
 
+        const customDataPoints = dataPoints.map((point, i) => {
+            if (i === weather.nowIndex) {
+                return {
+                    ...point,
+                    y: [3, 4, 5]
+                }
+            }
+            
+            return point
+        })
+
         vi.mocked(useTooltip).mockReturnValue(-1)
 
         render(
-            <Wrapper>
-                <PrimaryInformation day={0} view={view}/>
-            </Wrapper>
+            <Chart dataPoints={customDataPoints} type="linear">
+                <TooltipDisplay day={0} view={view}/>
+            </Chart>
         );
 
-        expect(screen.getByText(`${value}${unit}`)).toBeInTheDocument();
+        expect.soft(screen.queryByText(`Avg: 5${unit}`)).toBeInTheDocument();
+        expect.soft(screen.queryByText(`Min 3 | Max 4`)).toBeInTheDocument();
+        expect.soft(trunc).toHaveBeenCalledTimes(3)
     });
 
-    test("Day > 0 and hoverIndex = -1 uses getLowHigh", () => {
+    test("Day > 0 and hoverIndex = -1 displays the low and high avg", () => {
         vi.mocked(useTooltip).mockReturnValue(-1)
+        const weather = useWeather().weather;
+        const unit = weather.getForecastUnit(view);
 
         render(
             <Wrapper>
-                <PrimaryInformation day={1} view={view}/>
+                <TooltipDisplay day={1} view={view}/>
             </Wrapper>
         );
 
-        expect.soft(TooltipHelpers.getLowHigh).toHaveBeenCalledOnce();
-        expect.soft(TooltipHelpers.getLowHigh).toHaveBeenCalledWith(expect.anything(), view, 1);
+        expect.soft(screen.queryByText("L: 2 H: 2")).toBeInTheDocument();
+        if(unit !== "") 
+            expect.soft(screen.queryByText(`In Unit: ${unit}`)).toBeInTheDocument();
     });
 
     test("HoverIndex > -1", () => {
         const hoverIndex = 1
 
         const weather = useWeather().weather;
-        const value = dataPoints[hoverIndex].y[0];
         const unit = weather.getForecastUnit(view);
 
         vi.mocked(useTooltip).mockReturnValue(hoverIndex)
 
         render(
             <Wrapper>
-                <PrimaryInformation day={0} view={view}/>
+                <TooltipDisplay day={0} view={view}/>
             </Wrapper>
         );
 
-        expect(screen.getByText(`${value}${unit}`)).toBeInTheDocument();
+        expect(screen.queryByText(`Avg: 2${unit}`)).toBeInTheDocument();
+        expect.soft(screen.queryByText(`Min 0 | Max 1`)).toBeInTheDocument();
     });
 });
