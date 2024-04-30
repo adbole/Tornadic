@@ -1,7 +1,7 @@
 import React from "react";
 import * as d3 from "d3";
 
-import useEnsemble from "Hooks/useEnsemble";
+import { useEnsemble } from "Hooks";
 
 import { useWeather } from "Contexts/WeatherContext";
 
@@ -13,8 +13,7 @@ import { ExclamationTriangle, Spinner } from "svgs";
 import { getMinMaxFunc } from "../Shared";
 import { Time } from "../Standard/__internal__/Tooltip";
 
-import { AVG_INDEX, MAX_INDEX, MIN_INDEX } from "./__internal__/Constants";
-import { Outliers,TooltipDisplay } from "./__internal__";
+import { AVG_INDEX, MAX_INDEX, MIN_INDEX,Outliers, TooltipDisplay } from "./__internal__";
 import { CenteredDisplay } from "./style";
 
 
@@ -27,7 +26,7 @@ export default function Ensemble({ view, day }: { view: ChartViews, day: number}
     const { ensemble, isLoading, error, mutate } = useEnsemble(allowedView, lat, long);
     
     const dataPoints = React.useMemo(() => {
-        if (!ensemble) return undefined;
+        if (!ensemble || error) return undefined;
 
         const from = day * 24;
         const to = from + 24;
@@ -49,7 +48,7 @@ export default function Ensemble({ view, day }: { view: ChartViews, day: number}
             x,
             y: [mins[i], maxes[i], avg[i], ...members[i]],
         }));
-    }, [ensemble, day]);
+    }, [ensemble, error, day]);
 
     if(!allowedView) return (
         <CenteredDisplay>
@@ -99,7 +98,7 @@ export default function Ensemble({ view, day }: { view: ChartViews, day: number}
 
             <Tooltip>
                 {
-                    dataPoints.every(d => d.y.every(value => value == null)) ? (
+                    ensemble.data.every(member => member.every((value) => value == null)) ? (
                         <h1>No Data</h1>
                     ) : (
                         <>

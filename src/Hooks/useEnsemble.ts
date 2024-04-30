@@ -14,8 +14,8 @@ type EnsembleVariables = keyof Omit<
     "time"
 >;
 
-//Ensemble data is unique because the requested variable will have n members (observed to usually be 30),
-//It would be inefficient to have a property for each member, when all this data is converted by useEnsemble
+//Ensemble data is unique because the requested variable will have n members (observed to usually be 30 + 1 for the deterministic forecast),
+//It would be inefficient (and very long) to have a property for each member, when all this data is converted by useEnsemble
 type EnsembleApiResponse = {
     hourly: {
         time: string[];

@@ -12,8 +12,6 @@ mockDate();
 
 vi.mock("Contexts/WeatherContext", () => ({ useWeather }));
 
-// This isn't an actual hook, it mocks the hook
-// eslint-disable-next-line react-hooks/rules-of-hooks
 const dataPoints = forecast().hourly.time.slice(0, 24).map((iso, i) => ({ 
     x: new Date(iso), 
     y: [i] 
