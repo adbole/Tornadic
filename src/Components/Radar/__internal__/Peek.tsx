@@ -88,7 +88,9 @@ export default function Peek() {
     const onMove = React.useCallback((e: L.LeafletMouseEvent | TouchEvent) => {
         if (!timeout.current) return;
 
-        const event = e instanceof TouchEvent ? e.touches[e.touches.length - 1] : e.originalEvent;
+        const event = (window.TouchEvent && e instanceof TouchEvent)
+            ? e.touches[e.touches.length - 1] 
+            : (e as L.LeafletMouseEvent).originalEvent;
 
         const xChange = Math.abs(event.clientX - initialXY.current[0]);
         const yChange = Math.abs(event.clientY - initialXY.current[1]);
