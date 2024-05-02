@@ -27,7 +27,7 @@ export default function useNWS(
     const alertEndpoint = React.useMemo(() => {
         if (!latitude || !longitude) return null;
 
-        let endpoint = "https://api.weather.gov/alerts/active/";
+        let endpoint = "https://api.weather.gov/alerts/active";
 
         if (!alertMode) {
             endpoint += `?point=${latitude},${longitude}`;
