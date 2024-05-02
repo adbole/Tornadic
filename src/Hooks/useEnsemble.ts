@@ -1,6 +1,6 @@
 import React from "react";
 import type { KeyedMutator } from "swr";
-import useSWRImmutable from "swr/immutable";
+import useSWR from "swr";
 
 import DataConverter from "ts/DataConverter";
 import { fetchData } from "ts/Fetch";
@@ -39,6 +39,7 @@ export default function useEnsemble<K extends EnsembleVariables>(
 ): {
     ensemble: Ensemble | undefined;
     isLoading: boolean;
+    isValidating: boolean;
     error: string | undefined;
     mutate: KeyedMutator<Ensemble>;
 } {
@@ -64,10 +65,11 @@ export default function useEnsemble<K extends EnsembleVariables>(
     const {
         data: ensemble,
         isLoading,
+        isValidating,
         error,
         mutate,
-    } = useSWRImmutable(
-        url,
+    } = useSWR(
+        url?.toString(),
         async url => {
             const converter = new DataConverter(settings!);
 
@@ -87,7 +89,10 @@ export default function useEnsemble<K extends EnsembleVariables>(
             };
         },
         {
+            //Only allow one request per 30 minutes per key
+            dedupingInterval: 1000 * 60 * 30,
             refreshInterval: getTimeToNextHour,
+            //Don't retry on error, instead the user can manually retry at their discretion
             shouldRetryOnError: false,
             onError: () => undefined, //Disable so FetchErrorHandler doesn't catch
         }
@@ -96,6 +101,7 @@ export default function useEnsemble<K extends EnsembleVariables>(
     return {
         ensemble,
         isLoading,
+        isValidating,
         error,
         mutate,
     };

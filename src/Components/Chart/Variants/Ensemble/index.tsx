@@ -23,7 +23,7 @@ export default function Ensemble({ view, day }: { view: ChartViews; day: number 
     const allowedView = view === "us_aqi" ? undefined : view;
 
     const [long, lat] = point.geometry.coordinates;
-    const { ensemble, isLoading, error, mutate } = useEnsemble(allowedView, lat, long);
+    const { ensemble, isLoading, isValidating, error, mutate } = useEnsemble(allowedView, lat, long);
 
     const dataPoints = React.useMemo(() => {
         if (!ensemble || error) return undefined;
@@ -56,11 +56,11 @@ export default function Ensemble({ view, day }: { view: ChartViews; day: number 
             </CenteredDisplay>
         );
 
-    if (isLoading)
+    if (isLoading || isValidating)
         return (
             <CenteredDisplay>
                 <Spinner />
-                <p>Fetching Ensemble Data</p>
+                <p>Fetching Recent Ensemble Data</p>
             </CenteredDisplay>
         );
 
