@@ -40,7 +40,7 @@ export default function useOpenMeteo(
         {
             refreshInterval: getTimeToNextHour,
             //Prevent revalidation if user recently refocused the tab
-            focusThrottleInterval: 1000 * 60 * 10,
+            focusThrottleInterval: 1000 * 60 * 3,
             keepPreviousData: true,
         }
     );
