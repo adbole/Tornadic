@@ -1,6 +1,7 @@
 import { setLocalStorageItem } from "@test-utils";
 
 import { act, renderHook } from "@testing-library/react";
+import { SWRConfig } from "swr";
 
 import DataConverter from "ts/DataConverter";
 import { getTimeToNextHour } from "ts/Helpers";
@@ -30,12 +31,20 @@ function constructData(variable: keyof Forecast["hourly"]) {
     return data;
 }
 
+function Wrapper({ children }: { children: React.ReactNode }) {
+    return (
+        <SWRConfig value={{ dedupingInterval: 0, provider: () => new Map() }}>
+            {children}
+        </SWRConfig>
+    );
+}
+
 beforeEach(() => {
     setLocalStorageItem("userSettings", DEFAULTS.userSettings);
 });
 
 test("Weather variable is passed correctly to the url", () => {
-    renderHook(() => useEnsemble("temperature_2m", 0, 0));
+    renderHook(() => useEnsemble("temperature_2m", 0, 0), { wrapper: Wrapper });
 
     expect.soft(fetchMock).toHaveBeenCalledOnce();
     expect.soft(fetchMock.requests()[0].url).toContain("temperature_2m");
@@ -47,7 +56,7 @@ test("Data is converted into a more usuable format", async () => {
 
     fetchMock.mockResponse(JSON.stringify(constructData("temperature_2m")));
 
-    const { result } = renderHook(() => useEnsemble("temperature_2m", 0, 0));
+    const { result } = renderHook(() => useEnsemble("temperature_2m", 0, 0), { wrapper: Wrapper });
 
     await act(async () => {
         await vi.advanceTimersToNextTimerAsync();
@@ -74,11 +83,11 @@ test("Data is converted into a more usuable format", async () => {
     vi.useRealTimers();
 });
 
-test("Data is refreshed at next hour", async () => {
+test("Data is refreshed automatically at next hour", async () => {
     vi.useFakeTimers();
 
     fetchMock.mockResponse(JSON.stringify(constructData("temperature_2m")));
-    renderHook(() => useEnsemble("temperature_2m", 0, 0));
+    renderHook(() => useEnsemble("temperature_2m", 0, 0), { wrapper: Wrapper });
 
     expect.soft(fetchMock).toHaveBeenCalledOnce();
 

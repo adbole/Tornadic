@@ -47,7 +47,7 @@ describe("data fetching", () => {
         expect.soft(fetchMock).toHaveBeenCalledWith("https://api.weather.gov/points/1,1");
         expect
             .soft(fetchMock)
-            .toHaveBeenCalledWith("https://api.weather.gov/alerts/active/?point=1,1");
+            .toHaveBeenCalledWith("https://api.weather.gov/alerts/active?point=1,1");
 
         expect.soft(fetchMock).toHaveBeenCalledTimes(2);
     });
@@ -97,7 +97,7 @@ describe("Radar Alert Mode", () => {
         });
 
         expect.soft(fetchMock).toHaveBeenCalledTimes(2);
-        expect.soft(fetchMock).toHaveBeenLastCalledWith("https://api.weather.gov/alerts/active/");
+        expect.soft(fetchMock).toHaveBeenLastCalledWith("https://api.weather.gov/alerts/active");
     });
 
     test("If radar alert mode is enabled after first fetch, then a refetch of all alerts is called", async () => {
@@ -115,7 +115,7 @@ describe("Radar Alert Mode", () => {
         expect.soft(fetchMock).toHaveBeenCalledTimes(2);
         expect
             .soft(fetchMock)
-            .not.toHaveBeenLastCalledWith("https://api.weather.gov/alerts/active/");
+            .not.toHaveBeenLastCalledWith("https://api.weather.gov/alerts/active");
 
         act(() => {
             setLocalStorageItem("radarSettings", {
@@ -126,7 +126,7 @@ describe("Radar Alert Mode", () => {
         });
 
         expect.soft(fetchMock).toHaveBeenCalledTimes(3);
-        expect.soft(fetchMock).toHaveBeenLastCalledWith("https://api.weather.gov/alerts/active/");
+        expect.soft(fetchMock).toHaveBeenLastCalledWith("https://api.weather.gov/alerts/active");
     });
 });
 

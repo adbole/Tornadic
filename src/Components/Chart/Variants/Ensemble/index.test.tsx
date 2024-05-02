@@ -96,12 +96,22 @@ test("If view is us_aqi, display a message", () => {
     expect.soft(screen.queryByText("Variable is not supported for Ensemble")).toBeInTheDocument();
 });
 
-test("Displays loading spinner", () => {
+test("Displays loading spinner and message for loading", () => {
     mocks.useEnsemble.mockReturnValue({ isLoading: true });
 
     render(<Ensemble view="temperature_2m" day={0} />);
 
-    expect(screen.queryByText("Spinner")).toBeInTheDocument();
+    expect.soft(screen.queryByText("Spinner")).toBeInTheDocument();
+    expect.soft(screen.queryByText("Fetching Recent Ensemble Data")).toBeInTheDocument();
+});
+
+test("Displays loading spinner and message for revalidation", () => {
+    mocks.useEnsemble.mockReturnValue({ isValidating: true });
+
+    render(<Ensemble view="temperature_2m" day={0} />);
+
+    expect.soft(screen.queryByText("Spinner")).toBeInTheDocument();
+    expect.soft(screen.queryByText("Fetching Recent Ensemble Data")).toBeInTheDocument();
 });
 
 test("Displays error message and allows retry", () => {

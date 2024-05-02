@@ -30,7 +30,7 @@ beforeEach(() => {
         if (req.url.match(/air-quality-api.open-meteo.com/)) return JSON.stringify(airquality());
         else if (req.url.match(/geocoding-api.open-meteo.com/)) return JSON.stringify(geocoding);
         else if (req.url.match(/api\.open-meteo\.com/)) return JSON.stringify(forecast());
-        else if (req.url.match(/^https:\/\/api.weather.gov\/alerts\/active\/.*$/))
+        else if (req.url.match(/^https:\/\/api.weather.gov\/alerts\/active.*$/))
             return {
                 body: JSON.stringify(singleAlert),
                 headers: { expires: new Date().toISOString() },
