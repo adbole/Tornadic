@@ -53,7 +53,7 @@ describe("Changing Settings", () => {
             ...DEFAULTS.radarSettings,
             mapTheme: "dark",
         });
-    })
+    });
 
     test("Changing the color scheme", () => {
         render(<Settings />);

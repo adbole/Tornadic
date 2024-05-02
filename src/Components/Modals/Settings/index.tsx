@@ -23,7 +23,7 @@ const StatusDiv = styled.div({
     flexDirection: "column",
     borderRadius: vars.inputBorderRadius,
     padding: "10px",
-})
+});
 
 export default function Settings({ ...modalProps }: ModalProps) {
     const [settings, setSettings] = useLocalStorage("userSettings");
@@ -142,34 +142,31 @@ export default function Settings({ ...modalProps }: ModalProps) {
                     Save
                 </Button>
 
-                <hr/>
-                    <h3>NWS Alert Notifications</h3>
-                    <StatusDiv 
-                        style={{
-                            background: vars[notiPermission === "granted" ? "success" : "danger"],
-                        }}
+                <hr />
+                <h3>NWS Alert Notifications</h3>
+                <StatusDiv
+                    style={{
+                        background: vars[notiPermission === "granted" ? "success" : "danger"],
+                    }}
+                >
+                    {notiPermission === "granted" ? (
+                        <>
+                            <p>Notifications Are Enabled</p>
+                            <p>Revoke permissions in your browser to disable</p>
+                        </>
+                    ) : (
+                        <p>Notifications Are Disabled</p>
+                    )}
+                </StatusDiv>
+                {notiPermission !== "granted" && (
+                    <Button
+                        style={{ width: "100%" }}
+                        title="Enable Notifications"
+                        onClick={() => Notification.requestPermission()}
                     >
-                        {
-                            notiPermission === "granted" ? (
-                                <>
-                                    <p>Notifications Are Enabled</p>
-                                    <p>Revoke permissions in your browser to disable</p>
-                                </>
-                            ) : (
-                                <p>Notifications Are Disabled</p>
-                            )
-                        }
-                    </StatusDiv>
-                    {
-                        notiPermission !== "granted" && 
-                        <Button 
-                            style={{ width: "100%" }}
-                            title="Enable Notifications"
-                            onClick={() => Notification.requestPermission()}
-                        >
-                            Get Notifications
-                        </Button>
-                    }
+                        Get Notifications
+                    </Button>
+                )}
                 <hr />
 
                 <DataAttributation>

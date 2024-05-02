@@ -18,7 +18,7 @@ beforeEach(() => {
 
     const past = rainviewerObj.radar.past;
     vi.setSystemTime(past[past.length - 1].time * 1000);
-    setLocalStorageItem("radarSettings", DEFAULTS.radarSettings)
+    setLocalStorageItem("radarSettings", DEFAULTS.radarSettings);
 });
 
 afterEach(() => {

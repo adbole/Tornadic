@@ -17,16 +17,16 @@ const SimpleWidget = styled(Widget)({
     justifyContent: "flex-start",
     alignItems: "center",
 
-    ">svg": { 
+    ">svg": {
         height: "75%",
         width: "auto",
-        marginRight: "10px"
+        marginRight: "10px",
     },
 });
 
-const Title = styled(WidgetTitle)({ margin: 0 })
+const Title = styled(WidgetTitle)({ margin: 0 });
 
-const Value = styled.p({ fontSize: "1.75rem" })
+const Value = styled.p({ fontSize: "1.75rem" });
 
 function getRoundingMethod(property: ChartViews, settings: UserSettings) {
     if (property === "precipitation" && settings.precipitation === "inch") {
@@ -48,7 +48,7 @@ export default function SimpleInfoWidget({
     const { weather } = useWeather();
     const [modalOpen, showModal, hideModal] = useBooleanState(false);
 
-    const settings = useReadLocalStorage("userSettings")
+    const settings = useReadLocalStorage("userSettings");
 
     if (!settings) return null;
 

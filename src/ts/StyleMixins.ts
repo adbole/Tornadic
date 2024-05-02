@@ -106,8 +106,8 @@ export const interactable = css({
     "&:hover, &:focus": { cursor: "pointer" },
 
     "&:active": { filter: "brightness(80%)" },
-    "&:disabled": { 
+    "&:disabled": {
         cursor: "not-allowed",
-        filter: "grayscale(0.5)" 
+        filter: "grayscale(0.5)",
     },
 });

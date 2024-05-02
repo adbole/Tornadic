@@ -18,7 +18,7 @@ export const ChartTitle = styled.div({
     position: "relative",
     textAlign: "center",
     padding: "10px",
-    "select": {
+    select: {
         background: "transparent",
         border: "none",
         color: "inherit",
@@ -30,8 +30,8 @@ export const ChartTitle = styled.div({
         position: "absolute",
         top: "10px",
         right: "10px",
-    }
-})
+    },
+});
 
 export const ChartContent = styled(ModalContent)({
     display: "flex",

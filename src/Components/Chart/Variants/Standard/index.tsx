@@ -22,9 +22,9 @@ function getY2Property(view: ChartViews) {
     }
 }
 
-export default function Standard({ view, day }: { view: ChartViews, day: number}) {
-    const { weather } = useWeather()
-    
+export default function Standard({ view, day }: { view: ChartViews; day: number }) {
+    const { weather } = useWeather();
+
     const dataPoints = React.useMemo(() => {
         const from = day * 24;
         const to = from + 24;
@@ -45,23 +45,25 @@ export default function Standard({ view, day }: { view: ChartViews, day: number}
     }, [weather, view, day]);
 
     return (
-        <Chart dataPoints={dataPoints} yBounds={getMinMaxFunc(view)} type={view === "precipitation" ? "band" : "linear"}>
+        <Chart
+            dataPoints={dataPoints}
+            yBounds={getMinMaxFunc(view)}
+            type={view === "precipitation" ? "band" : "linear"}
+        >
             <Axes />
-            <ChartVisualization view={view}/>
+            <ChartVisualization view={view} />
             <NowReference isShown={!day} />
             <Tooltip>
-                {
-                    dataPoints.every(d => d.y[0] == null) ? (
-                        <h1>No Data</h1>
-                    ) : (
-                        <>
-                            <Time day={day} />
-                            <PrimaryInformation view={view} day={day} />
-                            <SecondaryInformation view={view} day={day} />
-                        </>
-                    )
-                }
+                {dataPoints.every(d => d.y[0] == null) ? (
+                    <h1>No Data</h1>
+                ) : (
+                    <>
+                        <Time day={day} />
+                        <PrimaryInformation view={view} day={day} />
+                        <SecondaryInformation view={view} day={day} />
+                    </>
+                )}
             </Tooltip>
         </Chart>
-    )
+    );
 }

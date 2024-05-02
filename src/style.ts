@@ -26,7 +26,7 @@ export default css`
     :root {
         ${varNames.background}: #2c2c2c;
         ${varNames.backgroundLayer}: #363636;
-        
+
         ${varNames.primary}: #2668f7;
         ${varNames.success}: #248f5e;
         ${varNames.danger}: #dc3545;

@@ -14,7 +14,7 @@ declare global {
     }>;
 
     type RadarSettings = Readonly<{
-        mapTheme: "system" | "light" | "dark" | "light-grey" | "dark-grey"
+        mapTheme: "system" | "light" | "dark" | "light-grey" | "dark-grey";
         colorScheme: number;
         smoothing: boolean;
         snow: boolean;
@@ -47,7 +47,7 @@ const DEFAULTS: LocalStorageDefaults = {
         colorScheme: 6,
         smoothing: true,
         snow: false,
-        alertMode: false
+        alertMode: false,
     },
     userLocation: { useCurrent: false },
 };

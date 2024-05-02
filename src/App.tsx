@@ -52,14 +52,14 @@ function LocationRequest() {
             default:
                 return null;
         }
-    }, [status])
+    }, [status]);
 
     return (
         <>
             <MessageScreen>
                 <Cursor />
                 <p>Tornadic requires you to provide a location in order to work properly.</p>
-                { errorMessage && <p>{errorMessage}</p> }
+                {errorMessage && <p>{errorMessage}</p>}
                 <div>
                     <Button onClick={showModal}>Provide Location</Button>
                 </div>
@@ -82,7 +82,7 @@ function AppLoader() {
             <Skeleton css={RadarBase} size="widget-large" />
             {Array.from({ length: 2 }, (_, i) => (
                 <SimpleGroup key={i}>
-                    <Skeleton/>
+                    <Skeleton />
                     <Skeleton />
                 </SimpleGroup>
             ))}
@@ -144,7 +144,7 @@ function App() {
             )}
         >
             <WeatherContext latitude={latitude} longitude={longitude} skeleton={<AppLoader />}>
-                <Background parentElement={rootRef.current}/>
+                <Background parentElement={rootRef.current} />
 
                 <Now />
                 <Alert />

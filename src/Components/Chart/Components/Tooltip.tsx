@@ -8,12 +8,11 @@ import type { DataPoint } from "..";
 import { useChart } from "..";
 
 
-const TooltipContext = React.createContext<number>(-1)
+const TooltipContext = React.createContext<number>(-1);
 
 export const useTooltip = () =>
     React.useContext(TooltipContext) ??
     throwError("useTootlip must be used within a Chart Tooltip");
-
 
 const Container = styled.div({
     display: "flex",
@@ -123,9 +122,7 @@ export default function Tooltip({ children }: { children: React.ReactNode }) {
             <line x1={0} x2="100%" y1={100} y2={100} stroke="#ffffff19" strokeWidth={1} />
             <foreignObject width="100%" height="100px">
                 <Container ref={div}>
-                    <TooltipContext.Provider value={hoverIndex}>
-                        {children}
-                    </TooltipContext.Provider>
+                    <TooltipContext.Provider value={hoverIndex}>{children}</TooltipContext.Provider>
                 </Container>
             </foreignObject>
             <line

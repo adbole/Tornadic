@@ -7,7 +7,7 @@ import Widget from "Components/Widget";
 import { darkBackBlur, mediaQueries, varNames, vars } from "ts/StyleMixins";
 
 
-export const BaseLayer = styled(TileLayer)()
+export const BaseLayer = styled(TileLayer)();
 
 export const Base = css({
     backdropFilter: "none",
@@ -58,7 +58,7 @@ export const Base = css({
     [mediaQueries.min("medium")]: { gridArea: "r" },
 });
 
-const dark = { filter: "invert(1) hue-rotate(180deg)" }
+const dark = { filter: "invert(1) hue-rotate(180deg)" };
 
 export default styled(Widget)(({ mapTheme }: { mapTheme: RadarSettings["mapTheme"] }) => [
     Base,
@@ -69,7 +69,7 @@ export default styled(Widget)(({ mapTheme }: { mapTheme: RadarSettings["mapTheme
             mapTheme === "dark-grey" && { filter: "grayscale(1) brightness(0.9) invert(1)" },
             mapTheme === "system" && {
                 "@media (prefers-color-scheme: dark)": dark,
-            }
-        ]
-    }
+            },
+        ],
+    },
 ]);

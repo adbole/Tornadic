@@ -17,7 +17,7 @@ test("Renders radio button by default", () => {
     );
 
     expect(screen.getByLabelText("MyToggleButton")).toHaveAttribute("type", "radio");
-})
+});
 
 test("Renders checkbox when type is checkbox", () => {
     render(

@@ -55,7 +55,7 @@ test("Renders a path for yIndex = 0 by default", () => {
 test("Renders a path for yIndex = 1", () => {
     const { container } = render(
         <Chart dataPoints={dataPoints} type="linear">
-            <Line yIndex={1}/>
+            <Line yIndex={1} />
         </Chart>
     );
 

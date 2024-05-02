@@ -134,7 +134,9 @@ describe("FetchErrorHandler", () => {
         render(<Peek isOpen={true} onClose={vi.fn()} />);
 
         expect.soft(screen.queryByTestId(mockFetchErrorHanlder)).toBeInTheDocument();
-        expect.soft(screen.queryByText("An error occured while getting the data")).toBeInTheDocument();
+        expect
+            .soft(screen.queryByText("An error occured while getting the data"))
+            .toBeInTheDocument();
 
         const retryBtn = screen.getByText("Try Again Now");
 
@@ -165,4 +167,4 @@ test("Renders as expected and passes expected properties", () => {
     render(<Peek isOpen={true} onClose={vi.fn()} latitude={365} longitude={405} />);
 
     expect(document.body).toMatchSnapshot();
-})
+});

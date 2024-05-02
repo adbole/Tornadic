@@ -72,9 +72,9 @@ describe("Responsive", () => {
     test("Down to medium, is in grid area d", () => {
         expect
             .soft(screen.queryByTestId(testIds.Widget.WidgetSection))
-            .toHaveStyleRule("grid-area", "d", { 
+            .toHaveStyleRule("grid-area", "d", {
                 target: "#root>",
-                media: mediaQueries.min("medium") 
+                media: mediaQueries.min("medium"),
             });
     });
 });

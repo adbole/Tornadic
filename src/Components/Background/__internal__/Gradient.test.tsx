@@ -5,7 +5,6 @@ import type WeatherCondition from "ts/WeatherCondition";
 import Gradient from "./Gradient";
 
 
-
 describe.each([
     ["Day", true],
     ["Night", false],

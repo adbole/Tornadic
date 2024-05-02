@@ -59,11 +59,11 @@ export default function Hourly() {
                 onClick={showModal}
                 size="widget-wide"
             >
-                <List 
+                <List
                     ref={listRef}
                     style={{
                         cursor: dragActive ? "grabbing" : "grab",
-                        [varNames.scrollBarColor]: !dragActive && "transparent"
+                        [varNames.scrollBarColor]: !dragActive && "transparent",
                     }}
                 >
                     {[...weather.getFutureValues()].map((forecast, index) => {

@@ -15,8 +15,8 @@ export default styled(ModalContent)({
     gridAutoRows: "150px",
     gap: "10px",
 
-    [`${HourlyWidget}`] : {
-        gridColumn: "span 2"
+    [`${HourlyWidget}`]: {
+        gridColumn: "span 2",
     },
 });
 

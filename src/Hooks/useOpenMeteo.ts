@@ -23,7 +23,11 @@ export default function useOpenMeteo(
     }, [latitude, longitude, settings]);
 
     const key = urls ? JSON.stringify(urls) : null;
-    const { data: weather, isLoading, isValidating } = useSWR<Weather>(
+    const {
+        data: weather,
+        isLoading,
+        isValidating,
+    } = useSWR<Weather>(
         key,
         async () => {
             const [forecast, airquality] = await Promise.all([
@@ -33,7 +37,7 @@ export default function useOpenMeteo(
 
             return new Weather(forecast, airquality, settings!);
         },
-        { 
+        {
             refreshInterval: getTimeToNextHour,
             keepPreviousData: true,
         }
@@ -42,7 +46,7 @@ export default function useOpenMeteo(
     return {
         weather,
         isLoading,
-        isValidating
+        isValidating,
     };
 }
 
@@ -55,9 +59,7 @@ function getUrls(
     airQualityURL: string;
 } {
     //NOTE: Precipitation unit of in affects the unit of visibility to become ft
-    const forecastURL = new URL(
-        "https://api.open-meteo.com/v1/gfs?timezone=auto"
-    );
+    const forecastURL = new URL("https://api.open-meteo.com/v1/gfs?timezone=auto");
 
     //Type Array<keyof T> provides compile-time checking to ensure array values match a property on T
     const hourly_params: Array<keyof Forecast["hourly"]> = [
@@ -75,7 +77,7 @@ function getUrls(
         "windgusts_10m",
         "uv_index",
         "is_day",
-        "cape"
+        "cape",
     ];
     const daily_params: Array<keyof Forecast["daily"]> = [
         "temperature_2m_min",

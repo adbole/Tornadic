@@ -1,4 +1,6 @@
-export function getMinMaxFunc(view: ChartViews): (([min, max]: [number, number]) => [number, number]) | undefined {
+export function getMinMaxFunc(
+    view: ChartViews
+): (([min, max]: [number, number]) => [number, number]) | undefined {
     switch (view) {
         case "surface_pressure":
             return ([min, max]: [number, number]) => [min - 0.3, max + 0.3];
@@ -8,6 +10,7 @@ export function getMinMaxFunc(view: ChartViews): (([min, max]: [number, number])
             return () => [0, 100];
         case "uv_index":
             return ([_, max]: [number, number]) => [0, Math.max(11, max)];
-        default: return undefined; //Allow default behavior of chart
+        default:
+            return undefined; //Allow default behavior of chart
     }
 }

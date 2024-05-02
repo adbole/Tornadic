@@ -82,15 +82,12 @@ test("Provides map with correct props", () => {
     );
 });
 
-test.each([
-    "system",
-    "light",
-    "light-grey",
-    "dark",
-    'dark-grey'
-] as RadarSettings["mapTheme"][])("Matches %s Snapshot", mapTheme => {
-    setLocalStorageItem("radarSettings", { ...DEFAULTS.radarSettings, mapTheme})
-    const { container } = render(<Radar />);
+test.each(["system", "light", "light-grey", "dark", "dark-grey"] as RadarSettings["mapTheme"][])(
+    "Matches %s Snapshot",
+    mapTheme => {
+        setLocalStorageItem("radarSettings", { ...DEFAULTS.radarSettings, mapTheme });
+        const { container } = render(<Radar />);
 
-    expect(container).toMatchSnapshot();
-})
+        expect(container).toMatchSnapshot();
+    }
+);

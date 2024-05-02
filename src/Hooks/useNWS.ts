@@ -55,10 +55,10 @@ export default function useNWS(
 
             return removeExpiredAlerts(response.data.features.map(alert => new NWSAlert(alert)));
         },
-        { 
+        {
             refreshInterval: () => expires.current,
             refreshWhenHidden: true,
-            keepPreviousData: true
+            keepPreviousData: true,
         }
     );
 

@@ -4,7 +4,7 @@ import { useWeather } from "Contexts/WeatherContext";
 
 import { Ensemble, Standard } from "Components/Chart/Variants";
 import { InputGroup, ToggleButton } from "Components/Input";
-import type {ModalProps} from "Components/Modals/Modal";
+import type { ModalProps } from "Components/Modals/Modal";
 import { Ensemble as EnsembleSVG } from "svgs";
 
 import { varNames } from "ts/StyleMixins";
@@ -87,12 +87,12 @@ export default function ChartModal({
                         </Option>
                     ))}
                 </select>
-                <ToggleButton 
+                <ToggleButton
                     type="checkbox"
                     title="Toggle Ensemble data on or off"
                     onClick={({ currentTarget: { checked } }) => setShowEnsemble(checked)}
                     label={<EnsembleSVG />}
-                    style={{ 
+                    style={{
                         padding: "10px",
                         [varNames.svgSize]: "1.5rem",
                     }}
@@ -113,11 +113,11 @@ export default function ChartModal({
 
                 <p>{getTimeFormatted(weather.getForecast("time", day * 24), "date")}</p>
 
-                {
-                    showEnsemble
-                        ? <Ensemble view={view} day={day} />
-                        : <Standard view={view} day={day} />
-                }
+                {showEnsemble ? (
+                    <Ensemble view={view} day={day} />
+                ) : (
+                    <Standard view={view} day={day} />
+                )}
             </ChartContent>
         </StyledModal>
     );

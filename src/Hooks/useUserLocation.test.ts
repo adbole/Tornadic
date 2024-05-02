@@ -39,8 +39,8 @@ describe("useCurrent", () => {
         ["timeout", 3],
     ])(`Returns %s if getCurrentPosition raises an error for it`, (status, code) => {
         (navigator.geolocation.getCurrentPosition as Mock).mockImplementationOnce((_, cb) => {
-            cb({ 
-                code, 
+            cb({
+                code,
                 PERMISSION_DENIED: 1,
                 POSITION_UNAVAILABLE: 2,
                 TIMEOUT: 3,

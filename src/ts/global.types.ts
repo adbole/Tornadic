@@ -53,12 +53,12 @@ declare global {
     type GridPoint = Readonly<{
         geometry: {
             coordinates: [number, number];
-        }
+        };
         properties: {
             relativeLocation: {
                 geometry: {
                     coordinates: [number, number];
-                }
+                };
                 properties: {
                     city: string;
                     state: string;

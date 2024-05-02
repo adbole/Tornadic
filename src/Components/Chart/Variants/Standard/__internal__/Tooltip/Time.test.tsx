@@ -8,13 +8,12 @@ import getTimeFormatted from "ts/TimeConversion";
 import { Time } from ".";
 
 
-vi.mock("Components/Chart/Components")
-
+vi.mock("Components/Chart/Components");
 
 const dataPoints = Array.from({ length: 24 }, (_, i) => ({
     x: new Date(i),
     y: [i],
-}))
+}));
 
 function Wrapper({ children }: { children: React.ReactNode }) {
     return (
@@ -25,7 +24,7 @@ function Wrapper({ children }: { children: React.ReactNode }) {
 }
 
 test("When given hoverIndex -1 and day 0, shows Now", () => {
-    vi.mocked(useTooltip).mockReturnValue(-1)
+    vi.mocked(useTooltip).mockReturnValue(-1);
 
     render(
         <Wrapper>
@@ -37,11 +36,11 @@ test("When given hoverIndex -1 and day 0, shows Now", () => {
 });
 
 test("Shows 'Min and Max' when given day > 0", () => {
-    vi.mocked(useTooltip).mockReturnValue(-1)
+    vi.mocked(useTooltip).mockReturnValue(-1);
 
     render(
         <Wrapper>
-            <Time day={1}  />
+            <Time day={1} />
         </Wrapper>
     );
 
@@ -49,7 +48,7 @@ test("Shows 'Min and Max' when given day > 0", () => {
 });
 
 test("Shows time when given hoverIndex > -1", () => {
-    vi.mocked(useTooltip).mockReturnValue(1)
+    vi.mocked(useTooltip).mockReturnValue(1);
 
     const time = getTimeFormatted(dataPoints[1].x, "hourMinute");
 

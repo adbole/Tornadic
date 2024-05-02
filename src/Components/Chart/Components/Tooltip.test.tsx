@@ -6,7 +6,6 @@ import Chart from "../";
 import { Tooltip, useTooltip } from ".";
 
 
-
 function TestComponent() {
     const hoverIndex = useTooltip();
 
@@ -62,10 +61,10 @@ test.each([
             </Chart>
         );
 
-        const graph = container.querySelector("svg")!; 
+        const graph = container.querySelector("svg")!;
         //Get the last line element (first is a decorative line to separate the graph from the tooltip area)
         const referenceLine = container.querySelector("line:last-of-type")!;
-        
+
         expect.soft(referenceLine).toHaveStyle("display: none");
 
         act(() => {
@@ -121,7 +120,6 @@ test.each(["linear", "bar"] as ChartType[])(
         });
 
         expect(screen.queryByText("9")).toBeInTheDocument();
-
 
         act(() => {
             fireEvent.mouseEnter(graph);

@@ -50,22 +50,23 @@ weatherTest("getDailyValues returns a generator of a 7 day forecast", ({ weather
 });
 
 weatherTest("getWeatherCondition returns a WeatherCondition for the given hour", ({ weather }) => {
-    const weatherCodes = forecastObj.hourly.weathercode
-        .map((code, i) => new WeatherCondition(code, Boolean(forecastObj.hourly.is_day[i])))
-    
+    const weatherCodes = forecastObj.hourly.weathercode.map(
+        (code, i) => new WeatherCondition(code, Boolean(forecastObj.hourly.is_day[i]))
+    );
+
     const allResult = weatherCodes.every((obj, i) => {
-        const returned = weather.getWeatherCondition(i)
+        const returned = weather.getWeatherCondition(i);
 
-        return obj.type === returned.type && obj.intensity === returned.intensity
-    })
+        return obj.type === returned.type && obj.intensity === returned.intensity;
+    });
 
-    const now = weatherCodes[NOW_INDEX]
-    const returnedNow = weather.getWeatherCondition()
+    const now = weatherCodes[NOW_INDEX];
+    const returnedNow = weather.getWeatherCondition();
 
-    const nowResult = now.type === returnedNow.type && now.intensity === returnedNow.intensity
+    const nowResult = now.type === returnedNow.type && now.intensity === returnedNow.intensity;
 
     expect(allResult && nowResult).toBe(true);
-})
+});
 
 describe("getForecast", () => {
     weatherTest(

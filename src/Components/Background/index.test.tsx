@@ -26,7 +26,9 @@ type Condition = {
 
 const mocks = vi.hoisted(() => ({
     Sky: vi.fn(() => <div>Sky</div>),
-    PerspectiveCamera: vi.fn(({ rotation }: { rotation: number[]}) => <div>PerspectiveCamera</div>),
+    PerspectiveCamera: vi.fn(({ rotation }: { rotation: number[] }) => (
+        <div>PerspectiveCamera</div>
+    )),
     Canvas: vi.fn(
         ({
             children,
@@ -47,7 +49,9 @@ const mocks = vi.hoisted(() => ({
 vi.mock("@react-three/drei", () => ({
     Sky: mocks.Sky,
     PerspectiveCamera: mocks.PerspectiveCamera,
-    ScreenSpace: ({ children }: { children: React.ReactNode }) => <div>ScreenSpace - {children}</div>,
+    ScreenSpace: ({ children }: { children: React.ReactNode }) => (
+        <div>ScreenSpace - {children}</div>
+    ),
 }));
 
 vi.mock("@react-three/fiber", () => ({
@@ -77,7 +81,7 @@ vi.mock("Components/Background/__internal__", () => ({
 beforeEach(() => {
     vi.spyOn(Weather.prototype, "isDay").mockReturnValue(true);
     vi.spyOn(Weather.prototype, "getWeatherCondition").mockReturnValue({
-        type: "Clear"
+        type: "Clear",
     } as WeatherCondition);
 });
 
@@ -147,7 +151,7 @@ describe("High Contrast", () => {
         ["without Gradients", "Overcast", false],
     ])("When rayleigh isn't 1 %s", (_, condition, preferGradient) => {
         vi.mocked(Weather.prototype.getWeatherCondition).mockReturnValue({
-            type: condition
+            type: condition,
         } as WeatherCondition);
 
         setLocalStorageItem("userSettings", {
@@ -190,7 +194,7 @@ describe.each([
     ] as [WeatherCondition["type"], number[], number[]][])("%s", (condition, day, night) => {
         vi.mocked(Weather.prototype.isDay).mockReturnValue(isDay);
         vi.mocked(Weather.prototype.getWeatherCondition).mockReturnValue({
-            type: condition
+            type: condition,
         } as WeatherCondition);
         setLocalStorageItem("userSettings", DEFAULTS.userSettings);
 
@@ -213,7 +217,7 @@ describe.each([
                 rotation: [isDay ? day[1] : night[1], 0, 0],
             }),
             expect.anything()
-        )
+        );
 
         expect(mocks.Canvas).toHaveBeenLastCalledWith(
             expect.objectContaining({

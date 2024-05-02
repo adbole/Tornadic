@@ -12,13 +12,15 @@ type BaseInfo = Readonly<{
 export type HourInfo = Readonly<{
     time: string;
     temperature: number;
-}> & BaseInfo;
+}> &
+    BaseInfo;
 
 export type DayInfo = Readonly<{
     day: string;
     temperature_low: number;
     temperature_high: number;
-}> & BaseInfo;
+}> &
+    BaseInfo;
 
 export type CombinedHourly = Forecast["hourly"] & Omit<AirQuality["hourly"], "time">;
 
@@ -54,7 +56,10 @@ export default class Weather {
     private configureForecast(forecast: Forecast, settings: UserSettings) {
         const converter = new DataConverter(settings);
 
-        forecast.hourly.surface_pressure = converter.convert("surface_pressure", forecast.hourly.surface_pressure);
+        forecast.hourly.surface_pressure = converter.convert(
+            "surface_pressure",
+            forecast.hourly.surface_pressure
+        );
         forecast.hourly.visibility = converter.convert("visibility", forecast.hourly.visibility);
 
         const units = forecast.hourly_units;
@@ -121,7 +126,7 @@ export default class Weather {
     }
 
     getWeatherCondition(hour: number = this.nowIndex) {
-        return new WeatherCondition(this.getForecast("weathercode", hour), this.isDay(hour))
+        return new WeatherCondition(this.getForecast("weathercode", hour), this.isDay(hour));
     }
 
     getForecast<K extends keyof CombinedHourly>(

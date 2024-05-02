@@ -21,8 +21,8 @@ const mocks = vi.hoisted(() => ({
     line: vi.fn(({ yIndex = 0 }: { yIndex?: number }) => yIndex),
 }));
 
-vi.mock("Components/Chart/Components", async (importOriginal) => ({
-    ...(await importOriginal() as any),
+vi.mock("Components/Chart/Components", async importOriginal => ({
+    ...((await importOriginal()) as any),
     Area: mocks.area,
     Bar: mocks.bar,
     Line: mocks.line,
@@ -52,19 +52,21 @@ describe("Visualizer tests", () => {
             //to have two y values so ChatVisualization can know to render both visualizers
             let adjustedData = dataPoints;
             if (drawnVisualizers.length > 1) {
-                adjustedData = dataPoints.map((point) => ({ ...point, y: [point.y[0], point.y[0]] }));
+                adjustedData = dataPoints.map(point => ({ ...point, y: [point.y[0], point.y[0]] }));
             }
 
             render(
-                <Chart dataPoints={adjustedData} type={view === "precipitation" ? "band" : "linear"}>
-                    <ChartVisualization view={view}/>
+                <Chart
+                    dataPoints={adjustedData}
+                    type={view === "precipitation" ? "band" : "linear"}
+                >
+                    <ChartVisualization view={view} />
                 </Chart>
             );
 
             expect.soft(drawnVisualizers[0]).toHaveReturnedWith(0);
 
-            if (drawnVisualizers.length > 1)
-                expect.soft(drawnVisualizers[1]).toHaveReturnedWith(1);
+            if (drawnVisualizers.length > 1) expect.soft(drawnVisualizers[1]).toHaveReturnedWith(1);
 
             drawnVisualizers.forEach(visualizer => expect.soft(visualizer).toHaveBeenCalled());
             wrongVisualizers.forEach(visualizer => expect.soft(visualizer).not.toHaveBeenCalled());
@@ -78,7 +80,7 @@ describe("Gradient tests", () => {
 
         const { container } = render(
             <Chart dataPoints={dataPoints} type="linear">
-                <ChartVisualization view="temperature_2m"/>
+                <ChartVisualization view="temperature_2m" />
             </Chart>
         );
 
@@ -88,7 +90,7 @@ describe("Gradient tests", () => {
     test("When view is uv_index, gradient is created", () => {
         const { container } = render(
             <Chart dataPoints={dataPoints} type="linear">
-                <ChartVisualization view="uv_index"/>
+                <ChartVisualization view="uv_index" />
             </Chart>
         );
 
@@ -98,7 +100,7 @@ describe("Gradient tests", () => {
     test("When view is us_aqi, gradient is created", () => {
         const { container } = render(
             <Chart dataPoints={dataPoints} type="linear">
-                <ChartVisualization view="us_aqi"/>
+                <ChartVisualization view="us_aqi" />
             </Chart>
         );
 

@@ -33,7 +33,7 @@ export default class WeatherCondition {
     readonly icon: React.ComponentType;
 
     constructor(weathercode: number, isDay: boolean) {
-        this.weathercode = (weathercode ?? 0);
+        this.weathercode = weathercode ?? 0;
         this.type = this.getCondition();
         this.intensity = this.getIntensity();
         this.icon = this.getIcon(isDay);

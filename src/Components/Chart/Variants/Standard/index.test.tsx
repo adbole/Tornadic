@@ -12,7 +12,6 @@ mockDate();
 
 vi.mock("Contexts/WeatherContext", () => ({ useWeather }));
 
-
 const mocks = vi.hoisted(() => ({
     Chart: vi.fn(({ children }: { children: React.ReactNode }) => (
         <>
@@ -20,7 +19,7 @@ const mocks = vi.hoisted(() => ({
             {children}
         </>
     )),
-}))
+}));
 
 vi.mock("Components/Chart", () => ({
     default: mocks.Chart,
@@ -35,13 +34,13 @@ vi.mock("Components/Chart/Components", () => ({
             {children}
         </>
     ),
-}))
+}));
 
 vi.mock("./__internal__/Tooltip", () => ({
     Time: () => <p>Time</p>,
     PrimaryInformation: () => <p>PrimaryInformation</p>,
     SecondaryInformation: () => <p>SecondaryInformation</p>,
-}))
+}));
 
 vi.mock("./__internal__/ChartVisualization", () => ({
     default: () => <p>ChartVisualization</p>,
@@ -78,8 +77,8 @@ test("Renders the expected components", () => {
           SecondaryInformation
         </p>
       </div>
-    `)
-})
+    `);
+});
 
 describe("Datapoint setup: views without supporting data", () => {
     test.each([
@@ -89,22 +88,25 @@ describe("Datapoint setup: views without supporting data", () => {
         "surface_pressure",
         "us_aqi",
         "uv_index",
-        "visibility"
+        "visibility",
     ] as ChartViews[])("%s", view => {
         render(<Standard view={view} day={0} />);
 
-        const { weather } = useWeather()
-        const xPoints = weather.getAllForecast("time").slice(0, 24).map(time => new Date(time));
+        const { weather } = useWeather();
+        const xPoints = weather
+            .getAllForecast("time")
+            .slice(0, 24)
+            .map(time => new Date(time));
         const yPoints = weather.getAllForecast(view).slice(0, 24);
 
         expect(mocks.Chart).toHaveBeenCalledWith(
             expect.objectContaining({
-                dataPoints: xPoints.map((x, i) => ({ x, y: [yPoints[i]] }))
+                dataPoints: xPoints.map((x, i) => ({ x, y: [yPoints[i]] })),
             }),
             {}
-        )
-    })
-})
+        );
+    });
+});
 
 describe("Datapoint setup: views with supporting data", () => {
     test.each([
@@ -113,19 +115,22 @@ describe("Datapoint setup: views with supporting data", () => {
     ] as [ChartViews, keyof Forecast["hourly"]][])("%s", (view, y2) => {
         render(<Standard view={view} day={0} />);
 
-        const { weather } = useWeather()
-        const xPoints = weather.getAllForecast("time").slice(0, 24).map(time => new Date(time));
+        const { weather } = useWeather();
+        const xPoints = weather
+            .getAllForecast("time")
+            .slice(0, 24)
+            .map(time => new Date(time));
         const yPoints = weather.getAllForecast(view).slice(0, 24);
         const y2Points = weather.getAllForecast(y2).slice(0, 24);
 
         expect(mocks.Chart).toHaveBeenCalledWith(
             expect.objectContaining({
-                dataPoints: xPoints.map((x, i) => ({ x, y: [yPoints[i], y2Points[i]] }))
+                dataPoints: xPoints.map((x, i) => ({ x, y: [yPoints[i], y2Points[i]] })),
             }),
             {}
-        )
-    })
-})
+        );
+    });
+});
 
 describe("Datapoints are offset for each day", () => {
     test.each([1, 2, 3, 4, 5])("Day %s", day => {
@@ -134,51 +139,54 @@ describe("Datapoints are offset for each day", () => {
         const from = day * 24;
         const to = from + 24;
 
-        const { weather } = useWeather()
+        const { weather } = useWeather();
 
-        const xPoints = weather.getAllForecast("time").slice(from, to).map(time => new Date(time));
+        const xPoints = weather
+            .getAllForecast("time")
+            .slice(from, to)
+            .map(time => new Date(time));
         const yPoints = weather.getAllForecast("temperature_2m").slice(from, to);
         const y2Points = weather.getAllForecast("apparent_temperature").slice(from, to);
 
-        expect.soft(xPoints).toHaveLength(24)
-        expect.soft(y2Points).toHaveLength(24)
-        expect.soft(y2Points).toHaveLength(24)
+        expect.soft(xPoints).toHaveLength(24);
+        expect.soft(y2Points).toHaveLength(24);
+        expect.soft(y2Points).toHaveLength(24);
 
         expect.soft(mocks.Chart).toHaveBeenCalledWith(
             expect.objectContaining({
-                dataPoints: xPoints.map((x, i) => ({ x, y: [yPoints[i], y2Points[i]] }))
+                dataPoints: xPoints.map((x, i) => ({ x, y: [yPoints[i], y2Points[i]] })),
             }),
             {}
-        )
-    })
-})
+        );
+    });
+});
 
 test("Precipitation view uses band type", () => {
     render(<Standard view="precipitation" day={0} />);
 
     expect(mocks.Chart).toHaveBeenCalledWith(
         expect.objectContaining({
-            type: "band"
+            type: "band",
         }),
         {}
-    )
-})
+    );
+});
 
 describe("NowReference", () => {
     test("When the day is 0, NowReference is shown", () => {
         render(<Standard view="temperature_2m" day={0} />);
-    
+
         expect(screen.getByText("NowReference - true")).toBeInTheDocument();
-    })
+    });
 
     test("When the day is not 0, NowReference is not shown", () => {
         //The day itself doesn't matter, just that it's not 0
         //Standard takes advantage of javascript's truthy/falsy values
         render(<Standard view="temperature_2m" day={585920} />);
-    
+
         expect(screen.getByText("NowReference - false")).toBeInTheDocument();
-    })
-})
+    });
+});
 
 describe("When there is no data", () => {
     test("No Data is shown", () => {
@@ -187,5 +195,5 @@ describe("When there is no data", () => {
         render(<Standard view="temperature_2m" day={0} />);
 
         expect(screen.getByText("No Data")).toBeInTheDocument();
-    })
-})
+    });
+});

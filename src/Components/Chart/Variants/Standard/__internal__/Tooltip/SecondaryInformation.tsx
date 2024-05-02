@@ -33,8 +33,8 @@ function supportingInformation(
     }
 }
 
-export default function SecondaryInformation({day, view}: { day: number, view: ChartViews }) {
-    const hoverIndex = useTooltip()
+export default function SecondaryInformation({ day, view }: { day: number; view: ChartViews }) {
+    const hoverIndex = useTooltip();
     const { weather } = useWeather();
 
     const secondaryInformation = React.useMemo(() => {

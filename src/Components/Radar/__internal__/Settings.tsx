@@ -57,7 +57,11 @@ const SettingsTitle = styled.div({
     marginBottom: "10px",
 });
 
-const toUpperCase = (str: string) => str.split("-").map(s => s[0].toUpperCase() + s.slice(1)).join(" ");
+const toUpperCase = (str: string) =>
+    str
+        .split("-")
+        .map(s => s[0].toUpperCase() + s.slice(1))
+        .join(" ");
 
 export default function Settings() {
     const [show, setShowTrue, setShowFalse] = useBooleanState(false);
@@ -89,7 +93,10 @@ export default function Settings() {
                     <Select
                         style={{ fontSize: "1.05rem" }}
                         onChange={e =>
-                            setSettings({ ...settings, mapTheme: e.target.value as RadarSettings["mapTheme"] })
+                            setSettings({
+                                ...settings,
+                                mapTheme: e.target.value as RadarSettings["mapTheme"],
+                            })
                         }
                         value={settings.mapTheme}
                     >
@@ -121,9 +128,7 @@ export default function Settings() {
                 <ToggleSwitch
                     label="Alert Mode"
                     title="Display all active National Weather Service Alerts within the radar. Alert widget will only display alerts relevant to your location"
-                    onChange={e => 
-                        setSettings({ ...settings, alertMode: e.currentTarget.checked }
-                    )}
+                    onChange={e => setSettings({ ...settings, alertMode: e.currentTarget.checked })}
                     defaultChecked={settings.alertMode}
                 />
                 <ToggleSwitch

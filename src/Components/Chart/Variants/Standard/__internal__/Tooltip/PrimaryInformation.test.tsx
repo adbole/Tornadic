@@ -15,14 +15,14 @@ import { PrimaryInformation } from ".";
 mockDate();
 
 vi.mock("Contexts/WeatherContext", () => ({ useWeather }));
-vi.mock("Components/Chart/Components")
+vi.mock("Components/Chart/Components");
 
 vi.spyOn(TooltipHelpers, "getLowHigh");
 
 const dataPoints = Array.from({ length: 24 }, (_, i) => ({
     x: new Date(i),
     y: [i],
-}))
+}));
 
 function Wrapper({ children }: { children: React.ReactNode }) {
     return (
@@ -48,11 +48,11 @@ describe.each([
         const value = trunc(weather.getForecast(view));
         const unit = weather.getForecastUnit(view);
 
-        vi.mocked(useTooltip).mockReturnValue(-1)
+        vi.mocked(useTooltip).mockReturnValue(-1);
 
         render(
             <Wrapper>
-                <PrimaryInformation day={0} view={view}/>
+                <PrimaryInformation day={0} view={view} />
             </Wrapper>
         );
 
@@ -60,11 +60,11 @@ describe.each([
     });
 
     test("Day > 0 and hoverIndex = -1 uses getLowHigh", () => {
-        vi.mocked(useTooltip).mockReturnValue(-1)
+        vi.mocked(useTooltip).mockReturnValue(-1);
 
         render(
             <Wrapper>
-                <PrimaryInformation day={1} view={view}/>
+                <PrimaryInformation day={1} view={view} />
             </Wrapper>
         );
 
@@ -73,17 +73,17 @@ describe.each([
     });
 
     test("HoverIndex > -1", () => {
-        const hoverIndex = 1
+        const hoverIndex = 1;
 
         const weather = useWeather().weather;
         const value = dataPoints[hoverIndex].y[0];
         const unit = weather.getForecastUnit(view);
 
-        vi.mocked(useTooltip).mockReturnValue(hoverIndex)
+        vi.mocked(useTooltip).mockReturnValue(hoverIndex);
 
         render(
             <Wrapper>
-                <PrimaryInformation day={0} view={view}/>
+                <PrimaryInformation day={0} view={view} />
             </Wrapper>
         );
 

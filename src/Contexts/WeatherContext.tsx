@@ -34,8 +34,8 @@ const LoadingBar = styled.div({
     background: `linear-gradient(90deg, #070c84, #3d9fa5, #8538b3, #070c84)`,
     backgroundSize: "200%, 100%",
     animation: `${shine} 2s linear infinite`,
-    zIndex: vars.zLayer2
-})
+    zIndex: vars.zLayer2,
+});
 
 export const useWeather = () =>
     React.useContext(WeatherContext) ??
@@ -69,7 +69,9 @@ export default function WeatherContextProvider({
 
     return value ? (
         <>
-            { (isLoading || isValidating) && <LoadingBar data-testid={testIds.WeatherContext.LoadingBar}/> }
+            {(isLoading || isValidating) && (
+                <LoadingBar data-testid={testIds.WeatherContext.LoadingBar} />
+            )}
             <WeatherContext.Provider value={value}>{children}</WeatherContext.Provider>
         </>
     ) : (

@@ -9,5 +9,5 @@ export const CenteredDisplay = styled.div([
         height: "100%",
         flexDirection: "column",
         [varNames.svgSize]: "2rem",
-    }
-])
+    },
+]);

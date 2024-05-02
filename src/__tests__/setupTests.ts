@@ -65,9 +65,8 @@ beforeEach(() => {
             getCurrentPosition: vi
                 .fn()
                 .mockImplementation(cb => cb({ coords: { latitude: 1, longitude: 1 } })),
-        }
+        },
     });
-    
 });
 
 //Animation Frame Mocks

@@ -52,13 +52,13 @@ test("Does nothing when user isn't interacting with the map", () => {
     expect.soft(screen.queryByRole("dialog")).not.toBeInTheDocument();
 });
 
-const leafletMouseEvent = { 
+const leafletMouseEvent = {
     latlng: mocks.latLng,
-    originalEvent: { 
-        clientX: 0, 
-        clientY: 0 
-    }
-} as L.LeafletMouseEvent
+    originalEvent: {
+        clientX: 0,
+        clientY: 0,
+    },
+} as L.LeafletMouseEvent;
 
 describe.each([
     ["mousedown", "mousemove", "mouseup", leafletMouseEvent],
@@ -152,11 +152,26 @@ describe.each([
         });
 
         test.each([
-            ["When the user moves within the threshold the interaction continues", { clientX: 10, clientY: 10 }],
-            ["+X movement beyond threshold causes the interaction to cancel", { clientX: 21, clientY: 10 }],
-            ["-X movement beyond threshold causes the interaction to cancel", { clientX: -21, clientY: 10 }],
-            ["+Y movement beyond threshold causes the interaction to cancel", { clientX: 10, clientY: 21 }],
-            ["-Y movement beyond threshold causes the interaction to cancel", { clientX: 10, clientY: -21 }],
+            [
+                "When the user moves within the threshold the interaction continues",
+                { clientX: 10, clientY: 10 },
+            ],
+            [
+                "+X movement beyond threshold causes the interaction to cancel",
+                { clientX: 21, clientY: 10 },
+            ],
+            [
+                "-X movement beyond threshold causes the interaction to cancel",
+                { clientX: -21, clientY: 10 },
+            ],
+            [
+                "+Y movement beyond threshold causes the interaction to cancel",
+                { clientX: 10, clientY: 21 },
+            ],
+            [
+                "-Y movement beyond threshold causes the interaction to cancel",
+                { clientX: 10, clientY: -21 },
+            ],
         ])("%s", (_, client) => {
             const {
                 result: { current: map },
@@ -173,8 +188,13 @@ describe.each([
                 .toHaveBeenCalledWith(expect.objectContaining({ position: mocks.latLng }), {});
 
             act(() => {
-                if (event === "mousedown") map.fire(moveCancel, { originalEvent: client } as L.LeafletMouseEvent);
-                else fireEvent(map.getContainer(), new TouchEvent(moveCancel, { touches: [client as any] }));
+                if (event === "mousedown")
+                    map.fire(moveCancel, { originalEvent: client } as L.LeafletMouseEvent);
+                else
+                    fireEvent(
+                        map.getContainer(),
+                        new TouchEvent(moveCancel, { touches: [client as any] })
+                    );
 
                 vi.advanceTimersByTime(500);
             });
@@ -184,6 +204,6 @@ describe.each([
             } else {
                 expect.soft(screen.queryByRole("dialog")).not.toBeInTheDocument();
             }
-        })
+        });
     }
 );

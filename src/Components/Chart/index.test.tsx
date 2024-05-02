@@ -32,7 +32,7 @@ test("useChart gives the chart, x, y, dataPoints, and view", () => {
     expect.soft(x).toBeTruthy();
     expect.soft(y).toBeTruthy();
     expect.soft(returnedPoints).toHaveLength(24);
-    expect.soft(returnedPoints).toBe(dataPoints)
+    expect.soft(returnedPoints).toBe(dataPoints);
 });
 
 test("If the chart resizes, the scales and viewBox are updated", () => {

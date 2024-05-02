@@ -78,7 +78,5 @@ test("Clicking on an alert in the list shows the alert", () => {
     expect
         .soft(screen.queryByText(matchBrokenText(`Effective: ${alert.get("effective")}`)))
         .toBeInTheDocument();
-    expect
-        .soft(screen.getByText(alert.get("instruction")))
-        .toBeInTheDocument();
+    expect.soft(screen.getByText(alert.get("instruction"))).toBeInTheDocument();
 });

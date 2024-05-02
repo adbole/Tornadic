@@ -13,16 +13,8 @@ mockDate();
 vi.mock("Contexts/WeatherContext", () => ({ useWeather }));
 
 const mocks = vi.hoisted(() => ({
-    Standard: vi.fn(
-        (_: { view: ChartViews; day: number; }) => (
-            <p>Standard Chart View</p>
-        )
-    ),
-    Ensemble: vi.fn(
-        (_: { view: ChartViews; day: number; }) => (
-            <p>Ensemble Chart View</p>
-        )
-    )
+    Standard: vi.fn((_: { view: ChartViews; day: number }) => <p>Standard Chart View</p>),
+    Ensemble: vi.fn((_: { view: ChartViews; day: number }) => <p>Ensemble Chart View</p>),
 }));
 
 vi.mock("Components/Chart/Variants", () => ({
@@ -68,7 +60,7 @@ test("Renders a select with options for each view", () => {
         "surface_pressure",
         "us_aqi",
         "uv_index",
-        "cape"
+        "cape",
     ];
 
     expect.soft(options).toHaveLength(10);
@@ -103,7 +95,12 @@ describe.each(forecast().daily.time.map((day, i) => [day, i]))("Day %#", (day, i
 
     test("Toggle button is checked by default if day is passed to showDay. Also shows full date in modal.", () => {
         render(
-            <ChartModal isOpen={true} showView="temperature_2m" onClose={() => undefined} showDay={i} />
+            <ChartModal
+                isOpen={true}
+                showView="temperature_2m"
+                onClose={() => undefined}
+                showDay={i}
+            />
         );
 
         const toggle = screen.getByLabelText<HTMLInputElement>(getTimeFormatted(day, "weekday"));
@@ -115,7 +112,12 @@ describe.each(forecast().daily.time.map((day, i) => [day, i]))("Day %#", (day, i
     //Ensures both Ensemble and Standard charts are passed the correct props
     test("Day is passed to children", () => {
         render(
-            <ChartModal isOpen={true} showView="temperature_2m" onClose={() => undefined} showDay={i} />
+            <ChartModal
+                isOpen={true}
+                showView="temperature_2m"
+                onClose={() => undefined}
+                showDay={i}
+            />
         );
 
         expect
@@ -126,8 +128,8 @@ describe.each(forecast().daily.time.map((day, i) => [day, i]))("Day %#", (day, i
             );
 
         act(() => {
-            screen.getByTitle(/Ensemble/).click()
-        })
+            screen.getByTitle(/Ensemble/).click();
+        });
 
         expect
             .soft(mocks.Ensemble)

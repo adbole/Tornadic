@@ -19,16 +19,20 @@ import {
 } from "./__internal__";
 import RadarWidget, { BaseLayer } from "./style";
 
-
 /**
  * Displays a small Radar widget that can then be clicked to zoom to fullscreen.
  * @returns The Radar widget
  */
 function Radar() {
-    const [settings] = useLocalStorage("radarSettings")
+    const [settings] = useLocalStorage("radarSettings");
 
     return (
-        <RadarWidget mapTheme={settings.mapTheme} size="widget-large" widgetTitle="Radar" widgetIcon={<Map />}>
+        <RadarWidget
+            mapTheme={settings.mapTheme}
+            size="widget-large"
+            widgetTitle="Radar"
+            widgetIcon={<Map />}
+        >
             <MapContainer
                 center={[35.5, -97.5]}
                 zoom={10}

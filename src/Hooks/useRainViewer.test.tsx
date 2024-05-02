@@ -35,7 +35,7 @@ beforeEach(() => {
 
     const past = rainviewerObj.radar.past;
     vi.setSystemTime(past[past.length - 1].time * 1000);
-    setLocalStorageItem("radarSettings", DEFAULTS.radarSettings)
+    setLocalStorageItem("radarSettings", DEFAULTS.radarSettings);
 });
 
 afterEach(() => {
@@ -313,7 +313,7 @@ test("When settings change, availableLayers is updated and showFrame renders lay
             colorScheme: 1,
             smoothing: true,
             snow: true,
-            alertMode: false
+            alertMode: false,
         });
         dispatchStorage("radarSettings");
     });

@@ -10,11 +10,11 @@ import useViewport from "./useViewport";
 const mocks = vi.hoisted(() => ({
     width: 1000,
     height: 1000,
-}))
+}));
 
 vi.mock("./useViewport", () => ({
     default: vi.fn(() => ({ width: mocks.width, height: mocks.height })),
-}))
+}));
 
 describe("Not Visible", () => {
     test.each([
@@ -29,7 +29,6 @@ describe("Not Visible", () => {
         expect(renderer.scene.findByType("Points").props.visible).toBe(false);
     });
 });
-
 
 describe("Amount of Rain/Snow", () => {
     const [high, med, low] = [300, 150, 75];
@@ -51,10 +50,10 @@ describe("Amount of Rain/Snow", () => {
 
             const renderer = await RTTR.create(<RainSnow condition={condition} />);
 
-            expect(renderer.scene.findByType("Points").props.geometry.attributes.position.count).toBe(
-                amount
-            );
-        })
+            expect(
+                renderer.scene.findByType("Points").props.geometry.attributes.position.count
+            ).toBe(amount);
+        });
 
         test("Non 1:1 Aspect Ratio", async () => {
             const width = 2000;
@@ -64,10 +63,10 @@ describe("Amount of Rain/Snow", () => {
 
             const renderer = await RTTR.create(<RainSnow condition={condition} />);
 
-            expect(renderer.scene.findByType("Points").props.geometry.attributes.position.count).toBe(
-                amount * (width / height)
-            );
-        })
+            expect(
+                renderer.scene.findByType("Points").props.geometry.attributes.position.count
+            ).toBe(amount * (width / height));
+        });
     });
 });
 

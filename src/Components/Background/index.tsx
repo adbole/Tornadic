@@ -43,25 +43,20 @@ export default function Background({ parentElement }: { parentElement: HTMLEleme
     }, [isDay, condition]);
 
     React.useEffect(() => {
-        if(!parentElement) return () => {};
+        if (!parentElement) return () => {};
 
-        if(rayleigh === 1 && settings?.highContrastForLive) 
-            parentElement.style.color = "#3f3f3f";
-        else 
-            parentElement.style.color = "";
+        if (rayleigh === 1 && settings?.highContrastForLive) parentElement.style.color = "#3f3f3f";
+        else parentElement.style.color = "";
 
-        return () => parentElement.style.color = "";
-    }, [rayleigh, settings, parentElement])
+        return () => (parentElement.style.color = "");
+    }, [rayleigh, settings, parentElement]);
 
     return (
         <>
             <Gradient isDay={isDay} condition={condition} />
-            
+
             {settings && !settings.preferGradient && (
-                <StyledCanvas
-                    style={{ position: "fixed" }}
-                    gl={{ toneMappingExposure: exposure }}
-                >
+                <StyledCanvas style={{ position: "fixed" }} gl={{ toneMappingExposure: exposure }}>
                     <PerspectiveCamera makeDefault rotation={[rotation, 0, 0]} />
                     <Sky
                         rayleigh={rayleigh}

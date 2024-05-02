@@ -25,7 +25,7 @@ test("Renders nothing if isOpen is false", async () => {
     render(<Settings isOpen={false} onClose={vi.fn()} />);
 
     //Wait for useEffect
-    await act(() => Promise.resolve())
+    await act(() => Promise.resolve());
 
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
 });
@@ -34,7 +34,7 @@ test("Renders a dialog if isOpen is true using showModal", async () => {
     render(<Settings isOpen={true} onClose={vi.fn()} />);
 
     //Wait for useEffect
-    await act(() => Promise.resolve())
+    await act(() => Promise.resolve());
 
     expect.soft(screen.queryByRole("dialog")).toBeInTheDocument();
     expect.soft(screen.queryByText("Settings")).toBeInTheDocument();
@@ -46,7 +46,7 @@ describe("Changing Settings", () => {
         render(<Settings isOpen={true} onClose={vi.fn()} />);
 
         //Wait for useEffect
-        await act(() => Promise.resolve())
+        await act(() => Promise.resolve());
 
         expect.soft(screen.queryByLabelText("Fahrenheit")).toBeChecked();
         expect.soft(screen.queryByLabelText("Inches")).toBeChecked();
@@ -79,7 +79,7 @@ describe("Changing Settings", () => {
         render(<Settings isOpen={true} onClose={vi.fn()} />);
 
         //Wait for useEffect
-        await act(() => Promise.resolve())
+        await act(() => Promise.resolve());
 
         const changeTo = screen.getByLabelText(switchTo);
 
@@ -117,7 +117,7 @@ describe("Changing Settings", () => {
             render(<Settings isOpen={true} onClose={vi.fn()} />);
 
             //Wait for useEffect
-            await act(() => Promise.resolve())
+            await act(() => Promise.resolve());
 
             const toggle = screen.getByLabelText<HTMLInputElement>(label);
             expect.soft(toggle.checked).toBe(defaultState);
@@ -142,7 +142,7 @@ describe("Changing Settings", () => {
         render(<Settings isOpen={true} onClose={vi.fn()} />);
 
         //Wait for useEffect
-        await act(() => Promise.resolve())
+        await act(() => Promise.resolve());
 
         const saveBtn = screen.getByText("Save");
 
@@ -165,10 +165,7 @@ describe("Changing Settings", () => {
 });
 
 describe("Notifications", () => {
-    test.each([
-        "granted",
-        "denied"
-    ] as PermissionState[])(`Permission: %s`, async (state) => {
+    test.each(["granted", "denied"] as PermissionState[])(`Permission: %s`, async state => {
         vi.useFakeTimers();
 
         vi.mocked(navigator.permissions.query).mockResolvedValue({
@@ -179,24 +176,25 @@ describe("Notifications", () => {
 
         //Update permission state from resolved value
         await act(async () => {
-            await vi.runOnlyPendingTimersAsync()
-        })
+            await vi.runOnlyPendingTimersAsync();
+        });
 
         if (state === "granted") {
             expect.soft(screen.getByText("Notifications Are Enabled")).toBeInTheDocument();
-            expect.soft(screen.getByText("Revoke permissions in your browser to disable")).toBeInTheDocument();
-        }
-        else {
+            expect
+                .soft(screen.getByText("Revoke permissions in your browser to disable"))
+                .toBeInTheDocument();
+        } else {
             expect.soft(screen.queryByText("Notifications Are Disabled")).toBeInTheDocument();
         }
 
         vi.useRealTimers();
-    })
+    });
 
     test("Requesting permission", async () => {
         vi.stubGlobal("Notification", {
             requestPermission: vi.fn(),
-        })
+        });
 
         vi.mocked(navigator.permissions.query).mockResolvedValue({
             state: "denied",
@@ -205,7 +203,7 @@ describe("Notifications", () => {
         render(<Settings isOpen={true} onClose={vi.fn()} />);
 
         //Wait for useEffect
-        await act(() => Promise.resolve())
+        await act(() => Promise.resolve());
 
         const getNotiBtn = screen.getByText("Get Notifications");
 
@@ -214,5 +212,5 @@ describe("Notifications", () => {
         });
 
         expect.soft(Notification.requestPermission).toHaveBeenCalledTimes(1);
-    })
-})
+    });
+});

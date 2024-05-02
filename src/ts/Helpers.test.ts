@@ -66,15 +66,12 @@ test("throwError", () => {
 });
 
 test("randomBetween", () => {
-    vi.spyOn(Math, "random")
-        .mockReturnValueOnce(0)
-        .mockReturnValueOnce(0.5)
-        .mockReturnValueOnce(1);
+    vi.spyOn(Math, "random").mockReturnValueOnce(0).mockReturnValueOnce(0.5).mockReturnValueOnce(1);
 
     expect.soft(Helpers.randomBetween(0, 100)).toBe(0);
     expect.soft(Helpers.randomBetween(0, 100)).toBe(50);
     expect.soft(Helpers.randomBetween(0, 100)).toBe(100);
-})
+});
 
 test("trunc truncates a value to at most 2 decimal places and rounds if needed", () => {
     //Basic
@@ -90,18 +87,18 @@ test("trunc truncates a value to at most 2 decimal places and rounds if needed",
 });
 
 test("getTimeToNextHour", () => {
-    vi.useFakeTimers()
+    vi.useFakeTimers();
 
-    vi.setSystemTime(0)
+    vi.setSystemTime(0);
     expect.soft(Helpers.getTimeToNextHour()).toBe(3.6e6);
 
-    vi.setSystemTime(3.6e6 / 2)
+    vi.setSystemTime(3.6e6 / 2);
     expect.soft(Helpers.getTimeToNextHour()).toBe(3.6e6 / 2);
 
-    vi.setSystemTime(3.6e6 / 4)
-    expect.soft(Helpers.getTimeToNextHour()).toBe(3.6e6 -  3.6e6 / 4);
+    vi.setSystemTime(3.6e6 / 4);
+    expect.soft(Helpers.getTimeToNextHour()).toBe(3.6e6 - 3.6e6 / 4);
 
-    vi.useRealTimers()
-})
+    vi.useRealTimers();
+});
 
 //nameof tests are omitted as vitest typecheck incorrectly marks other parts of code with errors.

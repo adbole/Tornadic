@@ -5,7 +5,6 @@ import type { DataPoint } from "..";
 import { useChart } from "..";
 
 
-
 export default function Line({
     yIndex = 0,
     ...SVGProps

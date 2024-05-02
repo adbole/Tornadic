@@ -44,12 +44,7 @@ export default function Gradient({
         }
     }, [isDay, condition]);
 
-    const background = `linear-gradient(to bottom, ${from}, ${to})`
+    const background = `linear-gradient(to bottom, ${from}, ${to})`;
 
-    return (
-        <Cover 
-            style={{ background }}
-            data-test-style-background={background} 
-         />
-    );
+    return <Cover style={{ background }} data-test-style-background={background} />;
 }

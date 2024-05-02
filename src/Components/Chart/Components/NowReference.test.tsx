@@ -12,10 +12,12 @@ mockDate();
 
 vi.mock("Contexts/WeatherContext", () => ({ useWeather }));
 
-const dataPoints = forecast().hourly.time.slice(0, 24).map((iso, i) => ({ 
-    x: new Date(iso), 
-    y: [i] 
-}));
+const dataPoints = forecast()
+    .hourly.time.slice(0, 24)
+    .map((iso, i) => ({
+        x: new Date(iso),
+        y: [i],
+    }));
 
 function Wrapper({ children }: { children: React.ReactNode }) {
     return (

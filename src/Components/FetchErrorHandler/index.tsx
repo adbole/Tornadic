@@ -10,13 +10,13 @@ export default function FetchErrorHandler({
     errorRender: (hasError: boolean, retry: () => void) => React.ReactNode;
 }) {
     const { mutate } = useSWRConfig();
-    const [errorKeys, setErrorKeys] = React.useState<Set<string>>(new Set);
+    const [errorKeys, setErrorKeys] = React.useState<Set<string>>(new Set());
 
     return (
         <>
             {errorRender(errorKeys.size > 0, () => {
                 const keys = errorKeys;
-                setErrorKeys(new Set);
+                setErrorKeys(new Set());
 
                 keys.forEach(key => mutate(key));
             })}

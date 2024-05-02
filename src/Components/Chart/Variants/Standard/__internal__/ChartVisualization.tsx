@@ -71,8 +71,8 @@ export default function ChartVisualization({ view }: { view: ChartViews }) {
 
     const gradient = React.useMemo(() => {
         if (view === "temperature_2m" && settings) {
-            const max = Math.max(...dataPoints.map(({ y: [value]}) => value));
-            const min = Math.min(...dataPoints.map(({ y: [value]}) => value));
+            const max = Math.max(...dataPoints.map(({ y: [value] }) => value));
+            const min = Math.min(...dataPoints.map(({ y: [value] }) => value));
 
             return (
                 <defs>

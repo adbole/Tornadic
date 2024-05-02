@@ -32,7 +32,11 @@ export default function Thunderstorm({ condition }: { condition: WeatherConditio
         if (doFlash.current || flash.current.power > 100) {
             if (flash.current.power < 50) {
                 const halfWidth = width / 2;
-                flash.current.position.set(randomBetween(-halfWidth, halfWidth), randomBetween(5, 10), -5);
+                flash.current.position.set(
+                    randomBetween(-halfWidth, halfWidth),
+                    randomBetween(5, 10),
+                    -5
+                );
             }
 
             flash.current.power = Math.random() * 500;

@@ -45,7 +45,9 @@ describe("data fetching", () => {
         renderNWS(1, 1);
 
         expect.soft(fetchMock).toHaveBeenCalledWith("https://api.weather.gov/points/1,1");
-        expect.soft(fetchMock).toHaveBeenCalledWith("https://api.weather.gov/alerts/active/?point=1,1");
+        expect
+            .soft(fetchMock)
+            .toHaveBeenCalledWith("https://api.weather.gov/alerts/active/?point=1,1");
 
         expect.soft(fetchMock).toHaveBeenCalledTimes(2);
     });

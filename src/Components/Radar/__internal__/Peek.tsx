@@ -85,21 +85,25 @@ export default function Peek() {
         unsetPosition();
     }, [unsetPosition]);
 
-    const onMove = React.useCallback((e: L.LeafletMouseEvent | TouchEvent) => {
-        if (!timeout.current) return;
+    const onMove = React.useCallback(
+        (e: L.LeafletMouseEvent | TouchEvent) => {
+            if (!timeout.current) return;
 
-        const event = (window.TouchEvent && e instanceof TouchEvent)
-            ? e.touches[e.touches.length - 1] 
-            : (e as L.LeafletMouseEvent).originalEvent;
+            const event =
+                window.TouchEvent && e instanceof TouchEvent
+                    ? e.touches[e.touches.length - 1]
+                    : (e as L.LeafletMouseEvent).originalEvent;
 
-        const xChange = Math.abs(event.clientX - initialXY.current[0]);
-        const yChange = Math.abs(event.clientY - initialXY.current[1]);
-        const maxChange = 20
+            const xChange = Math.abs(event.clientX - initialXY.current[0]);
+            const yChange = Math.abs(event.clientY - initialXY.current[1]);
+            const maxChange = 20;
 
-        if(xChange > maxChange || yChange > maxChange) {
-            onUp();
-        }
-    }, [onUp]);
+            if (xChange > maxChange || yChange > maxChange) {
+                onUp();
+            }
+        },
+        [onUp]
+    );
 
     React.useEffect(() => {
         const mapEvents = [
@@ -107,22 +111,26 @@ export default function Peek() {
             ["mousemove", onMove],
             ["mouseup", onUp],
             ["contextmenu", () => undefined],
-        ] as const
+        ] as const;
 
         const containerEvents = [
             ["touchstart", onTouchStart],
             ["touchend", onUp],
             ["touchmove", onMove],
-        ] as const
+        ] as const;
 
         mapEvents.forEach(([event, handler]) => map.on(event, handler));
 
         const mapContainer = map.getContainer();
-        containerEvents.forEach(([event, handler]) => mapContainer.addEventListener(event, handler, { passive: true }));
+        containerEvents.forEach(([event, handler]) =>
+            mapContainer.addEventListener(event, handler, { passive: true })
+        );
 
         return () => {
             mapEvents.forEach(([event, handler]) => map.off(event, handler));
-            containerEvents.forEach(([event, handler]) => mapContainer.removeEventListener(event, handler));
+            containerEvents.forEach(([event, handler]) =>
+                mapContainer.removeEventListener(event, handler)
+            );
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [map, beginHold]);

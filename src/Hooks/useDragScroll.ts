@@ -7,16 +7,16 @@ export default function useDragScroll<T extends HTMLElement>(
     const [dragActive, setDragActive] = React.useState(false);
 
     const hasHardStopped = React.useRef(false);
-    
+
     const mouseStartX = React.useRef(0);
     const scrollLeft = React.useRef(containerRef.current?.scrollLeft);
 
     const momentumId = React.useRef<number | null>(null);
     const startTime = React.useRef(0);
 
-    const cancelMomentum = () => {        
+    const cancelMomentum = () => {
         if (momentumId.current === null) return;
-        
+
         cancelAnimationFrame(momentumId.current);
         momentumId.current = null;
     };
@@ -32,11 +32,11 @@ export default function useDragScroll<T extends HTMLElement>(
 
             e.preventDefault();
 
-            const change = (e.pageX - mouseStartX.current);
+            const change = e.pageX - mouseStartX.current;
             container.scrollLeft = scrollLeft.current! - change;
 
             hasHardStopped.current = false;
-            hardStopTimeout = setTimeout(() => hasHardStopped.current = true, 100)
+            hardStopTimeout = setTimeout(() => (hasHardStopped.current = true), 100);
         }
 
         function onMouseDown(e: MouseEvent) {
@@ -57,19 +57,22 @@ export default function useDragScroll<T extends HTMLElement>(
 
             const distance = mouseStartX.current - e.pageX;
 
-            const preventClick = () => container.addEventListener("click", (e) => e.stopPropagation(), { once: true });
+            const preventClick = () =>
+                container.addEventListener("click", e => e.stopPropagation(), { once: true });
 
-            if(hasHardStopped.current) {
+            if (hasHardStopped.current) {
                 preventClick();
 
                 setDragActive(false);
                 return;
             }
 
-            if(Math.abs(distance) > 10) preventClick();
+            if (Math.abs(distance) > 10) preventClick();
 
             const finish = performance.now();
-            momentumId.current = requestAnimationFrame(() => momentumLoop(distance / (finish - startTime.current) * 10));
+            momentumId.current = requestAnimationFrame(() =>
+                momentumLoop((distance / (finish - startTime.current)) * 10)
+            );
         }
 
         function onMouseLeave() {
@@ -81,11 +84,12 @@ export default function useDragScroll<T extends HTMLElement>(
         function momentumLoop(velocity: number) {
             container.scrollLeft += velocity;
             velocity *= 0.95;
-            if (Math.abs(velocity) > 0.5) momentumId.current = requestAnimationFrame(() => momentumLoop(velocity));
+            if (Math.abs(velocity) > 0.5)
+                momentumId.current = requestAnimationFrame(() => momentumLoop(velocity));
             else {
                 cancelMomentum();
                 setDragActive(false);
-            };
+            }
         }
 
         container.addEventListener("mousedown", onMouseDown);
@@ -99,5 +103,5 @@ export default function useDragScroll<T extends HTMLElement>(
         };
     }, [containerRef]);
 
-    return dragActive
+    return dragActive;
 }

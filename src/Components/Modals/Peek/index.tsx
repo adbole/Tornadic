@@ -28,21 +28,21 @@ import PeekContent, { ErrorMessage } from "./style";
 function PeekLoader() {
     return (
         <>
-        <Skeleton size="widget-large" />
-        <Skeleton size="widget-wide" />
-        <Skeleton size="widget-large" />
-        {Array.from({ length: 2 }, (_, i) => (
-            <SimpleGroup key={i}>
-                <Skeleton />
-                <Skeleton />
-            </SimpleGroup>
-        ))}
-        {Array.from({ length: 4 }, (_, i) => (
-            <Skeleton key={i} />
-        ))}
-        <Skeleton size="widget-wide" />
-    </>
-    )
+            <Skeleton size="widget-large" />
+            <Skeleton size="widget-wide" />
+            <Skeleton size="widget-large" />
+            {Array.from({ length: 2 }, (_, i) => (
+                <SimpleGroup key={i}>
+                    <Skeleton />
+                    <Skeleton />
+                </SimpleGroup>
+            ))}
+            {Array.from({ length: 4 }, (_, i) => (
+                <Skeleton key={i} />
+            ))}
+            <Skeleton size="widget-wide" />
+        </>
+    );
 }
 
 export default function Peek({
@@ -76,21 +76,25 @@ export default function Peek({
                         longitude={longitude}
                         skeleton={<PeekLoader />}
                     >
-                        <Background parentElement={contentElement}/>
-                        
+                        <Background parentElement={contentElement} />
+
                         <Now displayOnly />
-                        <Alert noNotify/>
+                        <Alert noNotify />
                         <Hourly />
                         <Daily />
-                        
+
                         <SimpleGroup>
                             <SimpleInfoWidget
                                 icon={<Droplet />}
                                 title="Precipitation"
                                 property="precipitation"
                             />
-                            
-                            <SimpleInfoWidget icon={<Eye />} title="Visibility" property="visibility" />
+
+                            <SimpleInfoWidget
+                                icon={<Eye />}
+                                title="Visibility"
+                                property="visibility"
+                            />
                         </SimpleGroup>
 
                         <SimpleGroup>

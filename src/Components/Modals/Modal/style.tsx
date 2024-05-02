@@ -38,7 +38,7 @@ export default styled.dialog<{
             maxHeight: "75%",
             margin: "auto auto 0px auto",
             borderRadius: `${vars.borderRadius} ${vars.borderRadius} 0px 0px`,
-            transform: "translateY(100%)"
+            transform: "translateY(100%)",
         },
     },
     stage === "enter" && {

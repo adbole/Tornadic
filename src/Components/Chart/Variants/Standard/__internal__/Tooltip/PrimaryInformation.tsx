@@ -10,9 +10,9 @@ import { trunc } from "ts/Helpers";
 import { getLowHigh } from "./Helpers";
 
 
-export default function PrimaryInformation({day, view}: { day: number, view: ChartViews }) {
+export default function PrimaryInformation({ day, view }: { day: number; view: ChartViews }) {
     const { dataPoints } = useChart();
-    const hoverIndex = useTooltip()
+    const hoverIndex = useTooltip();
     const { weather } = useWeather();
 
     const mainInformation = React.useMemo(() => {

@@ -16,13 +16,13 @@ import { SecondaryInformation } from ".";
 mockDate();
 
 vi.mock("Contexts/WeatherContext", () => ({ useWeather }));
-vi.mock("Components/Chart/Components")
+vi.mock("Components/Chart/Components");
 vi.spyOn(TooltipHelpers, "getLowHigh");
 
 const dataPoints = Array.from({ length: 24 }, (_, i) => ({
     x: new Date(i),
     y: [i],
-}))
+}));
 
 function Wrapper({ children }: { children: React.ReactNode }) {
     return (
@@ -33,7 +33,7 @@ function Wrapper({ children }: { children: React.ReactNode }) {
 }
 
 test("When given a property that doesn't have secondaryInformation provided, returns null", () => {
-    vi.mocked(useTooltip).mockReturnValue(-1)
+    vi.mocked(useTooltip).mockReturnValue(-1);
 
     const { container } = render(
         <Wrapper>
@@ -53,7 +53,7 @@ describe.each([
     });
 
     test(`Uses ${fn.name} for secondaryInformation on day 0`, () => {
-        vi.mocked(useTooltip).mockReturnValue(-1)
+        vi.mocked(useTooltip).mockReturnValue(-1);
 
         render(
             <Wrapper>
@@ -65,7 +65,7 @@ describe.each([
     });
 
     test(`Uses ${fn.name} for secondaryInformation on hoverIndex != -1`, () => {
-        vi.mocked(useTooltip).mockReturnValue(1)
+        vi.mocked(useTooltip).mockReturnValue(1);
 
         render(
             <Wrapper>
@@ -77,7 +77,7 @@ describe.each([
     });
 
     test(`Day > 0 doesn't call ${fn.name}`, () => {
-        vi.mocked(useTooltip).mockReturnValue(-1)
+        vi.mocked(useTooltip).mockReturnValue(-1);
 
         const { container } = render(
             <Wrapper>
@@ -100,7 +100,7 @@ describe.each([
     "When given view %s, secondaryInformation is provided by %s",
     (view, property, label) => {
         test("When hoverIndex is -1 and day 0, secondaryInformation is current value", () => {
-            vi.mocked(useTooltip).mockReturnValue(-1)
+            vi.mocked(useTooltip).mockReturnValue(-1);
 
             const weather = useWeather().weather;
             const value = weather.getForecast(property);
@@ -118,7 +118,7 @@ describe.each([
         });
 
         test("Day > 0 and hoverIndex = -1 uses getLowHigh", () => {
-            vi.mocked(useTooltip).mockReturnValue(-1)
+            vi.mocked(useTooltip).mockReturnValue(-1);
 
             render(
                 <Wrapper>
@@ -133,7 +133,7 @@ describe.each([
         });
 
         test("HoverIndex > -1 and day = 0", () => {
-            vi.mocked(useTooltip).mockReturnValue(1)
+            vi.mocked(useTooltip).mockReturnValue(1);
 
             const weather = useWeather().weather;
             const value = weather.getForecast(property, 1);

@@ -15,11 +15,7 @@ const child = "CHILD";
 function Wrapper({ children }: { children: React.ReactNode }) {
     return (
         <SWRConfig value={{ dedupingInterval: 0, provider: () => new Map() }}>
-            <WeatherProvider
-                latitude={1}
-                longitude={1}
-                skeleton={<div data-testid={skeleton} />}
-            >
+            <WeatherProvider latitude={1} longitude={1} skeleton={<div data-testid={skeleton} />}>
                 {children}
             </WeatherProvider>
         </SWRConfig>
@@ -27,7 +23,12 @@ function Wrapper({ children }: { children: React.ReactNode }) {
 }
 
 const renderWeather = () => renderHook(useWeather, { wrapper: Wrapper });
-const renderNormal = () => render(<Wrapper><div data-testid={child} /></Wrapper>);
+const renderNormal = () =>
+    render(
+        <Wrapper>
+            <div data-testid={child} />
+        </Wrapper>
+    );
 
 mockDate();
 
@@ -70,7 +71,7 @@ describe("Render", () => {
 
     test("Keeps children up if any fetch throws during data update", async () => {
         renderNormal();
-        
+
         await act(async () => {
             await vi.runOnlyPendingTimersAsync();
         });
@@ -91,7 +92,9 @@ describe("Render", () => {
             await vi.runOnlyPendingTimersAsync();
         });
 
-        fetchMock.mockResponse(() => new Promise((resolve) => setTimeout(resolve, 1000, { body: "{}" })));
+        fetchMock.mockResponse(
+            () => new Promise(resolve => setTimeout(resolve, 1000, { body: "{}" }))
+        );
 
         await act(async () => {
             await vi.runOnlyPendingTimersAsync();

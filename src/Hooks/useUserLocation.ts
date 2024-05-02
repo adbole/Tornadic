@@ -10,7 +10,15 @@ import React from "react";
 import useReadLocalStorage from "./useReadLocalStorage";
 
 
-type Status = "no_value" | "nav_not_supported" | "denied" | "unavailable" | "timeout" | "loading" | "OK" | "getting_current";
+type Status =
+    | "no_value"
+    | "nav_not_supported"
+    | "denied"
+    | "unavailable"
+    | "timeout"
+    | "loading"
+    | "OK"
+    | "getting_current";
 
 export default function useUserLocation() {
     const userLocation = useReadLocalStorage("userLocation");
@@ -37,8 +45,8 @@ export default function useUserLocation() {
                         longitude,
                     });
                 },
-                (error) => {
-                    switch(error.code) {
+                error => {
+                    switch (error.code) {
                         case error.PERMISSION_DENIED:
                             setStatus("denied");
                             break;

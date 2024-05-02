@@ -3,8 +3,8 @@
  */
 export async function fetchData<T>(url: string | URL, onErrorMessage: string) {
     return fetch(url)
-    .then(response => (response.ok ? response.json() : Promise.reject(onErrorMessage)))
-    .then((data: T) => data)
+        .then(response => (response.ok ? response.json() : Promise.reject(onErrorMessage)))
+        .then((data: T) => data);
 }
 
 export type FetchResponse<T> = {

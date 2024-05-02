@@ -16,28 +16,22 @@ mockDate();
 vi.mock("Contexts/WeatherContext", () => ({ useWeather }));
 
 vi.mock("Components/Modals/Settings", () => ({
-    default: ({
-        isOpen,
-        onClose,
-    }: {
-        isOpen: boolean;
-        onClose: () => void;
-    }) =>
+    default: ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) =>
         isOpen && (
             <dialog open>
                 Modal
                 <button onClick={onClose}>Invoke onClose</button>
             </dialog>
         ),
-}))
+}));
 
 test("Displays current weather information", async () => {
     render(<Now />);
 
     //Wait for settings useEffect
     await act(async () => {
-        await vi.runOnlyPendingTimersAsync()
-    })
+        await vi.runOnlyPendingTimersAsync();
+    });
 
     expect.soft(screen.queryByText(location)).toBeInTheDocument();
     expect.soft(screen.queryByText("66")).toBeInTheDocument();

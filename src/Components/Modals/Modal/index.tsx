@@ -42,14 +42,14 @@ export default function Modal({ isOpen, children, onClose, className }: ModalPro
         const ref = dialogRef.current;
 
         const onStart = (e: TransitionEvent) => {
-            if(e.target !== ref) return;
+            if (e.target !== ref) return;
             inTransition.current = true;
-        }
+        };
 
         const onEnd = (e: TransitionEvent) => {
-            if(e.target !== ref) return;
+            if (e.target !== ref) return;
             inTransition.current = false;
-        }
+        };
 
         ref.addEventListener("transitionstart", onStart);
         ref.addEventListener("transitionend", onEnd);

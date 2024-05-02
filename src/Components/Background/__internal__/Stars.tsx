@@ -27,7 +27,7 @@ export default function Stars({
         const vertices = [];
 
         //Maximum stars based on aspect ratio
-        const maxStars = 1000 * width / height
+        const maxStars = (1000 * width) / height;
 
         for (let i = 0; i < maxStars; i++) {
             vertices.push(

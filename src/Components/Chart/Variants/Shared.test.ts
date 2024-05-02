@@ -4,10 +4,10 @@ import { getMinMaxFunc } from "./Shared";
 describe("getMinMaxFunc", () => {
     test("surface_pressure", () => {
         const minMaxFunc = getMinMaxFunc("surface_pressure");
-    
+
         expect.soft(minMaxFunc).toBeDefined();
         expect.soft(minMaxFunc!([0, 1])).toEqual([-0.3, 1.3]);
-    })
+    });
 
     test("precipitation", () => {
         const minMaxFunc = getMinMaxFunc("precipitation");
@@ -35,11 +35,11 @@ describe("getMinMaxFunc", () => {
 
     test("Returns undefined for all other views", () => {
         const other = [
-            "temperature_2m", 
-            "dewpoint_2m", 
-            "visibility", 
-            "windspeed_10m", 
-            "us_aqi"
+            "temperature_2m",
+            "dewpoint_2m",
+            "visibility",
+            "windspeed_10m",
+            "us_aqi",
         ] as ChartViews[];
 
         other.forEach(view => {

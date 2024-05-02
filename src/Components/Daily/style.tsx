@@ -6,10 +6,10 @@ import Widget from "Components/Widget";
 import { interactable, mediaQueries } from "ts/StyleMixins";
 
 
-export const Base = css({ 
+export const Base = css({
     "#root > &": {
-        [mediaQueries.min("medium")]: { gridArea: "d" }
-    }
+        [mediaQueries.min("medium")]: { gridArea: "d" },
+    },
 });
 export default styled(Widget)(Base);
 
@@ -39,7 +39,7 @@ export const Row = styled.div([
         display: "flex",
         alignItems: "center",
         flex: 1,
-    }
+    },
 ]);
 
 export const List = styled.div({

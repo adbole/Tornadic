@@ -46,18 +46,14 @@ export default function Axes() {
         );
 
         d3.select(xAxis.current!).call(axisBottom);
-        d3
-            .select(yAxis.current!)
-            .call(
-                d3
-                    .axisLeft(y)
-                    .tickFormat(
-                        (value) => (value.valueOf() >= 1000) 
-                            ? d3.format(".2s")(value) 
-                            : value.toString()
-                    )
-                    .ticks(5)
-            );
+        d3.select(yAxis.current!).call(
+            d3
+                .axisLeft(y)
+                .tickFormat(value =>
+                    value.valueOf() >= 1000 ? d3.format(".2s")(value) : value.toString()
+                )
+                .ticks(5)
+        );
 
         d3.selectAll([xGrid.current, yGrid.current])
             .selectAll("path, line")

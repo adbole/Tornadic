@@ -22,29 +22,15 @@ const Input = styled.input({
 type Props = {
     label: React.ReactNode;
     type?: "radio" | "checkbox";
-}  & Omit<React.InputHTMLAttributes<HTMLInputElement>, "type">
+} & Omit<React.InputHTMLAttributes<HTMLInputElement>, "type">;
 
-function ToggleButton({
-    label,
-    type = "radio",
-    style,
-    title,
-    ...extra
-}: Props) {
+function ToggleButton({ label, type = "radio", style, title, ...extra }: Props) {
     const id = React.useId();
 
     return (
         <div>
-            <Input
-                type={type}
-                id={id}
-                {...extra}
-            />
-            <Label 
-                htmlFor={id}  
-                style={style}
-                title={title}
-            >
+            <Input type={type} id={id} {...extra} />
+            <Label htmlFor={id} style={style} title={title}>
                 {label}
             </Label>
         </div>
