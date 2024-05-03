@@ -39,18 +39,18 @@ export default function Ensemble({ view, day }: { view: ChartViews; day: number 
 
         const x = ensemble.time.slice(from, to).map(time => new Date(time));
 
-        //Each member gives a different forecast.
-        //We transpose the data so that we can easily spread all the y values for a common index.
-        //This also means we can easily calcluate the max, min, and average for each y
-        const members = d3.transpose(ensemble.data.map(member => member.slice(from, to)));
+        //Each member gives a different forecast over the time represented by x.
+        //We transpose the data so that we can easily spread all the y values for a common time.
+        //This also means we can easily calcluate the max, min, and average for each y at a common x.
+        const columns = d3.transpose(ensemble.data.map(member => member.slice(from, to)));
 
-        const mins = members.map(member => d3.min(member) ?? 0);
-        const maxes = members.map(member => d3.max(member) ?? 0);
-        const avg = members.map(member => d3.mean(member) ?? 0);
+        const mins = columns.map(column => d3.min(column) ?? 0);
+        const maxes = columns.map(column => d3.max(column) ?? 0);
+        const avg = columns.map(column => d3.mean(column) ?? 0);
 
         return x.map((x, i) => ({
             x,
-            y: [mins[i], maxes[i], avg[i], ...members[i]],
+            y: [mins[i], maxes[i], avg[i], ...columns[i]],
         }));
     }, [ensemble, error, day]);
 

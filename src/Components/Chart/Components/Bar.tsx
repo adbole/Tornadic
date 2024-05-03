@@ -6,7 +6,7 @@ import { useChart } from "..";
 
 
 export default function Bar({
-    yIndex = 0,
+    yIndex = 0, //The yIndex that represents this bar's data along the y axis
     ...SVGProps
 }: {
     yIndex?: number;

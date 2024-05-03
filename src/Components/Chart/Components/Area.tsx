@@ -6,7 +6,7 @@ import { useChart } from "..";
 
 
 export default function Area({
-    yIndex = 0,
+    yIndex = 0, //The yIndex that represents this area's data along the y axis
     ...SVGProps
 }: {
     yIndex?: number;
