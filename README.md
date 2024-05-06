@@ -20,6 +20,7 @@
 - Peek at any location's weather and alerts by holding on the Radar.
 - See all weather alerts for the nation in Radar (must enable Radar Alert Mode in settings).
 - Live backgrounds representing current condition.
+- View ensemble data for the next 7 days to see the range of future possibilities.
 
 # Data Providers
 - Weather, AirQuality, and Geocoding data provided by [Open-Meteo](https://open-meteo.com/)
