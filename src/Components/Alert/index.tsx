@@ -28,7 +28,9 @@ function Alert({ noNotify = false }) {
         //Point and NWSAlert include the necessary GeoJSON properties for this to work so conversion to any is okay
         const inBounds = alert.hasCoords() && booleanPointInPolygon(point as any, alert as any);
 
-        return alert.get("affectedZones").includes(point.properties.forecastZone) || inBounds;
+        return alert.get("affectedZones").includes(point.properties.forecastZone) 
+        || alert.get("affectedZones").includes(point.properties.county)
+        || inBounds;
     });
 
     const previousAlertTime = React.useRef(new Date(alerts[0]?.get("sent") ?? 0));

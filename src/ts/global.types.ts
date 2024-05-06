@@ -65,6 +65,7 @@ declare global {
                 };
             };
             forecastZone: string;
+            county: string;
         };
     }>;
 
