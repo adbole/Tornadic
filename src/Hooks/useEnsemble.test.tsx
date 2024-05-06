@@ -92,6 +92,8 @@ test("Data is refreshed automatically at next hour", async () => {
     expect.soft(fetchMock).toHaveBeenCalledOnce();
 
     await act(async () => {
+        //Advance past dedupingInterval then to next hour
+        await vi.advanceTimersByTimeAsync(1000 * 60 * 30);
         await vi.advanceTimersByTimeAsync(getTimeToNextHour());
     });
 
