@@ -152,6 +152,7 @@ export default function RainViewer() {
                 </Button>
                 <Timeline>
                     <Range
+                        title="Timeline"
                         min={0}
                         max={activeData.frames.length - 1}
                         value={currentFrame}

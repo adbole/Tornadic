@@ -40,6 +40,7 @@ export default function Opacity({
         <div>
             <p style={{ textAlign: "center" }}>Opacity: {(value * 100).toFixed(0)}</p>
             <Range
+                title="Opacity"
                 min={0}
                 max={100}
                 value={value * 100}

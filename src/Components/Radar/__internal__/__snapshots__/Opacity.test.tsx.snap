@@ -130,6 +130,7 @@ exports[`Matches snapshot 1`] = `
         max="100"
         min="0"
         step="1"
+        title="Opacity"
         type="range"
         value="80"
       />
