@@ -4,20 +4,19 @@ import { centerFlex, mediaQueries, varNames, vars } from "ts/StyleMixins";
 
 
 export default css`
+    @font-face {
+        font-family: "Inter";
+        src: url("resources/Inter.ttf") format("truetype");
+    }
+
     * {
         margin: 0;
         font-family:
-            system-ui,
+            "Inter",
             -apple-system,
             BlinkMacSystemFont,
             "Segoe UI",
-            Roboto,
-            Oxygen,
-            Ubuntu,
-            Cantarell,
-            "Open Sans",
-            "Helvetica Neue",
-            sans-serif !important;
+            system-ui !important;
         font-weight: 400;
         box-sizing: border-box !important;
         overflow-wrap: break-word;
