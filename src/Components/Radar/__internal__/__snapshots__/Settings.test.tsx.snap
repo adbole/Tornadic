@@ -120,6 +120,7 @@ exports[`Matches Snapshot 1`] = `
 <div>
   <button
     class="leaflet-custom-control leaflet-control emotion-0 emotion-1"
+    title="Toggle Radar Setttings Visibility"
     type="button"
   >
     <span>

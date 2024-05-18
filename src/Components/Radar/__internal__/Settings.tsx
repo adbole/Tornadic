@@ -71,9 +71,10 @@ export default function Settings() {
     return (
         <>
             <Button
+                title="Toggle Radar Setttings Visibility"
                 varient="transparent"
                 className="leaflet-custom-control leaflet-control"
-                onClick={() => (show ? setShowFalse() : setShowTrue())}
+                onClick={show ? setShowFalse : setShowTrue}
             >
                 <Gear />
             </Button>
