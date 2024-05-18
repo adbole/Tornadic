@@ -92,7 +92,7 @@ exports[`Renders as expected and passes expected properties 1`] = `
   margin-bottom: 10px;
 }
 
-.emotion-2 .e7hfcrb3 {
+.emotion-2 .e1jljbu33 {
   grid-column: span 2;
 }
 
@@ -182,7 +182,7 @@ exports[`Renders as expected and passes expected properties 1`] = `
   animation: animation-0 1.5s linear infinite;
 }
 
-.emotion-9>:not(.e5hllwo1) {
+.emotion-9>:not(.e12gkxjc1) {
   -webkit-flex: 1;
   -ms-flex: 1;
   flex: 1;
@@ -216,7 +216,7 @@ exports[`Renders as expected and passes expected properties 1`] = `
   animation: animation-0 1.5s linear infinite;
 }
 
-.emotion-12>:not(.e5hllwo1) {
+.emotion-12>:not(.e12gkxjc1) {
   -webkit-flex: 1;
   -ms-flex: 1;
   flex: 1;
@@ -254,7 +254,7 @@ exports[`Renders as expected and passes expected properties 1`] = `
   animation: animation-0 1.5s linear infinite;
 }
 
-.emotion-20>:not(.e5hllwo1) {
+.emotion-20>:not(.e12gkxjc1) {
   -webkit-flex: 1;
   -ms-flex: 1;
   flex: 1;
