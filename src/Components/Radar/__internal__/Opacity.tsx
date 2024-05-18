@@ -37,10 +37,9 @@ export default function Opacity({
     }, [map, targetPane, value]);
 
     return (
-        <div>
+        <label>
             <p style={{ textAlign: "center" }}>Opacity: {(value * 100).toFixed(0)}</p>
             <Range
-                title="Opacity"
                 min={0}
                 max={100}
                 value={value * 100}
@@ -49,6 +48,6 @@ export default function Opacity({
                     setOpacity(e.currentTarget.valueAsNumber / 100)
                 }
             />
-        </div>
+        </label>
     );
 }
