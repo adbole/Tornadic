@@ -62,7 +62,7 @@ export default function Tooltip({ children }: { children: React.ReactNode }) {
 
         function onMove(event: MouseEvent | TouchEvent) {
             const [mouseXPos] = d3.pointer(
-                event instanceof TouchEvent ? event.touches[0] : event,
+                (window.TouchEvent && event instanceof TouchEvent) ? event.touches[0] : event,
                 event.currentTarget
             );
 
@@ -111,6 +111,8 @@ export default function Tooltip({ children }: { children: React.ReactNode }) {
             setHoverIndex(-1);
         }
 
+        //D3 automatically replaces old listeners
+        //Check at top of effect is to remove listeners when div is null
         chart
             .on("touchstart mouseenter", onEnter)
             .on("touchmove mousemove", onMove)
