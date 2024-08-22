@@ -27,6 +27,8 @@ export default function Home() {
     const unZoom = React.useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
         e.stopPropagation();
         setIsZoomedFalse();
+
+        // setIsZoomedFalse should not be in the dependency array
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -46,6 +48,21 @@ export default function Home() {
         isZoomed ? map.dragging.enable() : map.dragging.disable();
         isZoomed ? map.scrollWheelZoom.enable() : map.scrollWheelZoom.disable();
     }, [isZoomed, map]);
+
+    React.useEffect(() => {
+        if (!isZoomed) return;
+
+        function onKeyDown(event: KeyboardEvent) {
+            if (event.key === "Escape" && !(event.target instanceof HTMLDialogElement))
+                setIsZoomedFalse();
+        }
+
+        window.addEventListener("keydown", onKeyDown);
+        return () => window.removeEventListener("keydown", onKeyDown);
+
+        // setIsZoomedFalse should not be in the dependency array
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isZoomed]);
 
     return (
         <>

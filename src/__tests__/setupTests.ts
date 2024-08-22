@@ -106,6 +106,11 @@ afterEach(() => {
     vi.unstubAllGlobals();
 });
 
+//Needed due to user-event
+beforeEach(() => {
+    window.scrollTo = vitest.fn() as unknown as typeof window.scrollTo;
+})
+
 expect.extend({
     toHaveLocalItemValue<K extends keyof StorageKeysAndTypes>(
         received: Storage,
