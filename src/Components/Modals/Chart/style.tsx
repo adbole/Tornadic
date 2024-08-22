@@ -39,13 +39,7 @@ export const ChartContent = styled(ModalContent)({
     alignItems: "center",
     height: "100%",
     padding: "10px",
-    paddingTop: 0,
-
-    ".recharts-responsive-container": {
-        border: "1px solid #ffffff19",
-        borderRadius: vars.borderRadius,
-        overflow: "hidden",
-    },
+    paddingTop: 0
 });
 
 export const Option = styled.option({ backgroundColor: vars.background });
