@@ -1,4 +1,6 @@
-import { act, fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
+import type { UserEvent } from "@testing-library/user-event";
+import userEvent from "@testing-library/user-event";
 
 import type { ChartType } from "../";
 import Chart from "../";
@@ -32,12 +34,11 @@ test.each([0, 1])("No hover passes hoverindex -1", day => {
 test.each([
     [
         "onMouseEnter, onMouseLeave",
-        (element: SVGGElement) => {
-            fireEvent.mouseEnter(element);
-            fireEvent.mouseMove(element, { clientX: 100, clientY: 0 });
+        async (element: SVGGElement, user: UserEvent) => {
+            await user.pointer({ target: element, coords: { clientX: 100, clientY: 0}})
         },
-        (element: SVGGElement) => {
-            fireEvent.mouseLeave(element);
+        async (element: SVGGElement, user: UserEvent) => {
+            await user.unhover(element);
         },
     ],
     [
@@ -52,7 +53,8 @@ test.each([
     ],
 ])(
     `%s causes the reference line to set its display and div to change item positions`,
-    (_, triggerEvent, endEvent) => {
+    async (_, triggerEvent, endEvent) => {
+        const user = userEvent.setup();
         const { container } = render(
             <Chart dataPoints={dataPoints} type="linear">
                 <Tooltip>
@@ -67,16 +69,13 @@ test.each([
 
         expect.soft(referenceLine).toHaveStyle("display: none");
 
-        act(() => {
-            triggerEvent(graph);
-        });
+        await triggerEvent(graph, user);
+
 
         expect.soft(referenceLine).toHaveStyle("display: block");
         expect.soft(container.querySelector("svg div")).toHaveStyle("align-items: center");
 
-        act(() => {
-            endEvent(graph);
-        });
+        await endEvent(graph, user);
 
         expect.soft(referenceLine).toHaveStyle("display: none");
         expect.soft(container.querySelector("svg div")).toHaveStyle("align-items: flex-start");
@@ -85,7 +84,8 @@ test.each([
 
 test.each(["linear", "bar"] as ChartType[])(
     "%s: Hover passes a hoverIndex based on the mouse position",
-    type => {
+    async type => {
+        const user = userEvent.setup();
         const { container } = render(
             <Chart dataPoints={dataPoints} type={type}>
                 <Tooltip>
@@ -100,33 +100,16 @@ test.each(["linear", "bar"] as ChartType[])(
         // Generally, +2 in X decreases while -2 in X increases
         //38 is observed as 0
 
-        act(() => {
-            fireEvent.mouseEnter(graph);
-            fireEvent.mouseMove(graph, { clientX: 38, clientY: 0 });
-        });
+        async function testPointer(coords: { clientX: number, clientY: number}, expectedText: string)  {
+            await user.pointer({ target: graph, coords });
+            expect.soft(screen.queryByText(expectedText)).toBeInTheDocument();
+            await user.unhover(graph);
+        };
 
-        expect(screen.queryByText("0")).toBeInTheDocument();
-
-        act(() => {
-            fireEvent.mouseEnter(graph);
-            fireEvent.mouseMove(graph, { clientX: 22, clientY: 0 });
-        });
-
-        expect(screen.queryByText("8")).toBeInTheDocument();
-
-        act(() => {
-            fireEvent.mouseEnter(graph);
-            fireEvent.mouseMove(graph, { clientX: 20, clientY: 0 });
-        });
-
-        expect(screen.queryByText("9")).toBeInTheDocument();
-
-        act(() => {
-            fireEvent.mouseEnter(graph);
-            fireEvent.mouseMove(graph, { clientX: 16, clientY: 0 });
-        });
-
-        expect(screen.queryByText("11")).toBeInTheDocument();
+        await testPointer({ clientX: 38, clientY: 0 }, "0");
+        await testPointer({ clientX: 22, clientY: 0 }, "8");
+        await testPointer({ clientX: 20, clientY: 0 }, "9");
+        await testPointer({ clientX: 16, clientY: 0 }, "11");
     }
 );
 

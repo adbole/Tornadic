@@ -1,4 +1,6 @@
-import { act, fireEvent, render, screen } from "@testing-library/react";
+import { userTest } from "@test-utils";
+
+import { render, screen } from "@testing-library/react";
 import type { useUserLocation } from "Hooks";
 
 import App from "App";
@@ -138,7 +140,7 @@ test("When the app is offline, a message is shown", () => {
 });
 
 describe("Location", () => {
-    test("When there is no location, a message is shown to set it", () => {
+    userTest("When there is no location, a message is shown to set it", async ({ user }) => {
         render(<App />);
 
         expect.soft(screen.queryByText("Cursor")).toBeInTheDocument();
@@ -146,17 +148,13 @@ describe("Location", () => {
             .soft(screen.queryByText(/Tornadic requires you to provide a location/))
             .toBeInTheDocument();
 
-        act(() => {
-            fireEvent.click(screen.getByText(/Provide Location/));
-        });
+        await user.click(screen.getByText(/Provide Location/));
 
         expect.soft(screen.queryByRole("dialog")).toBeInTheDocument();
         expect.soft(screen.queryByText(/ModalContent/)).toBeInTheDocument();
         expect.soft(screen.queryByText("LocationInput")).toBeInTheDocument();
 
-        act(() => {
-            fireEvent.click(screen.getByText(/Invoke onClose/));
-        });
+        await user.click(screen.getByText(/Invoke onClose/));
 
         expect.soft(screen.queryByRole("dialog")).not.toBeInTheDocument();
     });
@@ -247,7 +245,7 @@ describe("Location", () => {
     });
 });
 
-test("FetchErrorHandler's errorRender renders a toast and correctly provides retry", () => {
+userTest("FetchErrorHandler's errorRender renders a toast and correctly provides retry", async ({ user }) => {
     const retry = vi.fn();
 
     componentMocks.FetchErrorHandler.mockImplementationOnce(
@@ -269,9 +267,7 @@ test("FetchErrorHandler's errorRender renders a toast and correctly provides ret
 
     expect.soft(screen.queryByText(/Could not get weather data/)).toBeInTheDocument();
 
-    act(() => {
-        fireEvent.click(screen.getByText("Try Again Now"));
-    });
+    await user.click(screen.getByText("Try Again Now"));
 
     expect.soft(retry).toHaveBeenCalledOnce();
 });
