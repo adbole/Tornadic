@@ -1,6 +1,6 @@
 import testIds from "@test-consts/testIDs";
 import { useWeather } from "@test-mocks";
-import { mockDate, setLocalStorageItem } from "@test-utils";
+import { mockDate, setLocalStorageItem, userTest } from "@test-utils";
 
 import { act, fireEvent, render, screen } from "@testing-library/react";
 
@@ -49,12 +49,10 @@ test("Displays the correct seperators", () => {
 });
 
 describe("interaction tests", () => {
-    test("clicking on the widget opens the chart modal to the temperature", () => {
+    userTest("clicking on the widget opens the chart modal to the temperature", async ({ user }) => {
         render(<Hourly />);
 
-        act(() => {
-            screen.getByRole("list").click();
-        });
+        await user.click(screen.getByRole("list"))
 
         expect.soft(screen.queryByRole("dialog")).toBeInTheDocument();
         expect.soft(screen.getByText<HTMLOptionElement>("Temperature").selected).toBeTruthy();

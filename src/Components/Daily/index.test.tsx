@@ -1,6 +1,6 @@
 import testIds from "@test-consts/testIDs";
 import { useWeather } from "@test-mocks";
-import { mockDate, setLocalStorageItem } from "@test-utils";
+import { mockDate, setLocalStorageItem, userTest } from "@test-utils";
 
 import { act, fireEvent, render, screen } from "@testing-library/react";
 
@@ -38,24 +38,20 @@ test("renders 7 days of forecast", () => {
     });
 });
 
-test("foreach day clicked, it opens the chart modal to the temperature on said day", () => {
+userTest("foreach day clicked, it opens the chart modal to the temperature on said day", async ({ user }) => {
     const days = screen.getAllByText(matcher);
 
-    days.forEach((day, i) => {
-        act(() => {
-            fireEvent.click(day);
-        });
+    for await (const [i, day] of days.entries()) {
+        await user.click(day)
 
         expect.soft(screen.queryByRole("dialog")).toBeInTheDocument();
         expect.soft(screen.getByText<HTMLOptionElement>("Temperature").selected).toBeTruthy();
         expect.soft(screen.getAllByLabelText(/.+?/)[i]).toBeChecked();
 
-        act(() => {
-            screen.getByRole("dialog").dispatchEvent(new Event("cancel"));
-        });
+        fireEvent(screen.getByRole("dialog"), new Event("cancel"));
 
         expect.soft(screen.queryByRole("dialog")).not.toBeInTheDocument();
-    });
+    }
 });
 
 describe("Responsive", () => {
